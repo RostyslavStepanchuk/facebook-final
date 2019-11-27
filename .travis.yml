@@ -1,18 +1,20 @@
-  dist: trusty
+dist:
+  trusty
 
-  language: java
+language:
+  java
 
-  jdk:
-    - oraclejdk8
+jdk:
+  - oraclejdk8
 
-  cache:
-    directories:
-      - $HOME/.m2
-      - ./client/node_modules/
+cache:
+  directories:
+    - $HOME/.m2
+    - ./client/node_modules/
 
-  before_script:
-    -npm install --prefix client/
+before_script:
+  -npm install --prefix client/
 
-  script:
-    - mvn clean test
-    - npm run build --prefix client/
+script:
+  - mvn clean test
+  - npm run build --prefix client/
