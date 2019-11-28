@@ -1,12 +1,24 @@
 import React from 'react'
-import logo from './logo.svg'
-import './App.css'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+
+import Landing from './components/layout/Landing'
+import Register from './components/auth/Register'
+import Login from './components/auth/Login'
+
+import { Provider } from 'react-redux'
+import store from './store'
 
 function App () {
   return (
-    <div className="App">
-      <div>Awesome social media will be here some day</div>
-    </div>
+    <Provider store={store}>
+      <Router>
+        <Route exact path='/' component={Landing} />
+        <Switch>
+          <Route exact path="/register" component={Register} />
+          <Route exact path='/login' component={Login} />
+        </Switch>
+      </Router>
+    </Provider>
   )
 }
 
