@@ -1,0 +1,23 @@
+dist:
+  trusty
+
+language:
+  java
+
+jdk:
+  - oraclejdk8
+
+node_js:
+  - "10"
+
+cache:
+  directories:
+    - $HOME/.m2
+    - ./client/node_modules/
+
+before_script:
+  - npm install --prefix client/
+
+script:
+  - mvn clean test
+  - npm run build --prefix client/
