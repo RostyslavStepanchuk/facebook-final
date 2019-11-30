@@ -20,7 +20,7 @@ addons:
   sonarcloud:
     organization: "facebook-final-project"
     token:
-      secure: ${SONAR_TOKEN}
+      secure: SONAR_TOKEN
 
 
 before_script:
