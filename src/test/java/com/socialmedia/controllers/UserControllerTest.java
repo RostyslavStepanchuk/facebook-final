@@ -22,7 +22,7 @@ public class UserControllerTest {
     @Test
     public void starterTestForCoverAllIntegration() throws Exception{
 
-        mockMvc.perform(get("/users"))
+        mockMvc.perform(get("/api/v1/users"))
                 .andExpect(status().isOk());
     }
 }
