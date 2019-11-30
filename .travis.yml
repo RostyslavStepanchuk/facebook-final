@@ -19,6 +19,8 @@ cache:
 addons:
   sonarcloud:
     organization: "facebook-final-project"
+    token:
+      secure: ca8ea33db6f2d80fc51c7182912f6c39ba3acce0
 
 
 before_script:
