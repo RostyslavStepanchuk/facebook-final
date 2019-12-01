@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import { Redirect } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { login } from '../../actions/auth'
 
-import { Avatar, Button, TextField, Link, Grid, Typography, Container, CssBaseline } from '@material-ui/core'
+import { Avatar, Button, TextField, Grid, Typography, Container, CssBaseline } from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 
 import usestyles from './loginStyles'
@@ -107,7 +107,7 @@ const Login = ({ isAuthenticated, login }) => {
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href="/register" variant="body2">
+              <Link to="/register" variant="body2">
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>

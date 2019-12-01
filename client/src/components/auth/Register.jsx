@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { Avatar, Button, CssBaseline, TextField, Link, Grid, Container, Typography } from '@material-ui/core'
+import { Avatar, Button, CssBaseline, TextField, Grid, Container, Typography } from '@material-ui/core'
 import { connect } from 'react-redux'
-import { Redirect } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { register } from '../../actions/auth'
 
@@ -145,7 +145,7 @@ const Register = ({ isAuthenticated, register }) => {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link href="/login" variant="body2">
+              <Link to="/login" variant="body2">
                 Already have an account? Sign in
               </Link>
             </Grid>
