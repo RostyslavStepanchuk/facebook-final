@@ -3,11 +3,12 @@ import { Avatar, Button, CssBaseline, TextField, Link, Grid, Container, Typograp
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
+import { register } from '../../actions/auth'
 
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import useStyles from './registerStyles'
 
-const Register = ({ isAuthenticated = null }) => {
+const Register = ({ isAuthenticated, register }) => {
   const classes = useStyles()
 
   const [formData, setFormData] = useState({
@@ -59,11 +60,12 @@ const Register = ({ isAuthenticated = null }) => {
     e.preventDefault()
     const err = validate()
     if (!err) {
-        // todo: implement register action
+      // todo: implement register action
+      register(email, userName, password)
     }
   }
   if (isAuthenticated) {
-    return <Redirect to="/dashboard" />
+    return <Redirect to="/" />
   }
 
   return (
@@ -143,7 +145,9 @@ const Register = ({ isAuthenticated = null }) => {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-                <Link href="/login" variant="body2">Already have an account? Sign in</Link>
+              <Link href="/login" variant="body2">
+                Already have an account? Sign in
+              </Link>
             </Grid>
           </Grid>
         </form>
@@ -154,10 +158,11 @@ const Register = ({ isAuthenticated = null }) => {
 
 Register.propTypes = {
   isAuthenticated: PropTypes.bool,
+  register: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
 })
 
-export default connect(mapStateToProps, null)(Register)
+export default connect(mapStateToProps, { register })(Register)

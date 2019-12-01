@@ -2,13 +2,14 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import { login } from '../../actions/auth'
 
 import { Avatar, Button, TextField, Link, Grid, Typography, Container, CssBaseline } from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 
 import usestyles from './loginStyles'
 
-const Login = ({ isAuthenticated = false }) => {
+const Login = ({ isAuthenticated, login }) => {
   const classes = usestyles()
 
   const [formData, setFormData] = useState({
@@ -50,13 +51,15 @@ const Login = ({ isAuthenticated = false }) => {
 
     if (!err) {
       //   todo: implement login action
+      login(email, password)
     }
   }
 
   // Redirect if loged in
 
   if (isAuthenticated) {
-    return <Redirect to="/dashboard" />
+    return <Redirect to="/" />
+    
   }
 
   return (
@@ -104,7 +107,9 @@ const Login = ({ isAuthenticated = false }) => {
           </Button>
           <Grid container>
             <Grid item xs>
-                <Link href="/register" variant="body2">{"Don't have an account? Sign Up"}</Link>
+              <Link href="/register" variant="body2">
+                {"Don't have an account? Sign Up"}
+              </Link>
             </Grid>
           </Grid>
         </form>
@@ -115,10 +120,11 @@ const Login = ({ isAuthenticated = false }) => {
 
 Login.propTypes = {
   isAuthenticated: PropTypes.bool,
+  login: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
 })
 
-export default connect(mapStateToProps, null)(Login)
+export default connect(mapStateToProps, { login })(Login)
