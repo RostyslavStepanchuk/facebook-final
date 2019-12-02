@@ -18,7 +18,7 @@ const Register = ({ isAuthenticated, register }) => {
     password2: '',
     userNameError: '',
     passwordError: '',
-    emailError: '',
+    emailError: ''
   })
 
   const { email, userName, password, password2, userNameError, passwordError, emailError } = formData
@@ -31,7 +31,7 @@ const Register = ({ isAuthenticated, register }) => {
     const errors = {
       userNameError: '',
       passwordError: '',
-      emailError: '',
+      emailError: ''
     }
 
     if (!email.match(/^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/)) {
@@ -65,29 +65,29 @@ const Register = ({ isAuthenticated, register }) => {
     }
   }
   if (isAuthenticated) {
-    return <Redirect to="/" />
+    return <Redirect to='/' />
   }
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component='main' maxWidth='xs'>
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography component="h1" variant="h5">
+        <Typography component='h1' variant='h5'>
           Sign up
         </Typography>
         <form className={classes.form} onSubmit={e => onSubmit(e)}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
-                autoComplete="email"
-                name="email"
-                variant="outlined"
+                autoComplete='email'
+                name='email'
+                variant='outlined'
                 required
                 fullWidth
-                label="Email"
+                label='Email'
                 autoFocus
                 value={email}
                 onChange={e => onChange(e)}
@@ -97,12 +97,12 @@ const Register = ({ isAuthenticated, register }) => {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                autoComplete="username"
-                name="userName"
-                variant="outlined"
+                autoComplete='username'
+                name='userName'
+                variant='outlined'
                 required
                 fullWidth
-                label="User Name"
+                label='User Name'
                 value={userName}
                 onChange={e => onChange(e)}
                 error={!(userNameError === '')}
@@ -111,13 +111,13 @@ const Register = ({ isAuthenticated, register }) => {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                variant="outlined"
+                variant='outlined'
                 required
                 fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                autoComplete="current-password"
+                name='password'
+                label='Password'
+                type='password'
+                autoComplete='current-password'
                 value={password}
                 onChange={e => onChange(e)}
                 error={!(passwordError === '')}
@@ -126,13 +126,13 @@ const Register = ({ isAuthenticated, register }) => {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                variant="outlined"
+                variant='outlined'
                 required
                 fullWidth
-                name="password2"
-                label="Repeat password"
-                type="password"
-                autoComplete="current-password"
+                name='password2'
+                label='Repeat password'
+                type='password'
+                autoComplete='current-password'
                 value={password2}
                 onChange={e => onChange(e)}
                 error={!(passwordError === '')}
@@ -140,12 +140,12 @@ const Register = ({ isAuthenticated, register }) => {
               />
             </Grid>
           </Grid>
-          <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
+          <Button type='submit' fullWidth variant='contained' color='primary' className={classes.submit}>
             Sign Up
           </Button>
-          <Grid container justify="flex-end">
+          <Grid container justify='flex-end'>
             <Grid item>
-              <Link to="/login" variant="body2">
+              <Link to='/login' variant='body2'>
                 Already have an account? Sign in
               </Link>
             </Grid>
@@ -158,11 +158,11 @@ const Register = ({ isAuthenticated, register }) => {
 
 Register.propTypes = {
   isAuthenticated: PropTypes.bool,
-  register: PropTypes.func.isRequired,
+  register: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated,
+  isAuthenticated: state.auth.isAuthenticated
 })
 
 export default connect(mapStateToProps, { register })(Register)

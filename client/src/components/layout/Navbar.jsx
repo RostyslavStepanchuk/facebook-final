@@ -13,11 +13,10 @@ import {
   FormControlLabel,
   FormGroup,
   MenuItem,
-  Menu,
+  Menu
 } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
 import AccountCircle from '@material-ui/icons/AccountCircle'
-
 
 const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   const classes = useStyles()
@@ -48,40 +47,40 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
       <FormGroup>
         {!loading && (
           <FormControlLabel
-            control={<Switch checked={isAuthenticated} onChange={handleChange} aria-label="LoginSwitch" />}
+            control={<Switch checked={isAuthenticated} onChange={handleChange} aria-label='LoginSwitch' />}
             label={isAuthenticated ? 'Logout' : 'Login'}
           />
         )}
       </FormGroup>
-      <AppBar position="static">
+      <AppBar position='static'>
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+          <IconButton edge='start' className={classes.menuButton} color='inherit' aria-label='menu'>
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" className={classes.title}>
+          <Typography variant='h6' className={classes.title}>
             DANBook
           </Typography>
           {isAuthenticated && (
             <div>
               <IconButton
-                aria-label="Account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
+                aria-label='Account of current user'
+                aria-controls='menu-appbar'
+                aria-haspopup='true'
                 onClick={handleMenu}
-                color="inherit">
+                color='inherit'>
                 <AccountCircle />
               </IconButton>
               <Menu
-                id="menu-appbar"
+                id='menu-appbar'
                 anchorEl={anchorEl}
                 anchorOrigin={{
                   vertical: 'top',
-                  horizontal: 'right',
+                  horizontal: 'right'
                 }}
                 keepMounted
                 transformOrigin={{
                   vertical: 'top',
-                  horizontal: 'right',
+                  horizontal: 'right'
                 }}
                 open={open}
                 onClose={handleClose}>
@@ -105,11 +104,11 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
 
 Navbar.propTypes = {
   logout: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
-  auth: state.auth,
+  auth: state.auth
 })
 
 export default connect(mapStateToProps, { logout })(Navbar)
