@@ -47,15 +47,15 @@ export const loadUser = () => async dispatch => {
 export const register = ({ userName, email, password }) => async dispatch => {
   console.log(userName, email, password)
 
-//   const config = {
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//   }
+  //   const config = {
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //   }
 
   // Should work without stringify, chek it later
 
-//   const body = { userName, email, password }
+  //   const body = { userName, email, password }
 
   try {
     // const res = await axios.post("/api/users", body, config)
