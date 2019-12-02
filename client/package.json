@@ -56,13 +56,5 @@
   "proxy": "http: //localhost:8080",
   "devDependencies": {
     "standard": "^10.0.3"
-  },
-  "standard": {
-    "global": [
-      "it",
-      "localStorage",
-      "URL",
-      "fetch"
-    ]
   }
 }
