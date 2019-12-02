@@ -1,6 +1,6 @@
 // import axios from "axios"
 
-//TODO: implements alerts
+// TODO: implements alerts
 // import {setAlert} from "./alert"
 import {
   REGISTER_SUCCESS,
@@ -12,10 +12,10 @@ import {
   LOGOUT
 } from '../utils/constants/actionsName'
 
-//TODO: implemets setting token in headers
+// TODO: implemets setting token in headers
 // import setAuthToken from '../utils/setAuthToken'
 
-//Load User
+// Load User
 
 export const loadUser = () => async dispatch => {
   // if(localStorage.token) {
@@ -32,7 +32,7 @@ export const loadUser = () => async dispatch => {
 
     dispatch({
       type: USER_LOADED,
-      payload: 'dummy User ID',
+      payload: 'dummy User ID'
     })
   } catch (err) {
     console.error(AUTH_ERROR)
@@ -53,7 +53,7 @@ export const register = ({ userName, email, password }) => async dispatch => {
 //     },
 //   }
 
-  //Should work without stringify, chek it later
+  // Should work without stringify, chek it later
 
 //   const body = { userName, email, password }
 
@@ -67,7 +67,7 @@ export const register = ({ userName, email, password }) => async dispatch => {
 
     dispatch({
       type: REGISTER_SUCCESS,
-      payload: {token: 'JWT dummy token'},
+      payload: {token: 'JWT dummy token'}
     })
 
     dispatch(loadUser())
@@ -78,7 +78,7 @@ export const register = ({ userName, email, password }) => async dispatch => {
     //       errors.forEach(error => dispatch(setAlert(error.msg, "danger")))
     //   }
     dispatch({
-      type: REGISTER_FAIL,
+      type: REGISTER_FAIL
     })
   }
 }
@@ -102,7 +102,7 @@ export const login = (email, password) => async dispatch => {
     //   })
     dispatch({
       type: LOGIN_SUCCESS,
-      payload: {token: 'JWT dummy token'},
+      payload: {token: 'JWT dummy token'}
     })
 
     dispatch(loadUser())
@@ -113,12 +113,12 @@ export const login = (email, password) => async dispatch => {
     // errors.forEach(error => dispatch(setAlert(error.msg, "danger")))
     // }
     dispatch({
-      type: LOGIN_FAIL,
+      type: LOGIN_FAIL
     })
   }
 }
 
-//Logout / Clear Profile
+// Logout / Clear Profile
 
 export const logout = () => dispatch => {
   dispatch({ type: LOGOUT })

@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
 
   link: {
     textDecoration: 'none',
-    color: "white"
+    color: 'white'
   }
 }))
 

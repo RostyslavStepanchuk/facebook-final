@@ -28,7 +28,7 @@ const Landing = () => {
                 <Link to='/login'  className={classes.link}>Sign In</Link>
               </Button>
               <Button variant='contained' size='large' color='secondary' className={classes.buttons} >
-              <Link to='/register'  className={classes.link}>Sign Up</Link>
+                <Link to='/register'  className={classes.link}>Sign Up</Link>
               </Button>
             </Grid>
           </Paper>
