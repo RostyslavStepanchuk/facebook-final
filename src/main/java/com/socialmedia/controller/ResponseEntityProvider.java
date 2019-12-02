@@ -1,4 +1,4 @@
-package com.socialmedia.controllers;
+package com.socialmedia.controller;
 
 import org.springframework.http.ResponseEntity;
 

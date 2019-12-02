@@ -2,6 +2,8 @@ package com.socialmedia.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.Column;
@@ -12,12 +14,14 @@ import javax.persistence.Table;
 @Data
 @Entity
 @Table(name = "users")
-public class User {
+@Getter
+@Setter
+public class ApplicationUser {
 
   @Id
   private String username;
   @ToString.Exclude
-  @JsonIgnore
+  @Setter
   private String password;
   private String email;
   @Column(name = "first_name")

@@ -1,11 +1,10 @@
-package com.socialmedia.controllers;
+package com.socialmedia.controller;
 
-import com.socialmedia.models.User;
-import com.socialmedia.services.UserService;
+import com.socialmedia.models.ApplicationUser;
+import com.socialmedia.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -21,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
-public class UserControllerTest {
+public class ApplicationUserControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -31,7 +30,7 @@ public class UserControllerTest {
 
     @Test
     public void starterTestForCoverAllIntegration() throws Exception{
-        User userDummy = new User();
+        ApplicationUser userDummy = new ApplicationUser();
         when(userService.getCurrentUser()).thenReturn(Optional.of(userDummy));
 
         mockMvc.perform(get("/api/v1/users/current"))
