@@ -2,6 +2,7 @@ package com.socialmedia.service;
 
 
 import com.socialmedia.controller.external.security.UserCredentials;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +12,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Optional;
 
+import static com.socialmedia.security.SecurityConstants.HEADER_STRING;
 import static com.socialmedia.security.SecurityConstants.SECRET;
 
 @Service
@@ -50,5 +53,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     return Optional.empty();
+  }
+
+  public UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest req) {
+    String token = req.getHeader(HEADER_STRING);
+    UsernamePasswordAuthenticationToken result = null;
+    if (token != null) {
+      Claims claims = Jwts.parser()
+          .setSigningKey(SECRET)
+          .parseClaimsJws(token.replace("Bearer", ""))
+          .getBody();
+      result = new UsernamePasswordAuthenticationToken(claims.getSubject(), null, Collections.emptyList());
+    }
+    return result;
   }
 }

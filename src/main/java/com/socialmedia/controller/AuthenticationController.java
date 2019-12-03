@@ -1,5 +1,6 @@
 package com.socialmedia.controller;
 
+import com.socialmedia.controller.external.security.Token;
 import com.socialmedia.controller.external.security.UserCredentials;
 import com.socialmedia.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +10,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
+import java.util.function.Function;
+
 @RestController
 @RequestMapping(value = "/api/v1/auth")
-public class AuthenticationController implements ResponseEntityProvider<String> {
+public class AuthenticationController implements ResponseEntityProvider {
 
   private AuthenticationService authenticationService;
 
@@ -21,8 +25,11 @@ public class AuthenticationController implements ResponseEntityProvider<String> 
   }
 
   @PostMapping("/access-token")
-  public ResponseEntity<String> getAccessJWT(@RequestBody UserCredentials credentials) {
-    return provideResponseForOptional(authenticationService.getAccessToken(credentials));
+  public ResponseEntity<Token> getAccessJwt(@RequestBody UserCredentials credentials) {
+    Optional<Token> token = authenticationService
+        .getAccessToken(credentials)
+        .map(Token::new);
+    return provideResponseForOptional(token);
   }
 
 }

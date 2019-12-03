@@ -13,15 +13,15 @@ import javax.persistence.Table;
 @Data
 @Entity
 @Table(name = "users")
-@Getter
-@Setter
 public class ApplicationUser {
 
   @Id
+  @Column(name = "username")
   private String username;
   @ToString.Exclude
-  @Setter
+  @Column(name = "password")
   private String password;
+  @Column(name = "email")
   private String email;
   @Column(name = "first_name")
   private String firstName;

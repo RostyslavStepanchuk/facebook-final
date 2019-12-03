@@ -17,10 +17,10 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api/v1/users")
-public class UserController implements ResponseEntityProvider<ApplicationUser> {
+public class UserController implements ResponseEntityProvider {
 
   private UserService userService;
-  private BCryptPasswordEncoder bCryptPasswordEncoder;
+  private BCryptPasswordEncoder bcryptPasswordEncoder;
 
   public UserController(UserService userService) {
     this.userService = userService;
@@ -28,9 +28,9 @@ public class UserController implements ResponseEntityProvider<ApplicationUser> {
 
 
   @Autowired
-  public UserController(UserService userService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+  public UserController(UserService userService, BCryptPasswordEncoder bcryptPasswordEncoder) {
     this.userService = userService;
-    this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    this.bcryptPasswordEncoder = bcryptPasswordEncoder;
   }
 
   @GetMapping("/current")
@@ -41,7 +41,7 @@ public class UserController implements ResponseEntityProvider<ApplicationUser> {
 
   @PostMapping("/sign-up")
   public ResponseEntity<ApplicationUser> signUp(@RequestBody ApplicationUser user) {
-    user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+    user.setPassword(bcryptPasswordEncoder.encode(user.getPassword()));
     ApplicationUser savedUser = userService.signUp(user);
     return ResponseEntity.ok(savedUser);
   }

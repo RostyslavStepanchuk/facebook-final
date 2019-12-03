@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -21,13 +22,16 @@ import static com.socialmedia.security.SecurityConstants.SIGN_UP_URL;
 public class WebSecurity extends WebSecurityConfigurerAdapter {
 
   private UserDetailsService userDetailsService;
-  private BCryptPasswordEncoder bCryptPasswordEncoder;
+  private BCryptPasswordEncoder bcryptPasswordEncoder;
+  private JwtAuthenticationFilter jwtAuthenticationFilter;
 
   @Autowired
-  public WebSecurity(@Qualifier("UserDetailsServiceImpl") UserDetailsService userDetailsService,
-                     BCryptPasswordEncoder bCryptPasswordEncoder) {
+  public WebSecurity(@Qualifier("UserDetailsServiceImpl")UserDetailsService userDetailsService,
+                     BCryptPasswordEncoder bcryptPasswordEncoder,
+                     @Lazy JwtAuthenticationFilter jwtAuthenticationFilter) {
     this.userDetailsService = userDetailsService;
-    this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    this.bcryptPasswordEncoder = bcryptPasswordEncoder;
+    this.jwtAuthenticationFilter = jwtAuthenticationFilter;
   }
 
   @Override
@@ -37,13 +41,13 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         .antMatchers(HttpMethod.POST, LOGIN_URL).permitAll()
         .anyRequest().authenticated()
         .and()
-        .addFilter(new JWTAuthenticationFilter(authenticationManager()))
+        .addFilter(jwtAuthenticationFilter)
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
   }
 
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
+    auth.userDetailsService(userDetailsService).passwordEncoder(bcryptPasswordEncoder);
   }
 
   @Bean
