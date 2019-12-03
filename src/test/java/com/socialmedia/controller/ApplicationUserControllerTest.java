@@ -1,6 +1,6 @@
 package com.socialmedia.controller;
 
-import com.socialmedia.models.ApplicationUser;
+import com.socialmedia.model.ApplicationUser;
 import com.socialmedia.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,6 +34,6 @@ public class ApplicationUserControllerTest {
         when(userService.getCurrentUser()).thenReturn(Optional.of(userDummy));
 
         mockMvc.perform(get("/api/v1/users/current"))
-                .andExpect(status().isOk());
+                .andExpect(status().isForbidden());
     }
 }

@@ -1,68 +1,57 @@
 package com.socialmedia.security;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.socialmedia.models.ApplicationUser;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 
-import static com.socialmedia.security.SecurityConstants.*;
-
-public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-
-  private AuthenticationManager authenticationManager;
+import static com.socialmedia.security.SecurityConstants.HEADER_STRING;
+import static com.socialmedia.security.SecurityConstants.TOKEN_PREFIX;
+import static com.socialmedia.security.SecurityConstants.SECRET;
 
 
-  @Autowired
+public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
+
   public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
-    this.authenticationManager = authenticationManager;
+    super(authenticationManager);
   }
 
   @Override
-  public Authentication attemptAuthentication(HttpServletRequest req,
-                                              HttpServletResponse res) throws AuthenticationException {
-    try {
-      ApplicationUser credentials = new ObjectMapper()
-          .readValue(req.getInputStream(), ApplicationUser.class);
+  protected void doFilterInternal(HttpServletRequest req,
+                                  HttpServletResponse res,
+                                  FilterChain chain) throws IOException, ServletException {
 
-      return authenticationManager.authenticate(
-          new UsernamePasswordAuthenticationToken(
-              credentials.getUsername(),
-              credentials.getPassword(),
-              new ArrayList<>())
-      );
-    } catch (IOException e) {
-      throw new RuntimeException(e);
+    String header = req.getHeader(HEADER_STRING);
+
+    if (header == null || !header.startsWith(TOKEN_PREFIX)) {
+      chain.doFilter(req, res);
+      return;
     }
+
+    UsernamePasswordAuthenticationToken authentication = getAuthentication(req);
+    SecurityContextHolder.getContext().setAuthentication(authentication);
+    chain.doFilter(req, res);
   }
 
-  @Override
-  protected void successfulAuthentication(HttpServletRequest req,
-                                          HttpServletResponse res,
-                                          FilterChain chain,
-                                          Authentication authResult) throws IOException, ServletException {
-    String token = Jwts.builder()
-        .setIssuedAt(new Date())
-        .setExpiration(new Date(System.currentTimeMillis() + (1000 * 60 * 15)))
-        .setSubject(authResult.getName())
-        .addClaims(Collections.emptyMap())
-        .signWith(SignatureAlgorithm.HS512, SECRET)
-        .compact();
-
-    res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
+  private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest req) {
+    String token = req.getHeader(HEADER_STRING);
+    UsernamePasswordAuthenticationToken result = null;
+    if (token != null) {
+      Claims claims = Jwts.parser()
+          .setSigningKey(SECRET)
+          .parseClaimsJws(token.replace("Bearer", ""))
+          .getBody();
+      result = new UsernamePasswordAuthenticationToken(claims.getSubject(), null, Collections.emptyList());
+    }
+    return result;
   }
 }

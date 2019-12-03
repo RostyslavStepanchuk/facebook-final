@@ -1,6 +1,6 @@
 package com.socialmedia.service;
 
-import com.socialmedia.models.ApplicationUser;
+import com.socialmedia.model.ApplicationUser;
 import com.socialmedia.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

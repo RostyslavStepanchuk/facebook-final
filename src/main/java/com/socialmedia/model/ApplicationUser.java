@@ -1,6 +1,5 @@
-package com.socialmedia.models;
+package com.socialmedia.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
