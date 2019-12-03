@@ -7,9 +7,9 @@ import java.util.Optional;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
-public interface ResponseEntityProvider<T> {
+public interface ResponseEntityProvider {
 
-  default ResponseEntity<List<T>> provideResponseForList(List<T> list) {
+  default <T> ResponseEntity<List<T>> provideResponseForList(List<T> list) {
     if (list.isEmpty()) {
       return new ResponseEntity<>(list, NOT_FOUND);
     } else {
@@ -17,7 +17,7 @@ public interface ResponseEntityProvider<T> {
     }
   }
 
-  default ResponseEntity<T> provideResponseForOptional(Optional<T> potOpt) {
+  default <T> ResponseEntity<T> provideResponseForOptional(Optional<T> potOpt) {
     return potOpt.map(ResponseEntity::ok)
       .orElseGet(ResponseEntity.notFound()::build);
   }

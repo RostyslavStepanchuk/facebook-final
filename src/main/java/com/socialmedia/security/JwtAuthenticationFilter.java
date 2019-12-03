@@ -1,11 +1,14 @@
 package com.socialmedia.security;
 
+import com.socialmedia.service.AuthenticationService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -18,11 +21,15 @@ import static com.socialmedia.security.SecurityConstants.HEADER_STRING;
 import static com.socialmedia.security.SecurityConstants.TOKEN_PREFIX;
 import static com.socialmedia.security.SecurityConstants.SECRET;
 
+@Component
+public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 
-public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
+  private AuthenticationService authenticationService;
 
-  public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
+  @Autowired
+  public JwtAuthenticationFilter(AuthenticationManager authenticationManager, AuthenticationService authenticationService) {
     super(authenticationManager);
+    this.authenticationService = authenticationService;
   }
 
   @Override
@@ -32,26 +39,17 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
 
     String header = req.getHeader(HEADER_STRING);
 
-    if (header == null || !header.startsWith(TOKEN_PREFIX)) {
-      chain.doFilter(req, res);
-      return;
+    if (validHeaderIsPresent(header)) {
+      UsernamePasswordAuthenticationToken authentication = authenticationService.getAuthentication(req);
+      SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
-    UsernamePasswordAuthenticationToken authentication = getAuthentication(req);
-    SecurityContextHolder.getContext().setAuthentication(authentication);
     chain.doFilter(req, res);
   }
 
-  private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest req) {
-    String token = req.getHeader(HEADER_STRING);
-    UsernamePasswordAuthenticationToken result = null;
-    if (token != null) {
-      Claims claims = Jwts.parser()
-          .setSigningKey(SECRET)
-          .parseClaimsJws(token.replace("Bearer", ""))
-          .getBody();
-      result = new UsernamePasswordAuthenticationToken(claims.getSubject(), null, Collections.emptyList());
-    }
-    return result;
+  private boolean validHeaderIsPresent(String header) {
+    return header != null && header.startsWith(TOKEN_PREFIX);
   }
+
+
 }
