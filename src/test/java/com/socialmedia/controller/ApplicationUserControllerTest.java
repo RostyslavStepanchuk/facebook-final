@@ -31,7 +31,8 @@ public class ApplicationUserControllerTest {
     @Test
     public void starterTestForCoverAllIntegration() throws Exception{
         ApplicationUser userDummy = new ApplicationUser();
-        when(userService.getCurrentUser()).thenReturn(Optional.of(userDummy));
+        String username = "user";
+        when(userService.getUser(username)).thenReturn(Optional.of(userDummy));
 
         mockMvc.perform(get("/api/v1/users/current"))
                 .andExpect(status().isForbidden());

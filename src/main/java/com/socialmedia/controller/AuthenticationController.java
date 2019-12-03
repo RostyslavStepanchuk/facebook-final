@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
-import java.util.function.Function;
 
 @RestController
 @RequestMapping(value = "/api/v1/auth")
@@ -21,11 +20,13 @@ public class AuthenticationController implements ResponseEntityProvider {
 
   @Autowired
   public AuthenticationController(AuthenticationService authenticationService) {
+
     this.authenticationService = authenticationService;
   }
 
   @PostMapping("/access-token")
   public ResponseEntity<Token> getAccessJwt(@RequestBody UserCredentials credentials) {
+
     Optional<Token> token = authenticationService
         .getAccessToken(credentials)
         .map(Token::new);

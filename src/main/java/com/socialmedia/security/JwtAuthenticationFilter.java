@@ -1,8 +1,6 @@
 package com.socialmedia.security;
 
 import com.socialmedia.service.AuthenticationService;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,11 +13,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Collections;
 
 import static com.socialmedia.security.SecurityConstants.HEADER_STRING;
 import static com.socialmedia.security.SecurityConstants.TOKEN_PREFIX;
-import static com.socialmedia.security.SecurityConstants.SECRET;
 
 @Component
 public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
