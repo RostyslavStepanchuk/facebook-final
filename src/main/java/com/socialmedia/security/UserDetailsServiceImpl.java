@@ -1,22 +1,21 @@
 package com.socialmedia.security;
 
-import com.socialmedia.models.ApplicationUser;
+import com.socialmedia.model.ApplicationUser;
 import com.socialmedia.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
 
 import java.util.Collections;
 import java.util.Optional;
-import java.util.function.Function;
-import java.util.function.Supplier;
 
 @EnableWebSecurity
+@Service("UserDetailsServiceImpl")
 public class UserDetailsServiceImpl implements UserDetailsService {
 
   private UserRepository userRepository;
