@@ -21,7 +21,7 @@ public class ChatController implements ResponseEntityProvider {
     this.chatService = chatService;
   }
 
-  //TODO remove endpoint, it's for testing purposes only
+  //TODO remove endpoint, it's for test purposes only
   @GetMapping
   public ResponseEntity<List<Chat>> getAll() {
     return provideResponseForList(chatService.findAll());
