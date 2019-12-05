@@ -8,16 +8,25 @@ jdk:
   - oraclejdk8
 
 node_js:
-  - "10"
+  - "lts/*"
 
 cache:
   directories:
     - $HOME/.m2
     - ./client/node_modules/
+    - $HOME/.sonar/cache
+
+addons:
+  sonarcloud:
+    organization: "facebook-final-project"
+    token:
+      secure: ${SONAR_TOKEN}
+
 
 before_script:
   - npm install --prefix client/
 
 script:
-  - mvn clean test
+  - mvn clean test jacoco:report coveralls:report
+  - sonar-scanner
   - npm run build --prefix client/
