@@ -1,6 +1,6 @@
 package com.socialmedia.service;
 
-import com.socialmedia.controller.external.security.UserCredentials;
+import com.socialmedia.dto.security.UserCredentials;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 

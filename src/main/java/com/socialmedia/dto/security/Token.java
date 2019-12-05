@@ -1,5 +1,4 @@
-package com.socialmedia.controller.external.security;
-
+package com.socialmedia.dto.security;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

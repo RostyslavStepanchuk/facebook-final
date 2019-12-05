@@ -1,7 +1,6 @@
-package com.socialmedia.controller.external.security;
+package com.socialmedia.dto.security;
 
 import lombok.Data;
-import lombok.Getter;
 
 @Data
 public class UserCredentials {

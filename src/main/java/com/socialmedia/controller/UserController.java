@@ -1,5 +1,6 @@
 package com.socialmedia.controller;
 
+import com.socialmedia.dto.security.UserCredentials;
 import com.socialmedia.model.ApplicationUser;
 import com.socialmedia.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +34,9 @@ public class UserController implements ResponseEntityProvider {
   }
 
   @PostMapping("/sign-up")
-  public ResponseEntity<ApplicationUser> signUp(@RequestBody ApplicationUser user) {
-
-    ApplicationUser savedUser = userService.addUser(user);
+  public ResponseEntity<ApplicationUser> signUp(@RequestBody UserCredentials user) {
+    ApplicationUser userEntity = ApplicationUser.of(user);
+    ApplicationUser savedUser = userService.addUser(userEntity);
     return ResponseEntity.ok(savedUser);
   }
 

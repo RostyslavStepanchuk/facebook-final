@@ -1,7 +1,7 @@
 package com.socialmedia.service;
 
 
-import com.socialmedia.controller.external.security.UserCredentials;
+import com.socialmedia.dto.security.UserCredentials;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -10,7 +10,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
