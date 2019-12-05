@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import { Link } from 'react-router-dom'
 
 import { CssBaseline, Typography, Paper, Grid, Button } from '@material-ui/core'
 import useStyles from './landingStyles'
@@ -23,11 +24,11 @@ const Landing = () => {
           </Paper>
           <Paper className={classes.paper}>
             <Grid item xs={10} className={classes.btns_container}>
-              <Button variant='contained' size='large' color='primary' className={classes.buttons} href='/login'>
-                Sign In
+              <Button variant='contained' size='large' color='primary' className={classes.buttons} >
+                <Link to='/login'  className={classes.link}>Sign In</Link>
               </Button>
-              <Button variant='contained' size='large' color='secondary' className={classes.buttons} href='/register'>
-                Sign Up
+              <Button variant='contained' size='large' color='secondary' className={classes.buttons} >
+                <Link to='/register'  className={classes.link}>Sign Up</Link>
               </Button>
             </Grid>
           </Paper>
