@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
-import { Avatar, Button, CssBaseline, TextField, Link, Grid, Container, Typography } from '@material-ui/core'
+import { Avatar, Button, CssBaseline, TextField, Grid, Container, Typography } from '@material-ui/core'
 import { connect } from 'react-redux'
-import { Redirect } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
+import { register } from '../../actions/auth'
 
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import useStyles from './registerStyles'
 
-const Register = ({ isAuthenticated = null }) => {
+const Register = ({ isAuthenticated, register }) => {
   const classes = useStyles()
 
   const [formData, setFormData] = useState({
@@ -17,7 +18,7 @@ const Register = ({ isAuthenticated = null }) => {
     password2: '',
     userNameError: '',
     passwordError: '',
-    emailError: '',
+    emailError: ''
   })
 
   const { email, userName, password, password2, userNameError, passwordError, emailError } = formData
@@ -30,7 +31,7 @@ const Register = ({ isAuthenticated = null }) => {
     const errors = {
       userNameError: '',
       passwordError: '',
-      emailError: '',
+      emailError: ''
     }
 
     if (!email.match(/^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/)) {
@@ -59,33 +60,34 @@ const Register = ({ isAuthenticated = null }) => {
     e.preventDefault()
     const err = validate()
     if (!err) {
-        // todo: implement register action
+      // todo: implement register action
+      register(email, userName, password)
     }
   }
   if (isAuthenticated) {
-    return <Redirect to="/dashboard" />
+    return <Redirect to='/' />
   }
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component='main' maxWidth='xs'>
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography component="h1" variant="h5">
+        <Typography component='h1' variant='h5'>
           Sign up
         </Typography>
         <form className={classes.form} onSubmit={e => onSubmit(e)}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
-                autoComplete="email"
-                name="email"
-                variant="outlined"
+                autoComplete='email'
+                name='email'
+                variant='outlined'
                 required
                 fullWidth
-                label="Email"
+                label='Email'
                 autoFocus
                 value={email}
                 onChange={e => onChange(e)}
@@ -95,12 +97,12 @@ const Register = ({ isAuthenticated = null }) => {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                autoComplete="username"
-                name="userName"
-                variant="outlined"
+                autoComplete='username'
+                name='userName'
+                variant='outlined'
                 required
                 fullWidth
-                label="User Name"
+                label='User Name'
                 value={userName}
                 onChange={e => onChange(e)}
                 error={!(userNameError === '')}
@@ -109,13 +111,13 @@ const Register = ({ isAuthenticated = null }) => {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                variant="outlined"
+                variant='outlined'
                 required
                 fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                autoComplete="current-password"
+                name='password'
+                label='Password'
+                type='password'
+                autoComplete='current-password'
                 value={password}
                 onChange={e => onChange(e)}
                 error={!(passwordError === '')}
@@ -124,13 +126,13 @@ const Register = ({ isAuthenticated = null }) => {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                variant="outlined"
+                variant='outlined'
                 required
                 fullWidth
-                name="password2"
-                label="Repeat password"
-                type="password"
-                autoComplete="current-password"
+                name='password2'
+                label='Repeat password'
+                type='password'
+                autoComplete='current-password'
                 value={password2}
                 onChange={e => onChange(e)}
                 error={!(passwordError === '')}
@@ -138,12 +140,14 @@ const Register = ({ isAuthenticated = null }) => {
               />
             </Grid>
           </Grid>
-          <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
+          <Button type='submit' fullWidth variant='contained' color='primary' className={classes.submit}>
             Sign Up
           </Button>
-          <Grid container justify="flex-end">
+          <Grid container justify='flex-end'>
             <Grid item>
-                <Link href="/login" variant="body2">Already have an account? Sign in</Link>
+              <Link to='/login' variant='body2'>
+                Already have an account? Sign in
+              </Link>
             </Grid>
           </Grid>
         </form>
@@ -154,10 +158,11 @@ const Register = ({ isAuthenticated = null }) => {
 
 Register.propTypes = {
   isAuthenticated: PropTypes.bool,
+  register: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated,
+  isAuthenticated: state.auth.isAuthenticated
 })
 
-export default connect(mapStateToProps, null)(Register)
+export default connect(mapStateToProps, { register })(Register)
