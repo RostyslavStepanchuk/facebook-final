@@ -5,6 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^4.7.0",
     "@material-ui/icons": "^4.5.1",
+    "classnames": "^2.2.6",
     "npm-run-all": "^4.1.1",
     "npm-watch": "^0.3.0",
     "react": "^16.12.0",
