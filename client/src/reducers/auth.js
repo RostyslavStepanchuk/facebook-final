@@ -7,14 +7,17 @@ import {
   AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
-  LOGOUT
+  LOGOUT,
+  RESET_PASSWORD
+  // RESET_PASSWORD_FAIL
 } from '../utils/constants/actionsName'
 
 const initialState = {
   token: localStorage.getItem('token'),
-  isAuthenticated: null,
+  isAuthenticated: false,
   loading: true,
-  user: null
+  user: null,
+  resetEmailSend: false
 }
 
 export default function(state = initialState, action) {
@@ -35,6 +38,9 @@ export default function(state = initialState, action) {
     case LOGOUT:
       localStorage.removeItem('token')
       return { ...state, token: null, isAuthenticated: false, loading: false }
+
+    case  RESET_PASSWORD:
+      return { ...state, resetEmailSend: true }
 
     default:
       return { ...state }
