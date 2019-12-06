@@ -24,6 +24,7 @@ const Login = ({ isAuthenticated, login }) => {
   const onChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
+  // todo: refractor needed
   const validate = () => {
     let isError = false
     const errors = {
@@ -87,6 +88,13 @@ const Login = ({ isAuthenticated, login }) => {
             error={!(emailError === '')}
             helperText={emailError === '' ? '' : emailError}
           />
+          <Grid container >
+            <Grid item xs align='right'>
+              <Link to='/password_reset' variant='body2' className={classes.link}>
+                {'Forgot password?'}
+              </Link>
+            </Grid>
+          </Grid>
           <TextField
             name='password'
             onChange={e => onChange(e)}
@@ -106,8 +114,8 @@ const Login = ({ isAuthenticated, login }) => {
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link to='/register' variant='body2'>
-                {"Don't have an account? Sign Up"}
+              <Link to='/register' variant='body2' className={classes.link}>
+                {'Don't have an account? Sign Up'}
               </Link>
             </Grid>
           </Grid>
