@@ -1,7 +1,7 @@
-// import axios from "axios"
+// import axios from 'axios'
 
 // TODO: implements alerts
-// import {setAlert} from "./alert"
+// import {setAlert} from './alert'
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
@@ -9,7 +9,10 @@ import {
   AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
-  LOGOUT
+  LOGOUT,
+  RESET_PASSWORD,
+  RESET_PASSWORD_FAIL
+
 } from '../utils/constants/actionsName'
 
 // TODO: implemets setting token in headers
@@ -122,4 +125,35 @@ export const login = (email, password) => async dispatch => {
 
 export const logout = () => dispatch => {
   dispatch({ type: LOGOUT })
+}
+
+// Reset password
+
+export const resetPassword = (email) => dispatch => {
+  //   const config = {
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//   }
+
+try {
+  //   const res = await axios.post("/api/auth/password_reset", email, config)
+
+  //   dispatch({
+  //     type: LOGIN_SUCCESS,
+  //     payload: res.data
+  //   })
+  dispatch({
+    type: RESET_PASSWORD
+  })
+} catch (err) {
+  // const errors = err.response.data.errors
+
+  // if(errors) {
+  // errors.forEach(error => dispatch(setAlert(error.msg, "danger")))
+  // }
+  dispatch({
+    type: RESET_PASSWORD_FAIL
+  })
+}
 }

@@ -8,6 +8,7 @@ import Login from './components/auth/Login'
 
 import { Provider } from 'react-redux'
 import store from './store'
+import ResetPassword from './components/auth/ResetPassword'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Switch>
           <Route exact path='/register' component={Register} />
           <Route exact path='/login' component={Login} />
+          <Route exact path='/password_reset' component={ResetPassword} />
           <Route exact path='/' component={Landing} />
         </Switch>
       </Router>
