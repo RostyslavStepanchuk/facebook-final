@@ -26,6 +26,7 @@ const Register = ({ isAuthenticated, register }) => {
   const onChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
+  // todo: refractor needed
   const validate = () => {
     let isError = false
     const errors = {
@@ -145,7 +146,7 @@ const Register = ({ isAuthenticated, register }) => {
           </Button>
           <Grid container justify='flex-end'>
             <Grid item>
-              <Link to='/login' variant='body2'>
+              <Link to='/login' variant='body2' className={classes.link}>
                 Already have an account? Sign in
               </Link>
             </Grid>
