@@ -91,7 +91,7 @@ const Login = ({ isAuthenticated, login }) => {
           <Grid container >
             <Grid item xs align='right'>
               <Link to='/password_reset' variant='body2' className={classes.link}>
-                {'Forgot password?'}
+                Forgot password?
               </Link>
             </Grid>
           </Grid>
@@ -115,7 +115,7 @@ const Login = ({ isAuthenticated, login }) => {
           <Grid container>
             <Grid item xs>
               <Link to='/register' variant='body2' className={classes.link}>
-                {'Don't have an account? Sign Up'}
+                Don&apos;t have an account? Sign Up
               </Link>
             </Grid>
           </Grid>
