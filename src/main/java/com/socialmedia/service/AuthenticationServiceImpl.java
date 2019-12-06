@@ -24,7 +24,7 @@ import static com.socialmedia.security.SecurityConstants.HEADER_STRING;
 public class AuthenticationServiceImpl implements AuthenticationService {
 
   @Value("${spring.security.jwt-secret}")
-  public String SECRET;
+  public String secret;
 
   private AuthenticationManager authenticationManager;
 
@@ -49,7 +49,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
           .setExpiration(new Date(System.currentTimeMillis() + (1000 * 60 * 15)))
           .setSubject(authResult.getName())
           .addClaims(Collections.emptyMap())
-          .signWith(SignatureAlgorithm.HS512, SECRET)
+          .signWith(SignatureAlgorithm.HS512, secret)
           .compact();
       return Optional.of(token);
     }
@@ -62,7 +62,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     UsernamePasswordAuthenticationToken result = null;
     if (token != null) {
       Claims claims = Jwts.parser()
-          .setSigningKey(SECRET)
+          .setSigningKey(secret)
           .parseClaimsJws(token.replace("Bearer", ""))
           .getBody();
       result = new UsernamePasswordAuthenticationToken(claims.getSubject(), null, Collections.emptyList());
