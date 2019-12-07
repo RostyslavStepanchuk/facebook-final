@@ -13,7 +13,7 @@ import org.springframework.test.web.servlet.RequestBuilder;
 
 
 import static com.socialmedia.controller.util.TestConstants.CONTENT_TYPE_JSON;
-import static com.socialmedia.controller.util.TestConstants.URL_ACCESS_TOKEN;
+import static com.socialmedia.controller.util.TestConstants.URL_GET_ACCESS_TOKEN;
 import static com.socialmedia.controller.util.TestConstants.USER_PASSWORD;
 import static com.socialmedia.controller.util.TestConstants.USER_USERNAME;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -35,7 +35,7 @@ public class AuthenticationControllerTest {
   public void accessTokenWithValidCredentialsShouldReturnToken() throws Exception {
 
     UserCredentials credentials = new UserCredentials(USER_USERNAME, USER_PASSWORD);
-    RequestBuilder requestBuilder = post(URL_ACCESS_TOKEN)
+    RequestBuilder requestBuilder = post(URL_GET_ACCESS_TOKEN)
         .content(mapper.writeValueAsString(credentials))
         .contentType(CONTENT_TYPE_JSON);
 
@@ -45,14 +45,13 @@ public class AuthenticationControllerTest {
   }
 
   @Test
-  public void accessTokenWithInvalidCredentialsShouldReturnError() throws Exception {
-
-    UserCredentials credentials = new UserCredentials(USER_USERNAME, USER_PASSWORD);
-    RequestBuilder requestBuilder = post(URL_ACCESS_TOKEN)
+  public void accessTokenWithInvalidPasswordShouldReturnBadRequestStatus() throws Exception {
+    UserCredentials credentials = new UserCredentials(USER_USERNAME, "wrongPassword");
+    RequestBuilder requestBuilder = post(URL_GET_ACCESS_TOKEN)
         .content(mapper.writeValueAsString(credentials))
         .contentType(CONTENT_TYPE_JSON);
 
     mockMvc.perform(requestBuilder)
-        .andExpect(status().isForbidden());
+        .andExpect(status().isBadRequest());
   }
 }
