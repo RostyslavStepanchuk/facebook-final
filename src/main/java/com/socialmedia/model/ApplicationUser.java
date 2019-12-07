@@ -1,12 +1,12 @@
 package com.socialmedia.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.socialmedia.dto.security.UserCredentials;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Singular;
 import lombok.ToString;
 
 import javax.persistence.Column;
@@ -56,10 +56,11 @@ public class ApplicationUser {
   @JoinTable(name = "friends",
       joinColumns = @JoinColumn(name = "fk_username"),
       inverseJoinColumns = @JoinColumn(name = "fk_friend_username"))
-  @JsonBackReference // TODO remove BackReference, implement DTO
+  @Singular
   private List<ApplicationUser> friends;
 
   @OneToMany(mappedBy = "responder")
+  @Singular
   private List<FriendRequest> incomingFriendRequests;
 
   public static ApplicationUser of(UserCredentials credentials) {
