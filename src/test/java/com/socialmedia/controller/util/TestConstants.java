@@ -16,6 +16,8 @@ public class TestConstants {
   public static final String URL_SIGN_UP = "/api/v1/users/sign-up";
   public static final String URL_GET_ACCESS_TOKEN = "/api/v1/auth/access-token";
   public static final String URL_GET_ALL_CHATS = "/api/v1/chats";
+  public static final String URL_GET_ALL_POSTS = "/api/v1/posts";
+
 
   public static final String CONTENT_TYPE_JSON = "application/json";
   
