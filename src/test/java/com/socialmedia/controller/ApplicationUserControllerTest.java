@@ -1,6 +1,7 @@
 package com.socialmedia.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jayway.jsonpath.JsonPath;
 import com.socialmedia.dto.security.UserCredentials;
 import com.socialmedia.model.ApplicationUser;
 import org.junit.Test;
@@ -12,6 +13,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
+
+import java.util.Collections;
 
 import static com.socialmedia.controller.util.TestConstants.CONTENT_TYPE_JSON;
 import static com.socialmedia.controller.util.TestConstants.URL_GET_CURRENT_USER;
@@ -74,22 +77,35 @@ public class ApplicationUserControllerTest {
     }
 
     @Test
-    public void signUpShouldReturnNewUser() throws Exception{
+    public void signUpShouldCreateNewUserAndReturnAccessToken() throws Exception{
 
         UserCredentials credentials = new UserCredentials("newUser", "newPassword");
-        ApplicationUser applicationUser = ApplicationUser.builder()
-            .username(credentials.getUsername())
-            .password(credentials.getPassword())
-            .build();
-
-
-        String result = mapper.writeValueAsString(applicationUser);
 
         RequestBuilder requestBuilder = post(URL_SIGN_UP)
             .content(mapper.writeValueAsString(credentials))
             .contentType(CONTENT_TYPE_JSON);
 
-        mockMvc.perform(requestBuilder)
+        String responseContentAsString = mockMvc.perform(requestBuilder)
+            .andExpect(status().isOk())
+            .andReturn()
+            .getResponse()
+            .getContentAsString();
+
+        String token = JsonPath.parse(responseContentAsString).read("$.accessToken");
+
+        RequestBuilder checkCreatedUserRequest = get(URL_GET_CURRENT_USER)
+            .header("Authorization", "Bearer " + token);
+
+        ApplicationUser applicationUser = ApplicationUser.builder()
+            .username(credentials.getUsername())
+            .password(credentials.getPassword())
+            .incomingFriendRequests(Collections.emptyList())
+            .build();
+
+
+        String result = mapper.writeValueAsString(applicationUser);
+
+        mockMvc.perform(checkCreatedUserRequest)
             .andExpect(status().isOk())
             .andExpect(content().json(result));
     }
