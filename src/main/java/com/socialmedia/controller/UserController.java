@@ -1,7 +1,9 @@
 package com.socialmedia.controller;
 
+import com.socialmedia.dto.security.Token;
 import com.socialmedia.dto.security.UserCredentials;
 import com.socialmedia.model.ApplicationUser;
+import com.socialmedia.service.AuthenticationService;
 import com.socialmedia.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,24 +22,33 @@ public class UserController implements ResponseEntityProvider {
 
   private UserService userService;
 
+  private AuthenticationService authenticationService;
+
 
   @Autowired
-  public UserController(UserService userService) {
+  public UserController(UserService userService, AuthenticationService authenticationService) {
 
     this.userService = userService;
+    this.authenticationService = authenticationService;
   }
 
   @GetMapping("/current")
   public ResponseEntity<ApplicationUser> getCurrentUser(Principal principal) {
+
     Optional<ApplicationUser> user = userService.getUser(principal.getName());
     return provideResponseForOptional(user);
   }
 
   @PostMapping("/sign-up")
-  public ResponseEntity<ApplicationUser> signUp(@RequestBody UserCredentials user) {
+  public ResponseEntity<Token> signUp(@RequestBody UserCredentials user) {
+
     ApplicationUser userEntity = ApplicationUser.of(user);
-    ApplicationUser savedUser = userService.addUser(userEntity);
-    return ResponseEntity.ok(savedUser);
+    userService.addUser(userEntity);
+
+    Token token = authenticationService.getAccessToken(user)
+        .map(Token::new)
+        .orElseThrow(() -> new RuntimeException("Unable to get access token for newly created user"));
+    return ResponseEntity.ok(token);
   }
 
 }
