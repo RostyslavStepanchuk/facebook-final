@@ -1,6 +1,7 @@
 package com.socialmedia.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jayway.jsonpath.JsonPath;
 import com.socialmedia.dto.security.UserCredentials;
 import com.socialmedia.model.ApplicationUser;
 import org.junit.Test;
@@ -13,6 +14,20 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 
+import java.util.Collections;
+
+import static com.socialmedia.controller.util.TestConstants.CONTENT_TYPE_JSON;
+import static com.socialmedia.controller.util.TestConstants.URL_GET_CURRENT_USER;
+import static com.socialmedia.controller.util.TestConstants.URL_SIGN_UP;
+import static com.socialmedia.controller.util.TestConstants.USER_AVATAR_URL;
+import static com.socialmedia.controller.util.TestConstants.USER_BIRTH_DATE;
+import static com.socialmedia.controller.util.TestConstants.USER_EMAIL;
+import static com.socialmedia.controller.util.TestConstants.USER_FIRST_NAME;
+import static com.socialmedia.controller.util.TestConstants.USER_FORGOT_PASSWORD_TOKEN;
+import static com.socialmedia.controller.util.TestConstants.USER_LAST_NAME;
+import static com.socialmedia.controller.util.TestConstants.USER_OPEN_ACCOUNT;
+import static com.socialmedia.controller.util.TestConstants.USER_REFRESH_TOKEN;
+import static com.socialmedia.controller.util.TestConstants.USER_USERNAME;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -32,28 +47,28 @@ public class ApplicationUserControllerTest {
     @Test
     public void getCurrentUserShouldBlockRequestWithoutAuthentication() throws Exception{
 
-        mockMvc.perform(get("/api/v1/users/current"))
+        mockMvc.perform(get(URL_GET_CURRENT_USER))
             .andExpect(status().isForbidden());
     }
 
     @Test
-    @WithMockUser(username = "testUser")
+    @WithMockUser(username = USER_USERNAME)
     public void getCurrentUserShouldReturnUserObjectWithSuccessResponseCode() throws Exception{
 
         ApplicationUser applicationUser = ApplicationUser.builder()
-            .username("testUser")
-            .email("test@test.com")
-            .firstName("Tyler").lastName("Durden")
-            .birthDate(659998800000L)
-            .avatar("http://avataurl.com")
-            .refreshToken("034daREFRESHTOKENf341fd")
-            .forgotPasswordToken("41fdFORGOTPASSWORDTOKEN093wgs")
-            .openAccount(true)
+            .username(USER_USERNAME)
+            .email(USER_EMAIL)
+            .firstName(USER_FIRST_NAME).lastName(USER_LAST_NAME)
+            .birthDate(USER_BIRTH_DATE)
+            .avatar(USER_AVATAR_URL)
+            .refreshToken(USER_REFRESH_TOKEN)
+            .forgotPasswordToken(USER_FORGOT_PASSWORD_TOKEN)
+            .openAccount(USER_OPEN_ACCOUNT)
             .build();
 
         String result = mapper.writeValueAsString(applicationUser);
 
-        RequestBuilder requestBuilder = get("/api/v1/users/current");
+        RequestBuilder requestBuilder = get(URL_GET_CURRENT_USER);
 
         mockMvc.perform(requestBuilder)
             .andExpect(status().isOk());
@@ -62,22 +77,35 @@ public class ApplicationUserControllerTest {
     }
 
     @Test
-    public void signUpShouldReturnNewUser() throws Exception{
+    public void signUpShouldCreateNewUserAndReturnAccessToken() throws Exception{
 
-        UserCredentials credentials = new UserCredentials("newUser", "strongPassword");
+        UserCredentials credentials = new UserCredentials("newUser", "newPassword");
+
+        RequestBuilder requestBuilder = post(URL_SIGN_UP)
+            .content(mapper.writeValueAsString(credentials))
+            .contentType(CONTENT_TYPE_JSON);
+
+        String responseContentAsString = mockMvc.perform(requestBuilder)
+            .andExpect(status().isOk())
+            .andReturn()
+            .getResponse()
+            .getContentAsString();
+
+        String token = JsonPath.parse(responseContentAsString).read("$.accessToken");
+
+        RequestBuilder checkCreatedUserRequest = get(URL_GET_CURRENT_USER)
+            .header("Authorization", "Bearer " + token);
+
         ApplicationUser applicationUser = ApplicationUser.builder()
             .username(credentials.getUsername())
             .password(credentials.getPassword())
+            .incomingFriendRequests(Collections.emptyList())
             .build();
 
 
         String result = mapper.writeValueAsString(applicationUser);
 
-        RequestBuilder requestBuilder = post("/api/v1/users/sign-up")
-            .content(mapper.writeValueAsString(credentials))
-            .contentType("application/json");
-
-        mockMvc.perform(requestBuilder)
+        mockMvc.perform(checkCreatedUserRequest)
             .andExpect(status().isOk())
             .andExpect(content().json(result));
     }

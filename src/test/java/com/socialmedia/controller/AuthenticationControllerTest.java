@@ -12,6 +12,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 
 
+import static com.socialmedia.controller.util.TestConstants.CONTENT_TYPE_JSON;
+import static com.socialmedia.controller.util.TestConstants.URL_GET_ACCESS_TOKEN;
+import static com.socialmedia.controller.util.TestConstants.USER_PASSWORD;
+import static com.socialmedia.controller.util.TestConstants.USER_USERNAME;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -30,10 +34,10 @@ public class AuthenticationControllerTest {
   @Test
   public void accessTokenWithValidCredentialsShouldReturnToken() throws Exception {
 
-    UserCredentials credentials = new UserCredentials("testUser", "passw1234");
-    RequestBuilder requestBuilder = post("/api/v1/auth/access-token")
+    UserCredentials credentials = new UserCredentials(USER_USERNAME, USER_PASSWORD);
+    RequestBuilder requestBuilder = post(URL_GET_ACCESS_TOKEN)
         .content(mapper.writeValueAsString(credentials))
-        .contentType("application/json");
+        .contentType(CONTENT_TYPE_JSON);
 
     mockMvc.perform(requestBuilder)
         .andExpect(status().isOk())
@@ -41,14 +45,13 @@ public class AuthenticationControllerTest {
   }
 
   @Test
-  public void accessTokenWithInvalidCredentialsShouldReturnError() throws Exception {
-
-    UserCredentials credentials = new UserCredentials("testUser", "wrongpassword");
-    RequestBuilder requestBuilder = post("/api/v1/auth/access-token")
+  public void accessTokenWithInvalidPasswordShouldReturnBadRequestStatus() throws Exception {
+    UserCredentials credentials = new UserCredentials(USER_USERNAME, "wrongPassword");
+    RequestBuilder requestBuilder = post(URL_GET_ACCESS_TOKEN)
         .content(mapper.writeValueAsString(credentials))
-        .contentType("application/json");
+        .contentType(CONTENT_TYPE_JSON);
 
     mockMvc.perform(requestBuilder)
-        .andExpect(status().isForbidden());
+        .andExpect(status().isBadRequest());
   }
 }
