@@ -23,14 +23,14 @@ import static com.socialmedia.controller.util.TestConstants.USER_AVATAR_URL;
 import static com.socialmedia.controller.util.TestConstants.USER_BIRTH_DATE;
 import static com.socialmedia.controller.util.TestConstants.USER_EMAIL;
 import static com.socialmedia.controller.util.TestConstants.USER_FIRST_NAME;
-import static com.socialmedia.controller.util.TestConstants.USER_FORGOT_PASSWORD_TOKEN;
 import static com.socialmedia.controller.util.TestConstants.USER_LAST_NAME;
 import static com.socialmedia.controller.util.TestConstants.USER_OPEN_ACCOUNT;
-import static com.socialmedia.controller.util.TestConstants.USER_REFRESH_TOKEN;
 import static com.socialmedia.controller.util.TestConstants.USER_USERNAME;
+import static org.hamcrest.Matchers.comparesEqualTo;
+import static org.hamcrest.collection.IsIterableWithSize.iterableWithSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -55,31 +55,27 @@ public class ApplicationUserControllerTest {
     @WithMockUser(username = USER_USERNAME)
     public void getCurrentUserShouldReturnUserObjectWithSuccessResponseCode() throws Exception{
 
-        ApplicationUser applicationUser = ApplicationUser.builder()
-            .username(USER_USERNAME)
-            .email(USER_EMAIL)
-            .firstName(USER_FIRST_NAME).lastName(USER_LAST_NAME)
-            .birthDate(USER_BIRTH_DATE)
-            .avatar(USER_AVATAR_URL)
-            .refreshToken(USER_REFRESH_TOKEN)
-            .forgotPasswordToken(USER_FORGOT_PASSWORD_TOKEN)
-            .openAccount(USER_OPEN_ACCOUNT)
-            .build();
 
-        String result = mapper.writeValueAsString(applicationUser);
+        mockMvc.perform(get(URL_GET_CURRENT_USER))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.username").value(USER_USERNAME))
+            .andExpect(jsonPath("$.birthDate").value(USER_BIRTH_DATE))
+            .andExpect(jsonPath("$.email").value(USER_EMAIL))
+            .andExpect(jsonPath("$.firstName").value(USER_FIRST_NAME))
+            .andExpect(jsonPath("$.lastName").value(USER_LAST_NAME))
+            .andExpect(jsonPath("$.avatar").value(USER_AVATAR_URL))
+            .andExpect(jsonPath("$.openAccount").value(USER_OPEN_ACCOUNT))
+            .andExpect(jsonPath("$.friends", iterableWithSize(comparesEqualTo(1))))
+            .andExpect(jsonPath("$.incomingFriendRequests", iterableWithSize(comparesEqualTo(1))));
 
-        RequestBuilder requestBuilder = get(URL_GET_CURRENT_USER);
-
-        mockMvc.perform(requestBuilder)
-            .andExpect(status().isOk());
-            // TODO update when DTO is ready
-//            .andExpect(content().json(result));
     }
 
     @Test
     public void signUpShouldCreateNewUserAndReturnAccessToken() throws Exception{
 
-        UserCredentials credentials = new UserCredentials("newUser", "newPassword");
+        String newUser = "newUser";
+        String newPassword = "newPassword";
+        UserCredentials credentials = new UserCredentials(newUser, newPassword);
 
         RequestBuilder requestBuilder = post(URL_SIGN_UP)
             .content(mapper.writeValueAsString(credentials))
@@ -107,6 +103,6 @@ public class ApplicationUserControllerTest {
 
         mockMvc.perform(checkCreatedUserRequest)
             .andExpect(status().isOk())
-            .andExpect(content().json(result));
+            .andExpect(jsonPath("$.username").value(newUser));
     }
 }

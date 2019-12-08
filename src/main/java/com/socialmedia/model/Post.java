@@ -37,7 +37,7 @@ public class Post {
   private ApplicationUser author;
 
   @OneToMany(mappedBy = "id")
-  private List<Comment> receivedComments;
+  private List<Comment> comments;
 
   @JoinTable(name = "likes",
       joinColumns = @JoinColumn(name = "fk_post_id"),
