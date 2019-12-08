@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Singular;
 import lombok.ToString;
 
 import javax.persistence.Column;
@@ -35,12 +34,16 @@ public class ApplicationUser {
   @JsonIgnore
   @Column(name = "password")
   private String password;
+  @MayAcceptNull
   @Column(name = "email")
   private String email;
+  @MayAcceptNull
   @Column(name = "first_name")
   private String firstName;
+  @MayAcceptNull
   @Column(name = "last_name")
   private String lastName;
+  @MayAcceptNull
   @Column(name = "birth_date")
   private Long birthDate;
   @Column(name = "avatar")
@@ -56,11 +59,11 @@ public class ApplicationUser {
   @JoinTable(name = "friends",
       joinColumns = @JoinColumn(name = "fk_username"),
       inverseJoinColumns = @JoinColumn(name = "fk_friend_username"))
-  @Singular
+  @ToString.Exclude
   private List<ApplicationUser> friends;
 
   @OneToMany(mappedBy = "responder")
-  @Singular
+  @ToString.Exclude
   private List<FriendRequest> incomingFriendRequests;
 
   public static ApplicationUser of(UserCredentials credentials) {

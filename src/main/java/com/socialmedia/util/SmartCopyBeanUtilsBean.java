@@ -12,12 +12,15 @@ public class SmartCopyBeanUtilsBean extends BeanUtilsBean {
 
     boolean nullIsNotAcceptable;
     try {
-      nullIsNotAcceptable = dest.getClass().getField(name).getAnnotation(MayAcceptNull.class) != null;
+      nullIsNotAcceptable = dest.getClass()
+          .getDeclaredField(name).getAnnotation(MayAcceptNull.class) == null;
+
     } catch (NoSuchFieldException error) {
       throw new RuntimeException("Unable to find property in destination object");
     }
-    if (value == null & nullIsNotAcceptable)
+    if (value == null & nullIsNotAcceptable) {
       return;
+    }
     super.copyProperty(dest, name, value);
   }
 }

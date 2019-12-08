@@ -1,6 +1,7 @@
 package com.socialmedia.mapper;
 
 import com.socialmedia.dto.security.UserCredentials;
+import com.socialmedia.dto.user.UserDtoIn;
 import com.socialmedia.dto.user.UserDtoOut;
 import com.socialmedia.dto.user.UserLabelDtoOut;
 import com.socialmedia.model.ApplicationUser;
@@ -24,6 +25,10 @@ public class UserMapper {
 
   public UserLabelDtoOut toLabelDto(ApplicationUser entity) {
     return modelMapper.map(entity, UserLabelDtoOut.class);
+  }
+
+  public ApplicationUser toEntity(UserDtoIn dto) {
+    return modelMapper.map(dto, ApplicationUser.class);
   }
 
   public ApplicationUser toEntity(UserCredentials credentials) {
