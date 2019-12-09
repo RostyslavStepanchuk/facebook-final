@@ -1,7 +1,7 @@
-// import axios from 'axios'
+/* global localStorage */
 
 // TODO: implements alerts
-// import {setAlert} from './alert'
+import axios from 'axios'
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
@@ -16,26 +16,24 @@ import {
 } from '../utils/constants/actionsName'
 
 // TODO: implemets setting token in headers
-// import setAuthToken from '../utils/setAuthToken'
+import setAuthToken from '../utils/helpers/setAuthToken'
 
 // Load User
+// todo: go to api current
+// todo: bearer token
+// todo: implement setAuthToken
 
 export const loadUser = () => async dispatch => {
-  // if(localStorage.token) {
-  //     setAuthToken(localStorage.token)
-  // }
+  if (localStorage.accessToken) {
+    setAuthToken(localStorage.accessToken)
+  }
 
   try {
-    // const res = await axios.get('/api/auth')
-
-    // dispatch({
-    //     type: USER_LOADED,
-    //     payload: res.data
-    // })
+    const res = await axios.get('/api/v1/users/current')
 
     dispatch({
       type: USER_LOADED,
-      payload: 'dummy User ID'
+      payload: res.data
     })
   } catch (err) {
     console.error(AUTH_ERROR)
@@ -70,7 +68,7 @@ export const register = ({ userName, email, password }) => async dispatch => {
 
     dispatch({
       type: REGISTER_SUCCESS,
-      payload: {token: 'JWT dummy token'}
+      payload: { token: 'JWT dummy token' }
     })
 
     dispatch(loadUser())
@@ -87,34 +85,32 @@ export const register = ({ userName, email, password }) => async dispatch => {
 }
 
 // Login User
+// todo: change email to username
 
-export const login = (email, password) => async dispatch => {
-//   const config = {
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//   }
-//   const body = { email, password }
+export const login = (username, password) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }
+  const body = { username, password }
 
   try {
-    //   const res = await axios.post("/api/auth", body, config)
+    const res = await axios.post('/api/v1/auth/access-token', body, config)
 
-    //   dispatch({
-    //     type: LOGIN_SUCCESS,
-    //     payload: res.data
-    //   })
     dispatch({
       type: LOGIN_SUCCESS,
-      payload: {token: 'JWT dummy token'}
+      payload: res.data
     })
 
     dispatch(loadUser())
   } catch (err) {
-    // const errors = err.response.data.errors
+    const errors = err.response.data.errors
 
-    // if(errors) {
-    // errors.forEach(error => dispatch(setAlert(error.msg, "danger")))
-    // }
+    if (errors) {
+      // errors.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+      errors.forEach(error => console.log(error.msg, 'danger'))
+    }
     dispatch({
       type: LOGIN_FAIL
     })
@@ -136,24 +132,24 @@ export const resetPassword = (email) => dispatch => {
 //     },
 //   }
 
-try {
-  //   const res = await axios.post("/api/auth/password_reset", email, config)
+  try {
+    //   const res = await axios.post("/api/auth/password_reset", email, config)
 
-  //   dispatch({
-  //     type: LOGIN_SUCCESS,
-  //     payload: res.data
-  //   })
-  dispatch({
-    type: RESET_PASSWORD
-  })
-} catch (err) {
-  // const errors = err.response.data.errors
+    //   dispatch({
+    //     type: LOGIN_SUCCESS,
+    //     payload: res.data
+    //   })
+    dispatch({
+      type: RESET_PASSWORD
+    })
+  } catch (err) {
+    // const errors = err.response.data.errors
 
-  // if(errors) {
-  // errors.forEach(error => dispatch(setAlert(error.msg, "danger")))
-  // }
-  dispatch({
-    type: RESET_PASSWORD_FAIL
-  })
-}
+    // if(errors) {
+    // errors.forEach(error => dispatch(setAlert(error.msg, "danger")))
+    // }
+    dispatch({
+      type: RESET_PASSWORD_FAIL
+    })
+  }
 }
