@@ -1,3 +1,4 @@
+// todo: change email to username
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { Redirect, Link } from 'react-router-dom'
@@ -13,13 +14,13 @@ const Login = ({ isAuthenticated, login }) => {
   const classes = usestyles()
 
   const [formData, setFormData] = useState({
-    email: '',
+    username: '',
     password: '',
-    emailError: '',
+    usernameError: '',
     passwordError: ''
   })
 
-  const { email, password, emailError, passwordError } = formData
+  const { username, password, usernameError, passwordError } = formData
 
   const onChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -28,18 +29,18 @@ const Login = ({ isAuthenticated, login }) => {
   const validate = () => {
     let isError = false
     const errors = {
-      emailError: '',
+      usernameError: '',
       passwordError: ''
     }
 
     if (password.length < 6) {
       isError = true
-      errors.passwordError = 'Password needs to be atleast 6 characters long'
+      errors.passwordError = 'Password needs to be at least 6 characters long'
     }
 
-    if (!email.match(/^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/)) {
+    if (username.length < 6) {
       isError = true
-      errors.emailError = 'Provide valid email'
+      errors.usernameError = 'Username needs to be at least 6 characters long'
     }
     setFormData({ ...formData, ...errors })
 
@@ -52,7 +53,7 @@ const Login = ({ isAuthenticated, login }) => {
 
     if (!err) {
       //   todo: implement login action
-      login(email, password)
+      login(username, password)
     }
   }
 
@@ -79,14 +80,14 @@ const Login = ({ isAuthenticated, login }) => {
             margin='normal'
             required
             fullWidth
-            label='Email'
-            name='email'
-            autoComplete='email'
+            label='Username'
+            name='username'
+            autoComplete='username'
             autoFocus
-            value={email}
+            value={username}
             onChange={e => onChange(e)}
-            error={!(emailError === '')}
-            helperText={emailError === '' ? '' : emailError}
+            error={!(usernameError === '')}
+            helperText={usernameError === '' ? '' : usernameError}
           />
           <Grid container >
             <Grid item xs align='right'>
