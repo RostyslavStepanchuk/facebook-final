@@ -1,7 +1,11 @@
 package com.socialmedia.controller;
 
+import com.socialmedia.dto.security.Token;
 import com.socialmedia.dto.security.UserCredentials;
+import com.socialmedia.dto.user.UserDtoOut;
+import com.socialmedia.mapper.UserMapper;
 import com.socialmedia.model.ApplicationUser;
+import com.socialmedia.service.AuthenticationService;
 import com.socialmedia.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,25 +23,34 @@ import java.util.Optional;
 public class UserController implements ResponseEntityProvider {
 
   private UserService userService;
+  private AuthenticationService authenticationService;
+  private UserMapper userMapper;
 
 
   @Autowired
-  public UserController(UserService userService) {
+  public UserController(UserService userService, AuthenticationService authenticationService, UserMapper userMapper) {
 
     this.userService = userService;
+    this.authenticationService = authenticationService;
+    this.userMapper = userMapper;
   }
 
   @GetMapping("/current")
-  public ResponseEntity<ApplicationUser> getCurrentUser(Principal principal) {
+  public ResponseEntity<UserDtoOut> getCurrentUser(Principal principal) {
+
     Optional<ApplicationUser> user = userService.getUser(principal.getName());
-    return provideResponseForOptional(user);
+    return provideResponseForOptional(user.map(userMapper::toFullDto));
   }
 
   @PostMapping("/sign-up")
-  public ResponseEntity<ApplicationUser> signUp(@RequestBody UserCredentials user) {
-    ApplicationUser userEntity = ApplicationUser.of(user);
-    ApplicationUser savedUser = userService.addUser(userEntity);
-    return ResponseEntity.ok(savedUser);
+  public ResponseEntity<Token> signUp(@RequestBody UserCredentials user) {
+
+    userService.addUser(userMapper.toEntity(user));
+
+    Token token = authenticationService.getAccessToken(user)
+        .map(Token::new)
+        .orElseThrow(() -> new RuntimeException("Unable to get access token for newly created user"));
+    return ResponseEntity.ok(token);
   }
 
 }
