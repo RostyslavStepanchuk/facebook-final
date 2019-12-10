@@ -52,8 +52,7 @@ const Login = ({ isAuthenticated, login }) => {
     const err = validate()
 
     if (!err) {
-      //   todo: implement login action
-      login(username, password)
+      login({ username, password })
     }
   }
 

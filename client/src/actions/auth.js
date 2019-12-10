@@ -14,14 +14,9 @@ import {
   RESET_PASSWORD_FAIL
 
 } from '../utils/constants/actionsName'
-
-// TODO: implemets setting token in headers
 import setAuthToken from '../utils/helpers/setAuthToken'
 
 // Load User
-// todo: go to api current
-// todo: bearer token
-// todo: implement setAuthToken
 
 export const loadUser = () => async dispatch => {
   if (localStorage.accessToken) {
@@ -45,30 +40,25 @@ export const loadUser = () => async dispatch => {
 
 // Register User
 
-export const register = ({ userName, email, password }) => async dispatch => {
-  console.log(userName, email, password)
+export const register = ({ username, password }) => async dispatch => {
 
-//   const config = {
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//   }
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }
 
-  // Should work without stringify, chek it later
-
-//   const body = { userName, email, password }
+  const body = { username, password }
+  console.log(body)
 
   try {
-    // const res = await axios.post("/api/users", body, config)
+    const res = await axios.post('/api/v1/users/sign-up', body, config)
 
-    // dispatch({
-    //   type: REGISTER_SUCCESS,
-    //   payload: res.data
-    // })
+    console.log(res)
 
     dispatch({
       type: REGISTER_SUCCESS,
-      payload: { token: 'JWT dummy token' }
+      payload: res.data
     })
 
     dispatch(loadUser())
@@ -85,9 +75,8 @@ export const register = ({ userName, email, password }) => async dispatch => {
 }
 
 // Login User
-// todo: change email to username
 
-export const login = (username, password) => async dispatch => {
+export const login = ({ username, password }) => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'application/json'
@@ -109,7 +98,7 @@ export const login = (username, password) => async dispatch => {
 
     if (errors) {
       // errors.forEach(error => dispatch(setAlert(error.msg, 'danger')))
-      errors.forEach(error => console.log(error.msg, 'danger'))
+      errors.forEach(error => console.log(error.msg))
     }
     dispatch({
       type: LOGIN_FAIL

@@ -20,7 +20,7 @@ const initialState = {
   resetEmailSend: false
 }
 
-export default function(state = initialState, action) {
+export default function (state = initialState, action) {
   const { type, payload } = action
 
   switch (type) {
@@ -39,7 +39,7 @@ export default function(state = initialState, action) {
       localStorage.removeItem('accessToken')
       return { ...state, accessToken: null, isAuthenticated: false, loading: false }
 
-    case  RESET_PASSWORD:
+    case RESET_PASSWORD:
       return { ...state, resetEmailSend: true }
 
     default:
