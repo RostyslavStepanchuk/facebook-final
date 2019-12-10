@@ -4,6 +4,7 @@ package com.socialmedia.controller;
 import com.socialmedia.dto.security.Token;
 import com.socialmedia.dto.security.UserCredentials;
 import com.socialmedia.service.AuthenticationService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
