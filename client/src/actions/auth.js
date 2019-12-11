@@ -1,6 +1,4 @@
 /* global localStorage */
-
-// TODO: implements alerts
 import axios from 'axios'
 import {
   REGISTER_SUCCESS,
@@ -15,6 +13,7 @@ import {
 
 } from '../utils/constants/actionsName'
 import setAuthToken from '../utils/helpers/setAuthToken'
+import { Toastr } from '../utils/toastr/Toastr'
 
 // Load User
 
@@ -31,17 +30,16 @@ export const loadUser = () => async dispatch => {
       payload: res.data
     })
   } catch (err) {
-    console.error(AUTH_ERROR)
-    // dispatch({
-    //     type: AUTH_ERROR
-    // })
+    Toastr.error(err.response.data)
+    dispatch({
+      type: AUTH_ERROR
+    })
   }
 }
 
 // Register User
 
 export const register = ({ username, password }) => async dispatch => {
-
   const config = {
     headers: {
       'Content-Type': 'application/json'
@@ -49,12 +47,11 @@ export const register = ({ username, password }) => async dispatch => {
   }
 
   const body = { username, password }
-  console.log(body)
 
   try {
     const res = await axios.post('/api/v1/users/sign-up', body, config)
 
-    console.log(res)
+    Toastr.success('Congrats! Register success!')
 
     dispatch({
       type: REGISTER_SUCCESS,
@@ -63,15 +60,11 @@ export const register = ({ username, password }) => async dispatch => {
 
     dispatch(loadUser())
   } catch (err) {
-    //   const errors = err.response.data.errors
-
-    //   if(errors) {
-    //       errors.forEach(error => dispatch(setAlert(error.msg, "danger")))
-    //   }
-    dispatch({
-      type: REGISTER_FAIL
-    })
+    Toastr.error(err.response.data)
   }
+  dispatch({
+    type: REGISTER_FAIL
+  })
 }
 
 // Login User
@@ -86,7 +79,7 @@ export const login = ({ username, password }) => async dispatch => {
 
   try {
     const res = await axios.post('/api/v1/auth/access-token', body, config)
-
+    Toastr.success('User login')
     dispatch({
       type: LOGIN_SUCCESS,
       payload: res.data
@@ -94,11 +87,12 @@ export const login = ({ username, password }) => async dispatch => {
 
     dispatch(loadUser())
   } catch (err) {
-    const errors = err.response.data.errors
+    console.dir(err)
 
-    if (errors) {
-      // errors.forEach(error => dispatch(setAlert(error.msg, 'danger')))
-      errors.forEach(error => console.log(error.msg))
+    if (err.response.status === 400) {
+      Toastr.error('Wrong username or password')
+    } else {
+      Toastr.error()
     }
     dispatch({
       type: LOGIN_FAIL
@@ -109,6 +103,7 @@ export const login = ({ username, password }) => async dispatch => {
 // Logout / Clear Profile
 
 export const logout = () => dispatch => {
+  Toastr.warning('You have just log out')
   dispatch({ type: LOGOUT })
 }
 

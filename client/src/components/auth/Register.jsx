@@ -64,7 +64,7 @@ const Register = ({ isAuthenticated, register }) => {
     }
   }
   if (isAuthenticated) {
-    return <Redirect to='/'/>
+    return <Redirect to='/' />
   }
 
   return (
