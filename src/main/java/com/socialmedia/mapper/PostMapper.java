@@ -1,5 +1,6 @@
 package com.socialmedia.mapper;
 
+import com.socialmedia.dto.post.PostDtoIn;
 import com.socialmedia.dto.post.PostDtoOut;
 import com.socialmedia.model.Post;
 import org.modelmapper.ModelMapper;
@@ -18,5 +19,9 @@ public class PostMapper {
 
   public PostDtoOut toDto(Post entity) {
     return modelMapper.map(entity, PostDtoOut.class);
+  }
+
+  public Post toEntity(PostDtoIn postDtoIn){
+    return modelMapper.map(postDtoIn, Post.class);
   }
 }

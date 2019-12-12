@@ -1,5 +1,6 @@
 package com.socialmedia.mapper;
 
+import com.socialmedia.dto.chat.ChatDtoIn;
 import com.socialmedia.dto.chat.ChatDtoOut;
 import com.socialmedia.model.Chat;
 import org.modelmapper.ModelMapper;
@@ -16,8 +17,12 @@ public class ChatMapper {
     this.modelMapper = modelMapper;
   }
 
-  public ChatDtoOut toDto(Chat entity) {
-    return modelMapper.map(entity, ChatDtoOut.class);
+  public ChatDtoOut toDto(Chat chat) {
+    return modelMapper.map(chat, ChatDtoOut.class);
+  }
+
+  public Chat toEntity(ChatDtoIn chatDtoIn){
+    return modelMapper.map(chatDtoIn, Chat.class);
   }
 
 }
