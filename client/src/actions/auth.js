@@ -1,7 +1,5 @@
-// import axios from 'axios'
-
-// TODO: implements alerts
-// import {setAlert} from './alert'
+/* global localStorage */
+import axios from 'axios'
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
@@ -14,107 +12,88 @@ import {
   RESET_PASSWORD_FAIL
 
 } from '../utils/constants/actionsName'
-
-// TODO: implemets setting token in headers
-// import setAuthToken from '../utils/setAuthToken'
+import setAuthToken from '../utils/helpers/setAuthToken'
+import { Toastr } from '../utils/toastr/Toastr'
 
 // Load User
 
 export const loadUser = () => async dispatch => {
-  // if(localStorage.token) {
-  //     setAuthToken(localStorage.token)
-  // }
+  if (localStorage.accessToken) {
+    setAuthToken(localStorage.accessToken)
+  }
 
   try {
-    // const res = await axios.get('/api/auth')
-
-    // dispatch({
-    //     type: USER_LOADED,
-    //     payload: res.data
-    // })
+    const res = await axios.get('/api/v1/users/current')
 
     dispatch({
       type: USER_LOADED,
-      payload: 'dummy User ID'
+      payload: res.data
     })
   } catch (err) {
-    console.error(AUTH_ERROR)
-    // dispatch({
-    //     type: AUTH_ERROR
-    // })
+    Toastr.error(err.response.data)
+    dispatch({
+      type: AUTH_ERROR
+    })
   }
 }
 
 // Register User
 
-export const register = ({ userName, email, password }) => async dispatch => {
-  console.log(userName, email, password)
+export const register = ({ username, password }) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }
 
-//   const config = {
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//   }
-
-  // Should work without stringify, chek it later
-
-//   const body = { userName, email, password }
+  const body = { username, password }
 
   try {
-    // const res = await axios.post("/api/users", body, config)
+    const res = await axios.post('/api/v1/users/sign-up', body, config)
 
-    // dispatch({
-    //   type: REGISTER_SUCCESS,
-    //   payload: res.data
-    // })
+    Toastr.success('Congrats! Register success!')
 
     dispatch({
       type: REGISTER_SUCCESS,
-      payload: {token: 'JWT dummy token'}
+      payload: res.data
     })
 
     dispatch(loadUser())
   } catch (err) {
-    //   const errors = err.response.data.errors
-
-    //   if(errors) {
-    //       errors.forEach(error => dispatch(setAlert(error.msg, "danger")))
-    //   }
-    dispatch({
-      type: REGISTER_FAIL
-    })
+    Toastr.error(err.response.data)
   }
+  dispatch({
+    type: REGISTER_FAIL
+  })
 }
 
 // Login User
 
-export const login = (email, password) => async dispatch => {
-//   const config = {
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//   }
-//   const body = { email, password }
+export const login = ({ username, password }) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }
+  const body = { username, password }
 
   try {
-    //   const res = await axios.post("/api/auth", body, config)
-
-    //   dispatch({
-    //     type: LOGIN_SUCCESS,
-    //     payload: res.data
-    //   })
+    const res = await axios.post('/api/v1/auth/access-token', body, config)
+    Toastr.success('User login')
     dispatch({
       type: LOGIN_SUCCESS,
-      payload: {token: 'JWT dummy token'}
+      payload: res.data
     })
 
     dispatch(loadUser())
   } catch (err) {
-    // const errors = err.response.data.errors
+    console.dir(err)
 
-    // if(errors) {
-    // errors.forEach(error => dispatch(setAlert(error.msg, "danger")))
-    // }
+    if (err.response.status === 400) {
+      Toastr.error('Wrong username or password')
+    } else {
+      Toastr.error()
+    }
     dispatch({
       type: LOGIN_FAIL
     })
@@ -124,6 +103,7 @@ export const login = (email, password) => async dispatch => {
 // Logout / Clear Profile
 
 export const logout = () => dispatch => {
+  Toastr.warning('You have just log out')
   dispatch({ type: LOGOUT })
 }
 
@@ -136,24 +116,24 @@ export const resetPassword = (email) => dispatch => {
 //     },
 //   }
 
-try {
-  //   const res = await axios.post("/api/auth/password_reset", email, config)
+  try {
+    //   const res = await axios.post("/api/auth/password_reset", email, config)
 
-  //   dispatch({
-  //     type: LOGIN_SUCCESS,
-  //     payload: res.data
-  //   })
-  dispatch({
-    type: RESET_PASSWORD
-  })
-} catch (err) {
-  // const errors = err.response.data.errors
+    //   dispatch({
+    //     type: LOGIN_SUCCESS,
+    //     payload: res.data
+    //   })
+    dispatch({
+      type: RESET_PASSWORD
+    })
+  } catch (err) {
+    // const errors = err.response.data.errors
 
-  // if(errors) {
-  // errors.forEach(error => dispatch(setAlert(error.msg, "danger")))
-  // }
-  dispatch({
-    type: RESET_PASSWORD_FAIL
-  })
-}
+    // if(errors) {
+    // errors.forEach(error => dispatch(setAlert(error.msg, "danger")))
+    // }
+    dispatch({
+      type: RESET_PASSWORD_FAIL
+    })
+  }
 }

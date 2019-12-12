@@ -5,6 +5,7 @@ import Navbar from './components/layout/Navbar'
 import Landing from './components/layout/Landing'
 import Register from './components/auth/Register'
 import Login from './components/auth/Login'
+import Toastr from './components/toastr/Toastr'
 
 import { Provider } from 'react-redux'
 import store from './store'
@@ -13,6 +14,7 @@ import ResetPassword from './components/auth/ResetPassword'
 function App() {
   return (
     <Provider store={store}>
+      <Toastr />
       <Router>
         <Navbar />
         <Switch>

@@ -13,15 +13,15 @@ const Register = ({ isAuthenticated, register }) => {
 
   const [formData, setFormData] = useState({
     email: '',
-    userName: '',
+    username: '',
     password: '',
     password2: '',
-    userNameError: '',
+    usernameError: '',
     passwordError: '',
     emailError: ''
   })
 
-  const { email, userName, password, password2, userNameError, passwordError, emailError } = formData
+  const { username, password, password2, usernameError, passwordError } = formData
 
   const onChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -30,15 +30,11 @@ const Register = ({ isAuthenticated, register }) => {
   const validate = () => {
     let isError = false
     const errors = {
-      userNameError: '',
+      usernameError: '',
       passwordError: '',
       emailError: ''
     }
 
-    if (!email.match(/^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/)) {
-      isError = true
-      errors.emailError = 'Provide valid email'
-    }
     if (password.length < 6) {
       isError = true
       errors.passwordError = 'Password needs to be atleast 6 characters long'
@@ -49,20 +45,22 @@ const Register = ({ isAuthenticated, register }) => {
       errors.passwordError = 'Passwords do not match'
     }
 
-    if (userName.length < 6) {
+    if (username.length < 6) {
       isError = true
-      errors.userNameError = 'Username needs to be atleast 6 characters long'
+      errors.usernameError = 'username needs to be at least 6 characters long'
     }
     setFormData({ ...formData, ...errors })
+
     return isError
   }
 
   const onSubmit = async e => {
     e.preventDefault()
     const err = validate()
+
     if (!err) {
-      // todo: implement register action
-      register(email, userName, password)
+      console.log('username, password', username, password)
+      register({ username, password })
     }
   }
   if (isAuthenticated) {
@@ -83,31 +81,16 @@ const Register = ({ isAuthenticated, register }) => {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
-                autoComplete='email'
-                name='email'
-                variant='outlined'
-                required
-                fullWidth
-                label='Email'
-                autoFocus
-                value={email}
-                onChange={e => onChange(e)}
-                error={!(emailError === '')}
-                helperText={emailError === '' ? '' : emailError}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
                 autoComplete='username'
-                name='userName'
+                name='username'
                 variant='outlined'
                 required
                 fullWidth
-                label='User Name'
-                value={userName}
+                label='UserName'
+                value={username}
                 onChange={e => onChange(e)}
-                error={!(userNameError === '')}
-                helperText={userNameError === '' ? '' : userNameError}
+                error={!(usernameError === '')}
+                helperText={usernameError === '' ? '' : usernameError}
               />
             </Grid>
             <Grid item xs={12}>

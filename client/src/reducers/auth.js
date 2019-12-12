@@ -13,7 +13,7 @@ import {
 } from '../utils/constants/actionsName'
 
 const initialState = {
-  token: localStorage.getItem('token'),
+  accessToken: localStorage.getItem('accessToken'),
   isAuthenticated: false,
   loading: true,
   user: null,
@@ -29,17 +29,17 @@ export default function(state = initialState, action) {
 
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
-      localStorage.setItem('token', payload.token)
+      localStorage.setItem('accessToken', payload.accessToken)
       return { ...state, ...payload, isAuthenticated: true, loading: false }
 
     case REGISTER_FAIL:
     case AUTH_ERROR:
     case LOGIN_FAIL:
     case LOGOUT:
-      localStorage.removeItem('token')
-      return { ...state, token: null, isAuthenticated: false, loading: false }
+      localStorage.removeItem('accessToken')
+      return { ...state, accessToken: null, isAuthenticated: false, loading: false }
 
-    case  RESET_PASSWORD:
+    case RESET_PASSWORD:
       return { ...state, resetEmailSend: true }
 
     default:
