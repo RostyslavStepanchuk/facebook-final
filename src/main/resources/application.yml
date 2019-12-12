@@ -1,6 +1,12 @@
 server:
   port: 8080
 
+amazonProperties:
+  endpointUrl: https://s3.us-east-2.amazonaws.com
+  accessKey: AKIA5IJDJTGGB6JZNW2W
+  secretKey: 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
+  bucketName: fs-8
+
 spring:
   profiles:
     active: dev
