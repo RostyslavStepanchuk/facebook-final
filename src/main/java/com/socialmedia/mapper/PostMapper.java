@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public final class PostMapper extends AbstractControllerToServiceMapper<Post, Long, PostDtoIn, PostDtoOut, PostService> {
+public final class PostMapper extends AbstractControllerToCrudServiceMapper<Post, Long, PostDtoIn, PostDtoOut, PostService> {
 
   @Autowired
   public PostMapper(ModelMapper modelMapper, PostService crudService) {

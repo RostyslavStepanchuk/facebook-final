@@ -55,6 +55,8 @@ public class ApplicationUser implements DbEntity<String> {
   private String forgotPasswordToken;
   @Column(name = "open_account")
   private Boolean openAccount;
+  @Column(name = "emailConfirmed")
+  private Boolean emailConfirmed;
 
   @ManyToMany(cascade = CascadeType.REMOVE)
   @JoinTable(name = "friends",

@@ -1,6 +1,7 @@
 package com.socialmedia.service;
 
 
+import com.socialmedia.dto.security.Token;
 import com.socialmedia.dto.security.UserCredentials;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -34,12 +35,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
   }
 
   @Override
-  public String getAccessToken(UserCredentials credentials) {
+  public Token getAccessToken(UserCredentials credentials) {
+    return getAccessToken(credentials.getUsername(), credentials.getPassword());
+  }
+
+  @Override
+  public Token getAccessToken(String username, String password) {
 
     Authentication authResult = authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(
-        credentials.getUsername(),
-        credentials.getPassword(),
+        username,
+        password,
         new ArrayList<>())
     );
 
@@ -51,7 +57,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
           .addClaims(Collections.emptyMap())
           .signWith(SignatureAlgorithm.HS512, secret)
           .compact();
-      return token;
+      return new Token(token);
     }
 
     throw new BadCredentialsException("Unable to authenticate user");
