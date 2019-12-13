@@ -1,5 +1,6 @@
 package com.socialmedia.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,9 +8,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -55,16 +56,32 @@ public class ApplicationUser implements DbEntity<String> {
   @Column(name = "open_account")
   private Boolean openAccount;
 
-  @ManyToMany(fetch = FetchType.EAGER)
+  @ManyToMany(cascade = CascadeType.REMOVE)
   @JoinTable(name = "friends",
       joinColumns = @JoinColumn(name = "fk_username"),
       inverseJoinColumns = @JoinColumn(name = "fk_friend_username"))
   @ToString.Exclude
   private List<ApplicationUser> friends;
 
-  @OneToMany(mappedBy = "responder")
+  @OneToMany(mappedBy = "responder", cascade = CascadeType.REMOVE)
   @ToString.Exclude
   private List<FriendRequest> incomingFriendRequests;
+
+  @ManyToMany(cascade = CascadeType.REMOVE, mappedBy = "participants")
+  @JsonBackReference
+  private List<Chat> chats;
+
+  @ManyToMany(mappedBy = "likes", cascade = CascadeType.REMOVE)
+  @JsonBackReference
+  private List<Post> likedPosts;
+
+  @OneToMany(mappedBy = "author", cascade = CascadeType.REMOVE)
+  @JsonBackReference
+  private List<Comment> writtenComments;
+
+  @OneToMany(mappedBy = "author", cascade = CascadeType.REMOVE)
+  @JsonBackReference
+  private List<ChatMessage> writtenMessages;
 
   @Override
   public String getId() {

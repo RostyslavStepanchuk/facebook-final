@@ -1,7 +1,6 @@
 package com.socialmedia.controller;
 
-import com.socialmedia.model.ApplicationUser;
-import com.socialmedia.service.CrudServiceDelete;
+import com.socialmedia.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +27,7 @@ class ExceptionControllerTest {
   private MockMvc mockMvc;
 
   @MockBean
-  private CrudServiceDelete<ApplicationUser, String> userService;
+  private UserService userService;
 
   @Test
   @WithMockUser(username = USER_USERNAME)

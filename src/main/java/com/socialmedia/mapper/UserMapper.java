@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public final class UserMapper extends AbstractEntityMapper<ApplicationUser, String, UserDtoIn, UserDtoOut, UserService> {
+public final class UserMapper extends AbstractControllerToServiceMapper<ApplicationUser, String, UserDtoIn, UserDtoOut, UserService> {
 
   @Autowired
   public UserMapper(ModelMapper modelMapper, UserService crudService) {
