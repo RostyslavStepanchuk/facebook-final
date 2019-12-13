@@ -17,7 +17,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "posts")
-public class Post {
+public class Post implements DbEntity<Long> {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

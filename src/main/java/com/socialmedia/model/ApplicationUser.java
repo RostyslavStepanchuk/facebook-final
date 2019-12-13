@@ -1,7 +1,6 @@
 package com.socialmedia.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.socialmedia.dto.security.UserCredentials;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,13 +18,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.List;
 
+
 @Data
 @Entity
 @Table(name = "users")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ApplicationUser {
+public class ApplicationUser implements DbEntity<String> {
 
   @Id
   @Column(name = "username")
@@ -66,14 +66,8 @@ public class ApplicationUser {
   @ToString.Exclude
   private List<FriendRequest> incomingFriendRequests;
 
-  public static ApplicationUser of(UserCredentials credentials) {
-
-    return ApplicationUser.builder()
-        .username(credentials.getUsername())
-        .password(credentials.getPassword())
-        .build();
+  @Override
+  public String getId() {
+    return username;
   }
-
-
-
 }
