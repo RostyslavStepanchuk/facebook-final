@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @Data
 @Entity
 @Table(name = "comments")
-public class Comment implements DbEntity<Long>{
+public class Comment implements DbEntity<Long> {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -29,26 +29,22 @@ public final class UserService extends AbstractCrudService<ApplicationUser, Stri
   @Override
   public ApplicationUser update(String username, ApplicationUser incomingEntity) {
 
-      Optional<ApplicationUser> existingEntity = jpaRepository.findById(username);
+    Optional<ApplicationUser> existingEntity = jpaRepository.findById(username);
 
-      existingEntity.ifPresent(user -> {
-        try {
-          beanUtilsBean.copyProperties(user, incomingEntity);
-          jpaRepository.save(user);
-          if (!username.equals(incomingEntity.getUsername())) {
-            // if user changed username entity with old username should be removed
-            jpaRepository.deleteById(incomingEntity.getUsername());
-          }
-        } catch (ReflectiveOperationException reflectionException) {
+    existingEntity.ifPresent(user -> {
+      try {
+        beanUtilsBean.copyProperties(user, incomingEntity);
+        jpaRepository.save(user);
+        if (!username.equals(incomingEntity.getUsername())) {
+          // if user changed username entity with old username should be removed
+          jpaRepository.deleteById(incomingEntity.getUsername());
+        }
+      } catch (ReflectiveOperationException reflectionException) {
         throw new RuntimeException(reflectionException.getMessage());
       }
     });
 
-      return resolvedOptional(existingEntity, username);
-  }
-
-  private ApplicationUser resolvedOptional (Optional<ApplicationUser> user, String username) {
-    return user.orElseThrow(()->new NoDataFoundException(String.format("%s with id %s wasn't found", user.getClass().getSimpleName(), username)));
+    return resolvedOptional(existingEntity, username);
   }
 
   @Override
@@ -63,6 +59,11 @@ public final class UserService extends AbstractCrudService<ApplicationUser, Stri
     }
     user.setPassword(bcryptPasswordEncoder.encode(user.getPassword()));
     return jpaRepository.save(user);
+  }
+
+  private ApplicationUser resolvedOptional(Optional<ApplicationUser> user, String username) {
+    return user.orElseThrow(()->new NoDataFoundException(
+        String.format("%s with id %s wasn't found", user.getClass().getSimpleName(), username)));
   }
 
 }

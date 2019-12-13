@@ -25,10 +25,8 @@ public class UserController implements ResponseEntityProvider {
   private AuthenticationService authenticationService;
   private UserMapper userMapper;
 
-
   @Autowired
   public UserController(AuthenticationService authenticationService, UserMapper userMapper) {
-
     this.authenticationService = authenticationService;
     this.userMapper = userMapper;
   }

@@ -21,7 +21,9 @@ public abstract class AbstractCrudService<E extends DbEntity<T>, T, R extends Jp
 
   public E create(E entity) {
     if (jpaRepository.findById(entity.getId()).isPresent()) {
-      throw new BadCredentialsException(String.format("%s with id %s already exists", entity.getClass().getSimpleName(), String.valueOf(entity.getId())));
+      throw new BadCredentialsException(
+          String.format("%s with id %s already exists",
+              entity.getClass().getSimpleName(), String.valueOf(entity.getId())));
     }
 
     return jpaRepository.save(entity);
@@ -59,7 +61,7 @@ public abstract class AbstractCrudService<E extends DbEntity<T>, T, R extends Jp
   }
 
 
-  private E resolvedOptional (Optional<E> entity, T id) {
+  private E resolvedOptional(Optional<E> entity, T id) {
     return entity.orElseThrow(()->new NoDataFoundException(String.format("Entity with id %s wasn't found", id)));
   }
 
