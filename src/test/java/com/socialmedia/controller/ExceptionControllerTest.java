@@ -1,6 +1,7 @@
 package com.socialmedia.controller;
 
-import com.socialmedia.service.UserService;
+import com.socialmedia.model.ApplicationUser;
+import com.socialmedia.service.CrudServiceDelete;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,14 +28,14 @@ class ExceptionControllerTest {
   private MockMvc mockMvc;
 
   @MockBean
-  private UserService userService;
+  private CrudServiceDelete<ApplicationUser, String> userService;
 
   @Test
   @WithMockUser(username = USER_USERNAME)
   void globalHandlerShouldReturnConflictStatusAndErrorMessage() throws Exception {
 
     String errorMessage = "Custom exception error message";
-    when(userService.getUser(USER_USERNAME)).thenThrow(new RuntimeException(errorMessage));
+    when(userService.getById(USER_USERNAME)).thenThrow(new RuntimeException(errorMessage));
 
     mockMvc.perform(get(URL_GET_CURRENT_USER))
         .andExpect(status().isConflict())

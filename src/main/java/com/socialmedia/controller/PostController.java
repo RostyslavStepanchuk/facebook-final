@@ -2,7 +2,7 @@ package com.socialmedia.controller;
 
 import com.socialmedia.dto.post.PostDtoOut;
 import com.socialmedia.mapper.PostMapper;
-import com.socialmedia.service.PostService;
+import com.socialmedia.service.PostServiceDelete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,11 +16,11 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "api/v1/posts")
 public class PostController implements ResponseEntityProvider {
 
-  private PostService postService;
+  private PostServiceDelete postService;
   private PostMapper postMapper;
 
   @Autowired
-  public PostController(PostService postService, PostMapper postMapper) {
+  public PostController(PostServiceDelete postService, PostMapper postMapper) {
     this.postService = postService;
     this.postMapper = postMapper;
   }

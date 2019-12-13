@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @Data
 @Entity
 @Table(name = "messages")
-public class ChatMessage {
+public class ChatMessage implements DbEntity<Long> {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
