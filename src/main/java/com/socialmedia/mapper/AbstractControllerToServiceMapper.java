@@ -7,7 +7,8 @@ import org.modelmapper.ModelMapper;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public abstract class AbstractControllerToServiceMapper<E extends DbEntity<T>, T, I, O, S extends AbstractCrudService<E, T, ?>> {
+public abstract class AbstractControllerToServiceMapper
+    <E extends DbEntity<T>, T, I, O, S extends AbstractCrudService<E, T, ?>> {
 
   ModelMapper modelMapper;
   S crudService;
@@ -17,7 +18,7 @@ public abstract class AbstractControllerToServiceMapper<E extends DbEntity<T>, T
     this.crudService = crudService;
   }
 
-  public O getById (T id) {
+  public O getById(T id) {
     return responseDtoOf(crudService.getById(id));
   }
 
@@ -27,17 +28,17 @@ public abstract class AbstractControllerToServiceMapper<E extends DbEntity<T>, T
         .collect(Collectors.toList());
   }
 
-  public O create (I dtoIn) {
+  public O create(I dtoIn) {
     E entity = entityOf(dtoIn);
     return responseDtoOf(crudService.create(entity));
   }
 
-  public O update (T id, I dtoIn) {
+  public O update(T id, I dtoIn) {
     E entity = entityOf(dtoIn);
     return responseDtoOf(crudService.update(id, entity));
   }
 
-  public O delete (T id) {
+  public O delete(T id) {
     return responseDtoOf(crudService.delete(id));
   }
 

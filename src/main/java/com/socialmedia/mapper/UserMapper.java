@@ -11,7 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public final class UserMapper extends AbstractControllerToServiceMapper<ApplicationUser, String, UserDtoIn, UserDtoOut, UserService> {
+public final class UserMapper extends
+    AbstractControllerToServiceMapper<ApplicationUser, String, UserDtoIn, UserDtoOut, UserService> {
 
   @Autowired
   public UserMapper(ModelMapper modelMapper, UserService crudService) {
@@ -24,8 +25,8 @@ public final class UserMapper extends AbstractControllerToServiceMapper<Applicat
   }
 
   @Override
-  protected UserDtoOut responseDtoOf (ApplicationUser entity) {
-     UserDtoOut result = modelMapper.map(entity, UserDtoOut.class);
+  protected UserDtoOut responseDtoOf(ApplicationUser entity) {
+    UserDtoOut result = modelMapper.map(entity, UserDtoOut.class);
     return modelMapper.map(entity, UserDtoOut.class);
   }
 
