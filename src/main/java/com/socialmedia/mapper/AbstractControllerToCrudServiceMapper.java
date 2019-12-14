@@ -7,13 +7,13 @@ import org.modelmapper.ModelMapper;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public abstract class AbstractControllerToServiceMapper
+public abstract class AbstractControllerToCrudServiceMapper
     <E extends DbEntity<T>, T, I, O, S extends AbstractCrudService<E, T, ?>> {
 
   ModelMapper modelMapper;
   S crudService;
 
-  public AbstractControllerToServiceMapper(ModelMapper modelMapper, S crudService) {
+  public AbstractControllerToCrudServiceMapper(ModelMapper modelMapper, S crudService) {
     this.modelMapper = modelMapper;
     this.crudService = crudService;
   }

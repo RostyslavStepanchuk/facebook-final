@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public final class ChatMapper extends AbstractControllerToServiceMapper<Chat,Long, ChatDtoIn, ChatDtoOut, ChatService> {
+public final class ChatMapper extends AbstractControllerToCrudServiceMapper<Chat,Long, ChatDtoIn, ChatDtoOut, ChatService> {
 
   @Autowired
   public ChatMapper(ModelMapper modelMapper, ChatService crudService) {
