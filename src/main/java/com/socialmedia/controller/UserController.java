@@ -37,7 +37,7 @@ public class UserController {
   @PostMapping
   public ResponseEntity<Token> signUp(@RequestBody UserRegistrationDtoIn userForm) {
 
-    return ResponseEntity.ok(userMapper.create(userForm));
+    return ResponseEntity.ok(userMapper.signUp(userForm));
   }
 
   @PutMapping
