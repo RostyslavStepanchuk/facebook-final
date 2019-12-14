@@ -6,7 +6,6 @@ import com.socialmedia.dto.user.UserDtoOut;
 import com.socialmedia.dto.user.UserLabelDtoOut;
 import com.socialmedia.dto.user.UserRegistrationDtoIn;
 import com.socialmedia.model.ApplicationUser;
-import com.socialmedia.service.AuthenticationService;
 import com.socialmedia.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,27 +15,21 @@ import org.springframework.stereotype.Component;
 public final class UserMapper extends
     AbstractControllerToCrudServiceMapper<ApplicationUser, String, UserDtoIn, UserDtoOut, UserService> {
 
-  private AuthenticationService authenticationService;
-
   @Autowired
   public UserMapper(ModelMapper modelMapper,
-                    UserService crudService,
-                    AuthenticationService authenticationService) {
+                    UserService crudService) {
     super(modelMapper, crudService);
-    this.authenticationService = authenticationService;
   }
 
-  public Token create(UserRegistrationDtoIn registrationData) {
+  public Token signUp(UserRegistrationDtoIn registrationData) {
+
     ApplicationUser entity = entityOf(registrationData);
-    crudService.create(entity);
-    return authenticationService.getAccessToken(
-        registrationData.getUsername(),
-        registrationData.getPassword());
+    return crudService.signUp(entity);
   }
 
   @Override
   protected UserDtoOut responseDtoOf(ApplicationUser entity) {
-    UserDtoOut result = modelMapper.map(entity, UserDtoOut.class);
+
     return modelMapper.map(entity, UserDtoOut.class);
   }
 
@@ -46,10 +39,12 @@ public final class UserMapper extends
   }
 
   private ApplicationUser entityOf(UserRegistrationDtoIn userData) {
+
     return modelMapper.map(userData, ApplicationUser.class);
   }
 
   private UserLabelDtoOut userLabelDtoOf(ApplicationUser entity) {
+
     return modelMapper.map(entity, UserLabelDtoOut.class);
   }
   
