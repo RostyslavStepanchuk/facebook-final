@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/api/v1/auth")
-public class AuthenticationController implements ResponseEntityProvider {
+public class AuthenticationController {
 
   private AuthenticationMapper authenticationMapper;
 
