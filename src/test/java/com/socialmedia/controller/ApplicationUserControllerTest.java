@@ -18,7 +18,7 @@ import java.util.Collections;
 
 import static com.socialmedia.controller.util.TestConstants.CONTENT_TYPE_JSON;
 import static com.socialmedia.controller.util.TestConstants.URL_GET_CURRENT_USER;
-import static com.socialmedia.controller.util.TestConstants.URL_SIGN_UP;
+import static com.socialmedia.controller.util.TestConstants.URL_USERS_BASIC;
 import static com.socialmedia.controller.util.TestConstants.USER_AVATAR_URL;
 import static com.socialmedia.controller.util.TestConstants.USER_BIRTH_DATE;
 import static com.socialmedia.controller.util.TestConstants.USER_EMAIL;
@@ -47,7 +47,7 @@ public class ApplicationUserControllerTest {
     @Test
     public void getCurrentUserShouldBlockRequestWithoutAuthentication() throws Exception{
 
-        mockMvc.perform(get(URL_GET_CURRENT_USER))
+        mockMvc.perform(get(URL_USERS_BASIC))
             .andExpect(status().isForbidden());
     }
 
@@ -77,7 +77,7 @@ public class ApplicationUserControllerTest {
         String newPassword = "newPassword";
         UserCredentials credentials = new UserCredentials(newUser, newPassword);
 
-        RequestBuilder requestBuilder = post(URL_SIGN_UP)
+        RequestBuilder requestBuilder = post(URL_USERS_BASIC)
             .content(mapper.writeValueAsString(credentials))
             .contentType(CONTENT_TYPE_JSON);
 

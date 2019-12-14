@@ -2,35 +2,31 @@ package com.socialmedia.controller;
 
 import com.socialmedia.dto.security.Token;
 import com.socialmedia.dto.security.UserCredentials;
+import com.socialmedia.dto.user.UserDtoIn;
 import com.socialmedia.dto.user.UserDtoOut;
 import com.socialmedia.mapper.UserMapper;
-import com.socialmedia.model.ApplicationUser;
 import com.socialmedia.service.AuthenticationService;
-import com.socialmedia.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api/v1/users")
 public class UserController implements ResponseEntityProvider {
 
-  private UserService userService;
   private AuthenticationService authenticationService;
   private UserMapper userMapper;
 
-
   @Autowired
-  public UserController(UserService userService, AuthenticationService authenticationService, UserMapper userMapper) {
-
-    this.userService = userService;
+  public UserController(AuthenticationService authenticationService, UserMapper userMapper) {
     this.authenticationService = authenticationService;
     this.userMapper = userMapper;
   }
@@ -38,19 +34,28 @@ public class UserController implements ResponseEntityProvider {
   @GetMapping("/current")
   public ResponseEntity<UserDtoOut> getCurrentUser(Principal principal) {
 
-    Optional<ApplicationUser> user = userService.getUser(principal.getName());
-    return provideResponseForOptional(user.map(userMapper::toFullDto));
+    return ResponseEntity.ok(userMapper.getById(principal.getName()));
   }
 
-  @PostMapping("/sign-up")
-  public ResponseEntity<Token> signUp(@RequestBody UserCredentials user) {
+  @PostMapping
+  public ResponseEntity<Token> signUp(@RequestBody UserCredentials credentials) {
 
-    userService.addUser(userMapper.toEntity(user));
-
-    Token token = authenticationService.getAccessToken(user)
-        .map(Token::new)
-        .orElseThrow(() -> new RuntimeException("Unable to get access token for newly created user"));
+    userMapper.createFromCredentials(credentials);
+    Token token = new Token(authenticationService.getAccessToken(credentials));
     return ResponseEntity.ok(token);
+  }
+
+  @PutMapping
+  public ResponseEntity<UserDtoOut> updateUser(Principal principal,
+                                               @RequestBody UserDtoIn user) {
+
+    return ResponseEntity.ok(userMapper.update(principal.getName(), user));
+  }
+
+  @DeleteMapping
+  public ResponseEntity<UserDtoOut> deleteUser(Principal principal) {
+
+    return ResponseEntity.ok(userMapper.delete(principal.getName()));
   }
 
 }
