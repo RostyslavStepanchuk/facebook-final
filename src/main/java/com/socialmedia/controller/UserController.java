@@ -1,7 +1,6 @@
 package com.socialmedia.controller;
 
 import com.socialmedia.dto.security.Token;
-import com.socialmedia.dto.security.UserCredentials;
 import com.socialmedia.dto.user.UserDtoIn;
 import com.socialmedia.dto.user.UserDtoOut;
 import com.socialmedia.dto.user.UserRegistrationDtoIn;
@@ -41,10 +40,7 @@ public class UserController implements ResponseEntityProvider {
   @PostMapping
   public ResponseEntity<Token> signUp(@RequestBody UserRegistrationDtoIn userForm) {
 
-    userMapper.create(userForm);
-    UserCredentials credentials = new UserCredentials(userForm.getUsername(), userForm.getPassword());
-    Token token = authenticationService.getAccessToken(credentials);
-    return ResponseEntity.ok(token);
+    return ResponseEntity.ok(userMapper.create(userForm));
   }
 
   @PutMapping
