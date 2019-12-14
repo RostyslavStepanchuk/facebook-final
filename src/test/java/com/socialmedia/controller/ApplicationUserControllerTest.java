@@ -4,11 +4,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.JsonPath;
 import com.socialmedia.dto.security.UserCredentials;
 import com.socialmedia.model.ApplicationUser;
+import com.socialmedia.util.EmailHandler;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -44,6 +46,9 @@ public class ApplicationUserControllerTest {
     @Autowired
     private ObjectMapper mapper;
 
+    @MockBean
+    private EmailHandler emailHandler;
+
     @Test
     public void getCurrentUserShouldBlockRequestWithoutAuthentication() throws Exception{
 
@@ -75,6 +80,7 @@ public class ApplicationUserControllerTest {
 
         String newUser = "newUser";
         String newPassword = "newPassword";
+
         UserCredentials credentials = new UserCredentials(newUser, newPassword);
 
         RequestBuilder requestBuilder = post(URL_USERS_BASIC)
