@@ -8,6 +8,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.Optional;
 
 import static com.socialmedia.security.SecurityConstants.HEADER_STRING;
 
@@ -34,7 +34,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
   }
 
   @Override
-  public Optional<String> getAccessToken(UserCredentials credentials) {
+  public String getAccessToken(UserCredentials credentials) {
 
     Authentication authResult = authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(
@@ -51,10 +51,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
           .addClaims(Collections.emptyMap())
           .signWith(SignatureAlgorithm.HS512, secret)
           .compact();
-      return Optional.of(token);
+      return token;
     }
 
-    return Optional.empty();
+    throw new BadCredentialsException("Unable to authenticate user");
   }
 
   public UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest req) {

@@ -9,7 +9,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static com.socialmedia.controller.util.TestConstants.URL_GET_ALL_POSTS;
+import static com.socialmedia.controller.util.TestConstants.URL_POSTS_BASIC;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -27,7 +27,7 @@ public class PostControllerTest {
   @WithMockUser(username = "testUser")
   public void getAllShouldReturnAllPosts() throws Exception{
 
-    mockMvc.perform(get(URL_GET_ALL_POSTS))
+    mockMvc.perform(get(URL_POSTS_BASIC))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[*].message").exists())
         .andExpect(jsonPath("$[*].date").isNotEmpty())

@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @Data
 @Entity
 @Table(name = "friend_requests")
-public class FriendRequest {
+public class FriendRequest implements DbEntity<Long> {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

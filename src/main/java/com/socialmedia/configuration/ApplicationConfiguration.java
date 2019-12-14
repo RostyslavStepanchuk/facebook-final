@@ -1,5 +1,6 @@
 package com.socialmedia.configuration;
 
+import com.socialmedia.util.SmartCopyBeanUtilsBean;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.context.annotation.Bean;
@@ -26,4 +27,10 @@ public class ApplicationConfiguration {
         .setFieldAccessLevel(PRIVATE);
     return mapper;
   }
+
+  @Bean
+  public SmartCopyBeanUtilsBean smartCopyBeanUtilsBean() {
+    return new SmartCopyBeanUtilsBean();
+  }
+
 }
