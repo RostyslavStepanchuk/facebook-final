@@ -1,11 +1,10 @@
 package com.socialmedia.controller;
 
 import com.socialmedia.dto.security.Token;
-import com.socialmedia.dto.security.UserCredentials;
 import com.socialmedia.dto.user.UserDtoIn;
 import com.socialmedia.dto.user.UserDtoOut;
+import com.socialmedia.dto.user.UserRegistrationDtoIn;
 import com.socialmedia.mapper.UserMapper;
-import com.socialmedia.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,14 +19,12 @@ import java.security.Principal;
 
 @RestController
 @RequestMapping(value = "/api/v1/users")
-public class UserController implements ResponseEntityProvider {
+public class UserController {
 
-  private AuthenticationService authenticationService;
   private UserMapper userMapper;
 
   @Autowired
-  public UserController(AuthenticationService authenticationService, UserMapper userMapper) {
-    this.authenticationService = authenticationService;
+  public UserController(UserMapper userMapper) {
     this.userMapper = userMapper;
   }
 
@@ -38,11 +35,9 @@ public class UserController implements ResponseEntityProvider {
   }
 
   @PostMapping
-  public ResponseEntity<Token> signUp(@RequestBody UserCredentials credentials) {
+  public ResponseEntity<Token> signUp(@RequestBody UserRegistrationDtoIn userForm) {
 
-    userMapper.createFromCredentials(credentials);
-    Token token = new Token(authenticationService.getAccessToken(credentials));
-    return ResponseEntity.ok(token);
+    return ResponseEntity.ok(userMapper.signUp(userForm));
   }
 
   @PutMapping

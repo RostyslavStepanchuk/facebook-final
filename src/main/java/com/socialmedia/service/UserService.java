@@ -1,5 +1,6 @@
 package com.socialmedia.service;
 
+import com.socialmedia.dto.security.Token;
 import com.socialmedia.exception.NoDataFoundException;
 import com.socialmedia.model.ApplicationUser;
 import com.socialmedia.repository.UserRepository;
@@ -17,13 +18,16 @@ import java.util.Optional;
 public final class UserService extends AbstractCrudService<ApplicationUser, String, UserRepository> {
 
   private BCryptPasswordEncoder bcryptPasswordEncoder;
+  private AuthenticationService authenticationService;
 
   @Autowired
   public UserService(UserRepository jpaRepository,
                      SmartCopyBeanUtilsBean beanUtilBean,
-                     BCryptPasswordEncoder bcryptPasswordEncoder) {
+                     BCryptPasswordEncoder bcryptPasswordEncoder,
+                     AuthenticationService authenticationService) {
     super(jpaRepository, beanUtilBean);
     this.bcryptPasswordEncoder = bcryptPasswordEncoder;
+    this.authenticationService = authenticationService;
   }
 
   @Override
@@ -52,13 +56,16 @@ public final class UserService extends AbstractCrudService<ApplicationUser, Stri
     return jpaRepository.findAll();
   }
 
-  @Override
-  public ApplicationUser create(ApplicationUser user) {
+  public Token signUp(ApplicationUser user) {
+
     if (jpaRepository.findById(user.getUsername()).isPresent()) {
       throw new BadCredentialsException(String.format("User with username %s already exists", user.getUsername()));
     }
-    user.setPassword(bcryptPasswordEncoder.encode(user.getPassword()));
-    return jpaRepository.save(user);
+
+    String password = user.getPassword();
+    user.setPassword(bcryptPasswordEncoder.encode(password));
+    jpaRepository.save(user);
+    return authenticationService.getAccessToken(user.getUsername(), password);
   }
 
   private ApplicationUser resolvedOptional(Optional<ApplicationUser> user, String username) {
