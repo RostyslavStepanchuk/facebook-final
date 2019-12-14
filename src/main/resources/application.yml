@@ -9,6 +9,18 @@ spring:
       jwt-secret:
         ${random.uuid}
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: finalfacebook00@gmail.com
+    password: cjvbyzofwjrjbzwk
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
 ---
 
 spring:
