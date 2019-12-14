@@ -8,6 +8,8 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,6 +20,8 @@ import java.io.IOException;
 import java.util.Date;
 
 @Service
+@Configuration
+@PropertySource("classpath:/amazonKeys/keys-for-s3.properties")
 public class AmazonClient {
 
     private AmazonS3 s3client;
@@ -26,9 +30,9 @@ public class AmazonClient {
     private String endpointUrl;
     @Value("${amazonProperties.bucketName}")
     private String bucketName;
-    @Value("${amazonProperties.accessKey}")
+    @Value("${secretKey.accessKey}")
     private String accessKey;
-    @Value("${amazonProperties.secretKey}")
+    @Value("${secretKey.secretKey}")
     private String secretKey;
 
     @PostConstruct
