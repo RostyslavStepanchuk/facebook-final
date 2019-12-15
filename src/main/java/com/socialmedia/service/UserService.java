@@ -4,6 +4,7 @@ import com.socialmedia.dto.security.Token;
 import com.socialmedia.exception.NoDataFoundException;
 import com.socialmedia.model.ApplicationUser;
 import com.socialmedia.repository.UserRepository;
+import com.socialmedia.util.EmailHandler;
 import com.socialmedia.util.SmartCopyBeanUtilsBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -19,15 +20,17 @@ public final class UserService extends AbstractCrudService<ApplicationUser, Stri
 
   private BCryptPasswordEncoder bcryptPasswordEncoder;
   private AuthenticationService authenticationService;
+  private EmailHandler emailHandler;
 
   @Autowired
   public UserService(UserRepository jpaRepository,
                      SmartCopyBeanUtilsBean beanUtilBean,
                      BCryptPasswordEncoder bcryptPasswordEncoder,
-                     AuthenticationService authenticationService) {
+                     AuthenticationService authenticationService, EmailHandler emailHandler) {
     super(jpaRepository, beanUtilBean);
     this.bcryptPasswordEncoder = bcryptPasswordEncoder;
     this.authenticationService = authenticationService;
+    this.emailHandler = emailHandler;
   }
 
   @Override
@@ -65,6 +68,7 @@ public final class UserService extends AbstractCrudService<ApplicationUser, Stri
     String password = user.getPassword();
     user.setPassword(bcryptPasswordEncoder.encode(password));
     jpaRepository.save(user);
+    emailHandler.sendEmailConfirmationLetter(user.getEmail(), "https://link.to.confirmation.page");
     return authenticationService.getAccessToken(user.getUsername(), password);
   }
 
