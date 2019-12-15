@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.util.List;
 
@@ -35,9 +36,9 @@ public class ApplicationUser implements DbEntity<String> {
   @JsonIgnore
   @Column(name = "password")
   private String password;
-  @MayAcceptNull
-  @Column(name = "email")
-  private String email;
+  @OneToOne(optional = false, cascade = CascadeType.ALL)
+  @JoinColumn(name = "fk_email")
+  private EmailAddress emailAddress;
   @MayAcceptNull
   @Column(name = "first_name")
   private String firstName;
@@ -55,8 +56,6 @@ public class ApplicationUser implements DbEntity<String> {
   private String forgotPasswordToken;
   @Column(name = "open_account")
   private Boolean openAccount;
-  @Column(name = "emailConfirmed")
-  private Boolean emailConfirmed;
 
   @ManyToMany(cascade = CascadeType.REMOVE)
   @JoinTable(name = "friends",

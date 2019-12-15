@@ -1,4 +1,4 @@
-// todo: change email to username
+// todo: change emailAddress to username
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { Redirect, Link } from 'react-router-dom'

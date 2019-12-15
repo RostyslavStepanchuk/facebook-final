@@ -21,16 +21,18 @@ public final class UserService extends AbstractCrudService<ApplicationUser, Stri
   private BCryptPasswordEncoder bcryptPasswordEncoder;
   private AuthenticationService authenticationService;
   private EmailHandler emailHandler;
+  private EmailsService emailsService;
 
   @Autowired
   public UserService(UserRepository jpaRepository,
                      SmartCopyBeanUtilsBean beanUtilBean,
                      BCryptPasswordEncoder bcryptPasswordEncoder,
-                     AuthenticationService authenticationService, EmailHandler emailHandler) {
+                     AuthenticationService authenticationService, EmailHandler emailHandler, EmailsService emailsService) {
     super(jpaRepository, beanUtilBean);
     this.bcryptPasswordEncoder = bcryptPasswordEncoder;
     this.authenticationService = authenticationService;
     this.emailHandler = emailHandler;
+    this.emailsService = emailsService;
   }
 
   @Override
@@ -67,8 +69,9 @@ public final class UserService extends AbstractCrudService<ApplicationUser, Stri
 
     String password = user.getPassword();
     user.setPassword(bcryptPasswordEncoder.encode(password));
+    emailsService.create(user.getEmailAddress());
     jpaRepository.save(user);
-    emailHandler.sendEmailConfirmationLetter(user.getEmail(), "https://link.to.confirmation.page");
+    emailHandler.sendEmailConfirmationLetter(user.getEmailAddress().getAddress(), "https://link.to.confirmation.page");
     return authenticationService.getAccessToken(user.getUsername(), password);
   }
 
