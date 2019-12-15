@@ -6,6 +6,7 @@ import com.socialmedia.dto.user.UserDtoOut;
 import com.socialmedia.dto.user.UserLabelDtoOut;
 import com.socialmedia.dto.user.UserRegistrationDtoIn;
 import com.socialmedia.model.ApplicationUser;
+import com.socialmedia.model.EmailAddress;
 import com.socialmedia.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,32 +16,41 @@ import org.springframework.stereotype.Component;
 public final class UserMapper extends
     AbstractControllerToCrudServiceMapper<ApplicationUser, String, UserDtoIn, UserDtoOut, UserService> {
 
+  private EmailMapper emailMapper;
+
   @Autowired
   public UserMapper(ModelMapper modelMapper,
-                    UserService crudService) {
+                    UserService crudService, EmailMapper emailMapper) {
     super(modelMapper, crudService);
+    this.emailMapper = emailMapper;
   }
 
   public Token signUp(UserRegistrationDtoIn registrationData) {
 
-    ApplicationUser entity = entityOf(registrationData);
-    return crudService.signUp(entity);
+    return crudService.signUp(entityOf(registrationData));
   }
 
   @Override
   protected UserDtoOut responseDtoOf(ApplicationUser entity) {
-
-    return modelMapper.map(entity, UserDtoOut.class);
+    UserDtoOut user = modelMapper.map(entity, UserDtoOut.class);
+    user.setEmail(entity.getEmailAddress().getAddress());
+    return user;
   }
 
   @Override
   ApplicationUser entityOf(UserDtoIn dtoIn) {
-    return modelMapper.map(dtoIn, ApplicationUser.class);
+
+    ApplicationUser user = modelMapper.map(dtoIn, ApplicationUser.class);
+    user.setEmailAddress(emailMapper.entityOf(dtoIn.getEmail()));
+    return user;
   }
 
   private ApplicationUser entityOf(UserRegistrationDtoIn userData) {
 
-    return modelMapper.map(userData, ApplicationUser.class);
+    ApplicationUser user = modelMapper.map(userData, ApplicationUser.class);
+    EmailAddress emailAddress = emailMapper.entityOf(userData.getEmail());
+    user.setEmailAddress(emailAddress);
+    return user;
   }
 
   private UserLabelDtoOut userLabelDtoOf(ApplicationUser entity) {

@@ -65,7 +65,7 @@ public class ApplicationUserControllerTest {
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.username").value(USER_USERNAME))
             .andExpect(jsonPath("$.birthDate").value(USER_BIRTH_DATE))
-            .andExpect(jsonPath("$.email").value(USER_EMAIL))
+            .andExpect(jsonPath("$.emailAddress").value(USER_EMAIL))
             .andExpect(jsonPath("$.firstName").value(USER_FIRST_NAME))
             .andExpect(jsonPath("$.lastName").value(USER_LAST_NAME))
             .andExpect(jsonPath("$.avatar").value(USER_AVATAR_URL))
