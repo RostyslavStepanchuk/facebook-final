@@ -21,7 +21,7 @@ public class FriendRequestMapper {
     return modelMapper.map(entity, FriendRequestDtoOut.class);
   }
 
-  public FriendRequest toEntity(FriendRequestDtoIn friendRequestDtoIn){
+  public FriendRequest toEntity(FriendRequestDtoIn friendRequestDtoIn) {
     return modelMapper.map(friendRequestDtoIn, FriendRequest.class);
   }
 }

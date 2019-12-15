@@ -21,7 +21,7 @@ public class ChatMessageMapper {
     return modelMapper.map(entity, ChatMessageDtoOut.class);
   }
 
-  public ChatMessage toEntity(ChatMessageDtoIn chatMessageDtoIn){
+  public ChatMessage toEntity(ChatMessageDtoIn chatMessageDtoIn) {
     return modelMapper.map(chatMessageDtoIn, ChatMessage.class);
   }
 }
