@@ -11,8 +11,12 @@ public class EmailHandler {
   private static final String SIGN_UP_LETTER_SUBJECT = "New account registered on Facebook final";
   private static final String SIGN_UP_LETTER_BODY = "Please follow this link to finish your registration %s";
 
+  private JavaMailSender emailSender;
+
   @Autowired
-  public JavaMailSender emailSender;
+  public EmailHandler(JavaMailSender emailSender) {
+    this.emailSender = emailSender;
+  }
 
   public void sendEmailConfirmationLetter(
       String to, String url) {
