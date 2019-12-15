@@ -21,7 +21,7 @@ public class PostMapper {
     return modelMapper.map(entity, PostDtoOut.class);
   }
 
-  public Post toEntity(PostDtoIn postDtoIn){
+  public Post toEntity(PostDtoIn postDtoIn) {
     return modelMapper.map(postDtoIn, Post.class);
   }
 }

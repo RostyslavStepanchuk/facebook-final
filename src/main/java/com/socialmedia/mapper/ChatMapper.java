@@ -21,7 +21,7 @@ public class ChatMapper {
     return modelMapper.map(chat, ChatDtoOut.class);
   }
 
-  public Chat toEntity(ChatDtoIn chatDtoIn){
+  public Chat toEntity(ChatDtoIn chatDtoIn) {
     return modelMapper.map(chatDtoIn, Chat.class);
   }
 

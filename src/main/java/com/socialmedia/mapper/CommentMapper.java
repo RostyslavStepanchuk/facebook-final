@@ -21,7 +21,7 @@ public class CommentMapper {
     return modelMapper.map(entity, CommentDtoOut.class);
   }
 
-  public Comment toEntity(CommentDtoIn commentDtoIn){
+  public Comment toEntity(CommentDtoIn commentDtoIn) {
     return modelMapper.map(commentDtoIn, Comment.class);
   }
 }
