@@ -1,5 +1,6 @@
 package com.socialmedia.controller;
 
+import com.socialmedia.dto.email.EmailAddressDtoIn;
 import com.socialmedia.dto.security.Token;
 import com.socialmedia.dto.user.UserDtoIn;
 import com.socialmedia.dto.user.UserDtoOut;
@@ -38,6 +39,11 @@ public class UserController {
   public ResponseEntity<Token> signUp(@RequestBody UserRegistrationDtoIn userForm) {
 
     return ResponseEntity.ok(userMapper.signUp(userForm));
+  }
+
+  @PostMapping("/confirm_email")
+  ResponseEntity<Boolean> confirmEmail(@RequestBody EmailAddressDtoIn emailData) {
+    return ResponseEntity.ok(userMapper.confirmEmail(emailData));
   }
 
   @PutMapping

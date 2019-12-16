@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "email_addresses")
 @NoArgsConstructor
-public class EmailAddress implements DbEntity<String>{
+public class EmailAddress implements DbEntity<String> {
 
   @Id
   @Column(name = "address")
