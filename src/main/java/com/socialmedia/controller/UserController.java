@@ -41,7 +41,7 @@ public class UserController {
     return ResponseEntity.ok(userMapper.signUp(userForm));
   }
 
-  @PostMapping("/confirm_email")
+  @PostMapping("/email/confirm")
   ResponseEntity<Boolean> confirmEmail(@RequestBody EmailAddressDtoIn emailData) {
     return ResponseEntity.ok(userMapper.confirmEmail(emailData));
   }
