@@ -3,6 +3,7 @@ package com.socialmedia.service;
 import com.socialmedia.dto.security.Token;
 import com.socialmedia.exception.NoDataFoundException;
 import com.socialmedia.model.ApplicationUser;
+import com.socialmedia.model.EmailAddress;
 import com.socialmedia.repository.UserRepository;
 import com.socialmedia.util.EmailHandler;
 import com.socialmedia.util.SmartCopyBeanUtilsBean;
@@ -69,9 +70,9 @@ public final class UserService extends AbstractCrudService<ApplicationUser, Stri
 
     String password = user.getPassword();
     user.setPassword(bcryptPasswordEncoder.encode(password));
-    emailsService.create(user.getEmailAddress());
+    EmailAddress emailAddress = emailsService.create(user.getEmailAddress());
     jpaRepository.save(user);
-    emailHandler.sendEmailConfirmationLetter(user.getEmailAddress().getAddress(), "https://link.to.confirmation.page");
+    emailHandler.sendEmailConfirmationLetter(user.getEmailAddress().getAddress(), emailAddress.getConfirmationId());
     return authenticationService.getAccessToken(user.getUsername(), password);
   }
 
@@ -80,4 +81,13 @@ public final class UserService extends AbstractCrudService<ApplicationUser, Stri
         String.format("%s with id %s wasn't found", user.getClass().getSimpleName(), username)));
   }
 
+  public Boolean confirmEmail(String email, String confirmationId) {
+    EmailAddress emailAddress = emailsService.getById(email);
+    boolean isConfirmed = emailAddress.getConfirmationId().equals(confirmationId);
+    if (isConfirmed) {
+      emailAddress.setIsConfirmed(true);
+      emailsService.update(email, emailAddress);
+    }
+    return isConfirmed;
+  }
 }

@@ -1,5 +1,6 @@
 package com.socialmedia.mapper;
 
+import com.socialmedia.dto.email.EmailAddressDtoIn;
 import com.socialmedia.dto.security.Token;
 import com.socialmedia.dto.user.UserDtoIn;
 import com.socialmedia.dto.user.UserDtoOut;
@@ -57,7 +58,10 @@ public final class UserMapper extends
 
     return modelMapper.map(entity, UserLabelDtoOut.class);
   }
-  
+
+  public Boolean confirmEmail(EmailAddressDtoIn emailData) {
+    return crudService.confirmEmail(emailData.getEmail().toLowerCase(), emailData.getConfirmationId());
+  }
 }
 
 

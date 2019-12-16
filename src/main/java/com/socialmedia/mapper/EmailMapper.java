@@ -12,7 +12,7 @@ public class EmailMapper {
 
   public EmailAddress entityOf(String address) {
     EmailAddress emailAddress = new EmailAddress();
-    emailAddress.setAddress(address);
+    emailAddress.setAddress(address.toLowerCase());
     return emailAddress;
   }
 
