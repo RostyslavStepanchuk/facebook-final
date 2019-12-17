@@ -29,7 +29,7 @@ const ResetPassword = ({ isAuthenticated, resetPassword, resetEmailSend }) => {
 
     if (!email.match(/^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/)) {
       isError = true
-      emailError = 'Provide valid email'
+      emailError = 'Provide valid emailAddress'
     }
     setFormData({ ...formData, emailError })
     console.log(emailError)

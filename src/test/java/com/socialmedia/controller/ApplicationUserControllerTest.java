@@ -2,7 +2,7 @@ package com.socialmedia.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.JsonPath;
-import com.socialmedia.dto.security.UserCredentials;
+import com.socialmedia.dto.user.UserRegistrationDtoIn;
 import com.socialmedia.model.ApplicationUser;
 import com.socialmedia.util.EmailHandler;
 import org.junit.Test;
@@ -80,11 +80,17 @@ public class ApplicationUserControllerTest {
 
         String newUser = "newUser";
         String newPassword = "newPassword";
+        String newEmail = "newEmail@test.com";
 
-        UserCredentials credentials = new UserCredentials(newUser, newPassword);
+        UserRegistrationDtoIn userRegistrationDtoIn = new UserRegistrationDtoIn();
+
+        userRegistrationDtoIn.setUsername(newUser);
+        userRegistrationDtoIn.setPassword(newPassword);
+        userRegistrationDtoIn.setEmail(newEmail);
+
 
         RequestBuilder requestBuilder = post(URL_USERS_BASIC)
-            .content(mapper.writeValueAsString(credentials))
+            .content(mapper.writeValueAsString(userRegistrationDtoIn))
             .contentType(CONTENT_TYPE_JSON);
 
         String responseContentAsString = mockMvc.perform(requestBuilder)
@@ -99,8 +105,8 @@ public class ApplicationUserControllerTest {
             .header("Authorization", "Bearer " + token);
 
         ApplicationUser applicationUser = ApplicationUser.builder()
-            .username(credentials.getUsername())
-            .password(credentials.getPassword())
+            .username(userRegistrationDtoIn.getUsername())
+            .password(userRegistrationDtoIn.getPassword())
             .incomingFriendRequests(Collections.emptyList())
             .build();
 
