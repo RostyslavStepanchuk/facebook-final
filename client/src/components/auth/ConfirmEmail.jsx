@@ -1,0 +1,19 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+
+const ConfirmEmail = props => {
+    console.log(props)
+    return (
+        <div>
+            Your email is confirmed
+            <p>{props.match.params.token}</p>
+            <p>{props.match.params.email}</p>
+        </div>
+    );
+};
+
+ConfirmEmail.propTypes = {
+
+};
+
+export default ConfirmEmail;

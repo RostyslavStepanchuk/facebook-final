@@ -1,7 +1,12 @@
+/* emails */
+INSERT INTO email_addresses (address, confirmation_uuid, is_confirmed) values ('test@test.com', 123456789, true);
+INSERT INTO email_addresses (address, confirmation_uuid, is_confirmed) values ('emailAddress@test.com', 987654321, true);
+INSERT INTO email_addresses (address, confirmation_uuid, is_confirmed) values ('mailbox@test.com', 019283764, true);
+
 /* users */
-INSERT INTO users (username, password, email, first_name, last_name, birth_date, avatar, refresh_token, forgot_password_tkn, open_account) values ('testUser', '$2a$10$SnXMYc5qb13dm8E2lza71.CtZcZQuh18vF3i6uZqeODN0eq/XjFX.', 'test@test.com', 'Tyler', 'Durden', 659998800000, 'http://avataurl.com', '034daREFRESHTOKENf341fd', '41fdFORGOTPASSWORDTOKEN093wgs', true); /* password passw1234 */
-INSERT INTO users (username, password, email, first_name, last_name, birth_date, avatar, refresh_token, forgot_password_tkn, open_account) values ('imaginaryUser', '$2a$10$X1s6c7Ypt/tjpcIdoDm1zuNbnwV.72ugUpWq.wpPuVd3HR5iYI6z2', 'email@test.com', 'Tony', 'Stark', 659996700000, 'http://imaginary.avatar.com', 'fadseREFRESHTOKENf98fds', '89dseFORGOTPASSWORDTOKEN425dw', false); /* password psw123321 */
-INSERT INTO users (username, password, email, first_name, last_name, birth_date, avatar, refresh_token, forgot_password_tkn, open_account) values ('nonExistingUser', '$2a$10$YLk8kRbiYhDvOWImYSKHSuRNB0j6QhcuHwEZD8lWehcuCK/mVoJ6i', 'mailbox@test.com', 'Bill', 'Clinton', 659993200000, 'http://non.existing.avatar.com', 'trqwREFRESHTOKENf31de', '21fdv2FORGOTPASSWORDTOKEN84gre', true); /* password 123456 */
+INSERT INTO users (username, password, fk_email, first_name, last_name, birth_date, avatar, refresh_token, forgot_password_tkn, open_account) values ('testUser', '$2a$10$SnXMYc5qb13dm8E2lza71.CtZcZQuh18vF3i6uZqeODN0eq/XjFX.', 'test@test.com', 'Tyler', 'Durden', 659998800000, 'http://avataurl.com', '034daREFRESHTOKENf341fd', '41fdFORGOTPASSWORDTOKEN093wgs', true); /* password passw1234 */
+INSERT INTO users (username, password, fk_email, first_name, last_name, birth_date, avatar, refresh_token, forgot_password_tkn, open_account) values ('imaginaryUser', '$2a$10$X1s6c7Ypt/tjpcIdoDm1zuNbnwV.72ugUpWq.wpPuVd3HR5iYI6z2', 'emailAddress@test.com', 'Tony', 'Stark', 659996700000, 'http://imaginary.avatar.com', 'fadseREFRESHTOKENf98fds', '89dseFORGOTPASSWORDTOKEN425dw', false); /* password psw123321 */
+INSERT INTO users (username, password, fk_email, first_name, last_name, birth_date, avatar, refresh_token, forgot_password_tkn, open_account) values ('nonExistingUser', '$2a$10$YLk8kRbiYhDvOWImYSKHSuRNB0j6QhcuHwEZD8lWehcuCK/mVoJ6i', 'mailbox@test.com', 'Bill', 'Clinton', 659993200000, 'http://non.existing.avatar.com', 'trqwREFRESHTOKENf31de', '21fdv2FORGOTPASSWORDTOKEN84gre', true); /* password 123456 */
 
 /* friends */
 INSERT INTO friends (fk_username, fk_friend_username) values ('testUser', 'imaginaryUser');
