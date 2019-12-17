@@ -1,9 +1,11 @@
 package com.socialmedia.dto.user;
 
 import com.socialmedia.dto.friend.request.FriendRequestDtoIn;
+import lombok.Data;
 
 import java.util.List;
 
+@Data
 public class UserDtoIn {
   private String username;
   private String email;
