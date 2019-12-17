@@ -2,13 +2,15 @@ package com.socialmedia.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.JsonPath;
-import com.socialmedia.dto.security.UserCredentials;
+import com.socialmedia.dto.user.UserRegistrationDtoIn;
 import com.socialmedia.model.ApplicationUser;
+import com.socialmedia.util.EmailHandler;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -18,7 +20,7 @@ import java.util.Collections;
 
 import static com.socialmedia.controller.util.TestConstants.CONTENT_TYPE_JSON;
 import static com.socialmedia.controller.util.TestConstants.URL_GET_CURRENT_USER;
-import static com.socialmedia.controller.util.TestConstants.URL_SIGN_UP;
+import static com.socialmedia.controller.util.TestConstants.URL_USERS_BASIC;
 import static com.socialmedia.controller.util.TestConstants.USER_AVATAR_URL;
 import static com.socialmedia.controller.util.TestConstants.USER_BIRTH_DATE;
 import static com.socialmedia.controller.util.TestConstants.USER_EMAIL;
@@ -44,10 +46,13 @@ public class ApplicationUserControllerTest {
     @Autowired
     private ObjectMapper mapper;
 
+    @MockBean
+    private EmailHandler emailHandler;
+
     @Test
     public void getCurrentUserShouldBlockRequestWithoutAuthentication() throws Exception{
 
-        mockMvc.perform(get(URL_GET_CURRENT_USER))
+        mockMvc.perform(get(URL_USERS_BASIC))
             .andExpect(status().isForbidden());
     }
 
@@ -75,10 +80,17 @@ public class ApplicationUserControllerTest {
 
         String newUser = "newUser";
         String newPassword = "newPassword";
-        UserCredentials credentials = new UserCredentials(newUser, newPassword);
+        String newEmail = "newEmail@test.com";
 
-        RequestBuilder requestBuilder = post(URL_SIGN_UP)
-            .content(mapper.writeValueAsString(credentials))
+        UserRegistrationDtoIn userRegistrationDtoIn = new UserRegistrationDtoIn();
+
+        userRegistrationDtoIn.setUsername(newUser);
+        userRegistrationDtoIn.setPassword(newPassword);
+        userRegistrationDtoIn.setEmail(newEmail);
+
+
+        RequestBuilder requestBuilder = post(URL_USERS_BASIC)
+            .content(mapper.writeValueAsString(userRegistrationDtoIn))
             .contentType(CONTENT_TYPE_JSON);
 
         String responseContentAsString = mockMvc.perform(requestBuilder)
@@ -93,8 +105,8 @@ public class ApplicationUserControllerTest {
             .header("Authorization", "Bearer " + token);
 
         ApplicationUser applicationUser = ApplicationUser.builder()
-            .username(credentials.getUsername())
-            .password(credentials.getPassword())
+            .username(userRegistrationDtoIn.getUsername())
+            .password(userRegistrationDtoIn.getPassword())
             .incomingFriendRequests(Collections.emptyList())
             .build();
 

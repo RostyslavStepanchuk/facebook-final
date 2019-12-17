@@ -9,7 +9,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static com.socialmedia.controller.util.TestConstants.URL_GET_ALL_CHATS;
+import static com.socialmedia.controller.util.TestConstants.URL_CHATS_BASIC;
 import static com.socialmedia.controller.util.TestConstants.USER_USERNAME;
 import static org.hamcrest.collection.IsIterableWithSize.iterableWithSize;
 import static org.hamcrest.number.OrderingComparison.greaterThan;
@@ -28,7 +28,7 @@ public class ChatControllerTest {
   @Test
   @WithMockUser(username = USER_USERNAME)
   public void getAllShouldReturnAllChats() throws Exception{
-    mockMvc.perform(get(URL_GET_ALL_CHATS))
+    mockMvc.perform(get(URL_CHATS_BASIC))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[*].name").isNotEmpty())
         .andExpect(jsonPath("$[*].participants[*]", iterableWithSize(greaterThan(1))))
