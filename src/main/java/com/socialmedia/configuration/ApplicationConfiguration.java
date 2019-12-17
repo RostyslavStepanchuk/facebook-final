@@ -4,6 +4,7 @@ import com.amazonaws.auth.PropertiesFileCredentialsProvider;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.socialmedia.util.SmartCopyBeanUtilsBean;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Value;
@@ -43,4 +44,10 @@ public class ApplicationConfiguration {
         .setFieldAccessLevel(PRIVATE);
     return mapper;
   }
+
+  @Bean
+  public SmartCopyBeanUtilsBean smartCopyBeanUtilsBean() {
+    return new SmartCopyBeanUtilsBean();
+  }
+
 }

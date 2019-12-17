@@ -15,6 +15,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import static com.socialmedia.security.SecurityConstants.CONFIRM_EMAIL_URL;
 import static com.socialmedia.security.SecurityConstants.LOGIN_URL;
 import static com.socialmedia.security.SecurityConstants.SIGN_UP_URL;
 
@@ -39,6 +40,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     http.cors().and().csrf().disable().authorizeRequests()
         .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
         .antMatchers(HttpMethod.POST, LOGIN_URL).permitAll()
+        .antMatchers(HttpMethod.POST, CONFIRM_EMAIL_URL).permitAll()
         .antMatchers(HttpMethod.GET, "/**/*swagger*/**", "/v2/api-docs").permitAll()
         .anyRequest().authenticated()
         .and()

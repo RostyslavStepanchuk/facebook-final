@@ -1,56 +1,62 @@
 package com.socialmedia.controller;
 
+import com.socialmedia.dto.email.EmailAddressDtoIn;
 import com.socialmedia.dto.security.Token;
-import com.socialmedia.dto.security.UserCredentials;
+import com.socialmedia.dto.user.UserDtoIn;
 import com.socialmedia.dto.user.UserDtoOut;
+import com.socialmedia.dto.user.UserRegistrationDtoIn;
 import com.socialmedia.mapper.UserMapper;
-import com.socialmedia.model.ApplicationUser;
-import com.socialmedia.service.AuthenticationService;
-import com.socialmedia.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api/v1/users")
-public class UserController implements ResponseEntityProvider {
+public class UserController {
 
-  private UserService userService;
-  private AuthenticationService authenticationService;
   private UserMapper userMapper;
 
-
   @Autowired
-  public UserController(UserService userService, AuthenticationService authenticationService, UserMapper userMapper) {
-
-    this.userService = userService;
-    this.authenticationService = authenticationService;
+  public UserController(UserMapper userMapper) {
     this.userMapper = userMapper;
   }
 
   @GetMapping("/current")
   public ResponseEntity<UserDtoOut> getCurrentUser(Principal principal) {
 
-    Optional<ApplicationUser> user = userService.getUser(principal.getName());
-    return provideResponseForOptional(user.map(userMapper::toFullDto));
+    return ResponseEntity.ok(userMapper.getById(principal.getName()));
   }
 
-  @PostMapping("/sign-up")
-  public ResponseEntity<Token> signUp(@RequestBody UserCredentials user) {
+  @PostMapping
+  public ResponseEntity<Token> signUp(@RequestBody UserRegistrationDtoIn userForm) {
 
-    userService.addUser(userMapper.toEntity(user));
+    return ResponseEntity.ok(userMapper.signUp(userForm));
+  }
 
-    Token token = authenticationService.getAccessToken(user)
-        .map(Token::new)
-        .orElseThrow(() -> new RuntimeException("Unable to get access token for newly created user"));
-    return ResponseEntity.ok(token);
+  @PostMapping("/email/confirm")
+  ResponseEntity<Boolean> confirmEmail(@RequestBody EmailAddressDtoIn emailData) {
+    return ResponseEntity.ok(userMapper.confirmEmail(emailData));
+  }
+
+  @PutMapping
+  public ResponseEntity<UserDtoOut> updateUser(Principal principal,
+                                               @RequestBody UserDtoIn user) {
+
+    return ResponseEntity.ok(userMapper.update(principal.getName(), user));
+  }
+
+  @DeleteMapping
+  public ResponseEntity<UserDtoOut> deleteUser(Principal principal) {
+
+    return ResponseEntity.ok(userMapper.delete(principal.getName()));
   }
 
 }
