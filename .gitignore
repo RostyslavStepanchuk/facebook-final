@@ -3,7 +3,7 @@
 *.iml
 
 #----Keys for Amazon S3----
-**/**/amazonKeys/
+src/main/resources/awsKeys/
 
 #----Maven----
 target/
