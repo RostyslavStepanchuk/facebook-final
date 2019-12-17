@@ -40,12 +40,6 @@ public class AmazonService {
   //@Value("${secretKey.secretKey}")
   //private String secretKey;
 
-  @Bean
-  public AmazonS3 amazonS3Client() {
-    AWSCredentials credentials = new PropertiesFileCredentialsProvider("src/main/resources/awsKeys/keys-for-s3.properties")
-            .getCredentials();
-    return new AmazonS3Client(credentials);
-  }
 
   //@PostConstruct
   //private void initializeAmazon() {
