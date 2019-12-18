@@ -9,11 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public final class PostMapper extends AbstractControllerToCrudServiceMapper<Post, Long, PostDtoIn, PostDtoOut, PostService> {
+public class PostMapper extends AbstractControllerToCrudServiceMapper<Post,Long, PostDtoIn, PostDtoOut, PostService> {
 
   @Autowired
-  public PostMapper(ModelMapper modelMapper, PostService crudService) {
-    super(modelMapper, crudService);
+  public PostMapper(ModelMapper modelMapper, PostService postService) {
+    super(modelMapper, postService);
   }
 
   @Override
@@ -25,5 +25,4 @@ public final class PostMapper extends AbstractControllerToCrudServiceMapper<Post
   Post entityOf(PostDtoIn dtoIn) {
     return modelMapper.map(dtoIn, Post.class);
   }
-
 }
