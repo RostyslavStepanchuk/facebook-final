@@ -24,6 +24,7 @@ addons:
 
 before_script:
   - npm install --prefix client/
+  - node -v
 
 script:
   - mvn clean test jacoco:report coveralls:report
