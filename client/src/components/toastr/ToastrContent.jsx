@@ -83,3 +83,8 @@ export default function ToastrContent (props) {
     </div>
   )
 }
+
+ToastrContent.propTypes = {
+  message: PropTypes.string,
+  variant: PropTypes.string
+}

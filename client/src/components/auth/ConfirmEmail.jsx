@@ -13,7 +13,7 @@ const ConfirmEmail = props => {
 };
 
 ConfirmEmail.propTypes = {
-
+  match: PropTypes.object
 };
 
 export default ConfirmEmail;
