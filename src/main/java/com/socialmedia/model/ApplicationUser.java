@@ -36,9 +36,8 @@ public class ApplicationUser implements DbEntity<String> {
   @JsonIgnore
   @Column(name = "password")
   private String password;
-  @OneToOne(optional = false, cascade = CascadeType.ALL)
-  @JoinColumn(name = "fk_email")
-  private EmailAddress emailAddress;
+  @Column(name = "email")
+  private String email;
   @MayAcceptNull
   @Column(name = "first_name")
   private String firstName;
@@ -50,12 +49,13 @@ public class ApplicationUser implements DbEntity<String> {
   private Long birthDate;
   @Column(name = "avatar")
   private String avatar;
-  @Column(name = "refresh_token")
-  private String refreshToken;
-  @Column(name = "forgot_password_tkn")
-  private String forgotPasswordToken;
   @Column(name = "open_account")
   private Boolean openAccount;
+
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "fk_tokens_data_id")
+  @JsonBackReference
+  private TokensData tokensData;
 
   @ManyToMany(cascade = CascadeType.REMOVE)
   @JoinTable(name = "friends",

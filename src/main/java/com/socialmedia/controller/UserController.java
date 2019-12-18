@@ -1,6 +1,5 @@
 package com.socialmedia.controller;
 
-import com.socialmedia.dto.email.EmailAddressDtoIn;
 import com.socialmedia.dto.security.Token;
 import com.socialmedia.dto.user.UserDtoIn;
 import com.socialmedia.dto.user.UserDtoOut;
@@ -10,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,9 +41,9 @@ public class UserController {
     return ResponseEntity.ok(userMapper.signUp(userForm));
   }
 
-  @PostMapping("/email/confirm")
-  ResponseEntity<Boolean> confirmEmail(@RequestBody EmailAddressDtoIn emailData) {
-    return ResponseEntity.ok(userMapper.confirmEmail(emailData));
+  @GetMapping("/email/confirm/{emailConfirmationId}")
+  ResponseEntity<Boolean> confirmEmail(@PathVariable String emailConfirmationId) {
+    return ResponseEntity.ok(userMapper.confirmEmail(emailConfirmationId));
   }
 
   @PutMapping
