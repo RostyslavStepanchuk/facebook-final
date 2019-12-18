@@ -8,12 +8,11 @@ jdk:
   - oraclejdk8
 
 node_js:
-  - "lts/*"
+  - 10
 
 cache:
   directories:
     - $HOME/.m2
-    - ./client/node_modules/
     - $HOME/.sonar/cache
 
 addons:
@@ -22,9 +21,12 @@ addons:
     token:
       secure: ${SONAR_TOKEN}
 
+before_install:
+  - nvm install 10
 
 before_script:
   - npm install --prefix client/
+  - node -v
 
 script:
   - mvn clean test jacoco:report coveralls:report

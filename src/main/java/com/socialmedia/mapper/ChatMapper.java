@@ -26,8 +26,12 @@ public final class ChatMapper extends AbstractControllerToCrudServiceMapper<Chat
     return modelMapper.map(dtoIn, Chat.class);
   }
 
-  public ChatDtoOut toDto(Chat entity) {
-    return modelMapper.map(entity, ChatDtoOut.class);
+  public ChatDtoOut toDto(Chat chat) {
+    return modelMapper.map(chat, ChatDtoOut.class);
+  }
+
+  public Chat toEntity(ChatDtoIn chatDtoIn) {
+    return modelMapper.map(chatDtoIn, Chat.class);
   }
 
 }
