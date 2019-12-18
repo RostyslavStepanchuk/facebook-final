@@ -21,6 +21,8 @@ addons:
     token:
       secure: ${SONAR_TOKEN}
 
+before_install:
+  - nvm install 10
 
 before_script:
   - npm install --prefix client/
