@@ -13,7 +13,6 @@ node_js:
 cache:
   directories:
     - $HOME/.m2
-    - ./client/node_modules/
     - $HOME/.sonar/cache
 
 addons:
