@@ -85,7 +85,8 @@ public final class UserService extends AbstractCrudService<ApplicationUser, Stri
   }
 
   public Boolean confirmEmail(String confirmationId) {
-    ApplicationUser user = jpaRepository.getByEmailConfirmationId(confirmationId).get();
+    ApplicationUser user = jpaRepository.getByEmailConfirmationId(confirmationId)
+        .orElseThrow(()-> new NoDataFoundException("Invalid email confirmation id"));
     user.getTokensData().setEmailIsConfirmed(true);
     jpaRepository.save(user);
     return true;
