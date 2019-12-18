@@ -66,7 +66,7 @@ const ResetPassword = ({ isAuthenticated, resetPassword, resetEmailSend }) => {
         {!resetEmailSend ? (
           <Fragment>
             <Typography component='h2' variant='body2'>
-              Enter your user account&apos;s verified email and we will send you a password reset link.
+              Enter your user account verified email and we will send you a password reset link.
             </Typography>
             <form className={classes.form} onSubmit={e => onSubmit(e)}>
               <TextField
@@ -92,7 +92,7 @@ const ResetPassword = ({ isAuthenticated, resetPassword, resetEmailSend }) => {
         ) : (
           <Fragment>
             <Typography component='h2' variant='body2'  className={classes.center}>
-              Check your email for a link to reset your password. If it doesn’t appear within a few minutes, check your spam folder.
+              Check your email for a link to reset your password. If it does not appear within a few minutes, check your spam folder.
             </Typography>
             <Button fullWidth variant='contained' color='default' className={classes.submit}>
               <Link to='/login' className={classes.link}>
