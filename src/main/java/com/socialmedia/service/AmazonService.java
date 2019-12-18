@@ -4,6 +4,7 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -17,10 +18,15 @@ import java.util.Date;
 
 @Service
 @Configuration
+@Slf4j
 public class AmazonService {
 
-  @Autowired
   private AmazonS3 s3client;
+
+  @Autowired
+  public AmazonService(AmazonS3 s3client) {
+    this.s3client = s3client;
+  }
 
   @Value("${amazonProperties.endpointUrl}")
   private String endpointUrl;
@@ -28,17 +34,15 @@ public class AmazonService {
   private String bucketName;
 
   public String uploadFile(MultipartFile multipartFile) {
-    String fileUrl = "";
     try {
       File file = convertMultiPartToFile(multipartFile);
       String fileName = generateFileName(multipartFile);
-      fileUrl = endpointUrl + "/" + bucketName + "/" + fileName;
       uploadFileToS3bucket(fileName, file);
-      file.delete();
-    } catch (Exception e) {
-      e.printStackTrace();
+      return endpointUrl + "/" + bucketName + "/" + fileName;
+    } catch (Exception exc) {
+      log.error(exc.getMessage(), exc);
+      throw new RuntimeException(exc);
     }
-    return fileUrl;
   }
 
   private File convertMultiPartToFile(MultipartFile file) throws IOException {
@@ -55,7 +59,7 @@ public class AmazonService {
 
   private void uploadFileToS3bucket(String fileName, File file) {
     s3client.putObject(new PutObjectRequest(bucketName, fileName, file)
-            .withCannedAcl(CannedAccessControlList.PublicRead));
+        .withCannedAcl(CannedAccessControlList.PublicRead));
   }
 
   public boolean deleteFileFromS3Bucket(String fileName) {
