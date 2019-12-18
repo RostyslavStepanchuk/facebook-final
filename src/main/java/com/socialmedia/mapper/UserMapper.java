@@ -30,8 +30,6 @@ public final class UserMapper extends
   @Override
   protected UserDtoOut responseDtoOf(ApplicationUser entity) {
     UserDtoOut user = modelMapper.map(entity, UserDtoOut.class);
-    TokensData tokensData = entity.getTokensData();
-    Boolean emailIsConfirmed = tokensData.getEmailIsConfirmed();
     user.setEmailIsConfirmed(entity.getTokensData().getEmailIsConfirmed());
     return user;
   }
