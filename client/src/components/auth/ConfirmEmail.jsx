@@ -7,7 +7,6 @@ const ConfirmEmail = props => {
         <div>
             Your email is confirmed
             <p>{props.match.params.token}</p>
-            <p>{props.match.params.email}</p>
         </div>
     );
 };
