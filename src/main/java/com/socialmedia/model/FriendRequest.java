@@ -30,6 +30,6 @@ public class FriendRequest implements DbEntity<Long> {
 
   @ManyToOne
   @JoinColumn(name = "fk_responder_username")
-  @JsonBackReference //TODO remove back reference, replace by valid DTO
+  @JsonBackReference
   private ApplicationUser responder;
 }

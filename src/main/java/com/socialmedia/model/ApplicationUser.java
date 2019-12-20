@@ -57,22 +57,22 @@ public class ApplicationUser implements DbEntity<String> {
   @JsonBackReference
   private TokensData tokensData;
 
-  @ManyToMany(cascade = CascadeType.REMOVE)
+  @ManyToMany
   @JoinTable(name = "friends",
       joinColumns = @JoinColumn(name = "fk_username"),
       inverseJoinColumns = @JoinColumn(name = "fk_friend_username"))
   @ToString.Exclude
   private List<ApplicationUser> friends;
 
-  @OneToMany(mappedBy = "responder", cascade = CascadeType.REMOVE)
+  @OneToMany(mappedBy = "responder")
   @ToString.Exclude
   private List<FriendRequest> incomingFriendRequests;
 
-  @ManyToMany(cascade = CascadeType.REMOVE, mappedBy = "participants")
+  @ManyToMany(mappedBy = "participants")
   @JsonBackReference
   private List<Chat> chats;
 
-  @ManyToMany(mappedBy = "likes", cascade = CascadeType.REMOVE)
+  @ManyToMany(mappedBy = "likes")
   @JsonBackReference
   private List<Post> likedPosts;
 
