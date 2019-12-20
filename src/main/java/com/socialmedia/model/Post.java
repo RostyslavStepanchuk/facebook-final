@@ -38,7 +38,7 @@ public class Post implements DbEntity<Long> {
   @JoinColumn(name = "fk_author_username")
   private ApplicationUser author;
 
-  @OneToMany(mappedBy = "id")
+  @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
   private List<Comment> comments;
 
   @ManyToMany(cascade = CascadeType.ALL)

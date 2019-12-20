@@ -8,8 +8,6 @@ INSERT INTO users (username, password, email, first_name, last_name, birth_date,
 INSERT INTO users (username, password, email, first_name, last_name, birth_date, avatar, open_account, fk_tokens_data_id) values ('imaginaryUser', '$2a$10$X1s6c7Ypt/tjpcIdoDm1zuNbnwV.72ugUpWq.wpPuVd3HR5iYI6z2', 'emailAddress@test.com', 'Tony', 'Stark', 659996700000, 'http://imaginary.avatar.com', false, 2); /* password psw123321 */
 INSERT INTO users (username, password, email, first_name, last_name, birth_date, avatar, open_account, fk_tokens_data_id) values ('nonExistingUser', '$2a$10$YLk8kRbiYhDvOWImYSKHSuRNB0j6QhcuHwEZD8lWehcuCK/mVoJ6i', 'mailbox@test.com', 'Bill', 'Clinton', 659993200000, 'http://non.existing.avatar.com', true, 3); /* password 123456 */
 
-
-
 /* friends */
 INSERT INTO friends (fk_username, fk_friend_username) values ('testUser', 'imaginaryUser');
 INSERT INTO friends (fk_username, fk_friend_username) values ('imaginaryUser', 'testUser');
