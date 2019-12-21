@@ -73,12 +73,10 @@ const Register = ({ isAuthenticated, register }) => {
   }
 
   const onSubmit = async e => {
-    console.log('submitting')
     e.preventDefault()
     const err = validate()
 
     if (!err) {
-      console.log('username, password', username, password)
       register({ email, username, password, firstName, lastName })
     }
   }
