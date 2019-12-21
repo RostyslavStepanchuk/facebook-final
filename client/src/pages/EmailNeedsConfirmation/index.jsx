@@ -1,17 +1,20 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { Link, useHistory } from 'react-router-dom'
+
 import {CssBaseline, Grid, Paper, Typography} from '@material-ui/core'
 import HighlightOffOutlinedIcon from '@material-ui/icons/HighlightOffOutlined';
 
-import {Link} from 'react-router-dom'
-
 import useStyles from './EmailNeedsConfirmationStyles'
 
-const EmailNeedsConfirmation = props => {
+const EmailNeedsConfirmation = () => {
 
     const classes = useStyles();
-    console.log(props);
-    const linkUrl = props.continueUrl || "/";
+    const history = useHistory();
+
+    const goBack = e => {
+        e.preventDefault();
+        history.goBack();
+    }
 
     return (
         <>
@@ -22,7 +25,12 @@ const EmailNeedsConfirmation = props => {
                         <Typography variant='h5' color='textPrimary' gutterBottom>
                             <HighlightOffOutlinedIcon color='error' className={classes.icon}/>
                             <p>Please, confirm your email address to continue</p>
-                            <p>Follow the link that was sent to your mailbox and <span><Link to={linkUrl} variant='inherit' className={classes.link}>
+                            <p>Follow the link that was sent to your mailbox and <span><Link
+                              to="/"
+                              variant='inherit'
+                              className={classes.link}
+                              onClick={goBack}
+                            >
                                 try again</Link>
                             </span>
                             </p>
@@ -34,8 +42,5 @@ const EmailNeedsConfirmation = props => {
     );
 };
 
-EmailNeedsConfirmation.propTypes = {
-    continueUrl: PropTypes.string
-};
 
 export default EmailNeedsConfirmation;
