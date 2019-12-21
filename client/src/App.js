@@ -22,7 +22,7 @@ function App() {
           <Route exact path='/register' component={Register} />
           <Route exact path='/login' component={Login} />
           <Route exact path='/password_reset' component={ResetPassword} />
-          <Route exact path='/confirm_email/:email/:token' component={ConfirmEmail} />
+          <Route exact path='/email/confirm/:token' component={ConfirmEmail} />
           <Route exact path='/' component={Landing} />
         </Switch>
       </Router>

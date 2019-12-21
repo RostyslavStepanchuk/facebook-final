@@ -3,7 +3,7 @@ package com.socialmedia.service;
 import com.socialmedia.dto.security.Token;
 import com.socialmedia.exception.NoDataFoundException;
 import com.socialmedia.model.ApplicationUser;
-import com.socialmedia.model.EmailAddress;
+import com.socialmedia.model.TokensData;
 import com.socialmedia.repository.UserRepository;
 import com.socialmedia.util.EmailHandler;
 import com.socialmedia.util.SmartCopyBeanUtilsBean;
@@ -11,29 +11,42 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 
 @Service
-public final class UserService extends AbstractCrudService<ApplicationUser, String, UserRepository> {
+public class UserService extends AbstractCrudService<ApplicationUser, String, UserRepository> {
 
   private BCryptPasswordEncoder bcryptPasswordEncoder;
   private AuthenticationService authenticationService;
+  private ChatService chatService;
+  private FriendRequestService friendRequestService;
+  private PostService postService;
   private EmailHandler emailHandler;
-  private EmailsService emailsService;
+
 
   @Autowired
   public UserService(UserRepository jpaRepository,
                      SmartCopyBeanUtilsBean beanUtilBean,
                      BCryptPasswordEncoder bcryptPasswordEncoder,
-                     AuthenticationService authenticationService, EmailHandler emailHandler, EmailsService emailsService) {
+                     AuthenticationService authenticationService,
+                     ChatService chatService,
+                     FriendRequestService friendRequestService,
+                     PostService postService,
+                     EmailHandler emailHandler) {
     super(jpaRepository, beanUtilBean);
     this.bcryptPasswordEncoder = bcryptPasswordEncoder;
     this.authenticationService = authenticationService;
+    this.chatService = chatService;
+    this.friendRequestService = friendRequestService;
+    this.postService = postService;
     this.emailHandler = emailHandler;
-    this.emailsService = emailsService;
   }
 
   @Override
@@ -70,24 +83,58 @@ public final class UserService extends AbstractCrudService<ApplicationUser, Stri
 
     String password = user.getPassword();
     user.setPassword(bcryptPasswordEncoder.encode(password));
-    EmailAddress emailAddress = emailsService.create(user.getEmailAddress());
+    TokensData tokensData = user.getTokensData();
+    tokensData.setEmailIsConfirmed(false);
+    tokensData.setEmailConfirmationId(UUID.randomUUID().toString());
     jpaRepository.save(user);
-    emailHandler.sendEmailConfirmationLetter(user.getEmailAddress().getAddress(), emailAddress.getConfirmationId());
+    emailHandler.sendEmailConfirmationLetter(user.getEmail(), tokensData.getEmailConfirmationId());
     return authenticationService.getAccessToken(user.getUsername(), password);
   }
 
-  private ApplicationUser resolvedOptional(Optional<ApplicationUser> user, String username) {
-    return user.orElseThrow(()->new NoDataFoundException(
-        String.format("%s with id %s wasn't found", user.getClass().getSimpleName(), username)));
+  public Boolean confirmEmail(String confirmationId) {
+    ApplicationUser user = jpaRepository.getByEmailConfirmationId(confirmationId)
+        .orElseThrow(()-> new NoDataFoundException("Invalid email confirmation id"));
+    user.getTokensData().setEmailIsConfirmed(true);
+    jpaRepository.save(user);
+    return true;
   }
 
-  public Boolean confirmEmail(String email, String confirmationId) {
-    EmailAddress emailAddress = emailsService.getById(email);
-    boolean isConfirmed = emailAddress.getConfirmationId().equals(confirmationId);
-    if (isConfirmed) {
-      emailAddress.setIsConfirmed(true);
-      emailsService.update(email, emailAddress);
-    }
-    return isConfirmed;
+  @Override
+  @Transactional
+  public ApplicationUser delete(String id) {
+    ApplicationUser deletedUser = resolvedOptional(jpaRepository.findById(id), id);
+
+    deletedUser.getFriends().forEach(friend->removeFriend(friend, id));
+    deletedUser.getChats().forEach(chat-> chatService.removeParticipant(chat, id));
+    friendRequestService.getAllByRequester(deletedUser).forEach(request -> friendRequestService.delete(request.getId()));
+    friendRequestService.getAllByResponder(deletedUser).forEach(request -> friendRequestService.delete(request.getId()));
+    deletedUser.setIncomingFriendRequests(Collections.emptyList());
+    deletedUser.getLikedPosts().forEach(post-> {
+      List<ApplicationUser> filteredLikes = post.getLikes().stream()
+          .filter(user -> !user.getUsername().equals(id))
+          .collect(Collectors.toList());
+      post.setLikes(filteredLikes);
+      postService.update(post.getId(), post);
+    });
+    jpaRepository.delete(deletedUser);
+    return deletedUser;
+  }
+
+  public ApplicationUser cancelFrienship(String userId, String friendId) {
+    ApplicationUser user = getById(userId);
+    removeFriend(user, friendId);
+
+    ApplicationUser removedFriend = getById(friendId);
+    removeFriend(removedFriend, userId);
+
+    return user;
+  }
+
+  private void removeFriend(ApplicationUser user, String friendUsername) {
+    List<ApplicationUser> filteredFriendsList = user.getFriends().stream()
+        .filter(friend -> !friend.getUsername().equals(friendUsername))
+        .collect(Collectors.toList());
+    user.setFriends(filteredFriendsList);
+    jpaRepository.save(user);
   }
 }

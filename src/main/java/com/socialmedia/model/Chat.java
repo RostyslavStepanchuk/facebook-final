@@ -29,12 +29,12 @@ public class Chat implements DbEntity<Long> {
   @Column(name = "name")
   private String name;
 
-  @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "chat_to_user",
       joinColumns = @JoinColumn(name = "fk_chat_id"),
       inverseJoinColumns = @JoinColumn(name = "fk_participant_username"))
   private List<ApplicationUser> participants;
 
-  @OneToMany(mappedBy = "chat")
+  @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL)
   private List<ChatMessage> messages;
 }
