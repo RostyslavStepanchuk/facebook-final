@@ -4,9 +4,9 @@ import axios from 'axios'
 import {CssBaseline, Grid, Paper, Typography} from '@material-ui/core'
 import {Link} from 'react-router-dom'
 
-import useStyles from './ConfirmEmailStyles'
+import useStyles from './EmailConfirmedStyles'
 
-const ConfirmEmail = props => {
+const EmailConfirmed = props => {
 
     const classes = useStyles();
 
@@ -47,8 +47,8 @@ const ConfirmEmail = props => {
     );
 };
 
-ConfirmEmail.propTypes = {
+EmailConfirmed.propTypes = {
     match: PropTypes.object
 };
 
-export default ConfirmEmail;
+export default EmailConfirmed;
