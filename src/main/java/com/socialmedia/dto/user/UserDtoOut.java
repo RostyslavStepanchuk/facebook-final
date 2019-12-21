@@ -17,4 +17,5 @@ public class UserDtoOut {
   private Boolean openAccount;
   private List<UserLabelDtoOut> friends;
   private List<FriendRequestDtoOut> incomingFriendRequests;
+  private Boolean emailIsConfirmed;
 }

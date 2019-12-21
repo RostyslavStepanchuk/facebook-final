@@ -39,17 +39,16 @@ export const loadUser = () => async dispatch => {
 
 // Register User
 
-export const register = ({ username, password }) => async dispatch => {
+export const register = (registerData) => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'application/json'
     }
   }
 
-  const body = { username, password }
-
   try {
-    const res = await axios.post('/api/v1/users/sign-up', body, config)
+    console.log('sending request')
+    const res = await axios.post('/api/v1/users', registerData, config)
 
     Toastr.success('Congrats! Register success!')
 
