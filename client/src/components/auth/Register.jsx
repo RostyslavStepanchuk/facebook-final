@@ -3,12 +3,13 @@ import { Avatar, Button, CssBaseline, TextField, Grid, Container, Typography } f
 import { connect } from 'react-redux'
 import { Redirect, Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { register } from '../../actions/auth'
-
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import useStyles from './registerStyles'
 
-const Register = ({ isAuthenticated, register }) => {
+import { register } from '../../actions/auth'
+import Loading from '../layout/ui-kit/Loading'
+
+const Register = ({ isAuthenticated, loading, register }) => {
   const classes = useStyles()
 
   const [formData, setFormData] = useState({
@@ -84,7 +85,7 @@ const Register = ({ isAuthenticated, register }) => {
     return <Redirect to='/' />
   }
 
-  return (
+  return loading ? <Loading /> : (
     <Container component='main' maxWidth='xs'>
       <CssBaseline />
       <div className={classes.paper}>
@@ -112,16 +113,16 @@ const Register = ({ isAuthenticated, register }) => {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                  autoComplete='email'
-                  name='email'
-                  variant='outlined'
-                  required
-                  fullWidth
-                  label='email'
-                  value={email}
-                  onChange={e => onChange(e)}
-                  error={!(emailError === '')}
-                  helperText={emailError === '' ? '' : emailError}
+                autoComplete='email'
+                name='email'
+                variant='outlined'
+                required
+                fullWidth
+                label='email'
+                value={email}
+                onChange={e => onChange(e)}
+                error={!(emailError === '')}
+                helperText={emailError === '' ? '' : emailError}
               />
             </Grid>
             <Grid item xs={12}>
@@ -156,26 +157,26 @@ const Register = ({ isAuthenticated, register }) => {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                  autoComplete='firstName'
-                  name='firstName'
-                  variant='outlined'
-                  required
-                  fullWidth
-                  label='First name'
-                  value={firstName}
-                  onChange={e => onChange(e)}
+                autoComplete='firstName'
+                name='firstName'
+                variant='outlined'
+                required
+                fullWidth
+                label='First name'
+                value={firstName}
+                onChange={e => onChange(e)}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
-                  autoComplete='lastName'
-                  name='lastName'
-                  variant='outlined'
-                  required
-                  fullWidth
-                  label='Last name'
-                  value={lastName}
-                  onChange={e => onChange(e)}
+                autoComplete='lastName'
+                name='lastName'
+                variant='outlined'
+                required
+                fullWidth
+                label='Last name'
+                value={lastName}
+                onChange={e => onChange(e)}
               />
             </Grid>
           </Grid>
@@ -197,11 +198,13 @@ const Register = ({ isAuthenticated, register }) => {
 
 Register.propTypes = {
   isAuthenticated: PropTypes.bool,
+  loading: PropTypes.bool.isRequired,
   register: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated,
+  loading: state.auth.loading
 })
 
 export default connect(mapStateToProps, { register })(Register)
