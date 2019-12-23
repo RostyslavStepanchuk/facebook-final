@@ -9,8 +9,8 @@ import {
   LOGIN_FAIL,
   LOGOUT,
   RESET_PASSWORD,
-  RESET_PASSWORD_FAIL
-
+  RESET_PASSWORD_FAIL,
+  START_LOADING
 } from '../utils/constants/actionsName'
 import setAuthToken from '../utils/helpers/setAuthToken'
 import { Toastr } from '../utils/toastr/Toastr'
@@ -47,7 +47,10 @@ export const register = (registerData) => async dispatch => {
   }
 
   try {
-    console.log('sending request')
+    dispatch({
+      type: START_LOADING
+    })
+
     const res = await axios.post('/api/v1/users', registerData, config)
 
     Toastr.success('Congrats! Register success!')
@@ -77,6 +80,10 @@ export const login = ({ username, password }) => async dispatch => {
   const body = { username, password }
 
   try {
+    dispatch({
+      type: START_LOADING
+    })
+
     const res = await axios.post('/api/v1/auth/access-token', body, config)
     Toastr.success('User login')
     dispatch({
@@ -86,8 +93,6 @@ export const login = ({ username, password }) => async dispatch => {
 
     dispatch(loadUser())
   } catch (err) {
-    console.dir(err)
-
     if (err.response.status === 400) {
       Toastr.error('Wrong username or password')
     } else {

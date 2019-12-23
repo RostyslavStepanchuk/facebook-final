@@ -1,16 +1,15 @@
-// todo: change emailAddress to username
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { Redirect, Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { login } from '../../actions/auth'
-
 import { Avatar, Button, TextField, Grid, Typography, Container, CssBaseline } from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 
+import { login } from '../../actions/auth'
+import Loading from '../layout/ui-kit/Loading'
 import usestyles from './loginStyles'
 
-const Login = ({ isAuthenticated, login }) => {
+const Login = ({ isAuthenticated, login, loading }) => {
   const classes = usestyles()
 
   const [formData, setFormData] = useState({
@@ -62,7 +61,7 @@ const Login = ({ isAuthenticated, login }) => {
     return <Redirect to='/' />
   }
 
-  return (
+  return loading ? <Loading /> : (
     <Container component='main' maxWidth='xs' style={{ height: '80vh' }}>
       <CssBaseline />
       <div className={classes.paper}>
@@ -127,11 +126,13 @@ const Login = ({ isAuthenticated, login }) => {
 
 Login.propTypes = {
   isAuthenticated: PropTypes.bool,
+  loading: PropTypes.bool.isRequired,
   login: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated,
+  loading: state.auth.loading
 })
 
 export default connect(mapStateToProps, { login })(Login)

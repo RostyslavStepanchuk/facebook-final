@@ -8,22 +8,26 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
-  RESET_PASSWORD
+  RESET_PASSWORD,
+  START_LOADING
   // RESET_PASSWORD_FAIL
 } from '../utils/constants/actionsName'
 
 const initialState = {
   accessToken: localStorage.getItem('accessToken'),
   isAuthenticated: false,
-  loading: true,
+  loading: false,
   user: null,
   resetEmailSend: false
 }
 
-export default function(state = initialState, action) {
+export default function (state = initialState, action) {
   const { type, payload } = action
 
   switch (type) {
+    case START_LOADING:
+      return { ...state, loading: true }
+
     case USER_LOADED:
       return { ...state, isAuthenticated: true, loading: false, user: payload }
 
