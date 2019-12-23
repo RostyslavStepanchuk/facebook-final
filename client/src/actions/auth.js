@@ -10,7 +10,9 @@ import {
   LOGOUT,
   RESET_PASSWORD,
   RESET_PASSWORD_FAIL,
-  START_LOADING
+  START_LOADING,
+  STOP_LOADING,
+  EMAIL_CONFIRMED
 } from '../utils/constants/actionsName'
 import setAuthToken from '../utils/helpers/setAuthToken'
 import { Toastr } from '../utils/toastr/Toastr'
@@ -63,10 +65,11 @@ export const register = (registerData) => async dispatch => {
     dispatch(loadUser())
   } catch (err) {
     Toastr.error(err.response.data)
+
+    dispatch({
+      type: REGISTER_FAIL
+    })
   }
-  dispatch({
-    type: REGISTER_FAIL
-  })
 }
 
 // Login User
@@ -140,4 +143,25 @@ export const resetPassword = (email) => dispatch => {
       type: RESET_PASSWORD_FAIL
     })
   }
+}
+
+// Confirm email
+
+export const confirmEmail = token => dispatch => {
+  dispatch({
+    type: START_LOADING
+  })
+
+  axios.get('/api/v1/users/email/confirm/' + token)
+    .then(res => {
+      if (res.status === 200) {
+        dispatch({
+          type: EMAIL_CONFIRMED
+        })
+        dispatch(loadUser())
+      }
+    })
+    .catch(() => dispatch({
+      type: STOP_LOADING
+    }))
 }

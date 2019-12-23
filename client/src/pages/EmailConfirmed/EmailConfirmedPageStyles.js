@@ -13,6 +13,6 @@ const useStyles = makeStyles(theme => ({
   link: {
     fontSize: '20px'
   }
-}));
+}))
 
 export default useStyles

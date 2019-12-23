@@ -4,15 +4,13 @@ import { Provider } from 'react-redux'
 import store from './store'
 
 import ResetPassword from './components/auth/ResetPassword'
-import EmailNeedsConfirmation from "./pages/EmailNeedsConfirmation";
-import Navbar from './components/layout/Navbar'
-import Landing from './components/layout/Landing'
+import EmailNeedsConfirmationPage from './pages/EmailNeedsConfirmation/EmailNeedsConfirmationPage'
+import Navbar from './components/layout/NavBar/Navbar'
+import Landing from './components/layout/Landing/Landing'
 import Register from './components/auth/Register'
 import Login from './components/auth/Login'
 import Toastr from './components/toastr/Toastr'
-import EmailConfirmed from './pages/EmailConfirmed'
-
-
+import EmailConfirmedPage from './pages/EmailConfirmed/EmailConfirmedPage'
 
 function App() {
   return (
@@ -24,8 +22,8 @@ function App() {
           <Route exact path='/register' component={Register} />
           <Route exact path='/login' component={Login} />
           <Route exact path='/password_reset' component={ResetPassword} />
-          <Route exact path='/access/denied' component={EmailNeedsConfirmation} />
-          <Route exact path='/email/confirm/:token' component={EmailConfirmed} />
+          <Route exact path='/access_denied' component={EmailNeedsConfirmationPage} />
+          <Route exact path='/email/confirm/:token' component={EmailConfirmedPage} />
           <Route exact path='/' component={Landing} />
         </Switch>
       </Router>
