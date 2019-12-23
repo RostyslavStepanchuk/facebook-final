@@ -2,7 +2,7 @@ import React, { Fragment, useState } from 'react'
 import { connect } from 'react-redux'
 import { Redirect, Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { resetPassword } from '../../actions/auth'
+import { resetPassword } from '../../../actions/auth'
 
 import { Avatar, Button, TextField, Typography, Container, CssBaseline, Paper } from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
