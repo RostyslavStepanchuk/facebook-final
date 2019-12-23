@@ -15,6 +15,6 @@ const useStyles = makeStyles(theme => ({
         display: 'block'
     }
 
-}));
+}))
 
 export default useStyles

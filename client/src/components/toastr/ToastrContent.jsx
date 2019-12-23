@@ -51,7 +51,7 @@ MySnackbarContentWrapper.propTypes = {
   variant: PropTypes.oneOf(['error', 'info', 'success', 'warning']).isRequired
 }
 
-export default function ToastrContent (props) {
+export default function ToastrContent(props) {
   const { message, variant = 'info' } = props
   const classes = useStyles1()
   const [open, setOpen] = useState(true)
