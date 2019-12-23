@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { Link, Redirect, useHistory } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { CssBaseline, Grid, Paper, Typography } from '@material-ui/core'
 import HighlightOffOutlinedIcon from '@material-ui/icons/HighlightOffOutlined'
@@ -17,7 +17,7 @@ const EmailNeedsConfirmationPage = ({ emailIsConfirmed }) => {
   }
 
   if (emailIsConfirmed) {
-    return <Redirect to='/' />
+    history.goBack()
   }
 
   return (

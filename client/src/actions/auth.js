@@ -158,7 +158,6 @@ export const confirmEmail = token => dispatch => {
         dispatch({
           type: EMAIL_CONFIRMED
         })
-        dispatch(loadUser())
       }
     })
     .catch(() => dispatch({

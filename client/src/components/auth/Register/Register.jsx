@@ -6,8 +6,8 @@ import PropTypes from 'prop-types'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import useStyles from './registerStyles'
 
-import { register } from '../../actions/auth'
-import Loading from '../layout/ui-kit/Loading'
+import { register } from '../../../actions/auth'
+import Loading from '../../layout/ui-kit/Loading'
 
 const Register = ({ isAuthenticated, loading, register, emailIsConfirmed }) => {
   const classes = useStyles()

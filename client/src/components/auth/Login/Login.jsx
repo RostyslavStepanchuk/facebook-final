@@ -5,8 +5,8 @@ import PropTypes from 'prop-types'
 import { Avatar, Button, TextField, Grid, Typography, Container, CssBaseline } from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 
-import { login } from '../../actions/auth'
-import Loading from '../layout/ui-kit/Loading'
+import { login } from '../../../actions/auth'
+import Loading from '../../layout/ui-kit/Loading'
 import usestyles from './loginStyles'
 
 const Login = ({ isAuthenticated, login, loading }) => {
