@@ -9,7 +9,9 @@ import {
   LOGIN_FAIL,
   LOGOUT,
   RESET_PASSWORD,
-  START_LOADING
+  START_LOADING,
+  STOP_LOADING,
+  EMAIL_CONFIRMED
   // RESET_PASSWORD_FAIL
 } from '../utils/constants/actionsName'
 
@@ -18,10 +20,11 @@ const initialState = {
   isAuthenticated: false,
   loading: false,
   user: null,
-  resetEmailSend: false
+  resetEmailSend: false,
+  emailIsConfirmed: false
 }
 
-export default function (state = initialState, action) {
+export default function(state = initialState, action) {
   const { type, payload } = action
 
   switch (type) {
@@ -29,7 +32,7 @@ export default function (state = initialState, action) {
       return { ...state, loading: true }
 
     case USER_LOADED:
-      return { ...state, isAuthenticated: true, loading: false, user: payload }
+      return { ...state, isAuthenticated: true, loading: false, user: payload, emailIsConfirmed: payload.emailIsConfirmed }
 
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
@@ -43,8 +46,14 @@ export default function (state = initialState, action) {
       localStorage.removeItem('accessToken')
       return { ...state, accessToken: null, isAuthenticated: false, loading: false }
 
+    case EMAIL_CONFIRMED:
+      return { ...state, loading: false, emailIsConfirmed: true }
+
     case RESET_PASSWORD:
       return { ...state, resetEmailSend: true }
+
+    case STOP_LOADING:
+      return { ...state, loading: false }
 
     default:
       return { ...state }

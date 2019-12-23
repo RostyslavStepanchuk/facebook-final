@@ -9,7 +9,7 @@ import useStyles from './registerStyles'
 import { register } from '../../actions/auth'
 import Loading from '../layout/ui-kit/Loading'
 
-const Register = ({ isAuthenticated, loading, register }) => {
+const Register = ({ isAuthenticated, loading, register, emailIsConfirmed }) => {
   const classes = useStyles()
 
   const [formData, setFormData] = useState({
@@ -81,7 +81,11 @@ const Register = ({ isAuthenticated, loading, register }) => {
       register({ email, username, password, firstName, lastName })
     }
   }
-  if (isAuthenticated) {
+  if (isAuthenticated && !emailIsConfirmed) {
+    return <Redirect to='/access_denied' />
+  }
+
+  if (isAuthenticated && emailIsConfirmed) {
     return <Redirect to='/' />
   }
 
@@ -199,12 +203,14 @@ const Register = ({ isAuthenticated, loading, register }) => {
 Register.propTypes = {
   isAuthenticated: PropTypes.bool,
   loading: PropTypes.bool.isRequired,
-  register: PropTypes.func.isRequired
+  register: PropTypes.func.isRequired,
+  emailIsConfirmed: PropTypes.bool.isRequired
 }
 
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
-  loading: state.auth.loading
+  loading: state.auth.loading,
+  emailIsConfirmed: state.auth.emailIsConfirmed
 })
 
 export default connect(mapStateToProps, { register })(Register)
