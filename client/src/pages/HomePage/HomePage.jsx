@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import { Container, Grid } from '@material-ui/core'
 import CreatePost from '../../components/CreatePost/CreatePost'
 
-
 import { withStyles } from "@material-ui/styles";
 import styles from './HomePageStyles'
 
