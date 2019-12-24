@@ -3,25 +3,38 @@ import { Avatar, Button, CssBaseline, TextField, Grid, Container, Typography } f
 import { connect } from 'react-redux'
 import { Redirect, Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { register } from '../../actions/auth'
-
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import useStyles from './registerStyles'
 
-const Register = ({ isAuthenticated, register }) => {
+import { register } from '../../../actions/auth'
+import Loading from '../../layout/ui-kit/Loading'
+
+const Register = ({ isAuthenticated, loading, register, emailIsConfirmed }) => {
   const classes = useStyles()
 
   const [formData, setFormData] = useState({
-    email: '',
     username: '',
+    email: '',
     password: '',
     password2: '',
+    firstName: '',
+    lastName: '',
     usernameError: '',
     passwordError: '',
+    repeatPasswordError: '',
     emailError: ''
   })
 
-  const { username, password, password2, usernameError, passwordError } = formData
+  const { username,
+    email,
+    password,
+    password2,
+    firstName,
+    lastName,
+    usernameError,
+    passwordError,
+    repeatPasswordError,
+    emailError } = formData
 
   const onChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -32,6 +45,7 @@ const Register = ({ isAuthenticated, register }) => {
     const errors = {
       usernameError: '',
       passwordError: '',
+      repeatPasswordError: '',
       emailError: ''
     }
 
@@ -42,12 +56,17 @@ const Register = ({ isAuthenticated, register }) => {
 
     if (password !== password2) {
       isError = true
-      errors.passwordError = 'Passwords do not match'
+      errors.repeartPasswordError = 'Passwords do not match'
     }
 
     if (username.length < 6) {
       isError = true
       errors.usernameError = 'username needs to be at least 6 characters long'
+    }
+
+    if (!email.match(/^(\D)+(\w)*((\.(\w)+)?)+@(\D)+(\w)*((\.(\D)+(\w)*)+)?(\.)[a-z]{2,}$/)) {
+      isError = true
+      errors.emailError = 'email address is required'
     }
     setFormData({ ...formData, ...errors })
 
@@ -59,15 +78,18 @@ const Register = ({ isAuthenticated, register }) => {
     const err = validate()
 
     if (!err) {
-      console.log('username, password', username, password)
-      register({ username, password })
+      register({ email, username, password, firstName, lastName })
     }
   }
-  if (isAuthenticated) {
+  if (isAuthenticated && !emailIsConfirmed) {
+    return <Redirect to='/access_denied' />
+  }
+
+  if (isAuthenticated && emailIsConfirmed) {
     return <Redirect to='/' />
   }
 
-  return (
+  return loading ? <Loading /> : (
     <Container component='main' maxWidth='xs'>
       <CssBaseline />
       <div className={classes.paper}>
@@ -86,11 +108,25 @@ const Register = ({ isAuthenticated, register }) => {
                 variant='outlined'
                 required
                 fullWidth
-                label='UserName'
+                label='username'
                 value={username}
                 onChange={e => onChange(e)}
                 error={!(usernameError === '')}
                 helperText={usernameError === '' ? '' : usernameError}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                autoComplete='email'
+                name='email'
+                variant='outlined'
+                required
+                fullWidth
+                label='email'
+                value={email}
+                onChange={e => onChange(e)}
+                error={!(emailError === '')}
+                helperText={emailError === '' ? '' : emailError}
               />
             </Grid>
             <Grid item xs={12}>
@@ -119,8 +155,32 @@ const Register = ({ isAuthenticated, register }) => {
                 autoComplete='current-password'
                 value={password2}
                 onChange={e => onChange(e)}
-                error={!(passwordError === '')}
-                helperText={passwordError === '' ? '' : passwordError}
+                error={!(repeatPasswordError === '')}
+                helperText={repeatPasswordError === '' ? '' : repeatPasswordError}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                autoComplete='firstName'
+                name='firstName'
+                variant='outlined'
+                required
+                fullWidth
+                label='First name'
+                value={firstName}
+                onChange={e => onChange(e)}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                autoComplete='lastName'
+                name='lastName'
+                variant='outlined'
+                required
+                fullWidth
+                label='Last name'
+                value={lastName}
+                onChange={e => onChange(e)}
               />
             </Grid>
           </Grid>
@@ -142,11 +202,15 @@ const Register = ({ isAuthenticated, register }) => {
 
 Register.propTypes = {
   isAuthenticated: PropTypes.bool,
-  register: PropTypes.func.isRequired
+  loading: PropTypes.bool.isRequired,
+  register: PropTypes.func.isRequired,
+  emailIsConfirmed: PropTypes.bool.isRequired
 }
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated,
+  loading: state.auth.loading,
+  emailIsConfirmed: state.auth.emailIsConfirmed
 })
 
 export default connect(mapStateToProps, { register })(Register)

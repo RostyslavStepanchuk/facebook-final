@@ -10,7 +10,7 @@ public class EmailHandler {
 
   private static final String SIGN_UP_LETTER_SUBJECT = "New account registered on Facebook final";
   private static final String SIGN_UP_LETTER_BODY = "Please follow this link to finish your registration %s";
-  private static final String SIGN_UP_CONFIRMATION_URL = "http://localhost:3000/confirm_email/";
+  private static final String SIGN_UP_CONFIRMATION_URL = "http://localhost:3000/email/confirm/";
 
   private JavaMailSender emailSender;
 
@@ -24,7 +24,7 @@ public class EmailHandler {
     SimpleMailMessage message = new SimpleMailMessage();
     message.setTo(to);
     message.setSubject(SIGN_UP_LETTER_SUBJECT);
-    message.setText(String.format(SIGN_UP_LETTER_BODY, SIGN_UP_CONFIRMATION_URL + to + "/" + token));
+    message.setText(String.format(SIGN_UP_LETTER_BODY, SIGN_UP_CONFIRMATION_URL + token));
     emailSender.send(message);
   }
 }
