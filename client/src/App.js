@@ -11,6 +11,7 @@ import Register from './components/auth/Register/Register'
 import Login from './components/auth/Login/Login'
 import Toastr from './components/toastr/Toastr'
 import EmailConfirmedPage from './pages/EmailConfirmed/EmailConfirmedPage'
+import HomePage from './pages/HomePage/HomePage'
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route exact path='/password_reset' component={ResetPassword} />
           <Route exact path='/access_denied' component={EmailNeedsConfirmationPage} />
           <Route exact path='/email/confirm/:token' component={EmailConfirmedPage} />
+          <Route exact path='/home' component={HomePage} />
           <Route exact path='/' component={Landing} />
         </Switch>
       </Router>

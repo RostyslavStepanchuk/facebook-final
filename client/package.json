@@ -22,7 +22,8 @@
     "redux-thunk": "^2.3.0",
     "stylelint": "^8.2.0",
     "stylelint-config-standard": "^17.0.0",
-    "stylelint-order": "^0.7.0"
+    "stylelint-order": "^0.7.0",
+    "@material-ui/styles": "latest"
   },
   "scripts": {
     "start": "npm-run-all -p watch-styles-sass start-js",
