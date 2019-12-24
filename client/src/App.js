@@ -12,6 +12,7 @@ import Login from './components/auth/Login/Login'
 import Toastr from './components/toastr/Toastr'
 import EmailConfirmedPage from './pages/EmailConfirmed/EmailConfirmedPage'
 import HomePage from './pages/HomePage/HomePage'
+import ProtectedRouter from './components/ProtectedRouter/ProtectedRouter'
 
 function App() {
   return (
@@ -26,7 +27,7 @@ function App() {
           <Route exact path='/access_denied' component={EmailNeedsConfirmationPage} />
           <Route exact path='/email/confirm/:token' component={EmailConfirmedPage} />
           <Route exact path='/home' component={HomePage} />
-          <Route exact path='/' component={Landing} />
+          <Route path='/' component={ProtectedRouter} />
         </Switch>
       </Router>
     </Provider>
