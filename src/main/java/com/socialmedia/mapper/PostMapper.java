@@ -2,6 +2,7 @@ package com.socialmedia.mapper;
 
 import com.socialmedia.dto.post.PostDtoIn;
 import com.socialmedia.dto.post.PostDtoOut;
+import com.socialmedia.model.ApplicationUser;
 import com.socialmedia.model.Post;
 import com.socialmedia.service.PostService;
 import org.modelmapper.ModelMapper;
@@ -11,9 +12,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class PostMapper extends AbstractControllerToCrudServiceMapper<Post,Long, PostDtoIn, PostDtoOut, PostService> {
 
+  private UserMapper userMapper;
+
   @Autowired
-  public PostMapper(ModelMapper modelMapper, PostService postService) {
+  public PostMapper(ModelMapper modelMapper, PostService postService, UserMapper userMapper) {
     super(modelMapper, postService);
+    this.userMapper = userMapper;
   }
 
   @Override
@@ -23,6 +27,9 @@ public class PostMapper extends AbstractControllerToCrudServiceMapper<Post,Long,
 
   @Override
   Post entityOf(PostDtoIn dtoIn) {
-    return modelMapper.map(dtoIn, Post.class);
+    Post post = modelMapper.map(dtoIn, Post.class);
+    ApplicationUser author = userMapper.entityOf(dtoIn.getAuthorId());
+    post.setAuthor(author);
+    return post;
   }
 }
