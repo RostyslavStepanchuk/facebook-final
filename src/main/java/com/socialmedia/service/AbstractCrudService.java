@@ -20,7 +20,7 @@ public abstract class AbstractCrudService<E extends DbEntity<T>, T, R extends Jp
   }
 
   public E create(E entity) {
-    if (jpaRepository.findById(entity.getId()).isPresent()) {
+    if (entity.getId() != null && jpaRepository.findById(entity.getId()).isPresent()) {
       throw new BadCredentialsException(
           String.format("%s with id %s already exists",
               entity.getClass().getSimpleName(), String.valueOf(entity.getId())));
