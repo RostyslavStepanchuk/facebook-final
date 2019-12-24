@@ -1,17 +1,16 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-
-import Navbar from './components/layout/Navbar'
-import Landing from './components/layout/Landing'
-import Register from './components/auth/Register'
-import Login from './components/auth/Login'
-import Toastr from './components/toastr/Toastr'
-import ConfirmEmail from './components/auth/ConfirmEmail'
-import ProfilePage from './pages/ProfilePage/ProfilePage'
-
 import { Provider } from 'react-redux'
 import store from './store'
-import ResetPassword from './components/auth/ResetPassword'
+
+import ResetPassword from './components/auth/ResetPassword/ResetPassword'
+import EmailNeedsConfirmationPage from './pages/EmailNeedsConfirmation/EmailNeedsConfirmationPage'
+import Navbar from './components/layout/Navbar/Navbar'
+import Landing from './components/layout/Landing/Landing'
+import Register from './components/auth/Register/Register'
+import Login from './components/auth/Login/Login'
+import Toastr from './components/toastr/Toastr'
+import EmailConfirmedPage from './pages/EmailConfirmed/EmailConfirmedPage'
 
 function App() {
   return (
@@ -23,8 +22,9 @@ function App() {
           <Route exact path='/register' component={Register} />
           <Route exact path='/login' component={Login} />
           <Route exact path='/password_reset' component={ResetPassword} />
-          <Route exact path='/confirm_email/:email/:token' component={ConfirmEmail} />
           <Route exact path='/profile' component={ProfilePage} />
+          <Route exact path='/access_denied' component={EmailNeedsConfirmationPage} />
+          <Route exact path='/email/confirm/:token' component={EmailConfirmedPage} />
           <Route exact path='/' component={Landing} />
         </Switch>
       </Router>

@@ -36,9 +36,8 @@ public class ApplicationUser implements DbEntity<String> {
   @JsonIgnore
   @Column(name = "password")
   private String password;
-  @OneToOne(optional = false, cascade = CascadeType.ALL)
-  @JoinColumn(name = "fk_email")
-  private EmailAddress emailAddress;
+  @Column(name = "email")
+  private String email;
   @MayAcceptNull
   @Column(name = "first_name")
   private String firstName;
@@ -50,29 +49,30 @@ public class ApplicationUser implements DbEntity<String> {
   private Long birthDate;
   @Column(name = "avatar")
   private String avatar;
-  @Column(name = "refresh_token")
-  private String refreshToken;
-  @Column(name = "forgot_password_tkn")
-  private String forgotPasswordToken;
   @Column(name = "open_account")
   private Boolean openAccount;
 
-  @ManyToMany(cascade = CascadeType.REMOVE)
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "fk_tokens_data_id")
+  @JsonBackReference
+  private TokensData tokensData;
+
+  @ManyToMany
   @JoinTable(name = "friends",
       joinColumns = @JoinColumn(name = "fk_username"),
       inverseJoinColumns = @JoinColumn(name = "fk_friend_username"))
   @ToString.Exclude
   private List<ApplicationUser> friends;
 
-  @OneToMany(mappedBy = "responder", cascade = CascadeType.REMOVE)
+  @OneToMany(mappedBy = "responder")
   @ToString.Exclude
   private List<FriendRequest> incomingFriendRequests;
 
-  @ManyToMany(cascade = CascadeType.REMOVE, mappedBy = "participants")
+  @ManyToMany(mappedBy = "participants")
   @JsonBackReference
   private List<Chat> chats;
 
-  @ManyToMany(mappedBy = "likes", cascade = CascadeType.REMOVE)
+  @ManyToMany(mappedBy = "likes")
   @JsonBackReference
   private List<Post> likedPosts;
 
