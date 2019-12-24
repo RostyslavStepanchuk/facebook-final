@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import { get } from 'lodash'
 import { CssBaseline, Grid, Paper, Typography } from '@material-ui/core'
 import { Link } from 'react-router-dom'
 
@@ -10,7 +11,7 @@ import Loading from '../../components/layout/ui-kit/Loading'
 
 const EmailConfirmedPage = props => {
   const classes = useStyles()
-  const token = props.match.params.token
+  const token = get(props, 'match.params.token')
   const { loading, emailIsConfirmed, confirmEmail } = props
 
   useEffect(() => confirmEmail(token), [confirmEmail, token])
