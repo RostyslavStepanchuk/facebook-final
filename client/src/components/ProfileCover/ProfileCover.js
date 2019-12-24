@@ -20,7 +20,9 @@ const ProfileCover = () =>  {
   return (
     <Fragment className={classes.root}>
       <div className={classes.avatar_bg}>
-        <Avatar className={classes.avatar_img}></Avatar>
+        <Avatar className={classes.avatar_img}>
+
+        </Avatar>
         <p className={classes.avatar_name}>Name Surname</p>
       </div>
       <Tabs value={value}
