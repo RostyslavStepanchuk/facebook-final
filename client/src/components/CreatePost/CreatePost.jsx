@@ -1,14 +1,70 @@
-import React from 'react'
+import React, { useState } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
-import { Avatar, Button, Paper, TextField, Typography } from '@material-ui/core'
+import {
+  Avatar,
+  Button,
+  Grid,
+  GridList,
+  GridListTile,
+  GridListTileBar,
+  IconButton,
+  Paper,
+  TextField,
+  Typography
+} from '@material-ui/core'
 import CropOriginalOutlinedIcon from '@material-ui/icons/CropOriginalOutlined'
 import AssignmentIndOutlinedIcon from '@material-ui/icons/AssignmentIndOutlined'
+import CloseOutlinedIcon from '@material-ui/icons/CloseOutlined'
 
 import useStyles from './CreatePostStyles'
-import Grid from '@material-ui/core/Grid'
 
-const CreatePost = () => {
+const CreatePost = ({ user }) => {
+
   const classes = useStyles()
+  const [uploadedImages, setUploadedImages] = useState([])
+  const [textInput, setTextInput] = useState('')
+
+  const handleFileInputChange = (e) => {
+    let addedUrls = [].map.call(e.target.files, file => ({file, url: URL.createObjectURL(file)}))
+    setUploadedImages(uploadedImages.concat(addedUrls))
+  }
+
+  const removeImage = (url) => {
+    const filteredImages = uploadedImages.filter(img => img.url !== url)
+    setUploadedImages(filteredImages)
+  }
+
+  const handleTextInputChange = e => {
+    setTextInput(e.target.value)
+  }
+
+  const handleSubmit = e => {
+    e.preventDefault()
+    console.log(textInput)
+    console.log(uploadedImages)
+  }
+
+  const images = uploadedImages.map((img, index) => (
+    <GridListTile key={img.url} cols={1}>
+      <img src={img.url} alt={'userImage' + index}/>
+      <GridListTileBar
+        titlePosition="top"
+        actionIcon={
+          <IconButton
+            onClick={()=>removeImage(img.url)}
+            className={classes.iconButton}
+            size='small'>
+            <CloseOutlinedIcon/>
+          </IconButton>
+        }
+        className={classes.titleBar}
+        actionPosition="right"
+      />
+    </GridListTile>
+  ))
+
   return (
     <Paper elevation={1} className={classes.paper}>
       <div >
@@ -17,21 +73,25 @@ const CreatePost = () => {
         </Typography>
         <form className={classes.form}>
           <Grid container className={classes.textContainer}>
-            <Grid container item xs={1} justify='center' alignItems='center'>
-              <Avatar className={classes.avatar} src='https://s3.us-west-2.amazonaws.com/fs-8/1576923750814-avatar.jpg'/>
+            <Grid container item xs={2} lg={1} justify='center' alignItems='flex-start'>
+              <Avatar className={classes.avatar} src={user.avatar}/>
             </Grid>
-            <Grid item xs={11} >
+            <Grid item xs={10} lg={11} >
               <TextField
                 className={classes.postInput}
                 autoComplete='lastName'
                 name='lastName'
                 variant='outlined'
-                placeholder={'\n What you\'d like to share'}
+                placeholder={'\n What you\'d like to share, ' + user.firstName + '?'}
                 rows='3'
+                onChange={handleTextInputChange}
                 multiline
                 required
                 fullWidth
               />
+              <GridList spacing={3} cellHeight={80} cols={5} className={classes.imgPreviewContainer}>
+                {images}
+              </GridList>
             </Grid>
           </Grid>
           <Grid container className={classes.toolsContainer}>
@@ -41,7 +101,12 @@ const CreatePost = () => {
                   <CropOriginalOutlinedIcon className={classes.icon}/>
                   <div className={classes.labelText}> Add image</div>
                 </label>
-                <input id='file_upload' className={classes.fileInput} multiple type="file"/>
+                <input id='file_upload'
+                       className={classes.fileInput}
+                       multiple
+                       type="file"
+                       onChange={handleFileInputChange}
+                />
               </Button>
               <Button color="primary" className={classes.button}>
                 <div className={classes.label}>
@@ -51,7 +116,12 @@ const CreatePost = () => {
               </Button>
             </Grid>
             <Grid container item xs={2} justify='flex-end'>
-              <Button type='submit' variant='contained' color='primary'>
+              <Button
+                type='submit'
+                variant='contained'
+                color='primary'
+                onClick={handleSubmit}
+              >
                 POST
               </Button>
             </Grid>
@@ -63,7 +133,12 @@ const CreatePost = () => {
 }
 
 CreatePost.propTypes = {
-
+  user: PropTypes.object.isRequired
 }
 
-export default CreatePost
+const mapStateToProps = state => ({
+  user: state.auth.user
+})
+
+
+export default connect(mapStateToProps, null)(CreatePost)
