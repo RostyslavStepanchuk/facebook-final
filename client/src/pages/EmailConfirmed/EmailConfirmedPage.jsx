@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 
 import { confirmEmail } from '../../actions/auth'
 import useStyles from './EmailConfirmedPageStyles'
-import Loading from '../../components/layout/ui-kit/Loading'
+import Preloader from '../../components/Preloader/Preloader'
 
 const EmailConfirmedPage = props => {
   const classes = useStyles()
@@ -20,7 +20,7 @@ const EmailConfirmedPage = props => {
     : 'Something went wrong, your email wasn\'t confirmed'
 
   const link = <Link to='/' variant='body2' className={classes.link}>Go to your profile</Link>
-  return loading ? <Loading /> : (
+  return loading ? <Preloader /> : (
     <Fragment>
       <CssBaseline />
       <Grid container spacing={3} justify='center' alignItems='center' style={{ height: '80vh' }}>

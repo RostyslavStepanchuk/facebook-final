@@ -19,24 +19,27 @@ import { Toastr } from '../utils/toastr/Toastr'
 
 // Load User
 
-export const loadUser = () => async dispatch => {
+export const loadUser = () => dispatch => {
   if (localStorage.accessToken) {
     setAuthToken(localStorage.accessToken)
-  }
 
-  try {
-    const res = await axios.get('/api/v1/users/current')
-
-    dispatch({
-      type: USER_LOADED,
-      payload: res.data
+    axios.get('/api/v1/users/current')
+      .then(res => {
+        dispatch({
+          type: USER_LOADED,
+          payload: res.data
+        })
+      }).catch(() => {
+      dispatch({
+        type: AUTH_ERROR
+      })
     })
-  } catch (err) {
-    Toastr.error(err.response.data)
+  } else {
     dispatch({
       type: AUTH_ERROR
     })
   }
+
 }
 
 // Register User
@@ -62,7 +65,6 @@ export const register = (registerData) => async dispatch => {
       payload: res.data
     })
 
-    dispatch(loadUser())
   } catch (err) {
     Toastr.error(err.response.data)
 
@@ -94,7 +96,6 @@ export const login = ({ username, password }) => async dispatch => {
       payload: res.data
     })
 
-    dispatch(loadUser())
   } catch (err) {
     if (err.response.status === 400) {
       Toastr.error('Wrong username or password')

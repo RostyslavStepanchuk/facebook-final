@@ -1,20 +1,48 @@
 import React, { useEffect } from 'react'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 
 import HomePage from '../../pages/HomePage/HomePage'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
-import Switch from '@material-ui/core/Switch'
-import Landing from '../layout/Landing/Landing'
+import { Redirect, Route } from 'react-router-dom'
+import { Switch } from 'react-router-dom'
 import { loadUser } from '../../actions/auth'
+import Preloader from '../Preloader/Preloader'
 
-const ProtectedRouter = () => {
-  useEffect(()=> loadUser(), [loadUser])
+const ProtectedRouter = ({ isAuthenticated, emailIsConfirmed, user, loadUser }) => {
+  useEffect(()=> loadUser(), [ loadUser ])
+  if ( !isAuthenticated ) {
+    return <Redirect to='/login'/>
+  } else if ( user === null ) {
+    return <Preloader/>
+  } else if ( !emailIsConfirmed ) {
+    return <Redirect to='/access_denied' />
+  } else {
+    return (
+      <Switch>
+        <Route exact path='/' component={HomePage} />
+      </Switch>
+    )
+  }
 
-  return (
-    <Switch>
-      <Route exact path='/home' component={HomePage} />
-      <Route path='/' component={Landing} />
-    </Switch>
-  )
 }
 
-export default ProtectedRouter
+ProtectedRouter.propTypes = {
+  isAuthenticated: PropTypes.bool,
+  user: PropTypes.object,
+  emailIsConfirmed: PropTypes.bool,
+  loadUser: PropTypes.func
+}
+
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated,
+  user: state.auth.user,
+  emailIsConfirmed: state.auth.emailIsConfirmed
+})
+
+const mapDispatchToProps = dispatch => {
+  return {
+    loadUser: ()=>dispatch(loadUser()),
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProtectedRouter)

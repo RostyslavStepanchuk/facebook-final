@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { logout } from '../../../actions/auth'
+import { logout } from '../../actions/auth'
 import useStyles from './navbarStyles'
 import {
   AppBar,
