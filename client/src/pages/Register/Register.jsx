@@ -55,7 +55,6 @@ const Register = ({ isAuthenticated, loading, register, emailIsConfirmed }) => {
     }
 
     if (password !== password2) {
-      console.log('passwords do not match')
       isError = true
       errors.repeatPasswordError = 'Passwords do not match'
     }
@@ -76,7 +75,6 @@ const Register = ({ isAuthenticated, loading, register, emailIsConfirmed }) => {
 
   const onSubmit = async e => {
     e.preventDefault()
-    console.log('launching validation')
     const err = validate()
 
     if (!err) {
