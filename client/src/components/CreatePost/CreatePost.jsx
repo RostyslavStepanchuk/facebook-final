@@ -1,15 +1,13 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
-import { Paper, Typography, TextField, Button, Avatar } from '@material-ui/core'
-import CropOriginalOutlinedIcon from '@material-ui/icons/CropOriginalOutlined';
-import AssignmentIndOutlinedIcon from '@material-ui/icons/AssignmentIndOutlined';
+import { Avatar, Button, Paper, TextField, Typography } from '@material-ui/core'
+import CropOriginalOutlinedIcon from '@material-ui/icons/CropOriginalOutlined'
+import AssignmentIndOutlinedIcon from '@material-ui/icons/AssignmentIndOutlined'
 
 import useStyles from './CreatePostStyles'
 import Grid from '@material-ui/core/Grid'
 
-
-const CreatePost = props => {
+const CreatePost = () => {
   const classes = useStyles()
   return (
     <Paper elevation={1} className={classes.paper}>
