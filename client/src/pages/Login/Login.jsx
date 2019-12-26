@@ -5,8 +5,8 @@ import PropTypes from 'prop-types'
 import { Avatar, Button, TextField, Grid, Typography, Container, CssBaseline } from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 
-import { login } from '../../../actions/auth'
-import Loading from '../../layout/ui-kit/Loading'
+import { login } from '../../actions/auth'
+import Preloader from '../../components/Preloader/Preloader'
 import usestyles from './loginStyles'
 
 const Login = ({ isAuthenticated, login, loading }) => {
@@ -55,13 +55,13 @@ const Login = ({ isAuthenticated, login, loading }) => {
     }
   }
 
-  // Redirect if loged in
+  // Redirect if logged in
 
   if (isAuthenticated) {
     return <Redirect to='/' />
   }
 
-  return loading ? <Loading /> : (
+  return loading ? <Preloader /> : (
     <Container component='main' maxWidth='xs' style={{ height: '80vh' }}>
       <CssBaseline />
       <div className={classes.paper}>

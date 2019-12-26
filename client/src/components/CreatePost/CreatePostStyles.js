@@ -1,5 +1,4 @@
 import { makeStyles } from '@material-ui/core/styles'
-import React from 'react'
 import { AVATAR_SIZE_MID } from '../../utils/constants/styleConstants'
 
 const useStyles = makeStyles(theme => ({

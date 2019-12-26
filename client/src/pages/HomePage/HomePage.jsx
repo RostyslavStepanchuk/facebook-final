@@ -8,6 +8,7 @@ import { withStyles } from "@material-ui/styles";
 import styles from './HomePageStyles'
 
 class HomePage extends Component {
+
   render () {
     const { classes } = this.props
     return (

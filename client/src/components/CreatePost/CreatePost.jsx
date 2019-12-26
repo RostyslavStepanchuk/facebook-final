@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Paper, Typography, TextareaAutosize, TextField, Fab, Button, Avatar } from '@material-ui/core'
+
+import { Paper, Typography, TextField, Button, Avatar } from '@material-ui/core'
 import CropOriginalOutlinedIcon from '@material-ui/icons/CropOriginalOutlined';
 import AssignmentIndOutlinedIcon from '@material-ui/icons/AssignmentIndOutlined';
 
