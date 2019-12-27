@@ -6,8 +6,8 @@ import PropTypes from 'prop-types'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import useStyles from './registerStyles'
 
-import { register } from '../../../actions/auth'
-import Loading from '../../layout/ui-kit/Loading'
+import { register } from '../../actions/auth'
+import Preloader from '../../components/Preloader/Preloader'
 
 const Register = ({ isAuthenticated, loading, register, emailIsConfirmed }) => {
   const classes = useStyles()
@@ -51,12 +51,12 @@ const Register = ({ isAuthenticated, loading, register, emailIsConfirmed }) => {
 
     if (password.length < 6) {
       isError = true
-      errors.passwordError = 'Password needs to be atleast 6 characters long'
+      errors.passwordError = 'Password needs to be at least 6 characters long'
     }
 
     if (password !== password2) {
       isError = true
-      errors.repeartPasswordError = 'Passwords do not match'
+      errors.repeatPasswordError = 'Passwords do not match'
     }
 
     if (username.length < 6) {
@@ -89,7 +89,7 @@ const Register = ({ isAuthenticated, loading, register, emailIsConfirmed }) => {
     return <Redirect to='/' />
   }
 
-  return loading ? <Loading /> : (
+  return loading ? <Preloader /> : (
     <Container component='main' maxWidth='xs'>
       <CssBaseline />
       <div className={classes.paper}>
