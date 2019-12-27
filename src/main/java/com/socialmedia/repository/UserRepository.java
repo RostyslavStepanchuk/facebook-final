@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<ApplicationUser, String> {
   @Query("SELECT u from ApplicationUser u WHERE u.tokensData.emailConfirmationId = :confirmationId")
   Optional<ApplicationUser> getByEmailConfirmationId(@Param("confirmationId") String emailConfirmationId);
+
+  Optional<ApplicationUser> findByEmail(String email);
 }

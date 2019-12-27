@@ -1,6 +1,6 @@
 import React from 'react'
 import { toastr } from 'react-redux-toastr'
-import ToastrContent from '../../components/toastr/ToastrContent'
+import ToastrContent from '../../components/Toastr/ToastrContent'
 
 const toastrDefaultOptions = {
   timeOut: 3000,
