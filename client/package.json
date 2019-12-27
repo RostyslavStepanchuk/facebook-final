@@ -1,7 +1,7 @@
 {
   "name": "client",
   "version": "0.1.0",
-  "private": "true",
+  "private": true,
   "dependencies": {
     "@material-ui/core": "^4.7.0",
     "@material-ui/icons": "^4.5.1",
@@ -23,7 +23,8 @@
     "redux-thunk": "^2.3.0",
     "stylelint": "^8.2.0",
     "stylelint-config-standard": "^17.0.0",
-    "stylelint-order": "^0.7.0"
+    "stylelint-order": "^0.7.0",
+    "@material-ui/styles": "latest"
   },
   "scripts": {
     "start": "npm-run-all -p watch-styles-sass start-js",
