@@ -81,6 +81,10 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
       throw new BadCredentialsException(String.format("User with username %s already exists", user.getUsername()));
     }
 
+    if (jpaRepository.findByEmail(user.getEmail()).isPresent()) {
+      throw new BadCredentialsException(String.format("User with email %s already exists", user.getEmail()));
+    }
+
     String password = user.getPassword();
     user.setPassword(bcryptPasswordEncoder.encode(password));
     TokensData tokensData = user.getTokensData();
