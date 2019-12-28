@@ -42,6 +42,9 @@ const useStyles = makeStyles(theme => ({
   toolsContainer: {
     padding: '5px'
   },
+  errorImg: {
+    border: '3px solid red'
+  },
   button: {
     padding: 0,
     marginRight: '5px'

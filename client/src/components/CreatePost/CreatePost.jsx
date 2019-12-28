@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { createPost } from '../../actions/post'
 
 import {
   Avatar,
@@ -23,32 +24,41 @@ import useStyles from './CreatePostStyles'
 const CreatePost = ({ user }) => {
 
   const classes = useStyles()
-  const [uploadedImages, setUploadedImages] = useState([])
-  const [textInput, setTextInput] = useState('')
+  const [uploadForm, setUploadForm] = useState({
+    imagesToUpload: [],
+    textToUpload: ''
+  })
+
+  const {
+    imagesToUpload,
+    textToUpload,
+  } = uploadForm
 
   const handleFileInputChange = (e) => {
-    let addedUrls = [].map.call(e.target.files, file => ({file, url: URL.createObjectURL(file)}))
-    setUploadedImages(uploadedImages.concat(addedUrls))
+    let addedUrls = [].map.call(e.target.files, file => ({
+      file,
+      url: URL.createObjectURL(file),
+      uploadError: false}))
+    setUploadForm({...uploadForm, imagesToUpload: imagesToUpload.concat(addedUrls)})
   }
 
   const removeImage = (url) => {
-    const filteredImages = uploadedImages.filter(img => img.url !== url)
-    setUploadedImages(filteredImages)
+    const filteredImages = imagesToUpload.filter(img => img.url !== url)
+    setUploadForm({...uploadForm, imagesToUpload: filteredImages})
   }
 
   const handleTextInputChange = e => {
-    setTextInput(e.target.value)
+    setUploadForm({...uploadForm, textToUpload: e.target.value})
   }
 
   const handleSubmit = e => {
     e.preventDefault()
-    console.log(textInput)
-    console.log(uploadedImages)
+    createPost(uploadForm, setUploadForm)
   }
 
-  const images = uploadedImages.map((img, index) => (
-    <GridListTile key={img.url} cols={1}>
-      <img src={img.url} alt={'userImage' + index}/>
+  const images = imagesToUpload.map((img, index) => (
+    <GridListTile key={img.url} className={img.uploadError ? classes.errorImg : null} cols={1}>
+      <img src={img.url} alt={'userImage' + index} />
       <GridListTileBar
         titlePosition="top"
         actionIcon={
@@ -139,6 +149,7 @@ CreatePost.propTypes = {
 const mapStateToProps = state => ({
   user: state.auth.user
 })
+
 
 
 export default connect(mapStateToProps, null)(CreatePost)

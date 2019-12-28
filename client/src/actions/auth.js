@@ -127,7 +127,7 @@ export const resetPassword = (email) => dispatch => {
 //   }
 
   try {
-    //   const res = await axios.post("/api/auth/password_reset", emailAddress, config)
+    //   const res = await axios.createPost("/api/auth/password_reset", emailAddress, config)
 
     //   dispatch({
     //     type: LOGIN_SUCCESS,

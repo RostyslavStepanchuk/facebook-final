@@ -5,6 +5,7 @@ import CreatePost from '../../components/CreatePost/CreatePost'
 
 import { withStyles } from '@material-ui/styles'
 import styles from './HomePageStyles'
+import PostFeed from '../../components/NewsFeed/PostFeed'
 
 class HomePage extends Component {
 
@@ -19,7 +20,7 @@ class HomePage extends Component {
             </Grid>
             <Grid item md={6}>
               <CreatePost/>
-              <div className={classes.mainSectionPlaceholder}/>
+              <PostFeed origin='homepage'/>
             </Grid>
             <Grid item md={4}>
               <div className={classes.rightSectionPlaceholder}/>
