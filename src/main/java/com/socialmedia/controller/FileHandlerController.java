@@ -1,8 +1,10 @@
 package com.socialmedia.controller;
 
+import com.socialmedia.model.Image;
 import com.socialmedia.service.AmazonService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -21,9 +23,15 @@ public class FileHandlerController {
     this.amazonService = amazonService;
   }
 
+//  @PostMapping("/upload")
+//  public String uploadFile(@RequestPart(value = "file") MultipartFile file) {
+//    return this.amazonService.uploadFile(file);
+//  }
+
   @PostMapping("/upload")
-  public String uploadFile(@RequestPart(value = "file") MultipartFile file) {
-    return this.amazonService.uploadFile(file);
+  public ResponseEntity<Image> uploadFile(@RequestPart(value = "file") MultipartFile file) {
+    this.amazonService.uploadFile(file);
+    return ResponseEntity.ok();
   }
 
   @DeleteMapping("/delete/{fileName}")
