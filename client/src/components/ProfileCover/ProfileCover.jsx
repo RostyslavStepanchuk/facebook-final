@@ -8,8 +8,11 @@ import EmailIcon from '@material-ui/icons/Email'
 
 import { Avatar, Typography, Paper, Grid, Button, Tab, Tabs} from '@material-ui/core'
 import useStyles from './profileCoverStyles'
+import { loadUser } from '../../actions/auth'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 
-const ProfileCover = () =>  {
+const ProfileCover = ({ user }) =>  {
   const classes = useStyles()
 
   const [value, setValue] = React.useState('profile')
@@ -20,9 +23,7 @@ const ProfileCover = () =>  {
   return (
     <Fragment className={classes.root}>
       <div className={classes.avatar_bg}>
-        <Avatar className={classes.avatar_img}>
-
-        </Avatar>
+        <Avatar className={classes.avatar_img} src={user.avatar}/>
         <p className={classes.avatar_name}>Name Surname</p>
       </div>
       <Tabs value={value}
@@ -41,4 +42,18 @@ const ProfileCover = () =>  {
   )
 }
 
-export default ProfileCover
+ProfileCover.propTypes = {
+  user: PropTypes.object,
+}
+
+const mapStateToProps = state => ({
+  user: state.auth.user,
+})
+
+const mapDispatchToProps = dispatch => {
+  return {
+
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileCover)
