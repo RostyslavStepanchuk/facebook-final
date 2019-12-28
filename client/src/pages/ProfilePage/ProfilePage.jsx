@@ -3,7 +3,7 @@ import ProfileCover from '../../components/ProfileCover/ProfileCover'
 import ShortUserData from '../../components/ShortUserData/ShortUserData'
 import UserPhotos from '../../components/UserPhotos/UserPhotos'
 import UserFriends from '../../components/UserFriends/UserFriends'
-import CreatingNewPost from '../../components/CreatingNewPost/CreatingNewPost'
+import CreatePost from '../../components/CreatePost/CreatePost'
 import PostsList from '../../components/PostsList/PostsList'
 
 import { Paper, Grid } from '@material-ui/core'
@@ -33,7 +33,7 @@ const ProfilePage = () =>  {
         </Grid>
         <Grid item xs={9} sm={5}>
           <Paper className={classes.paper}>
-            <CreatingNewPost/>
+            <CreatePost/>
           </Paper>
           <Paper className={classes.paper}>
             <PostsList/>

@@ -13,7 +13,6 @@ const useStyles = makeStyles(theme => ({
     position: 'relative'
   },
   avatar_img: {
-    backgroundImage: `url('https://s3.us-west-2.amazonaws.com/fs-8/1576923750814-avatar.jpg')`,
     width: 175,
     height: 175,
     border: '3px solid white',
