@@ -22,7 +22,8 @@ public abstract class AbstractControllerToCrudServiceMapper
     return responseDtoOf(crudService.getById(id));
   }
 
-  public List<O> getAll() {
+  public List<O>
+  getAll() {
     return crudService.getAll().stream()
         .map(this::responseDtoOf)
         .collect(Collectors.toList());
@@ -38,7 +39,7 @@ public abstract class AbstractControllerToCrudServiceMapper
     return responseDtoOf(crudService.update(id, entity));
   }
 
-  public O delete(T id) {
+  public O delete(T id) throws Exception {
     return responseDtoOf(crudService.delete(id));
   }
 
