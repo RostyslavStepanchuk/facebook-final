@@ -31,7 +31,6 @@ const CreatePost = ({ user }) => {
 
   const {
     imagesToUpload,
-    textToUpload,
   } = uploadForm
 
   const handleFileInputChange = (e) => {

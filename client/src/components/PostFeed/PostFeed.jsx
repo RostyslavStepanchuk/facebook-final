@@ -15,6 +15,8 @@ class PostFeed extends Component {
       case 'profile':
         this.props.loadPostsProfile()
         break;
+      default:
+        throw new Error("PostFeed origin is not defined")
     }
   }
 
