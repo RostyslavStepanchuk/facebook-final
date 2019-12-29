@@ -9,15 +9,20 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class PostMapper extends AbstractControllerToCrudServiceMapper<Post,Long, PostDtoIn, PostDtoOut, PostService> {
 
   private UserMapper userMapper;
+  private PostService postService;
 
   @Autowired
   public PostMapper(ModelMapper modelMapper, PostService postService, UserMapper userMapper) {
     super(modelMapper, postService);
     this.userMapper = userMapper;
+    this.postService = postService;
   }
 
   @Override
@@ -31,5 +36,12 @@ public class PostMapper extends AbstractControllerToCrudServiceMapper<Post,Long,
     ApplicationUser author = userMapper.entityOf(dtoIn.getAuthorId());
     post.setAuthor(author);
     return post;
+  }
+
+  public List<PostDtoOut> getAllUsersPosts() {
+    return postService.findAllUsersPosts()
+        .stream()
+        .map(this::responseDtoOf)
+        .collect(Collectors.toList());
   }
 }
