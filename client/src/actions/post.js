@@ -48,6 +48,7 @@ export const createPost = (uploadForm, setUploadForm) => {
         imagesToUpload: [],
         textToUpload: ''
       })
+      window.location.reload()
       Toastr.success("Your post was created")
     })
 }
