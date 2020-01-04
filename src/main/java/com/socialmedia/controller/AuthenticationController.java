@@ -6,10 +6,14 @@ import com.socialmedia.dto.security.UserCredentials;
 import com.socialmedia.mapper.AuthenticationMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping(value = "/api/v1/auth")
@@ -26,6 +30,12 @@ public class AuthenticationController {
   public ResponseEntity<Token> getAccessJwt(@RequestBody UserCredentials credentials) {
 
     Token token = authenticationMapper.getAccessToken(credentials);
+    return ResponseEntity.ok(token);
+  }
+
+  @PostMapping("/refresh-tokens/{username}")
+  public ResponseEntity<Token> refreshAccessJwt(@PathVariable String username, @CookieValue("refresh_token") String refreshToken, HttpServletResponse resp) {
+    Token token = authenticationMapper.refreshTokens(refreshToken, username, resp);
     return ResponseEntity.ok(token);
   }
 

@@ -3,6 +3,7 @@ package com.socialmedia.service;
 
 import com.socialmedia.dto.security.Token;
 import com.socialmedia.dto.security.UserCredentials;
+import com.socialmedia.model.ApplicationUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -15,6 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -44,20 +46,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     Authentication authResult = authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(
-        username,
-        password,
-        new ArrayList<>())
+            username,
+            password,
+            new ArrayList<>())
     );
 
     if (authResult.isAuthenticated()) {
-      String token = Jwts.builder()
-          .setIssuedAt(new Date())
-          .setExpiration(new Date(System.currentTimeMillis() + (1000 * 60 * 15)))
-          .setSubject(authResult.getName())
-          .addClaims(Collections.emptyMap())
-          .signWith(SignatureAlgorithm.HS512, secret)
-          .compact();
-      return new Token(token);
+      return generateAccessToken(authResult.getName());
     }
 
     throw new BadCredentialsException("Unable to authenticate user");
@@ -74,5 +69,29 @@ public class AuthenticationServiceImpl implements AuthenticationService {
       result = new UsernamePasswordAuthenticationToken(claims.getSubject(), null, Collections.emptyList());
     }
     return result;
+  }
+
+  @Override
+  public Token refreshTokens(String refreshToken, ApplicationUser user, HttpServletResponse resp) {
+    String userRefreshToken = user.getTokensData().getRefreshToken();
+    Date tokenExpiration = new Date(user.getTokensData().getRefreshTokenValidTill());
+
+    if (userRefreshToken.equals(refreshToken) &
+        tokenExpiration.before(new Date())) {
+      return generateAccessToken(user.getUsername());
+    }
+
+    throw new BadCredentialsException("Your tokens have expired, please log in");
+  }
+
+  private Token generateAccessToken(String subject) {
+    String token = Jwts.builder()
+        .setIssuedAt(new Date())
+        .setExpiration(new Date(System.currentTimeMillis() + (1000 * 60 * 15)))
+        .setSubject(subject)
+        .addClaims(Collections.emptyMap())
+        .signWith(SignatureAlgorithm.HS512, secret)
+        .compact();
+    return new Token(token);
   }
 }

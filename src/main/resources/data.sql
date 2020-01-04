@@ -1,7 +1,7 @@
 /* tokens_storage */
-INSERT INTO tokens_storage (refresh_token, forgot_password_tkn, email_confirmation_id, email_is_confirmed) values ('034daREFRESHTOKENf341fd', '41fdFORGOTPASSWORDTOKEN093wgs', 1234563141324, true);
-INSERT INTO tokens_storage (refresh_token, forgot_password_tkn, email_confirmation_id, email_is_confirmed) values ('fadseREFRESHTOKENf98fds', '89dseFORGOTPASSWORDTOKEN425dw', 8034793431244, true);
-INSERT INTO tokens_storage (refresh_token, forgot_password_tkn, email_confirmation_id, email_is_confirmed) values ('trqwREFRESHTOKENf31defe', '21fdv2FORGOTPASSWORDTOKEN84gr', 0831431473943, true);
+INSERT INTO tokens_storage (refresh_token, refresh_token_valid_till, forgot_password_tkn, email_confirmation_id, email_is_confirmed) values ('034daREFRESHTOKENf341fd', 0, '41fdFORGOTPASSWORDTOKEN093wgs', 1234563141324, true);
+INSERT INTO tokens_storage (refresh_token, refresh_token_valid_till, forgot_password_tkn, email_confirmation_id, email_is_confirmed) values ('fadseREFRESHTOKENf98fds', 0, '89dseFORGOTPASSWORDTOKEN425dw', 8034793431244, true);
+INSERT INTO tokens_storage (refresh_token, refresh_token_valid_till, forgot_password_tkn, email_confirmation_id, email_is_confirmed) values ('trqwREFRESHTOKENf31defe', 0, '21fdv2FORGOTPASSWORDTOKEN84gr', 0831431473943, true);
 
 /* users */
 INSERT INTO users (username, password, email, first_name, last_name, birth_date, avatar, open_account, fk_tokens_data_id) values ('testUser', '$2a$10$SnXMYc5qb13dm8E2lza71.CtZcZQuh18vF3i6uZqeODN0eq/XjFX.', 'test@test.com', 'Tyler', 'Durden', 659998800000, 'https://s3.us-west-2.amazonaws.com/fs-8/1576923750814-avatar.jpg', true, 1); /* password passw1234 */
