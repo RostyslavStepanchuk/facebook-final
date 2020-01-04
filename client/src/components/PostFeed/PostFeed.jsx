@@ -1,50 +1,46 @@
-import React, { Component } from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { getPostsForHomePage, getPostsForProfile } from '../../actions/post'
 import Post from '../Post/Post'
 import Preloader from '../Preloader/Preloader'
 
-class PostFeed extends Component {
+const PostFeed = ({ loadPostsHomePage, loadPostsProfile, loading, origin, posts }) => {
 
-  componentDidMount () {
-    switch (this.props.origin) {
+  useEffect(()=>{
+    switch (origin) {
       case 'homepage':
-        this.props.loadPostsHomePage()
+        loadPostsHomePage()
         break;
       case 'profile':
-        this.props.loadPostsProfile()
+        loadPostsProfile()
         break;
       default:
         throw new Error("PostFeed origin is not defined")
     }
-  }
+  }, [origin, loadPostsHomePage, loadPostsProfile])
 
+  const postComponents = posts.map(post => <Post post={post} key={post.id}/>);
+  const content = loading ? <Preloader/> : postComponents;
 
-  render() {
-
-    const { posts, loading } = this.props
-    const postComponents = posts.map(post => <Post post={post} key={post.id}/>);
-    const content = loading ? <Preloader/> : postComponents;
-
-    return (
-      <div>
-        {content}
-      </div>
-    )
-  }
+  return (
+    <div>
+      {content}
+    </div>
+  )
 }
 
 PostFeed.propTypes = {
   loadPostsHomePage: PropTypes.func.isRequired,
   loadPostsProfile: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
-  origin: PropTypes.oneOf(['profile', 'homepage']).isRequired
+  origin: PropTypes.oneOf(['profile', 'homepage']).isRequired,
+  posts: PropTypes.array.isRequired
 }
 
 const mapStateToProps = state => ({
-  posts: state.newsFeed.posts,
-  loading: state.newsFeed.loading
+  posts: state.posts.posts,
+  loading: state.posts.loading
 })
 
 const mapDispatchToProps = dispatch => {
