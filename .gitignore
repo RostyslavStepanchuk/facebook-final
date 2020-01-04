@@ -73,6 +73,7 @@ buildNumber.properties
 
 # Optional eslint cache
 **/.eslintcache
+client/.stylelintcache
 
 # Microbundle cache
 **/.rpt2_cache/
