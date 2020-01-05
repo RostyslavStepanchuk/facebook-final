@@ -1,10 +1,11 @@
 package com.socialmedia.service;
 
-import com.socialmedia.model.ApplicationUser;
+import com.socialmedia.exception.NoDataFoundException;
 import com.socialmedia.model.Post;
 import com.socialmedia.repository.PostRepository;
 import com.socialmedia.util.SmartCopyBeanUtilsBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -28,15 +29,15 @@ public final class PostService extends AbstractCrudService<Post, Long, PostRepos
   }
 
   @Override
-  public Post delete(Long id) throws Exception {
+  public Post delete(Long id) {
     Principal principal = SecurityContextHolder.getContext().getAuthentication();
     Optional<Post> existingEntity = jpaRepository.findById(id);
-    Post post = existingEntity.orElseThrow(() -> new Exception("Not found"));
+    Post post = existingEntity.orElseThrow(() -> new NoDataFoundException("Post wasn't found"));
 
     if (principal.getName().equals(post.getAuthor().getUsername())) {
       return super.delete(id);
     } else {
-      throw new Exception("Bad credentials");
+      throw new BadCredentialsException("You can only delete your own posts");
     }
   }
 

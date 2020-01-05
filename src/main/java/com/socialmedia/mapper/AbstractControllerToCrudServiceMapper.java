@@ -22,8 +22,7 @@ public abstract class AbstractControllerToCrudServiceMapper
     return responseDtoOf(crudService.getById(id));
   }
 
-  public List<O>
-  getAll() {
+  public List<O> getAll() {
     return crudService.getAll().stream()
         .map(this::responseDtoOf)
         .collect(Collectors.toList());
