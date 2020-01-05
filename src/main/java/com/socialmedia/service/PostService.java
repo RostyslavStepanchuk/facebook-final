@@ -44,6 +44,6 @@ public final class PostService extends AbstractCrudService<Post, Long, PostRepos
   public List<Post> findAllUsersPosts() {
     Principal principal = SecurityContextHolder.getContext().getAuthentication();
 
-    return jpaRepository.findAllByAuthor_Id(principal.getName());
+    return jpaRepository.findAllByAuthor_Username(principal.getName());
   }
 }
