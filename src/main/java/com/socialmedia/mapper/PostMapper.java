@@ -16,13 +16,11 @@ import java.util.stream.Collectors;
 public class PostMapper extends AbstractControllerToCrudServiceMapper<Post,Long, PostDtoIn, PostDtoOut, PostService> {
 
   private UserMapper userMapper;
-  private PostService postService;
 
   @Autowired
   public PostMapper(ModelMapper modelMapper, PostService postService, UserMapper userMapper) {
     super(modelMapper, postService);
     this.userMapper = userMapper;
-    this.postService = postService;
   }
 
   @Override
@@ -39,7 +37,7 @@ public class PostMapper extends AbstractControllerToCrudServiceMapper<Post,Long,
   }
 
   public List<PostDtoOut> getAllUsersPosts() {
-    return postService.findAllUsersPosts()
+    return crudService.findAllUsersPosts()
         .stream()
         .map(this::responseDtoOf)
         .collect(Collectors.toList());

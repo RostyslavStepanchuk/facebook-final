@@ -29,7 +29,7 @@ public abstract class AbstractCrudService<E extends DbEntity<T>, T, R extends Jp
     return jpaRepository.save(entity);
   }
 
-  public E delete(T id) throws Exception {
+  public E delete(T id) {
     Optional<E> entity = jpaRepository.findById(id);
     entity.ifPresent(jpaRepository::delete);
     return resolvedOptional(entity, id);
