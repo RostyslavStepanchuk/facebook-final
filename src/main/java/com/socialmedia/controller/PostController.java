@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -21,7 +20,6 @@ public class PostController {
     this.postMapper = postMapper;
   }
 
-  //TODO remove endpoint, it's for testing purposes only
   @GetMapping
   public ResponseEntity<List<PostDtoOut>> getAllUsersPosts() {
 
