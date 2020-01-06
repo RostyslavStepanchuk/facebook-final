@@ -24,7 +24,7 @@ const ProfileCover = ({ user }) =>  {
     <Fragment className={classes.root}>
       <div className={classes.avatar_bg}>
         <Avatar className={classes.avatar_img} src={user.avatar}/>
-        <p className={classes.avatar_name}>Name Surname</p>
+        <p className={classes.avatar_name}>{user.firstName} {user.lastName}</p>
       </div>
       <Tabs value={value}
             onChange={handleChange}
