@@ -12,7 +12,8 @@ import {
   RESET_PASSWORD_FAIL,
   START_LOADING,
   STOP_LOADING,
-  EMAIL_CONFIRMED
+  EMAIL_CONFIRMED,
+  POSTS_LOADED
 } from '../utils/constants/actionsName'
 import setAuthToken from '../utils/helpers/setAuthToken'
 import { Toastr } from '../utils/toastr/Toastr'
@@ -164,4 +165,28 @@ export const confirmEmail = token => dispatch => {
     .catch(() => dispatch({
       type: STOP_LOADING
     }))
+}
+
+// Load All Posts
+
+export const loadPosts = () => dispatch => {
+  if (localStorage.accessToken) {
+    setAuthToken(localStorage.accessToken)
+
+    axios.get('/api/v1/posts')
+      .then(res => {
+        dispatch({
+          type: POSTS_LOADED,
+          payload: res.data
+        })
+      }).catch(() => {
+      dispatch({
+        type: AUTH_ERROR
+      })
+    })
+  } else {
+    dispatch({
+      type: AUTH_ERROR
+    })
+  }
 }
