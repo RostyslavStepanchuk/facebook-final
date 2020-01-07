@@ -21,15 +21,18 @@ public class PostController {
   }
 
   @GetMapping
-  public ResponseEntity<List<PostDtoOut>> getAllUsersPosts() {
+  public ResponseEntity<List<PostDtoOut>> getAllPostsForFeed() {
+    return ResponseEntity.ok(postMapper.getAllPostsForFeed());
+  }
 
+  @GetMapping("/profile")
+  public ResponseEntity<List<PostDtoOut>> getAllOwnPosts() {
     return ResponseEntity.ok(postMapper.getAllUsersPosts());
   }
 
-  @PostMapping
-  public ResponseEntity<PostDtoOut> create(@RequestBody PostDtoIn post) {
-    PostDtoOut postDtoOut = postMapper.create(post);
-    return ResponseEntity.ok(postDtoOut);
+  @GetMapping("/profile/{feedOwner}")
+  public ResponseEntity<List<PostDtoOut>>  getAllUserPost(@PathVariable String feedOwner) {
+    return ResponseEntity.ok(postMapper.getAllUsersPosts(feedOwner));
   }
 
   @GetMapping("/{id}")
@@ -37,6 +40,19 @@ public class PostController {
     PostDtoOut postDtoOut = postMapper.getById(id);
     return ResponseEntity.ok(postDtoOut);
   }
+
+  @PostMapping("/profile")
+  public ResponseEntity<PostDtoOut> createPostInProfile(@RequestBody PostDtoIn post) {
+    PostDtoOut postDtoOut = postMapper.create(post);
+    return ResponseEntity.ok(postDtoOut);
+  }
+
+  @PostMapping("/{feedOwner}")
+  public ResponseEntity<PostDtoOut> createPostInOtherFeed(@RequestBody PostDtoIn post, @PathVariable String feedOwner) {
+    PostDtoOut postDtoOut = postMapper.createPostInOtherFeed(post, feedOwner);
+    return ResponseEntity.ok(postDtoOut);
+  }
+
 
   @PutMapping("/{id}")
   public ResponseEntity<PostDtoOut> update(@PathVariable Long id, @RequestBody PostDtoIn post) {

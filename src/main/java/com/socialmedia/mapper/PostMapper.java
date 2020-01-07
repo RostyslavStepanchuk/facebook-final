@@ -32,12 +32,47 @@ public class PostMapper extends AbstractControllerToCrudServiceMapper<Post,Long,
   Post entityOf(PostDtoIn dtoIn) {
     Post post = modelMapper.map(dtoIn, Post.class);
     ApplicationUser author = userMapper.entityOf(dtoIn.getAuthorId());
+    post.setOwner(author);
     post.setAuthor(author);
+
     return post;
   }
 
+  Post entityOf(PostDtoIn dtoIn, String ownerUsername) {
+    Post post = modelMapper.map(dtoIn, Post.class);
+    ApplicationUser author = userMapper.entityOf(dtoIn.getAuthorId());
+    ApplicationUser owner = userMapper.entityOf(ownerUsername);
+    post.setAuthor(author);
+    post.setOwner(owner);
+
+    return post;
+  }
+
+  public PostDtoOut createPostInOtherFeed(PostDtoIn dtoIn, String feedOwner) {
+    Post entity = entityOf(dtoIn, feedOwner);
+
+    return responseDtoOf(crudService.create(entity));
+  }
+
+  public List<PostDtoOut> getAllPostsForFeed() {
+
+    return crudService.getAllPostsForFeed()
+        .stream()
+        .map(this::responseDtoOf)
+        .collect(Collectors.toList());
+  }
+
   public List<PostDtoOut> getAllUsersPosts() {
+
     return crudService.findAllUsersPosts()
+        .stream()
+        .map(this::responseDtoOf)
+        .collect(Collectors.toList());
+  }
+
+  public List<PostDtoOut> getAllUsersPosts(String feedOwner) {
+
+    return crudService.findAllUsersPosts(feedOwner)
         .stream()
         .map(this::responseDtoOf)
         .collect(Collectors.toList());

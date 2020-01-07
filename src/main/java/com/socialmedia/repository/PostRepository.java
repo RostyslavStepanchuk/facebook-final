@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
 
-   List<Post> findAllByAuthor_Username(String id);
+   List<Post> findAllByOwner_Username(String id);
 }
