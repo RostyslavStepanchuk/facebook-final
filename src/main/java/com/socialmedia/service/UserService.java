@@ -93,7 +93,7 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
 
   public Boolean confirmEmail(String confirmationId) {
     ApplicationUser user = jpaRepository.getByEmailConfirmationId(confirmationId)
-        .orElseThrow(()-> new NoDataFoundException("Invalid email confirmation id"));
+        .orElseThrow(() -> new NoDataFoundException("Invalid email confirmation id"));
     user.getTokensData().setEmailIsConfirmed(true);
     jpaRepository.save(user);
     return true;
@@ -104,12 +104,12 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
   public ApplicationUser delete(String id) {
     ApplicationUser deletedUser = resolvedOptional(jpaRepository.findById(id), id);
 
-    deletedUser.getFriends().forEach(friend->removeFriend(friend, id));
-    deletedUser.getChats().forEach(chat-> chatService.removeParticipant(chat, id));
+    deletedUser.getFriends().forEach(friend -> removeFriend(friend, id));
+    deletedUser.getChats().forEach(chat -> chatService.removeParticipant(chat, id));
     friendRequestService.getAllByRequester(deletedUser).forEach(request -> friendRequestService.delete(request.getId()));
     friendRequestService.getAllByResponder(deletedUser).forEach(request -> friendRequestService.delete(request.getId()));
     deletedUser.setIncomingFriendRequests(Collections.emptyList());
-    deletedUser.getLikedPosts().forEach(post-> {
+    deletedUser.getLikedPosts().forEach(post -> {
       List<ApplicationUser> filteredLikes = post.getLikes().stream()
           .filter(user -> !user.getUsername().equals(id))
           .collect(Collectors.toList());

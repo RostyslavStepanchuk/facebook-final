@@ -62,17 +62,17 @@ public final class PostService extends AbstractCrudService<Post, Long, PostRepos
     Optional<ApplicationUser> userEntity = userRepository.findById(principal.getName());
     ApplicationUser user = userEntity.orElseThrow(() -> new NoDataFoundException("User wasn't found"));
     List<ApplicationUser> userFriends = user.getFriends();
-    List <List<Post>> userFriendsPosts = userFriends
+    List<List<Post>> userFriendsPosts = userFriends
         .stream()
         .map(userFriend -> jpaRepository.findAllByOwner_Username(userFriend.getId()))
         .collect(Collectors.toList());
     List<Post> userPosts = jpaRepository.findAllByOwner_Username(principal.getName());
     userFriendsPosts.add(userPosts);
 
-    return  userFriendsPosts
+    return userFriendsPosts
         .stream()
         .flatMap(c -> c.stream())
-        .sorted((p1,p2) -> (int) (p1.getDate() - p2.getDate()))
+        .sorted((p1, p2) -> (int) (p1.getDate() - p2.getDate()))
         .collect(Collectors.toList());
   }
 }
