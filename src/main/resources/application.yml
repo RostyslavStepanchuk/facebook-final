@@ -10,6 +10,10 @@ amazonProperties:
 spring:
   profiles:
     active: dev
+  servlet:
+    multipart:
+      maxFileSize: 15MB
+      maxRequestSize: 15MB
 
   security:
       jwt-secret:

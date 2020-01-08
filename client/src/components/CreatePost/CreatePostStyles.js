@@ -27,8 +27,23 @@ const useStyles = makeStyles(theme => ({
     borderStyle: 'none',
     borderRadius: '0px'
   },
+  imgPreviewContainer: {
+    padding: '5px'
+  },
+  titleBar: {
+    height: '30px',
+    background:
+      'linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, ' +
+      'rgba(0,0,0,0.1) 70%, rgba(0,0,0,0) 100%)',
+  },
+  iconButton: {
+    color: 'white',
+  },
   toolsContainer: {
     padding: '5px'
+  },
+  errorImg: {
+    border: '3px solid red'
   },
   button: {
     padding: 0,
