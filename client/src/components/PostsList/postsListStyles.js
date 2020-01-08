@@ -14,7 +14,6 @@ const useStyles = makeStyles(theme => ({
   post_img: {
     width: '100%',
   },
-
 }))
 
 export default useStyles
