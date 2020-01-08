@@ -1,6 +1,5 @@
 import React, { Fragment, Component } from 'react'
 import useStyles from './postAuthorStyles'
-import { connect } from 'react-redux'
 import Avatar from '@material-ui/core/Avatar'
 
 const PostAuthor = ( props ) => {

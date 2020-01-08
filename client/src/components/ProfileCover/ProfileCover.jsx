@@ -1,14 +1,7 @@
 import React, { Fragment } from 'react'
 
-import AccountCircleIcon from '@material-ui/icons/AccountCircle'
-import PersonIcon from '@material-ui/icons/Person'
-import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount'
-import PhotoCameraIcon from '@material-ui/icons/PhotoCamera'
-import EmailIcon from '@material-ui/icons/Email'
-
-import { Avatar, Typography, Paper, Grid, Button, Tab, Tabs} from '@material-ui/core'
+import { Avatar, Tab, Tabs} from '@material-ui/core'
 import useStyles from './profileCoverStyles'
-import { loadUser } from '../../actions/auth'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 

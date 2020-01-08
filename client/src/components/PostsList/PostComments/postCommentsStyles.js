@@ -4,9 +4,6 @@ const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
   },
-  comments: {
-
-  },
   comment: {
     textAlign: 'left',
     padding: '5px 10px',

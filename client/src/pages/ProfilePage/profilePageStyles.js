@@ -16,7 +16,6 @@ const useStyles = makeStyles(theme => ({
     boxShadow: '0 2px 4px rgba(0, 0, 0, .25)',
     marginRight: 30,
   },
-
 }))
 
 export default useStyles
