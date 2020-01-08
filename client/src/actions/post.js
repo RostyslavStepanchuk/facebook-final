@@ -2,55 +2,49 @@ import axios from 'axios'
 import { Toastr } from '../utils/toastr/Toastr'
 import { POSTS_END_LOADING, POSTS_RECIEVED, POSTS_START_LOADING } from '../utils/constants/actionsName'
 
-export const createPost = (uploadForm, setUploadForm) => {
+export const uploadImages = images => {
+
   const configMultipart = {
     headers: {
       'Content-Type': 'multipart/form-data'
     }
   }
+
+  const uploadImageRequests = images.map((img, i) => {
+    const formData = new FormData()
+    formData.append("file", img.file)
+    return axios.post('/api/v1/storage/fake_upload', formData, configMultipart)
+      .catch(()=> {
+        images[i].uploadError = true
+      })
+  })
+
+  return Promise.all(uploadImageRequests)
+    .then(resArr => {
+      if (images.some(img => img.uploadError === true)){
+        return Promise.reject(images)
+      }
+      return Promise.resolve(resArr.map(res => res.data))
+    })
+}
+
+export const createPost = (message, images, isShownToEveryone) => {
+
   const configJson = {
     headers: {
       'Content-Type': 'application/json'
     }
   }
 
-  const saveImgToStorageRequests = uploadForm.imagesToUpload.map((img, i) => {
-      const formData = new FormData()
-      formData.append("file", img.file)
-      return axios.post('/api/v1/storage/fake_upload', formData, configMultipart)
-        .catch(()=> {
-          uploadForm.imagesToUpload[i].uploadError = true
-          setUploadForm({...uploadForm})
-          return Promise.reject('Error during image ' + i + ' uploading')
-        })
-  })
+  const body = {
+    message,
+    image: images[0],
+    showEveryone: isShownToEveryone
+  }
 
-  Promise.all(saveImgToStorageRequests)
-    .then(result => {
-
-      const body = {
-        message: uploadForm.textToUpload,
-        image: result.map(response => response.data)[0],
-        showEveryone: true
-      }
-        return axios.post('/api/v1/posts', body, configJson)
-
-      },
-      reason => {
-
-      Toastr.error("One or more images were not uploaded")
-        return Promise.reject(reason)
-
-      })
-    .then(()=> {
-
-      setUploadForm({
-        imagesToUpload: [],
-        textToUpload: ''
-      })
-      window.location.reload()
-      Toastr.success("Your post was created")
-    })
+  return axios.post('/api/v1/posts', body, configJson)
+    .then(()=> window.location.reload(),
+      ()=> Toastr.error("Error while creating post"))
 }
 
 export const getPostsForHomePage = () => async dispatch => {
