@@ -1,4 +1,4 @@
-import React, { Fragment, Component } from 'react'
+import React, { Fragment } from 'react'
 import useStyles from './postAuthorStyles'
 import Avatar from '@material-ui/core/Avatar'
 
