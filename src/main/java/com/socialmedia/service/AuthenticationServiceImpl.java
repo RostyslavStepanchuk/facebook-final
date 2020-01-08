@@ -86,8 +86,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     String userRefreshToken = user.getTokensData().getRefreshToken();
     Date tokenExpiration = new Date(user.getTokensData().getRefreshTokenValidTill());
 
-    if (userRefreshToken.equals(refreshToken) &
-        tokenExpiration.after(new Date())) {
+    if (userRefreshToken.equals(refreshToken)
+        & tokenExpiration.after(new Date())) {
       return generateAccessToken(user.getUsername());
     }
 
