@@ -72,17 +72,10 @@ public class AmazonService extends AbstractCrudService<Image, Long, ImageReposit
   }
 
   private File convertMultiPartToFile(MultipartFile file) throws IOException {
-    FileOutputStream fos = null;
-    File convFile = null;
-    try {
-      convFile = new File(file.getOriginalFilename());
-      fos = new FileOutputStream(convFile);
-      fos.write(file.getBytes());
-    } catch (Exception e) {
-      // ...
-    } finally {
-      fos.close();
-    }
+    File convFile = new File(file.getOriginalFilename());
+    FileOutputStream fos = new FileOutputStream(convFile);
+    fos.write(file.getBytes());
+    fos.close();
     return convFile;
   }
 
