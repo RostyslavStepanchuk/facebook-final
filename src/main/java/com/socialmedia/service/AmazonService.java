@@ -24,7 +24,7 @@ import java.util.Optional;
 @Service
 @Configuration
 @Slf4j
-public class AmazonService extends AbstractCrudService<Image, Long, ImageRepository>{
+public class AmazonService extends AbstractCrudService<Image, Long, ImageRepository> {
 
   private AmazonS3 s3client;
 
@@ -56,21 +56,10 @@ public class AmazonService extends AbstractCrudService<Image, Long, ImageReposit
       throw new RuntimeException(exc);
     }
   }
-//  public String uploadFile(MultipartFile multipartFile) {
-//    try {
-//      File file = convertMultiPartToFile(multipartFile);
-//      String fileName = generateFileName(multipartFile);
-//      uploadFileToS3bucket(fileName, file);
-//      return endpointUrl + "/" + bucketName + "/" + fileName;
-//    } catch (Exception exc) {
-//      log.error(exc.getMessage(), exc);
-//      throw new RuntimeException(exc);
-//    }
-//  }
 
   public Boolean deleteFile(String fileName) {
     boolean deleted;
-    if(deleteFileFromS3Bucket(fileName)){
+    if (deleteFileFromS3Bucket(fileName)) {
       Optional<Image> existingEntity = jpaRepository.findByKey(fileName);
       existingEntity.ifPresent(image -> {
         jpaRepository.delete(image);
@@ -83,10 +72,17 @@ public class AmazonService extends AbstractCrudService<Image, Long, ImageReposit
   }
 
   private File convertMultiPartToFile(MultipartFile file) throws IOException {
-    File convFile = new File(file.getOriginalFilename());
-    FileOutputStream fos = new FileOutputStream(convFile);
-    fos.write(file.getBytes());
-    fos.close();
+    FileOutputStream fos = null;
+    File convFile = null;
+    try {
+      convFile = new File(file.getOriginalFilename());
+      fos = new FileOutputStream(convFile);
+      fos.write(file.getBytes());
+    } catch (Exception e) {
+      // ...
+    } finally {
+      fos.close();
+    }
     return convFile;
   }
 
@@ -103,6 +99,4 @@ public class AmazonService extends AbstractCrudService<Image, Long, ImageReposit
     s3client.deleteObject(new DeleteObjectRequest(bucketName, fileName));
     return !s3client.doesObjectExist(bucketName, fileName);
   }
-
-
 }
