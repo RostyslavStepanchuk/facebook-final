@@ -67,7 +67,6 @@ export const getPostsForHomePage = () => async dispatch => {
       type: POSTS_END_LOADING
     })
   }
-
 }
 
 export const getPostsForProfile = () => async dispatch => {
