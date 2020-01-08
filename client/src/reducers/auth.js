@@ -11,8 +11,7 @@ import {
   RESET_PASSWORD,
   START_LOADING,
   STOP_LOADING,
-  EMAIL_CONFIRMED,
-  POSTS_LOADED
+  EMAIL_CONFIRMED
   // RESET_PASSWORD_FAIL
 } from '../utils/constants/actionsName'
 
@@ -22,7 +21,6 @@ const initialState = {
   user: null,
   resetEmailSend: false,
   emailIsConfirmed: false,
-  posts: []
 }
 
 export default function(state = initialState, action) {
@@ -34,9 +32,6 @@ export default function(state = initialState, action) {
 
     case USER_LOADED:
       return { ...state, isAuthenticated: true, loading: false, user: payload, emailIsConfirmed: payload.emailIsConfirmed }
-
-    case POSTS_LOADED:
-      return { ...state, posts: payload }
 
     case REGISTER_SUCCESS:
       localStorage.setItem('accessToken', payload.accessToken)

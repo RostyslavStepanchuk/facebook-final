@@ -4,7 +4,7 @@ import ShortUserData from '../../components/ShortUserData/ShortUserData'
 import UserPhotos from '../../components/UserPhotos/UserPhotos'
 import UserFriends from '../../components/UserFriends/UserFriends'
 import CreatePost from '../../components/CreatePost/CreatePost'
-import PostsList from '../../components/PostsList/PostsList'
+import PostFeed from '../../components/PostFeed/PostFeed'
 
 import { Paper, Grid } from '@material-ui/core'
 import useStyles from './profilePageStyles'
@@ -36,7 +36,7 @@ const ProfilePage = () =>  {
             <CreatePost/>
           </Paper>
           <Paper className={classes.paper}>
-            <PostsList/>
+            <PostFeed origin='profile' />
           </Paper>
         </Grid>
       </Grid>

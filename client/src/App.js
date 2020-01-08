@@ -11,7 +11,6 @@ import Login from './pages/Login/Login'
 import Toastr from './components/Toastr/Toastr'
 import EmailConfirmedPage from './pages/EmailConfirmed/EmailConfirmedPage'
 import ProtectedRouter from './components/ProtectedRouter/ProtectedRouter'
-import ProfilePage from './pages/ProfilePage/ProfilePage'
 
 function App() {
   return (
@@ -25,7 +24,6 @@ function App() {
           <Route exact path='/email/confirm/:token' component={EmailConfirmedPage} />
           <Route exact path='/password_reset' component={ResetPassword} />
           <Route exact path='/access_denied' component={EmailNeedsConfirmationPage} />
-          <Route exact path='/profile' component={ProfilePage} />
           <Route path='/' component={ProtectedRouter} />
         </Switch>
       </Router>
