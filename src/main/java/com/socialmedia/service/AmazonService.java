@@ -57,15 +57,10 @@ public class AmazonService extends AbstractCrudService<Image, Long, ImageReposit
   }
 
   public Boolean deleteFile(String fileName) {
-    boolean deleted;
-    if (deleteFileFromS3Bucket(fileName)) {
+    boolean deleted = deleteFileFromS3Bucket(fileName);
+    if (Boolean.TRUE.equals(deleted)) {
       Optional<Image> existingEntity = jpaRepository.findByKey(fileName);
-      existingEntity.ifPresent(image -> {
-        jpaRepository.delete(image);
-      });
-      deleted = true;
-    } else {
-      deleted = false;
+      existingEntity.ifPresent(image -> jpaRepository.delete(image));
     }
     return deleted;
   }
