@@ -71,19 +71,22 @@ export const getPostsForHomePage = () => async dispatch => {
 }
 
 export const getPostsForProfile = () => async dispatch => {
-
   dispatch({
     type: POSTS_START_LOADING
   })
-  const posts = await axios.get('/api/v1/posts')
 
-  dispatch({
-    type: POSTS_RECIEVED,
-    payload: posts.data
-  })
+  try {
+    const posts = await axios.get('/api/v1/posts')
 
-  dispatch({
-    type: POSTS_END_LOADING
-  })
+    dispatch({
+      type: POSTS_RECIEVED,
+      payload: posts.data
+    })
 
+  } catch (e) {
+    console.error(e.message)
+    dispatch({
+      type: POSTS_END_LOADING
+    })
+  }
 }
