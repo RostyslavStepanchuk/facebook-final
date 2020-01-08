@@ -1,19 +1,19 @@
 /* global localStorage */
 import axios from 'axios'
 import {
-  REGISTER_SUCCESS,
-  REGISTER_FAIL,
-  USER_LOADED,
   AUTH_ERROR,
-  LOGIN_SUCCESS,
+  EMAIL_CONFIRMED,
   LOGIN_FAIL,
+  LOGIN_SUCCESS,
   LOGOUT,
+  REGISTER_FAIL,
+  REGISTER_SUCCESS,
   RESET_PASSWORD,
   RESET_PASSWORD_FAIL,
   START_LOADING,
   STOP_LOADING,
-  EMAIL_CONFIRMED,
-  POSTS_LOADED
+  POSTS_LOADED,
+  USER_LOADED
 } from '../utils/constants/actionsName'
 import setAuthToken from '../utils/helpers/setAuthToken'
 import { Toastr } from '../utils/toastr/Toastr'
@@ -30,11 +30,13 @@ export const loadUser = () => dispatch => {
           type: USER_LOADED,
           payload: res.data
         })
-      }).catch(() => {
-      dispatch({
-        type: AUTH_ERROR
       })
-    })
+      .catch(() => {
+        setAuthToken(null)
+        dispatch({
+          type: AUTH_ERROR
+        })
+      })
   } else {
     dispatch({
       type: AUTH_ERROR
