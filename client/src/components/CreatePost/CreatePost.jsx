@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { createPost } from '../../actions/post'
+import { createPost, uploadImages } from '../../actions/post'
 
 import {
   Avatar,
@@ -20,6 +20,7 @@ import AssignmentIndOutlinedIcon from '@material-ui/icons/AssignmentIndOutlined'
 import CloseOutlinedIcon from '@material-ui/icons/CloseOutlined'
 
 import useStyles from './CreatePostStyles'
+import { Toastr } from '../../utils/toastr/Toastr'
 
 const CreatePost = ({ user }) => {
 
@@ -52,7 +53,12 @@ const CreatePost = ({ user }) => {
 
   const handleSubmit = e => {
     e.preventDefault()
-    createPost(uploadForm, setUploadForm)
+    uploadImages(imagesToUpload).then(
+      imgLinks => createPost(uploadForm.textToUpload, imgLinks, true),
+      images => {
+        Toastr.error('One or more images weren\'t uploaded')
+        setUploadForm({...uploadForm, imagesToUpload: images})
+      })
   }
 
   const images = imagesToUpload.map((img, index) => (
