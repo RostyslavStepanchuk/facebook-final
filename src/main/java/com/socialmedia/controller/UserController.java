@@ -54,7 +54,7 @@ public class UserController {
   }
 
   @DeleteMapping
-  public ResponseEntity<UserDtoOut> deleteUser(Principal principal) throws Exception {
+  public ResponseEntity<UserDtoOut> deleteUser(Principal principal) {
 
     return ResponseEntity.ok(userMapper.delete(principal.getName()));
   }

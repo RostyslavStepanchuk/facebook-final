@@ -38,7 +38,7 @@ public abstract class AbstractControllerToCrudServiceMapper
     return responseDtoOf(crudService.update(id, entity));
   }
 
-  public O delete(T id) throws Exception {
+  public O delete(T id) {
     return responseDtoOf(crudService.delete(id));
   }
 
