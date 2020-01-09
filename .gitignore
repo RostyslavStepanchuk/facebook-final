@@ -124,3 +124,5 @@ client/.stylelintcache
 
 # TernJS port file
 **/.tern-port
+
+client/.stylelintcache
