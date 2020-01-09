@@ -14,15 +14,17 @@ const PostLikePanel = ({ post, user, uploadLikes}) => {
   const [likeIt, setChangeForLike] = useState(false)
   const classes = useStyles()
 
+  const postLikes = post.likes
+  const username = user.username
+
   useEffect(
     () => {
-      const userName = user.username
-      post.likes.map( like => {
-        if(like.username === userName) {
+      postLikes.forEach(like => {
+        if (like.username === username) {
           setChangeForLike(true)
         }
       })
-    },  []
+    },[postLikes, username]
   )
 
   const changeLike = () =>  {
@@ -55,6 +57,7 @@ const PostLikePanel = ({ post, user, uploadLikes}) => {
 
 PostLikePanel.propTypes = {
   user: PropTypes.object,
+  post: PropTypes.object,
   uploadLikes: PropTypes.func,
 }
 
