@@ -48,6 +48,10 @@ public final class UserMapper extends
     return user;
   }
 
+  public ApplicationUser entityOf(String userId) {
+    return crudService.getById(userId);
+  }
+
   private UserLabelDtoOut userLabelDtoOf(ApplicationUser entity) {
 
     return modelMapper.map(entity, UserLabelDtoOut.class);
