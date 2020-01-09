@@ -56,6 +56,11 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
     handleMobileMenuClose()
   }
 
+  const openProfile = () => {
+    handleMenuClose()
+    history.push('/profile')
+  }
+
   const handleMobileMenuOpen = event => {
     setMobileMoreAnchorEl(event.currentTarget)
   }
@@ -71,7 +76,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={openProfile}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>Find Friends</MenuItem>
     </Menu>
   )
