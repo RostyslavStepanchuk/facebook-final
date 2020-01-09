@@ -2,10 +2,10 @@ import React from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import classNames from 'classnames'
 
-import useStyles from './loadingStyles'
-import PropTypes from "prop-types";
+import useStyles from './preloaderStyles'
+import PropTypes from 'prop-types'
 
-export default function Loading({ color = 'primary', fullScreen = false, size = '40px' }) {
+export default function Preloader({ color = 'primary', fullScreen = false, size = '40px' }) {
   const classes = useStyles({ fullScreen })
 
   return (
@@ -13,11 +13,10 @@ export default function Loading({ color = 'primary', fullScreen = false, size = 
       <CircularProgress color={color} size={size} />
     </div>
   )
-
 }
 
-Loading.propTypes = {
+Preloader.propTypes = {
   color: PropTypes.string,
   fullScreen: PropTypes.bool,
   size: PropTypes.string
-};
+}
