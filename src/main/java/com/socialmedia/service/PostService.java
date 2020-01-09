@@ -4,9 +4,9 @@ import com.socialmedia.exception.NoDataFoundException;
 import com.socialmedia.model.ApplicationUser;
 import com.socialmedia.model.Post;
 import com.socialmedia.repository.PostRepository;
-import com.socialmedia.repository.UserRepository;
 import com.socialmedia.util.SmartCopyBeanUtilsBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -20,12 +20,12 @@ import java.util.stream.Collectors;
 @Service
 public final class PostService extends AbstractCrudService<Post, Long, PostRepository> {
 
-  private UserRepository userRepository;
+  private UserService userService;
 
   @Autowired
-  public PostService(PostRepository jpaRepository, SmartCopyBeanUtilsBean beanUtilsBean, UserRepository userRepository) {
+  public PostService(PostRepository jpaRepository, SmartCopyBeanUtilsBean beanUtilsBean, @Lazy UserService userService) {
     super(jpaRepository, beanUtilsBean);
-    this.userRepository = userRepository;
+    this.userService = userService;
   }
 
   @Override
@@ -40,7 +40,10 @@ public final class PostService extends AbstractCrudService<Post, Long, PostRepos
     Optional<Post> existingEntity = jpaRepository.findById(id);
     Post post = existingEntity.orElseThrow(() -> new NoDataFoundException("Post wasn't found"));
 
-    if (principal.getName().equals(post.getAuthor().getUsername())) {
+    final boolean hasCredentialsToDelete = principal.getName().equals(post.getAuthor().getUsername())
+        || principal.getName().equals(post.getOwner().getUsername());
+
+    if (hasCredentialsToDelete) {
       return super.delete(id);
     } else {
       throw new BadCredentialsException("You can only delete your own posts");
@@ -59,19 +62,13 @@ public final class PostService extends AbstractCrudService<Post, Long, PostRepos
 
   public List<Post> getAllPostsForFeed() {
     Principal principal = SecurityContextHolder.getContext().getAuthentication();
-    Optional<ApplicationUser> userEntity = userRepository.findById(principal.getName());
-    ApplicationUser user = userEntity.orElseThrow(() -> new NoDataFoundException("User wasn't found"));
-    List<ApplicationUser> userFriends = user.getFriends();
-    List<List<Post>> userFriendsPosts = userFriends
-        .stream()
-        .map(userFriend -> jpaRepository.findAllByOwner_Username(userFriend.getId()))
-        .collect(Collectors.toList());
-    List<Post> userPosts = jpaRepository.findAllByOwner_Username(principal.getName());
-    userFriendsPosts.add(userPosts);
+    ApplicationUser user = userService.getById(principal.getName());
+    List<ApplicationUser> postOwners = user.getFriends();
+    postOwners.add(user);
 
-    return userFriendsPosts
-        .stream()
-        .flatMap(c -> c.stream())
+    return postOwners.stream()
+        .map(owner -> jpaRepository.findAllByOwner_Username(owner.getId()))
+        .flatMap(p -> p.stream())
         .sorted((p1, p2) -> (int) (p1.getDate() - p2.getDate()))
         .collect(Collectors.toList());
   }

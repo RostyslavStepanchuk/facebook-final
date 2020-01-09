@@ -109,6 +109,7 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
     friendRequestService.getAllByRequester(deletedUser).forEach(request-> friendRequestService.delete(request.getId()));
     friendRequestService.getAllByResponder(deletedUser).forEach(request-> friendRequestService.delete(request.getId()));
     postService.findAllUsersPosts().forEach(post -> postService.delete(post.getId()));
+    postService.findAllUsersPosts(deletedUser.getUsername()).forEach(post -> postService.delete(post.getId()));
     deletedUser.setIncomingFriendRequests(Collections.emptyList());
     deletedUser.getLikedPosts().forEach(post-> {
       List<ApplicationUser> filteredLikes = post.getLikes().stream()
