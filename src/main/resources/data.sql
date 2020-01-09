@@ -13,8 +13,10 @@ INSERT INTO friends (fk_username, fk_friend_username) values ('testUser', 'imagi
 INSERT INTO friends (fk_username, fk_friend_username) values ('imaginaryUser', 'testUser');
 
 /* posts */
-INSERT INTO posts (message, date, image, show_everyone, fk_author_username) values ('this is a first post in this application', 1575390051359, 'https://s3.us-west-2.amazonaws.com/fs-8/1578253112874-bg.jpg', true, 'testUser');
-INSERT INTO posts (message, date, image, show_everyone, fk_author_username) values ('second post', 1575390051359, 'https://s3.us-west-2.amazonaws.com/fs-8/1576923813421-avatar-bg.jpg', true, 'nonExistingUser');
+INSERT INTO posts (message, date, image, show_everyone, fk_author_username, fk_owner_username) values ('this is a first post in this application', 1575390051359 , 'http://image.source.com', true, 'testUser', 'testUser');
+INSERT INTO posts (message, date, image, show_everyone, fk_author_username, fk_owner_username) values ('Happy BD to u!', 1575390057359 , 'http://image.source.com', true, 'imaginaryUser', 'testUser');
+INSERT INTO posts (message, date, image, show_everyone, fk_author_username, fk_owner_username) values ('Smart friends post', 1575390091359 , 'http://image.source.com', true, 'imaginaryUser', 'imaginaryUser');
+INSERT INTO posts (message, date, image, show_everyone, fk_author_username, fk_owner_username) values ('Not Smart post from a stranger', 1575390091359 , 'http://image.source.com', true, 'nonExistingUser', 'nonExistingUser');
 
 /* comments */
 INSERT INTO comments (message, date, fk_author_username, fk_post_id) values ('this post sucks, actually', 1575390058432 , 'imaginaryUser', 1);

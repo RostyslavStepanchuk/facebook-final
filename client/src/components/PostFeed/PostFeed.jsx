@@ -20,8 +20,8 @@ const PostFeed = ({ loadPostsHomePage, loadPostsProfile, loading, origin, posts 
     }
   }, [origin, loadPostsHomePage, loadPostsProfile])
 
-  const postComponents = posts.map(post => <Post post={post} key={post.id}/>);
-  const content = loading ? <Preloader/> : postComponents;
+  const postComponents = posts.map(post => <Post post={post} key={post.id}/>)
+  const content = loading ? <Preloader/> : postComponents
 
   return (
     <div>
