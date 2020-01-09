@@ -1,40 +1,45 @@
 package com.socialmedia.controller;
 
-import com.socialmedia.service.AmazonService;
+import com.socialmedia.dto.image.ImageDtoOut;
+import com.socialmedia.mapper.ImageMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.UUID;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/storage")
 public class FileHandlerController {
-  private AmazonService amazonService;
+  private ImageMapper imageMapper;
 
   @Autowired
-  FileHandlerController(AmazonService amazonService) {
-    this.amazonService = amazonService;
+  public FileHandlerController(ImageMapper imageMapper) {
+    this.imageMapper = imageMapper;
   }
 
   @PostMapping("/upload")
-  public String uploadFile(@RequestPart(value = "file") MultipartFile file) {
-    return this.amazonService.uploadFile(file);
-  }
-
-  @PostMapping(value = "/fake_upload")
-  public ResponseEntity<String> fakeUploadFile(@RequestPart(value = "file") MultipartFile file) {
-    return ResponseEntity.ok("https://" + UUID.randomUUID().toString());
+  public ResponseEntity<ImageDtoOut> uploadFile(@RequestPart(value = "file") MultipartFile file) {
+    return ResponseEntity.ok(imageMapper.uploadFile(file));
   }
 
   @DeleteMapping("/delete/{fileName}")
-  public boolean deleteFile(@PathVariable(value = "fileName") String fileName) {
-    return this.amazonService.deleteFileFromS3Bucket(fileName);
+  public ResponseEntity<Boolean> deleteFile(@PathVariable(value = "fileName") String fileName) {
+    return ResponseEntity.ok(imageMapper.deleteFile(fileName));
+  }
+
+  @GetMapping
+  public ResponseEntity<List<ImageDtoOut>> getAll() {
+    return ResponseEntity.ok(imageMapper.getAll());
   }
 }
