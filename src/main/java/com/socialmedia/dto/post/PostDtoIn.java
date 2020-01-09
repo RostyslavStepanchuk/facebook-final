@@ -11,5 +11,4 @@ public class PostDtoIn {
   private String message;
   private String image;
   private Boolean showEveryone;
-  private String authorId;
 }
