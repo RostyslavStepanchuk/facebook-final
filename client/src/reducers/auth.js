@@ -1,18 +1,17 @@
 /* global localStorage */
 
 import {
-  REGISTER_SUCCESS,
-  REGISTER_FAIL,
-  USER_LOADED,
   AUTH_ERROR,
-  LOGIN_SUCCESS,
+  EMAIL_CONFIRMED,
   LOGIN_FAIL,
+  LOGIN_SUCCESS,
   LOGOUT,
+  REGISTER_FAIL,
+  REGISTER_SUCCESS,
   RESET_PASSWORD,
   START_LOADING,
   STOP_LOADING,
-  EMAIL_CONFIRMED
-  // RESET_PASSWORD_FAIL
+  USER_LOADED
 } from '../utils/constants/actionsName'
 
 const initialState = {
@@ -39,7 +38,7 @@ export default function(state = initialState, action) {
 
     case LOGIN_SUCCESS:
       localStorage.setItem('accessToken', payload.accessToken)
-      return { ...state, ...payload, isAuthenticated: true, loading: false }
+      return { ...state, isAuthenticated: true, loading: false }
 
     case REGISTER_FAIL:
       return { ...state, loading: false }
