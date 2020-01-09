@@ -68,7 +68,7 @@ public class PostController {
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<PostDtoOut> delete(@PathVariable Long id) throws Exception {
+  public ResponseEntity<PostDtoOut> delete(@PathVariable Long id) {
     PostDtoOut postDtoOut = postMapper.delete(id);
     return ResponseEntity.ok(postDtoOut);
   }
