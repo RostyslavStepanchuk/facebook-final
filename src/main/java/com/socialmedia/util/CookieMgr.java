@@ -16,7 +16,7 @@ public class CookieMgr {
     Cookie cookie = new Cookie(REFRESH_TOKEN_COOKIE_NAME, refreshToken);
     cookie.setPath(REFRESH_TOKEN_COOKIE_PATH);
     cookie.setMaxAge((int)(REFRESH_TOKEN_MAX_AGE / 1000));
-    cookie.setSecure(true);
+//    cookie.setSecure(true);
     cookie.setHttpOnly(true);
     resp.addCookie(cookie);
   }

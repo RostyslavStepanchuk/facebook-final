@@ -7,7 +7,13 @@ import { withStyles } from '@material-ui/styles'
 import styles from './HomePageStyles'
 import PostFeed from '../../components/PostFeed/PostFeed'
 
+import apiRequest from '../../utils/helpers/apiRequest'
+
 class HomePage extends Component {
+
+  componentDidMount () {
+    apiRequest.get('/users/currentttt').then(result => console.log('result:', result))
+  }
 
   render () {
     const { classes } = this.props

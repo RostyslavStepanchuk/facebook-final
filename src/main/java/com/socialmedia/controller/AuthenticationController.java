@@ -41,7 +41,7 @@ public class AuthenticationController {
     return ResponseEntity.ok(token);
   }
 
-  @PostMapping("/refresh-tokens/{username}")
+  @PostMapping("/reissue-tokens/{username}")
   public ResponseEntity<Token> refreshAccessJwt(@PathVariable String username,
                                                 @CookieValue(REFRESH_TOKEN_COOKIE_NAME) String refreshToken,
                                                 HttpServletResponse resp) {
