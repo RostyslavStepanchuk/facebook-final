@@ -38,6 +38,10 @@ public class Post implements DbEntity<Long> {
   @JoinColumn(name = "fk_author_username")
   private ApplicationUser author;
 
+  @ManyToOne
+  @JoinColumn(name = "fk_owner_username")
+  private ApplicationUser owner;
+
   @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
   private List<Comment> comments;
 
