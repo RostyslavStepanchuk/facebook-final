@@ -89,3 +89,15 @@ export const getPostsForProfile = () => async dispatch => {
     })
   }
 }
+
+//uploadLikes
+
+export const uploadLikes = (postId) => async dispatch => {
+
+  try {
+    await axios.put('/api/v1/posts/' + postId + '/like')
+
+  } catch (e) {
+    console.error(e.message)
+  }
+}

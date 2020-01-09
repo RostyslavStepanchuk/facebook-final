@@ -18,10 +18,10 @@ const useStyles = makeStyles(theme => ({
     margin: 'auto 0',
   },
   user_fullname: {
+    display: 'flex',
     fontWeight: 600,
     margin: 0,
     textAlign: 'left',
-    lineHeight: '16px',
   },
   post_date: {
     margin: 0,

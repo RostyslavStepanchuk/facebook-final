@@ -5,7 +5,7 @@ INSERT INTO tokens_storage (refresh_token, forgot_password_tkn, email_confirmati
 
 /* users */
 INSERT INTO users (username, password, email, first_name, last_name, birth_date, avatar, open_account, fk_tokens_data_id) values ('testUser', '$2a$10$SnXMYc5qb13dm8E2lza71.CtZcZQuh18vF3i6uZqeODN0eq/XjFX.', 'test@test.com', 'Tyler', 'Durden', 659998800000, 'https://s3.us-west-2.amazonaws.com/fs-8/1576923750814-avatar.jpg', true, 1); /* password passw1234 */
-INSERT INTO users (username, password, email, first_name, last_name, birth_date, avatar, open_account, fk_tokens_data_id) values ('imaginaryUser', '$2a$10$X1s6c7Ypt/tjpcIdoDm1zuNbnwV.72ugUpWq.wpPuVd3HR5iYI6z2', 'emailAddress@test.com', 'Tony', 'Stark', 659996700000, 'http://imaginary.avatar.com', false, 2); /* password psw123321 */
+INSERT INTO users (username, password, email, first_name, last_name, birth_date, avatar, open_account, fk_tokens_data_id) values ('imaginaryUser', '$2a$10$X1s6c7Ypt/tjpcIdoDm1zuNbnwV.72ugUpWq.wpPuVd3HR5iYI6z2', 'emailAddress@test.com', 'Tony', 'Stark', 659996700000, 'https://s3.us-west-2.amazonaws.com/fs-8/1576923867246-christian.jpg', false, 2); /* password psw123321 */
 INSERT INTO users (username, password, email, first_name, last_name, birth_date, avatar, open_account, fk_tokens_data_id) values ('nonExistingUser', '$2a$10$YLk8kRbiYhDvOWImYSKHSuRNB0j6QhcuHwEZD8lWehcuCK/mVoJ6i', 'mailbox@test.com', 'Bill', 'Clinton', 659993200000, 'https://s3.us-west-2.amazonaws.com/fs-8/1576923900764-kendall.jpg', true, 3); /* password 123456 */
 
 /* friends */
@@ -13,13 +13,14 @@ INSERT INTO friends (fk_username, fk_friend_username) values ('testUser', 'imagi
 INSERT INTO friends (fk_username, fk_friend_username) values ('imaginaryUser', 'testUser');
 
 /* posts */
-INSERT INTO posts (message, date, image, show_everyone, fk_author_username, fk_owner_username) values ('this is a first post in this application', 1575390051359 , 'http://image.source.com', true, 'testUser', 'testUser');
-INSERT INTO posts (message, date, image, show_everyone, fk_author_username, fk_owner_username) values ('Happy BD to u!', 1575390057359 , 'http://image.source.com', true, 'imaginaryUser', 'testUser');
-INSERT INTO posts (message, date, image, show_everyone, fk_author_username, fk_owner_username) values ('Smart friends post', 1575390091359 , 'http://image.source.com', true, 'imaginaryUser', 'imaginaryUser');
-INSERT INTO posts (message, date, image, show_everyone, fk_author_username, fk_owner_username) values ('Not Smart post from a stranger', 1575390091359 , 'http://image.source.com', true, 'nonExistingUser', 'nonExistingUser');
+INSERT INTO posts (message, date, image, show_everyone, fk_author_username, fk_owner_username) values ('this is a first post in this application', 1575390051359 , 'https://s3.us-west-2.amazonaws.com/fs-8/1576923813421-avatar-bg.jpg', true, 'testUser', 'testUser');
+INSERT INTO posts (message, date, image, show_everyone, fk_author_username, fk_owner_username) values ('Happy BD to u!', 1575390057359 , 'https://s3.us-west-2.amazonaws.com/fs-8/1578253112874-bg.jpg', true, 'imaginaryUser', 'testUser');
+INSERT INTO posts (message, date, image, show_everyone, fk_author_username, fk_owner_username) values ('Smart friends post', 1575390091359 , 'https://s3.us-west-2.amazonaws.com/fs-8/1578253112874-bg.jpg', true, 'imaginaryUser', 'imaginaryUser');
+INSERT INTO posts (message, date, image, show_everyone, fk_author_username, fk_owner_username) values ('Not Smart post from a stranger', 1575390091359 , 'https://s3.us-west-2.amazonaws.com/fs-8/1578253112874-bg.jpg', true, 'nonExistingUser', 'nonExistingUser');
 
 /* comments */
-INSERT INTO comments (message, date, fk_author_username, fk_post_id) values ('this post sucks, actually', 1575390058432 , 'imaginaryUser', 1);
+INSERT INTO comments (message, date, fk_author_username, fk_post_id) values ('this post sucks, actually', 1575390058432, 'imaginaryUser', 1);
+INSERT INTO comments (message, date, fk_author_username, fk_post_id) values ('second comment', 1575390058432 , 'nonExistingUser', 1);
 
 /* friend_requests */
 INSERT INTO friend_requests (fk_requester_username, fk_responder_username, date) values ('nonExistingUser', 'testUser', 1575476483875);
