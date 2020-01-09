@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import useStyles from './postCommentsStyles'
+import PropTypes from 'prop-types'
 
 const PostComments = ( { comments } )  => {
   const classes = useStyles()
@@ -26,7 +27,7 @@ const PostComments = ( { comments } )  => {
   }
 
   const commentList = comments.map(comment =>
-    <div className={classes.comment}>
+    <div className={classes.comment} key={comment.id}>
       <p className={classes.comment_text}><span className={classes.comment_author}>{comment.author.firstName} {comment.author.lastName}</span>{comment.message}</p>
       <p className={classes.comment_date}>{commentDate(comment.date)}</p>
     </div>
@@ -39,6 +40,10 @@ const PostComments = ( { comments } )  => {
       </div>
     </Fragment>
   )
+}
+
+PostComments.propTypes = {
+  comments: PropTypes.array,
 }
 
 export default PostComments

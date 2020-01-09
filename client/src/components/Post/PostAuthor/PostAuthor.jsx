@@ -2,6 +2,7 @@ import React, { Fragment } from 'react'
 import useStyles from './postAuthorStyles'
 import Avatar from '@material-ui/core/Avatar'
 import ArrowRightIcon from '@material-ui/icons/ArrowRight'
+import PropTypes from 'prop-types'
 
 const PostAuthor = ( { author, owner, date} ) => {
   const classes = useStyles()
@@ -38,6 +39,12 @@ const PostAuthor = ( { author, owner, date} ) => {
       </div>
     </Fragment>
   )
+}
+
+PostAuthor.propTypes = {
+  author: PropTypes.object,
+  owner: PropTypes.object,
+  date: PropTypes.number,
 }
 
 export default PostAuthor
