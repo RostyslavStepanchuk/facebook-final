@@ -7,8 +7,10 @@ import com.socialmedia.model.Post;
 import com.socialmedia.service.PostService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,7 +33,8 @@ public class PostMapper extends AbstractControllerToCrudServiceMapper<Post,Long,
   @Override
   Post entityOf(PostDtoIn dtoIn) {
     Post post = modelMapper.map(dtoIn, Post.class);
-    ApplicationUser author = userMapper.entityOf(dtoIn.getAuthorId());
+    Principal principal = SecurityContextHolder.getContext().getAuthentication();
+    ApplicationUser author = userMapper.entityOf(principal.getName());
     post.setOwner(author);
     post.setAuthor(author);
 
@@ -40,7 +43,8 @@ public class PostMapper extends AbstractControllerToCrudServiceMapper<Post,Long,
 
   Post entityOf(PostDtoIn dtoIn, String ownerUsername) {
     Post post = modelMapper.map(dtoIn, Post.class);
-    ApplicationUser author = userMapper.entityOf(dtoIn.getAuthorId());
+    Principal principal = SecurityContextHolder.getContext().getAuthentication();
+    ApplicationUser author = userMapper.entityOf(principal.getName());
     ApplicationUser owner = userMapper.entityOf(ownerUsername);
     post.setAuthor(author);
     post.setOwner(owner);
