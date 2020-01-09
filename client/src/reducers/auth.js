@@ -20,7 +20,7 @@ const initialState = {
   loading: false,
   user: null,
   resetEmailSend: false,
-  emailIsConfirmed: false
+  emailIsConfirmed: false,
 }
 
 export default function(state = initialState, action) {
