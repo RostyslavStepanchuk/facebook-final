@@ -15,6 +15,7 @@ public class PostDtoOut {
   private String image;
   private Boolean showEveryone;
   private UserLabelDtoOut author;
+  private UserLabelDtoOut owner;
   private List<CommentDtoOut> comments;
   private List<UserLabelDtoOut> likes;
 
