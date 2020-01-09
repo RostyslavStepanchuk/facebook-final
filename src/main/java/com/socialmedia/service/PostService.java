@@ -81,13 +81,15 @@ public final class PostService extends AbstractCrudService<Post, Long, PostRepos
     List<ApplicationUser> likes = post.getLikes();
 
     likes.forEach(like -> {
-      if(like.getUsername().equals(author.getUsername())){
+      if (like.getUsername().equals(author.getUsername())) {
         isPresent.set(true);
       }
     });
 
-    if(isPresent.get()){
-      List<ApplicationUser> collect = post.getLikes().stream().filter(like -> !like.getUsername().equals(author.getUsername())).collect(Collectors.toList());
+    if (isPresent.get()) {
+      List<ApplicationUser> collect = post.getLikes()
+              .stream().filter(like -> !like.getUsername().equals(author.getUsername()))
+              .collect(Collectors.toList());
       post.setLikes(collect);
     } else {
       likes.add(author);
