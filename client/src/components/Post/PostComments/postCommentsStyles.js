@@ -10,17 +10,16 @@ const useStyles = makeStyles(theme => ({
     borderTop: '1px solid #e6e6e6',
   },
   comment_text: {
-    marginBottom: 0,
+    margin: 0,
   },
   comment_author: {
     fontWeight: 600,
     marginRight: 5,
   },
   comment_date: {
-    marginBottom: 0,
+    margin: 0,
     fontSize: 10,
     color: '#999',
-    textTransform: 'uppercase',
   },
 }))
 

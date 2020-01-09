@@ -12,9 +12,10 @@ const Post = ({ post }) => {
 
   return (
     <Paper key={post.id} className={classes.posts_item}>
-      <PostAuthor author={post.author} />
+      <PostAuthor author={post.author} owner={post.owner} date={post.date}/>
       <img src={post.image} className={classes.post_img} alt='Post' />
-      <PostLikePanel likes={post.likes} comments={post.comments} />
+      <p>{post.message}</p>
+      <PostLikePanel post={post} />
       <PostComments comments={post.comments} />
     </Paper>
   )

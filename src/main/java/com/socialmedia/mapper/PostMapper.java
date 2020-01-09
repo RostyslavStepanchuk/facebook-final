@@ -81,4 +81,10 @@ public class PostMapper extends AbstractControllerToCrudServiceMapper<Post,Long,
         .map(this::responseDtoOf)
         .collect(Collectors.toList());
   }
+
+  public void updateLikes(Long postId) {
+    Principal principal = SecurityContextHolder.getContext().getAuthentication();
+    ApplicationUser author = userMapper.entityOf(principal.getName());
+    crudService.updateLikes(postId, author);
+  }
 }
