@@ -13,11 +13,11 @@ public class ExceptionController {
 
   @ExceptionHandler(Throwable.class)
   public ResponseEntity<String> globalHandler(Exception error) {
-    return new ResponseEntity<>(error.getMessage(), CONFLICT);
+    return new ResponseEntity<>(error.getLocalizedMessage(), CONFLICT);
   }
 
   @ExceptionHandler(BadCredentialsException.class)
   public ResponseEntity<String> badCredentialsHandler(BadCredentialsException error) {
-    return new ResponseEntity<>(error.getMessage(), BAD_REQUEST);
+    return new ResponseEntity<>(error.getLocalizedMessage(), BAD_REQUEST);
   }
 }

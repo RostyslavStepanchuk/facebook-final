@@ -7,7 +7,7 @@ public class TestConstants {
   public static final String USER_FIRST_NAME = "Tyler";
   public static final String USER_LAST_NAME = "Durden";
   public static final Long USER_BIRTH_DATE = 659998800000L;
-  public static final String USER_AVATAR_URL = "http://avataurl.com";
+  public static final String USER_AVATAR_URL = "https://s3.us-west-2.amazonaws.com/fs-8/1576923750814-avatar.jpg";
   public static final String USER_REFRESH_TOKEN = "034daREFRESHTOKENf341fd";
   public static final String USER_FORGOT_PASSWORD_TOKEN = "41fdFORGOTPASSWORDTOKEN093wgs";
   public static final Boolean USER_OPEN_ACCOUNT = true;

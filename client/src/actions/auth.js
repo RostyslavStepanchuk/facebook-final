@@ -1,40 +1,47 @@
 /* global localStorage */
 import axios from 'axios'
 import {
-  REGISTER_SUCCESS,
-  REGISTER_FAIL,
-  USER_LOADED,
   AUTH_ERROR,
-  LOGIN_SUCCESS,
+  EMAIL_CONFIRMED,
   LOGIN_FAIL,
+  LOGIN_SUCCESS,
   LOGOUT,
+  REGISTER_FAIL,
+  REGISTER_SUCCESS,
   RESET_PASSWORD,
-  RESET_PASSWORD_FAIL
-
+  RESET_PASSWORD_FAIL,
+  START_LOADING,
+  STOP_LOADING,
+  USER_LOADED
 } from '../utils/constants/actionsName'
 import setAuthToken from '../utils/helpers/setAuthToken'
 import { Toastr } from '../utils/toastr/Toastr'
 
 // Load User
 
-export const loadUser = () => async dispatch => {
+export const loadUser = () => dispatch => {
   if (localStorage.accessToken) {
     setAuthToken(localStorage.accessToken)
-  }
 
-  try {
-    const res = await axios.get('/api/v1/users/current')
-
-    dispatch({
-      type: USER_LOADED,
-      payload: res.data
-    })
-  } catch (err) {
-    Toastr.error(err.response.data)
+    axios.get('/api/v1/users/current')
+      .then(res => {
+        dispatch({
+          type: USER_LOADED,
+          payload: res.data
+        })
+      })
+      .catch(() => {
+        setAuthToken(null)
+        dispatch({
+          type: AUTH_ERROR
+        })
+      })
+  } else {
     dispatch({
       type: AUTH_ERROR
     })
   }
+
 }
 
 // Register User
@@ -47,7 +54,10 @@ export const register = (registerData) => async dispatch => {
   }
 
   try {
-    console.log('sending request')
+    dispatch({
+      type: START_LOADING
+    })
+
     const res = await axios.post('/api/v1/users', registerData, config)
 
     Toastr.success('Congrats! Register success!')
@@ -57,13 +67,13 @@ export const register = (registerData) => async dispatch => {
       payload: res.data
     })
 
-    dispatch(loadUser())
   } catch (err) {
     Toastr.error(err.response.data)
+
+    dispatch({
+      type: REGISTER_FAIL
+    })
   }
-  dispatch({
-    type: REGISTER_FAIL
-  })
 }
 
 // Login User
@@ -77,6 +87,10 @@ export const login = ({ username, password }) => async dispatch => {
   const body = { username, password }
 
   try {
+    dispatch({
+      type: START_LOADING
+    })
+
     const res = await axios.post('/api/v1/auth/access-token', body, config)
     Toastr.success('User login')
     dispatch({
@@ -84,10 +98,7 @@ export const login = ({ username, password }) => async dispatch => {
       payload: res.data
     })
 
-    dispatch(loadUser())
   } catch (err) {
-    console.dir(err)
-
     if (err.response.status === 400) {
       Toastr.error('Wrong username or password')
     } else {
@@ -135,4 +146,24 @@ export const resetPassword = (email) => dispatch => {
       type: RESET_PASSWORD_FAIL
     })
   }
+}
+
+// Confirm email
+
+export const confirmEmail = token => dispatch => {
+  dispatch({
+    type: START_LOADING
+  })
+
+  axios.get('/api/v1/users/email/confirm/' + token)
+    .then(res => {
+      if (res.status === 200) {
+        dispatch({
+          type: EMAIL_CONFIRMED
+        })
+      }
+    })
+    .catch(() => dispatch({
+      type: STOP_LOADING
+    }))
 }
