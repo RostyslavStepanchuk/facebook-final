@@ -10,9 +10,10 @@ import IconButton from '@material-ui/core/IconButton'
 import { uploadLikes } from '../../../actions/post'
 
 const PostLikePanel = ({ post, user, uploadLikes}) => {
-  const [count, setCount] = useState(post.likes.length)
-  const [likeIt, setChangeForLike] = useState(false)
   const classes = useStyles()
+
+  const [count, setCount] = useState(post.likes.length)
+  const [postIsLiked, setPostIsLiked] = useState(false)
 
   const postLikes = post.likes
   const username = user.username
@@ -21,19 +22,19 @@ const PostLikePanel = ({ post, user, uploadLikes}) => {
     () => {
       postLikes.forEach(like => {
         if (like.username === username) {
-          setChangeForLike(true)
+          setPostIsLiked(true)
         }
       })
     },[postLikes, username]
   )
 
   const changeLike = () =>  {
-    if(likeIt){
-      setChangeForLike(false)
+    if(postIsLiked){
+      setPostIsLiked(false)
       setCount(count - 1)
       uploadLikes(post.id)
     } else {
-      setChangeForLike(true)
+      setPostIsLiked(true)
       setCount(count + 1)
       uploadLikes(post.id)
     }
@@ -43,7 +44,7 @@ const PostLikePanel = ({ post, user, uploadLikes}) => {
     <Fragment className={classes.root}>
       <div className={classes.panel}>
         <IconButton aria-label="like" onClick={changeLike}>
-          { likeIt ? <FavoriteIcon color="secondary" /> : <FavoriteBorderIcon/> }
+          { postIsLiked ? <FavoriteIcon color="secondary" /> : <FavoriteBorderIcon/> }
         </IconButton>
         {count}
         <IconButton aria-label="comments">
