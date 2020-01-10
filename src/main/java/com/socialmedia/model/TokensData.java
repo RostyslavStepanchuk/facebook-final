@@ -20,6 +20,8 @@ public class TokensData implements DbEntity<Long> {
   private Long id;
   @Column(name = "refresh_token")
   private String refreshToken;
+  @Column(name = "refresh_token_valid_till")
+  private Long refreshTokenValidTill;
   @Column(name = "forgot_password_tkn")
   private String forgotPasswordToken;
   @Column(name = "email_confirmation_id")
