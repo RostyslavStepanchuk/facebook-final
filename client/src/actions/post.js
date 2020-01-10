@@ -1,4 +1,4 @@
-import { POSTS_END_LOADING, POSTS_RECIEVED, POSTS_START_LOADING } from '../utils/constants/actionsName'
+import { POSTS_END_LOADING, POSTS_RECEIVED, POSTS_START_LOADING } from '../utils/constants/actionsName'
 import apiRequest from '../utils/helpers/apiRequest'
 
 export const uploadImages = images => {
@@ -49,7 +49,7 @@ export const getPostsForHomePage = () => async dispatch => {
     const posts = await apiRequest.get('/posts')
 
     dispatch({
-      type: POSTS_RECIEVED,
+      type: POSTS_RECEIVED,
       payload: posts
     })
 
@@ -69,10 +69,9 @@ export const getPostsForProfile = () => async dispatch => {
     const posts = await apiRequest.get('/posts/profile')
 
     dispatch({
-    type: POSTS_RECIEVED,
+    type: POSTS_RECEIVED,
     payload: posts
   })
-
   } catch (e) {
     dispatch({
       type: POSTS_END_LOADING
