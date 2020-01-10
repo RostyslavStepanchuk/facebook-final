@@ -106,6 +106,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     return refreshToken;
   }
 
+  @Override
+  public void logOut(String username) {
+    ApplicationUser user = userService.getById(username);
+    user.getTokensData().setRefreshTokenValidTill(0L);
+    user.getTokensData().setRefreshToken(null);
+  }
+
   private Token generateAccessToken(String subject) {
 
     String token = Jwts.builder()

@@ -19,4 +19,6 @@ public interface AuthenticationService {
   Token getAccessTokenByRefreshToken(String refreshToken, String user);
 
   String generateRefreshToken(String username);
+
+  void logOut(String username);
 }
