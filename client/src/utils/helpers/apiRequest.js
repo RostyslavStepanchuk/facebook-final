@@ -114,21 +114,6 @@ class ApiRequest {
       const getTokenRequest = this.pendingTokenRequest || this.getNewAccessTokenFromServer();
       return getTokenRequest.then(()=>this.sendBasicRequest(url, reqParams))
     }
-
-    // return this.sendBasicRequest(url, reqParams)
-    //   .catch(rejectResponse => {
-    //     if (rejectResponse.status === 403) {
-    //       console.log('forbidden response received from ' + rejectResponse.config.url)
-    //         return getNewAccessTokenFromServer()
-    //           .then(
-    //             ()=> {
-    //               console.log('repeating request ' + rejectResponse.config.url)
-    //               return this.sendBasicRequest(url, reqParams)},
-    //             ()=> window.location.reload())
-    //       } else {
-    //         return Promise.reject(rejectResponse)
-    //       }
-    //     })
   }
 
   getNewAccessTokenFromServer() {
