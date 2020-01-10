@@ -13,11 +13,22 @@ public class AuthenticationMapper {
 
   @Autowired
   public AuthenticationMapper(AuthenticationService authenticationService) {
+
     this.authenticationService = authenticationService;
   }
 
   public Token getAccessToken(UserCredentials credentials) {
 
     return authenticationService.getAccessToken(credentials);
+  }
+
+  public Token getAccessTokenByRefreshToken(String refreshToken, String username) {
+
+    return authenticationService.getAccessTokenByRefreshToken(refreshToken, username);
+  }
+
+  public String generateRefreshToken(String username) {
+
+    return authenticationService.generateRefreshToken(username);
   }
 }

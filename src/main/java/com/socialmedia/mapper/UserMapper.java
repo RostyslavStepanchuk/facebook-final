@@ -61,6 +61,9 @@ public final class UserMapper extends
     return crudService.confirmEmail(emailConfirmationId);
   }
 
+  public String generateRefreshToken(String username) {
+    return crudService.generateRefreshToken(username);
+  }
 }
 
 

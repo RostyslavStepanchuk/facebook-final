@@ -5,6 +5,7 @@ import com.socialmedia.dto.user.UserDtoIn;
 import com.socialmedia.dto.user.UserDtoOut;
 import com.socialmedia.dto.user.UserRegistrationDtoIn;
 import com.socialmedia.mapper.UserMapper;
+import com.socialmedia.util.CookieMgr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 
 @RestController
@@ -23,10 +25,12 @@ import java.security.Principal;
 public class UserController {
 
   private UserMapper userMapper;
+  private CookieMgr cookieMgr;
 
   @Autowired
-  public UserController(UserMapper userMapper) {
+  public UserController(UserMapper userMapper, CookieMgr cookieMgr) {
     this.userMapper = userMapper;
+    this.cookieMgr = cookieMgr;
   }
 
   @GetMapping("/current")
@@ -36,9 +40,11 @@ public class UserController {
   }
 
   @PostMapping
-  public ResponseEntity<Token> signUp(@RequestBody UserRegistrationDtoIn userForm) {
-
-    return ResponseEntity.ok(userMapper.signUp(userForm));
+  public ResponseEntity<Token> signUp(@RequestBody UserRegistrationDtoIn userForm, HttpServletResponse resp) {
+    Token token = userMapper.signUp(userForm);
+    String refreshToken = userMapper.generateRefreshToken(userForm.getUsername());
+    cookieMgr.addRefreshTokenCookie(resp, refreshToken);
+    return ResponseEntity.ok(token);
   }
 
   @GetMapping("/email/confirm/{emailConfirmationId}")
