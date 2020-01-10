@@ -1,4 +1,4 @@
-import { POSTS_END_LOADING, POSTS_RECIEVED, POSTS_START_LOADING } from '../utils/constants/actionsName'
+import { POSTS_END_LOADING, POSTS_RECEIVED, POSTS_START_LOADING } from '../utils/constants/actionsName'
 
 const initialState = {
   posts: [],
@@ -15,7 +15,7 @@ export default function (state=initialState, action) {
     case POSTS_END_LOADING:
       return {...state, loading: false}
 
-    case POSTS_RECIEVED:
+    case POSTS_RECEIVED:
       return {...state, posts: payload, loading: false}
     default:
       return state

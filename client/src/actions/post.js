@@ -58,7 +58,6 @@ export const getPostsForHomePage = () => async dispatch => {
       type: POSTS_END_LOADING
     })
   }
-
 }
 
 export const getPostsForProfile = () => async dispatch => {
@@ -66,15 +65,17 @@ export const getPostsForProfile = () => async dispatch => {
   dispatch({
     type: POSTS_START_LOADING
   })
-  const posts = await apiRequest.get('/posts/profile')
+  try {
+    const posts = await apiRequest.get('/posts/profile')
 
-  dispatch({
+    dispatch({
     type: POSTS_RECIEVED,
     payload: posts
   })
 
-  dispatch({
-    type: POSTS_END_LOADING
-  })
-
+  } catch (e) {
+    dispatch({
+      type: POSTS_END_LOADING
+    })
+  }
 }
