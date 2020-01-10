@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.UUID;
@@ -84,10 +85,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     ApplicationUser user = userService.getById(username);
     String userRefreshToken = user.getTokensData().getRefreshToken();
-    Date tokenExpiration = new Date(user.getTokensData().getRefreshTokenValidTill());
+    Calendar tokenExpiration = Calendar.getInstance();
+    tokenExpiration.setTimeInMillis(user.getTokensData().getRefreshTokenValidTill());
 
     if (userRefreshToken.equals(refreshToken)
-        & tokenExpiration.after(new Date())) {
+        && tokenExpiration.after(Calendar.getInstance())) {
       return generateAccessToken(user.getUsername());
     }
 
