@@ -15,28 +15,32 @@ const setAuthToken = token => {
   }
 }
 
-const getNewAccessToken = () => {
-  const username = JSON.parse(atob(localStorage.accessToken.split('.')[1])).sub
-  return axios.post(API_BASE_URL + '/auth/reissue-tokens/' + username)
-    .then(result => setAuthToken(result.data.accessToken))
+const getCurrentUserName = () => JSON.parse(atob(localStorage.accessToken.split('.')[1])).sub
+
+const tokenIsValid = () => {
+  const expirationTime = JSON.parse(atob(localStorage.accessToken.split('.')[1])).exp * 1000
+  return new Date().getTime() < expirationTime
 }
 
 const handleRequestError = error => {
   if (error.response) {
-    if (error.response.status !== 403) {
-      Toastr.error("Error occurred during request to sever")
+    if (error.response.status > 403) {
+      Toastr.error("Error occurred during request to sever: " + error.response.statusText)
     }
-    return Promise.reject(error.response.data)
+    return error.response
   } else if (error.request) {
     Toastr.error("Application is not responding, check your network connection")
-    return Promise.reject(error.request)
+    return error.request
   } else {
     Toastr.error(error.message)
-    return Promise.reject(error.message)
+    return error.message
   }
 }
 
 class ApiRequest {
+  constructor () {
+    this.pendingTokenRequest = null;
+  }
 
   get(url, config, isAuthRequired = true) {
     return this.makeRequest(url, METHOD_GET, null,  config, isAuthRequired);
@@ -52,6 +56,22 @@ class ApiRequest {
 
   delete(url, config, isAuthRequired = true) {
     return this.makeRequest(url, METHOD_DELETE, null,  config, isAuthRequired);
+  }
+
+  rememberUser(accessToken) {
+    localStorage.setItem('accessToken', accessToken)
+  }
+
+  forgetUser() {
+    this.post('/auth/logout/' + getCurrentUserName())
+      .then(() => {
+        localStorage.removeItem('accessToken')
+        window.location.reload()
+      })
+      .catch(() => {
+        localStorage.removeItem('accessToken')
+        window.location.reload()
+      })
   }
 
   makeRequest(url, method = METHOD_GET, body = null, config = {}, isAuthRequired = true) {
@@ -72,6 +92,7 @@ class ApiRequest {
     if (isAuthRequired) {
       return this.sendAuthenticatedRequest(reqUrl, reqParams)
     }
+    setAuthToken(null) // Authorization header is deleted for basic request
     return this.sendBasicRequest(reqUrl, reqParams);
 
   }
@@ -79,25 +100,52 @@ class ApiRequest {
   sendBasicRequest(url, reqParams) {
     return axios(url, reqParams)
       .then(res => res.data,
-        err => handleRequestError(err))
+        err => Promise.reject(handleRequestError(err)))
   }
 
   sendAuthenticatedRequest(url, reqParams) {
     if (localStorage.accessToken) {
       setAuthToken(localStorage.accessToken)
-    } else return Promise.reject('Authentication is required')
+    } else return Promise.reject('Authentication is required') // If there is no token authenticated request is not sent
 
-    return this.sendBasicRequest(url, reqParams)
-      .catch(rejectResponse => {
-        if (rejectResponse.status === 403) {
-          return getNewAccessToken()
-            .then(
-              ()=> this.sendBasicRequest(url, reqParams),
-              ()=> window.location.reload())
-        } else {
-          return Promise.reject(rejectResponse)
-        }
+    if (tokenIsValid()) {
+      return this.sendBasicRequest(url, reqParams)
+    } else { // if token is expired current api request is chained to getAccessToken request, existing or just created one
+      const getTokenRequest = this.pendingTokenRequest || this.getNewAccessTokenFromServer();
+      return getTokenRequest.then(()=>this.sendBasicRequest(url, reqParams))
+    }
+
+    // return this.sendBasicRequest(url, reqParams)
+    //   .catch(rejectResponse => {
+    //     if (rejectResponse.status === 403) {
+    //       console.log('forbidden response received from ' + rejectResponse.config.url)
+    //         return getNewAccessTokenFromServer()
+    //           .then(
+    //             ()=> {
+    //               console.log('repeating request ' + rejectResponse.config.url)
+    //               return this.sendBasicRequest(url, reqParams)},
+    //             ()=> window.location.reload())
+    //       } else {
+    //         return Promise.reject(rejectResponse)
+    //       }
+    //     })
+  }
+
+  getNewAccessTokenFromServer() {
+    setAuthToken(null)
+    const req = axios.post(API_BASE_URL + '/auth/reissue-tokens/' + getCurrentUserName())
+      .then(response => {
+        setAuthToken(response.data.accessToken)
+        localStorage.setItem('accessToken', response.data.accessToken)
+        this.pendingTokenRequest = null;
+      }).catch(()=>{
+        this.pendingTokenRequest = null;
+        window.location.reload()
+        return Promise.reject({})
       })
+
+    this.pendingTokenRequest = req;
+    return req;
   }
 }
 
