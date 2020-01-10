@@ -4,7 +4,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
   },
-  grid_container: {
+  gridContainer: {
     display: 'flex',
     justifyContent: 'center',
     boxSizing: 'border-box',

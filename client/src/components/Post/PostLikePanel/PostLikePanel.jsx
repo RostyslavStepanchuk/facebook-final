@@ -7,42 +7,41 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline'
 import IconButton from '@material-ui/core/IconButton'
 
-import { uploadLikes } from '../../../actions/post'
+import { updateLikes } from '../../../actions/post'
+import { forEach } from 'lodash'
 
-const PostLikePanel = ({ post, user, uploadLikes}) => {
+const PostLikePanel = ({ id, likes, comments, user, updateLikes}) => {
   const classes = useStyles()
 
-  const [count, setCount] = useState(post.likes.length)
+  const [count, setCount] = useState(likes.length)
   const [postIsLiked, setPostIsLiked] = useState(false)
 
-  const postLikes = post.likes
   const username = user.username
 
-  useEffect(
-    () => {
-      postLikes.forEach(like => {
+  useEffect(() => {
+     forEach(likes, like => {
         if (like.username === username) {
           setPostIsLiked(true)
+          return false
         }
       })
-    },[postLikes, username]
+    },[likes, username]
   )
 
   const changeLike = () =>  {
     if(postIsLiked){
       setPostIsLiked(false)
       setCount(count - 1)
-      uploadLikes(post.id)
     } else {
       setPostIsLiked(true)
       setCount(count + 1)
-      uploadLikes(post.id)
     }
+    updateLikes(id)
   }
 
   return (
     <Fragment className={classes.root}>
-      <div className={classes.panel}>
+      <div className={classes.container}>
         <IconButton aria-label="like" onClick={changeLike}>
           { postIsLiked ? <FavoriteIcon color="secondary" /> : <FavoriteBorderIcon/> }
         </IconButton>
@@ -50,20 +49,22 @@ const PostLikePanel = ({ post, user, uploadLikes}) => {
         <IconButton aria-label="comments">
           <ChatBubbleOutlineIcon />
         </IconButton>
-        {post.comments.length}
+        {comments.length}
       </div>
     </Fragment>
   )
 }
 
 PostLikePanel.propTypes = {
+  id: PropTypes.number,
+  likes: PropTypes.array,
+  comments: PropTypes.array,
   user: PropTypes.object,
-  post: PropTypes.object,
-  uploadLikes: PropTypes.func,
+  updateLikes: PropTypes.func,
 }
 
 const mapStateToProps = state => ({
   user: state.auth.user,
 })
 
-export default connect(mapStateToProps, { uploadLikes } )(PostLikePanel)
+export default connect(mapStateToProps, { updateLikes } )(PostLikePanel)

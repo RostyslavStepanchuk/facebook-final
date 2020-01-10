@@ -11,9 +11,7 @@ const PostComments = ( { comments } )  => {
 
   return (
     <Fragment className={classes.root}>
-      <div className={classes.comments}>
-        {commentList}
-      </div>
+      {commentList}
     </Fragment>
   )
 }
