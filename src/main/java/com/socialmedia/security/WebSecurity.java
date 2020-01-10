@@ -1,7 +1,6 @@
 package com.socialmedia.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Lazy;
@@ -18,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import static com.socialmedia.security.SecurityConstants.CONFIRM_EMAIL_URL;
 import static com.socialmedia.security.SecurityConstants.LOGIN_URL;
 import static com.socialmedia.security.SecurityConstants.SIGN_UP_URL;
+import static com.socialmedia.security.SecurityConstants.USE_REFRESH_TOKEN_URL;
 
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
@@ -40,6 +40,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     http.cors().and().csrf().disable().authorizeRequests()
         .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
         .antMatchers(HttpMethod.POST, LOGIN_URL).permitAll()
+        .antMatchers(HttpMethod.POST, USE_REFRESH_TOKEN_URL).permitAll()
         .antMatchers(HttpMethod.GET, CONFIRM_EMAIL_URL).permitAll()
         .antMatchers(HttpMethod.GET, "/**/*swagger*/**", "/v2/api-docs").permitAll()
         .anyRequest().authenticated()
