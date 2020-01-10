@@ -12,10 +12,10 @@ const PostAuthor = ( { author, owner, date } ) => {
   return (
     <Fragment className={classes.root}>
       <div className={classes.user}>
-        <Avatar className={classes.user_photo} src={author.avatar} alt='User' />
-        <div className={classes.user_name}>
-          <p className={classes.user_fullname}>{author.firstName} {author.lastName} <ArrowRightIcon/> {owner.firstName} {owner.lastName}</p>
-          <p className={classes.post_date}>{getDate(date)}</p>
+        <Avatar className={classes.userPhoto} src={author.avatar} alt='User' />
+        <div className={classes.userName}>
+          <p className={classes.userFullname}>{author.firstName} {author.lastName} <ArrowRightIcon/> {owner.firstName} {owner.lastName}</p>
+          <p className={classes.postDate}>{getDate(date)}</p>
         </div>
       </div>
     </Fragment>

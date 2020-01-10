@@ -9,14 +9,14 @@ const useStyles = makeStyles(theme => ({
     padding: '5px 10px',
     borderTop: '1px solid #e6e6e6',
   },
-  comment_text: {
+  commentText: {
     margin: 0,
   },
-  comment_author: {
+  commentAuthor: {
     fontWeight: 600,
     marginRight: 5,
   },
-  comment_date: {
+  commentDate: {
     margin: 0,
     fontSize: 10,
     color: '#999',

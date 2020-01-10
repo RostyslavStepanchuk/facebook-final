@@ -9,9 +9,10 @@ import { confirmEmail } from '../../actions/auth'
 import useStyles from './EmailConfirmedPageStyles'
 import Preloader from '../../components/Preloader/Preloader'
 
-const EmailConfirmedPage = ({ loading, emailIsConfirmed, confirmEmail }) => {
+const EmailConfirmedPage = ( props ) => {
   const classes = useStyles()
-  const token = get({ loading, emailIsConfirmed, confirmEmail }, 'match.params.token')
+  const token = get(props, 'match.params.token')
+  const { loading, emailIsConfirmed, confirmEmail } = props
 
   useEffect(() => confirmEmail(token), [confirmEmail, token])
 
