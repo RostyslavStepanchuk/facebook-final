@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import HomePage from '../../pages/HomePage/HomePage'
+import ProfilePage from '../../pages/ProfilePage/ProfilePage'
 import { Redirect, Route } from 'react-router-dom'
 import { Switch } from 'react-router-dom'
 import { loadUser } from '../../actions/auth'
@@ -19,6 +20,7 @@ const ProtectedRouter = ({ isAuthenticated, emailIsConfirmed, user, loadUser }) 
   } else {
     return (
       <Switch>
+        <Route exact path='/profile' component={ProfilePage} />
         <Route exact path='/' component={HomePage} />
       </Switch>
     )

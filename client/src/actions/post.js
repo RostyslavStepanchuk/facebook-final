@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { Toastr } from '../utils/toastr/Toastr'
-import { POSTS_END_LOADING, POSTS_RECIEVED, POSTS_START_LOADING } from '../utils/constants/actionsName'
+import { POSTS_END_LOADING, POSTS_RECEIVED, POSTS_START_LOADING } from '../utils/constants/actionsName'
 
 export const uploadImages = images => {
 
@@ -57,7 +57,7 @@ export const getPostsForHomePage = () => async dispatch => {
     const posts = await axios.get('/api/v1/posts')
 
     dispatch({
-      type: POSTS_RECIEVED,
+      type: POSTS_RECEIVED,
       payload: posts.data
     })
 
@@ -67,23 +67,25 @@ export const getPostsForHomePage = () => async dispatch => {
       type: POSTS_END_LOADING
     })
   }
-
 }
 
 export const getPostsForProfile = () => async dispatch => {
-
   dispatch({
     type: POSTS_START_LOADING
   })
-  const posts = await axios.get('/api/v1/posts')
 
-  dispatch({
-    type: POSTS_RECIEVED,
-    payload: posts.data
-  })
+  try {
+    const posts = await axios.get('/api/v1/posts')
 
-  dispatch({
-    type: POSTS_END_LOADING
-  })
+    dispatch({
+      type: POSTS_RECEIVED,
+      payload: posts.data
+    })
 
+  } catch (e) {
+    console.error(e.message)
+    dispatch({
+      type: POSTS_END_LOADING
+    })
+  }
 }

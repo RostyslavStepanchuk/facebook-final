@@ -1,15 +1,19 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-
 import Paper from '@material-ui/core/Paper'
+import PropTypes from 'prop-types'
+import useStyles from './postStyles'
+
+import PostAuthor from './PostAuthor/PostAuthor'
+import PostComments from './PostComments/PostComments'
 
 const Post = ({ post }) => {
-  return (
-    <Paper>
-      This will be a post some day
+  const classes = useStyles()
 
-      <p>Author: {post.author.username}</p>
-      <p>Message: {post.message}</p>
+  return (
+    <Paper key={post.id} className={classes.posts_item}>
+      <PostAuthor author={post.author} />
+      <img src={post.image} className={classes.post_img} alt='Post' />
+      <PostComments comments={post.comments} />
     </Paper>
   )
 }
