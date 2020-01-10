@@ -15,7 +15,6 @@ import java.security.Principal;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 @Service
@@ -74,19 +73,17 @@ public final class PostService extends AbstractCrudService<Post, Long, PostRepos
         .collect(Collectors.toList());
   }
 
-  public void updateLikes(Long postId, ApplicationUser author) {
-    AtomicBoolean isPresent = new AtomicBoolean(false);
+  public void updateLikes(Long postId) {
+    Principal principal = SecurityContextHolder.getContext().getAuthentication();
+    ApplicationUser author = userService.getById(principal.getName());
 
-    Post post = jpaRepository.getOne(postId);
+    Post post = getById(postId);
     List<ApplicationUser> likes = post.getLikes();
 
-    likes.forEach(like -> {
-      if (like.getUsername().equals(author.getUsername())) {
-        isPresent.set(true);
-      }
-    });
+    boolean isPresent = likes.stream()
+            .anyMatch(like -> like.getUsername().equals(author.getUsername()));
 
-    if (isPresent.get()) {
+    if (isPresent) {
       List<ApplicationUser> collect = post.getLikes()
               .stream().filter(like -> !like.getUsername().equals(author.getUsername()))
               .collect(Collectors.toList());
@@ -95,6 +92,6 @@ public final class PostService extends AbstractCrudService<Post, Long, PostRepos
       likes.add(author);
       post.setLikes(likes);
     }
-    jpaRepository.save(post);
+    update(postId, post);
   }
 }
