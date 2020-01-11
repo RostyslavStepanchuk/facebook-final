@@ -9,7 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CommentMapper extends AbstractControllerToCrudServiceMapper<Comment, Long, CommentDtoIn, CommentDtoOut, CommentService>  {
+public class CommentMapper extends
+        AbstractControllerToCrudServiceMapper<Comment, Long, CommentDtoIn, CommentDtoOut, CommentService> {
 
   @Autowired
   public CommentMapper(ModelMapper modelMapper, CommentService commentService) {
