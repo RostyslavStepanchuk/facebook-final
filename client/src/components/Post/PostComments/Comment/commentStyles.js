@@ -1,9 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1,
-  },
   comment: {
     textAlign: 'left',
     padding: '5px 10px',

@@ -4,8 +4,10 @@ import PropTypes from 'prop-types'
 
 import getDate from '../../../../utils/date/getDate'
 
-const Comment = ( { comment: { author, message, date } } )  => {
+const Comment = ( { comment } )  => {
   const classes = useStyles()
+
+  const { author, message, date } = comment
 
   return (
     <Fragment>
