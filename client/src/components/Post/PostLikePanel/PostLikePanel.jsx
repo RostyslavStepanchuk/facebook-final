@@ -19,8 +19,8 @@ const PostLikePanel = ({ post, user, uploadLikes}) => {
   const username = user.username
 
   useEffect(
-    () => setPostIsLiked(postLikes.some(like=>like.username === username))
-    ,[postLikes, username]
+    () => setPostIsLiked(postLikes.some(like=>like.username === username)),
+    [postLikes, username]
   )
 
   const changeLike = () =>  {
