@@ -21,7 +21,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.UUID;
 
 import static com.socialmedia.security.SecurityConstants.ACCESS_TOKEN_MAX_AGE;
@@ -117,9 +116,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
   private Token generateAccessToken(String subject) {
 
+    Calendar expirationTime = Calendar.getInstance();
+    expirationTime.setTimeInMillis(System.currentTimeMillis() + ACCESS_TOKEN_MAX_AGE);
+
     String token = Jwts.builder()
-        .setIssuedAt(new Date())
-        .setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_MAX_AGE))
+        .setIssuedAt(Calendar.getInstance().getTime())
+        .setExpiration(expirationTime.getTime())
         .setSubject(subject)
         .addClaims(Collections.emptyMap())
         .signWith(SignatureAlgorithm.HS512, secret)
