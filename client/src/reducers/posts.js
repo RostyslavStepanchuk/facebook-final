@@ -10,16 +10,16 @@ export default function (state=initialState, action) {
 
   switch (type) {
     case POSTS_START_LOADING:
-      return {...state, loading: true}
+      return { ...state, loading: true }
 
     case POSTS_END_LOADING:
-      return {...state, loading: false}
+      return { ...state, loading: false }
 
     case POSTS_RECEIVED:
-      return {...state, posts: payload, loading: false}
+      return { ...state, posts: payload, loading: false }
+
     default:
-      return state
+      return {...state}
 
   }
-
 }

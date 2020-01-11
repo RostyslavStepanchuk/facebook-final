@@ -4,7 +4,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
   },
-  avatar_bg: {
+  avatarBg: {
     backgroundImage: `url('https://s3.us-west-2.amazonaws.com/fs-8/1576923813421-avatar-bg.jpg')`,
     height: 250,
     backgroundRepeat: 'no-repeat',
@@ -12,7 +12,7 @@ const useStyles = makeStyles(theme => ({
     backgroundSize: 'cover',
     position: 'relative'
   },
-  avatar_img: {
+  avatarImg: {
     width: 175,
     height: 175,
     border: '3px solid white',
@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
     left: 20,
     backgroundSize: 'cover',
   },
-  avatar_name: {
+  avatarName: {
     fontSize: 26,
     position: 'absolute',
     color: 'white',
@@ -35,7 +35,7 @@ const useStyles = makeStyles(theme => ({
     margin: '0 0 0 auto',
     paddingLeft: 200,
   },
-  submenu_item: {
+  submenuItem: {
     borderLeft: '1px solid #e9eaed',
     minWidth: 120,
   },

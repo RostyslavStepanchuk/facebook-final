@@ -4,6 +4,10 @@ const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
   },
+  container: {
+    borderTop: '1px solid #e6e6e6',
+  }
+
 }))
 
 export default useStyles

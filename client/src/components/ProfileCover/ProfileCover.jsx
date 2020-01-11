@@ -5,7 +5,7 @@ import useStyles from './profileCoverStyles'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
-const ProfileCover = ({ user }) =>  {
+const ProfileCover = ({ user: { avatar, firstName, lastName} }) =>  {
   const classes = useStyles()
 
   const [value, setValue] = React.useState('profile')
@@ -15,9 +15,9 @@ const ProfileCover = ({ user }) =>  {
 
   return (
     <Fragment className={classes.root}>
-      <div className={classes.avatar_bg}>
-        <Avatar className={classes.avatar_img} src={user.avatar}/>
-        <p className={classes.avatar_name}>{user.firstName} {user.lastName}</p>
+      <div className={classes.avatarBg}>
+        <Avatar className={classes.avatarImg} src={avatar}/>
+        <p className={classes.avatarName}>{firstName} {lastName}</p>
       </div>
       <Tabs value={value}
             onChange={handleChange}
@@ -25,11 +25,11 @@ const ProfileCover = ({ user }) =>  {
             textColor="primary"
             aria-label="icon label tabs"
             className={classes.submenu}>
-        <Tab className={classes.submenu_item} label="Profile" value="profile" /> {/*icon={<AccountCircleIcon />}*/}
-        <Tab className={classes.submenu_item} label="About" value="about" /> {/*icon={<PersonIcon />}*/}
-        <Tab className={classes.submenu_item} label="Friends" value="friends" /> {/*icon={<SupervisorAccountIcon />}*/}
-        <Tab className={classes.submenu_item} label="Photos" value="photos" /> {/*icon={<PhotoCameraIcon />}*/}
-        <Tab className={classes.submenu_item} label="Messages" value="messages" /> {/*icon={<EmailIcon />}*/}
+        <Tab className={classes.submenuItem} label="Profile" value="profile" /> {/*icon={<AccountCircleIcon />}*/}
+        <Tab className={classes.submenuItem} label="About" value="about" /> {/*icon={<PersonIcon />}*/}
+        <Tab className={classes.submenuItem} label="Friends" value="friends" /> {/*icon={<SupervisorAccountIcon />}*/}
+        <Tab className={classes.submenuItem} label="Photos" value="photos" /> {/*icon={<PhotoCameraIcon />}*/}
+        <Tab className={classes.submenuItem} label="Messages" value="messages" /> {/*icon={<EmailIcon />}*/}
       </Tabs>
     </Fragment>
   )
