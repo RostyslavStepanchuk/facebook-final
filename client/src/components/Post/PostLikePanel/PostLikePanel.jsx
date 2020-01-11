@@ -7,7 +7,7 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline'
 import IconButton from '@material-ui/core/IconButton'
 
-import { uploadLikes } from '../../../actions/post'
+import { updateLikes } from '../../../actions/post'
 
 const PostLikePanel = ({ post, user, uploadLikes}) => {
   const classes = useStyles()
@@ -61,4 +61,4 @@ const mapStateToProps = state => ({
   user: state.auth.user,
 })
 
-export default connect(mapStateToProps, { uploadLikes } )(PostLikePanel)
+export default connect(mapStateToProps, { updateLikes } )(PostLikePanel)
