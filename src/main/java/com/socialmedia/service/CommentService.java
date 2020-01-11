@@ -15,27 +15,26 @@ import java.security.Principal;
 @Service
 public class CommentService extends AbstractCrudService<Comment, Long, CommentRepository>  {
 
-    private PostService postService;
-    private UserService userService;
+  private PostService postService;
+  private UserService userService;
 
-    @Autowired
-    public CommentService(CommentRepository jpaRepository,
+  @Autowired
+  public CommentService(CommentRepository jpaRepository,
                           SmartCopyBeanUtilsBean beanUtilsBean,
                           @Lazy PostService postService,
                           @Lazy UserService userService) {
-        super(jpaRepository, beanUtilsBean);
-        this.postService = postService;
-        this.userService = userService;
-    }
+    super(jpaRepository, beanUtilsBean);
+    this.postService = postService;
+    this.userService = userService;
+  }
 
-    public Comment createComment(Comment comment, Long postId) {
-        Principal principal = SecurityContextHolder.getContext().getAuthentication();
-        ApplicationUser author = userService.getById(principal.getName());
-        Post post = postService.getById(postId);
-        comment.setDate(System.currentTimeMillis());
-        comment.setAuthor(author);
-        comment.setPost(post);
-        return super.create(comment);
-    }
-
+  public Comment createComment(Comment comment, Long postId) {
+    Principal principal = SecurityContextHolder.getContext().getAuthentication();
+    ApplicationUser author = userService.getById(principal.getName());
+    Post post = postService.getById(postId);
+    comment.setDate(System.currentTimeMillis());
+    comment.setAuthor(author);
+    comment.setPost(post);
+    return super.create(comment);
+  }
 }
