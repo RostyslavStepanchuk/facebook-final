@@ -72,4 +72,9 @@ public class PostController {
     PostDtoOut postDtoOut = postMapper.delete(id);
     return ResponseEntity.ok(postDtoOut);
   }
+
+  @PutMapping("/{postId}/like")
+  public void updateLikes(@PathVariable Long postId) {
+    postMapper.updateLikes(postId);
+  }
 }

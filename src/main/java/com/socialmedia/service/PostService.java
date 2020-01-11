@@ -72,4 +72,26 @@ public final class PostService extends AbstractCrudService<Post, Long, PostRepos
         .sorted((p1, p2) -> (int) (p1.getDate() - p2.getDate()))
         .collect(Collectors.toList());
   }
+
+  public void updateLikes(Long postId) {
+    Principal principal = SecurityContextHolder.getContext().getAuthentication();
+    ApplicationUser author = userService.getById(principal.getName());
+
+    Post post = getById(postId);
+    List<ApplicationUser> likes = post.getLikes();
+
+    boolean isPresent = likes.stream()
+            .anyMatch(like -> like.getUsername().equals(author.getUsername()));
+
+    if (isPresent) {
+      List<ApplicationUser> collect = post.getLikes()
+              .stream().filter(like -> !like.getUsername().equals(author.getUsername()))
+              .collect(Collectors.toList());
+      post.setLikes(collect);
+    } else {
+      likes.add(author);
+      post.setLikes(likes);
+    }
+    update(postId, post);
+  }
 }

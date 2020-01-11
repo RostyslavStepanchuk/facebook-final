@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 
-import { Avatar, Tab, Tabs} from '@material-ui/core'
+import { Avatar, Tab, Tabs } from '@material-ui/core'
 import useStyles from './profileCoverStyles'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
@@ -14,7 +14,7 @@ const ProfileCover = ({ user }) =>  {
   }
 
   return (
-    <Fragment className={classes.root}>
+    <Fragment>
       <div className={classes.avatar_bg}>
         <Avatar className={classes.avatar_img} src={user.avatar}/>
         <p className={classes.avatar_name}>{user.firstName} {user.lastName}</p>

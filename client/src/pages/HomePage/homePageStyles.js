@@ -1,6 +1,7 @@
+import { makeStyles } from '@material-ui/core/styles'
 import { BACKGROUND_COLOR } from '../../utils/constants/styleConstants'
 
-const styles = {
+const useStyles = makeStyles(theme => ({
   background: {
     backgroundColor: BACKGROUND_COLOR,
     minHeight: '100vh'
@@ -13,13 +14,13 @@ const styles = {
     backgroundColor: 'yellow'
   },
   mainSectionPlaceholder: {
-  height: '1000px',
-  backgroundColor: 'green'
-},
+    height: '1000px',
+    backgroundColor: 'green'
+  },
   rightSectionPlaceholder: {
     height: '300px',
     backgroundColor: 'blue'
   }
-}
+}))
 
-export default styles
+export default useStyles
