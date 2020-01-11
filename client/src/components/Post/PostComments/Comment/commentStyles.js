@@ -7,7 +7,7 @@ const useStyles = makeStyles(theme => ({
   comment: {
     textAlign: 'left',
     padding: '5px 10px',
-    borderTop: '1px solid #e6e6e6',
+    borderBottom: '1px solid #e6e6e6',
   },
   commentText: {
     margin: 0,

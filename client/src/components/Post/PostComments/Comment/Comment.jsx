@@ -10,7 +10,7 @@ const Comment = ( { comment: { author, message, date } } )  => {
   return (
     <Fragment className={classes.root}>
       <div className={classes.comment}>
-        <p className={classes.commentText}><span className={classes.comment_author}>{author.firstName} {author.lastName}</span>{message}</p>
+        <p className={classes.commentText}><span className={classes.commentAuthor}>{author.firstName} {author.lastName}</span>{message}</p>
         <p className={classes.commentDate}>{getDate(date)}</p>
       </div>
     </Fragment>

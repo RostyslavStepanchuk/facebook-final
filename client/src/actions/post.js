@@ -84,7 +84,7 @@ export const getPostsForProfile = () => async dispatch => {
 export const updateLikes = (postId) => async dispatch => {
 
   try {
-    await axios.put('/api/v1/posts/' + postId + '/like')
+    await apiRequest.put('/posts/' + postId + '/like')
 
   } catch (e) {
     console.error(e.message)

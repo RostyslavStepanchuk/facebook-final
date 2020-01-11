@@ -6,6 +6,7 @@ const useStyles = makeStyles(theme => ({
   },
   container: {
     borderTop: '1px solid #e6e6e6',
+    borderBottom: '1px solid #e6e6e6',
   }
 
 }))
