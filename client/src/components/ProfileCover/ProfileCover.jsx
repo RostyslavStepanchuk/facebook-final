@@ -1,9 +1,10 @@
 import React, { Fragment } from 'react'
 
-import { Avatar, Tab, Tabs } from '@material-ui/core'
+import { Avatar, Button, Tab, Tabs } from '@material-ui/core'
 import useStyles from './profileCoverStyles'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import EditOutlinedIcon from '@material-ui/icons/EditOutlined'
 
 const ProfileCover = ({ user }) =>  {
   const classes = useStyles()
@@ -20,6 +21,12 @@ const ProfileCover = ({ user }) =>  {
       <div className={classes.avatarBg}>
         <Avatar className={classes.avatarImg} src={avatar}/>
         <p className={classes.avatarName}>{firstName} {lastName}</p>
+        <Button variant='contained' className={classes.editProfileBtn}>
+          <div className={classes.label}>
+            <EditOutlinedIcon className={classes.icon}/>
+            <div className={classes.labelText}> update info</div>
+          </div>
+        </Button>
       </div>
       <Tabs value={value}
             onChange={handleChange}
