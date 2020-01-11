@@ -1,4 +1,4 @@
-import React, { Fragment }  from 'react'
+import React, { Fragment } from 'react'
 import ProfileCover from '../../components/ProfileCover/ProfileCover'
 import ShortUserData from '../../components/ShortUserData/ShortUserData'
 import UserPhotos from '../../components/UserPhotos/UserPhotos'
@@ -6,15 +6,15 @@ import UserFriends from '../../components/UserFriends/UserFriends'
 import CreatePost from '../../components/CreatePost/CreatePost'
 import PostFeed from '../../components/PostFeed/PostFeed'
 
-import { Paper, Grid } from '@material-ui/core'
+import { Grid, Paper } from '@material-ui/core'
 import useStyles from './profilePageStyles'
 
 const ProfilePage = () =>  {
   const classes = useStyles()
 
   return (
-    <Fragment className={classes.root}>
-      <Grid container className={classes.gridContainer}>
+    <Fragment>
+      <Grid container className={classes.grid_container}>
         <Grid item xs={9}>
           <Paper className={classes.paper}>
             <ProfileCover/>
