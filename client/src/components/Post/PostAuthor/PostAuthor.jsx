@@ -10,7 +10,7 @@ const PostAuthor = ( { author, owner, date } ) => {
   const classes = useStyles()
 
   return (
-    <Fragment className={classes.root}>
+    <Fragment>
       <div className={classes.user}>
         <Avatar className={classes.user_photo} src={author.avatar} alt='User' />
         <div className={classes.user_name}>

@@ -19,13 +19,8 @@ const PostLikePanel = ({ post, user, uploadLikes}) => {
   const username = user.username
 
   useEffect(
-    () => {
-      postLikes.forEach(like => {
-        if (like.username === username) {
-          setPostIsLiked(true)
-        }
-      })
-    },[postLikes, username]
+    () => setPostIsLiked(postLikes.some(like=>like.username === username))
+    ,[postLikes, username]
   )
 
   const changeLike = () =>  {
@@ -41,7 +36,7 @@ const PostLikePanel = ({ post, user, uploadLikes}) => {
   }
 
   return (
-    <Fragment className={classes.root}>
+    <Fragment>
       <div className={classes.panel}>
         <IconButton aria-label="like" onClick={changeLike}>
           { postIsLiked ? <FavoriteIcon color="secondary" /> : <FavoriteBorderIcon/> }
