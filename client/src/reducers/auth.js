@@ -13,7 +13,7 @@ import {
 } from '../utils/constants/actionsName'
 
 const initialState = {
-  isAuthenticated: true,
+  isAuthenticated: false,
   loading: false,
   user: null,
   resetEmailSend: false,
