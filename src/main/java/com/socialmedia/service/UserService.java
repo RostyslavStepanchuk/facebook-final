@@ -144,4 +144,8 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
     user.setFriends(filteredFriendsList);
     jpaRepository.save(user);
   }
+
+  public String generateRefreshToken(String username) {
+    return authenticationService.generateRefreshToken(username);
+  }
 }
