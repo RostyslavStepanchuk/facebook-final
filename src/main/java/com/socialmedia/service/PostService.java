@@ -12,7 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
-import java.util.Date;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -30,7 +30,7 @@ public final class PostService extends AbstractCrudService<Post, Long, PostRepos
 
   @Override
   public Post create(Post entity) {
-    entity.setDate(new Date().getTime());
+    entity.setDate(System.currentTimeMillis());
     return super.create(entity);
   }
 
@@ -68,7 +68,7 @@ public final class PostService extends AbstractCrudService<Post, Long, PostRepos
 
     return postOwners.stream()
         .map(owner -> jpaRepository.findAllByOwner_Username(owner.getId()))
-        .flatMap(p -> p.stream())
+        .flatMap(Collection::stream)
         .sorted((p1, p2) -> (int) (p1.getDate() - p2.getDate()))
         .collect(Collectors.toList());
   }

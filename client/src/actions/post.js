@@ -80,13 +80,7 @@ export const getPostsForProfile = () => async dispatch => {
 }
 
 //updateLikes
+export const updateLikes = (postId) =>  {
 
-export const updateLikes = (postId) => async dispatch => {
-
-  try {
-    await apiRequest.put('/posts/' + postId + '/like')
-
-  } catch (e) {
-    console.error(e.message)
-  }
+  apiRequest.put('/api/v1/posts/' + postId + '/like')
 }
