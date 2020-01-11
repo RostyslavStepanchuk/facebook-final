@@ -7,15 +7,17 @@ import PostAuthor from './PostAuthor/PostAuthor'
 import PostLikePanel from './PostLikePanel/PostLikePanel'
 import PostComments from './PostComments/PostComments'
 
-const Post = ({ post: { id, author, owner, date, message, image, comments, likes } }) => {
+const Post = ({ post }) => {
   const classes = useStyles()
+
+  const { id, author, owner, date, message, image, comments } = post
 
   return (
     <Paper key={id} className={classes.post}>
       <PostAuthor author={author} owner={owner} date={date}/>
       <img src={image} className={classes.postImg} alt='Post' />
       <p>{message}</p>
-      <PostLikePanel id={id} likes={likes} comments={comments} />
+      <PostLikePanel id={id} post={post} comments={comments} />
       <PostComments comments={comments} />
     </Paper>
   )
