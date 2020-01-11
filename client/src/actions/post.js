@@ -90,9 +90,9 @@ export const getPostsForProfile = () => async dispatch => {
   }
 }
 
-//uploadLikes
+//updateLikes
 
-export const uploadLikes = (postId) => async dispatch => {
+export const updateLikes = (postId) => async dispatch => {
 
   try {
     await axios.put('/api/v1/posts/' + postId + '/like')

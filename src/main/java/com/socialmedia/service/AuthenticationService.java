@@ -15,4 +15,8 @@ public interface AuthenticationService {
   Token getAccessToken(String username, String password);
 
   UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest req);
+
+  Token getAccessTokenByRefreshToken(String refreshToken, String user);
+
+  String generateRefreshToken(String username);
 }
