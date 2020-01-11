@@ -19,8 +19,8 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.UUID;
 
 import static com.socialmedia.security.SecurityConstants.ACCESS_TOKEN_MAX_AGE;
@@ -84,10 +84,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     ApplicationUser user = userService.getById(username);
     String userRefreshToken = user.getTokensData().getRefreshToken();
-    Date tokenExpiration = new Date(user.getTokensData().getRefreshTokenValidTill());
+    Calendar tokenExpiration = Calendar.getInstance();
+    tokenExpiration.setTimeInMillis(user.getTokensData().getRefreshTokenValidTill());
 
     if (userRefreshToken.equals(refreshToken)
-        & tokenExpiration.after(new Date())) {
+        && tokenExpiration.after(Calendar.getInstance())) {
       return generateAccessToken(user.getUsername());
     }
 
@@ -106,11 +107,21 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     return refreshToken;
   }
 
+  @Override
+  public void logOut(String username) {
+    ApplicationUser user = userService.getById(username);
+    user.getTokensData().setRefreshTokenValidTill(0L);
+    user.getTokensData().setRefreshToken(null);
+  }
+
   private Token generateAccessToken(String subject) {
 
+    Calendar expirationTime = Calendar.getInstance();
+    expirationTime.setTimeInMillis(System.currentTimeMillis() + ACCESS_TOKEN_MAX_AGE);
+
     String token = Jwts.builder()
-        .setIssuedAt(new Date())
-        .setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_MAX_AGE))
+        .setIssuedAt(Calendar.getInstance().getTime())
+        .setExpiration(expirationTime.getTime())
         .setSubject(subject)
         .addClaims(Collections.emptyMap())
         .signWith(SignatureAlgorithm.HS512, secret)

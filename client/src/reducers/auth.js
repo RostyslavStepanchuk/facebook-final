@@ -1,5 +1,3 @@
-/* global localStorage */
-
 import {
   AUTH_ERROR,
   EMAIL_CONFIRMED,
@@ -33,25 +31,21 @@ export default function(state = initialState, action) {
       return { ...state, isAuthenticated: true, loading: false, user: payload, emailIsConfirmed: payload.emailIsConfirmed }
 
     case REGISTER_SUCCESS:
-      localStorage.setItem('accessToken', payload.accessToken)
       return { ...state, isAuthenticated: true }
 
     case LOGIN_SUCCESS:
-      localStorage.setItem('accessToken', payload.accessToken)
-      return { ...state, ...payload, isAuthenticated: true, loading: false }
+      return { ...state, isAuthenticated: true, loading: false }
 
     case REGISTER_FAIL:
       return { ...state, loading: false }
 
     case AUTH_ERROR:
-      localStorage.removeItem('accessToken')
       return { ...state, user: null, isAuthenticated: false, emailIsConfirmed: false, loading: false }
 
     case LOGIN_FAIL:
       return { ...state, loading: false }
 
     case LOGOUT:
-      localStorage.removeItem('accessToken')
       return { ...state, user: null, isAuthenticated: false, emailIsConfirmed: false, loading: false }
 
     case EMAIL_CONFIRMED:
