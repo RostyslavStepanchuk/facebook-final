@@ -6,6 +6,7 @@ import useStyles from './postStyles'
 import PostAuthor from './PostAuthor/PostAuthor'
 import PostLikePanel from './PostLikePanel/PostLikePanel'
 import PostComments from './PostComments/PostComments'
+import CreateComment from './CreateComment/CreateComent'
 
 const Post = ({ post: { id, author, owner, date, message, image, comments, likes } }) => {
   const classes = useStyles()
@@ -17,6 +18,7 @@ const Post = ({ post: { id, author, owner, date, message, image, comments, likes
       <p>{message}</p>
       <PostLikePanel id={id} likes={likes} comments={comments} />
       <PostComments comments={comments} />
+      <CreateComment id={id}/>
     </Paper>
   )
 }
