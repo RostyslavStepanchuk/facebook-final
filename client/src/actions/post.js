@@ -1,6 +1,5 @@
-import axios from 'axios'
-import { Toastr } from '../utils/toastr/Toastr'
 import { POSTS_END_LOADING, POSTS_RECEIVED, POSTS_START_LOADING } from '../utils/constants/actionsName'
+import apiRequest from '../utils/helpers/apiRequest'
 
 export const uploadImages = images => {
 
@@ -13,7 +12,7 @@ export const uploadImages = images => {
   const uploadImageRequests = images.map((img, i) => {
     const formData = new FormData()
     formData.append("file", img.file)
-    return axios.post('/api/v1/storage/fake_upload', formData, configMultipart)
+    return apiRequest.post('/storage/fake_upload', formData, configMultipart)
       .catch(()=> {
         images[i].uploadError = true
       })
@@ -30,21 +29,14 @@ export const uploadImages = images => {
 
 export const createPost = (message, images, isShownToEveryone) => {
 
-  const configJson = {
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  }
-
   const body = {
     message,
     image: images[0],
     showEveryone: isShownToEveryone
   }
 
-  return axios.post('/api/v1/posts', body, configJson)
-    .then(()=> window.location.reload(),
-      ()=> Toastr.error("Error while creating post"))
+  return apiRequest.post('/posts/profile', body)
+    .then(()=> window.location.reload())
 }
 
 export const getPostsForHomePage = () => async dispatch => {
@@ -54,15 +46,14 @@ export const getPostsForHomePage = () => async dispatch => {
   })
 
   try {
-    const posts = await axios.get('/api/v1/posts')
+    const posts = await apiRequest.get('/posts')
 
     dispatch({
       type: POSTS_RECEIVED,
-      payload: posts.data
+      payload: posts
     })
 
   } catch (e) {
-    console.error(e.message)
     dispatch({
       type: POSTS_END_LOADING
     })
@@ -70,20 +61,18 @@ export const getPostsForHomePage = () => async dispatch => {
 }
 
 export const getPostsForProfile = () => async dispatch => {
+
   dispatch({
     type: POSTS_START_LOADING
   })
-
   try {
-    const posts = await axios.get('/api/v1/posts')
+    const posts = await apiRequest.get('/posts/profile')
 
     dispatch({
-      type: POSTS_RECEIVED,
-      payload: posts.data
-    })
-
+    type: POSTS_RECEIVED,
+    payload: posts
+  })
   } catch (e) {
-    console.error(e.message)
     dispatch({
       type: POSTS_END_LOADING
     })
