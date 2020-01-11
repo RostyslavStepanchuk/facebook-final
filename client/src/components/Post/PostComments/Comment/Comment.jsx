@@ -8,7 +8,7 @@ const Comment = ( { comment } )  => {
   const classes = useStyles()
 
   return (
-    <Fragment className={classes.root}>
+    <Fragment>
       <div className={classes.comment}>
         <p className={classes.comment_text}><span className={classes.comment_author}>{comment.author.firstName} {comment.author.lastName}</span>{comment.message}</p>
         <p className={classes.comment_date}>{getDate(comment.date)}</p>

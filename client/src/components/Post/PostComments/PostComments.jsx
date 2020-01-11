@@ -10,7 +10,7 @@ const PostComments = ( { comments } )  => {
   const commentList = comments.map( comment => <Comment comment={comment} key={comment.id}/>)
 
   return (
-    <Fragment className={classes.root}>
+    <Fragment>
       <div className={classes.comments}>
         {commentList}
       </div>
