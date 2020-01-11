@@ -19,7 +19,7 @@ const PostComments = ( { comments } )  => {
 }
 
 PostComments.propTypes = {
-  comments: PropTypes.array,
+  comments: PropTypes.array.isRequired,
 }
 
 export default PostComments

@@ -3,25 +3,31 @@ package com.socialmedia.mapper;
 import com.socialmedia.dto.comment.CommentDtoIn;
 import com.socialmedia.dto.comment.CommentDtoOut;
 import com.socialmedia.model.Comment;
+import com.socialmedia.service.CommentService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CommentMapper {
-
-  private ModelMapper modelMapper;
+public class CommentMapper extends AbstractControllerToCrudServiceMapper<Comment, Long, CommentDtoIn, CommentDtoOut, CommentService>  {
 
   @Autowired
-  public CommentMapper(ModelMapper modelMapper) {
-    this.modelMapper = modelMapper;
+  public CommentMapper(ModelMapper modelMapper, CommentService commentService) {
+    super(modelMapper, commentService);
   }
 
-  public CommentDtoOut toDto(Comment entity) {
+  @Override
+  CommentDtoOut responseDtoOf(Comment entity) {
     return modelMapper.map(entity, CommentDtoOut.class);
   }
 
-  public Comment toEntity(CommentDtoIn commentDtoIn) {
+  @Override
+  Comment entityOf(CommentDtoIn commentDtoIn) {
     return modelMapper.map(commentDtoIn, Comment.class);
+  }
+
+  public CommentDtoOut createComment(Long postId, CommentDtoIn commentDtoIn) {
+    Comment comment = entityOf(commentDtoIn);
+    return responseDtoOf(crudService.createComment(comment, postId));
   }
 }

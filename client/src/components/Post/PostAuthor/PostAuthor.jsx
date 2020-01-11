@@ -23,9 +23,9 @@ const PostAuthor = ( { author, owner, date } ) => {
 }
 
 PostAuthor.propTypes = {
-  author: PropTypes.object,
-  owner: PropTypes.object,
-  date: PropTypes.number,
+  author: PropTypes.object.isRequired,
+  owner: PropTypes.object.isRequired,
+  date: PropTypes.number.isRequired,
 }
 
 export default PostAuthor

@@ -1,11 +1,8 @@
 package com.socialmedia.dto.comment;
 
-import com.socialmedia.dto.user.UserLabelDtoIn;
+import lombok.Data;
 
+@Data
 public class CommentDtoIn {
-  private Long id;
   private String message;
-  private Long date;
-  private UserLabelDtoIn author;
-
 }
