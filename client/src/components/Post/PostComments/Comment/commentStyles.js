@@ -8,6 +8,7 @@ const useStyles = makeStyles(theme => ({
   },
   commentText: {
     margin: 0,
+    wordBreak: 'break-word',
   },
   commentAuthor: {
     fontWeight: 600,

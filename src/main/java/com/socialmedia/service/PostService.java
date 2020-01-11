@@ -18,7 +18,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public final class PostService extends AbstractCrudService<Post, Long, PostRepository> {
+public class PostService extends AbstractCrudService<Post, Long, PostRepository> {
 
   private UserService userService;
 

@@ -79,8 +79,15 @@ export const getPostsForProfile = () => async dispatch => {
   }
 }
 
-//updateLikes
 export const updateLikes = (postId) =>  {
 
   apiRequest.put('/posts/' + postId + '/like')
+}
+
+export const createComment = (postId, comment) =>  {
+  const body = {
+    message: comment,
+  }
+  return apiRequest.post('/comments/post/' + postId, body)
+    .then(()=> window.location.reload())
 }

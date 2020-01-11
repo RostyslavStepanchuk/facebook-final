@@ -4,8 +4,18 @@ import useStyles from './createCommentStyles'
 import PropTypes from 'prop-types'
 import { Avatar, Grid, TextField } from '@material-ui/core'
 
-const CreateComent = ( { id, user } ) => {
+import { createComment } from '../../../actions/post'
+
+const CreateComent = ( { postId, user } ) => {
   const classes = useStyles()
+
+  const handleKeyPress = (e) => {
+    if(e.key === 'Enter'){
+      e.preventDefault()
+      let comment = e.target.value
+      createComment(postId, comment)
+    }
+  }
 
   return (
     <Fragment>
@@ -20,6 +30,7 @@ const CreateComent = ( { id, user } ) => {
             placeholder={'Write a comment...'}
             multiline
             fullWidth
+            onKeyPress={handleKeyPress}
           />
           <p className={classes.footerText}>Press Enter to post.</p>
         </Grid>
@@ -29,8 +40,8 @@ const CreateComent = ( { id, user } ) => {
 }
 
 CreateComent.propTypes = {
-  id: PropTypes.number,
-  user: PropTypes.object,
+  postId: PropTypes.number.isRequired,
+  user: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = state => ({
@@ -38,4 +49,4 @@ const mapStateToProps = state => ({
 })
 
 //export default connect(mapStateToProps, { createComment } )(CreateComent)
-export default connect(mapStateToProps, {  } )(CreateComent)
+export default connect(mapStateToProps, null )(CreateComent)

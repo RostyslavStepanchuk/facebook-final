@@ -18,9 +18,9 @@ const Post = ({ post }) => {
       <PostAuthor author={author} owner={owner} date={date}/>
       <img src={image} className={classes.postImg} alt='Post' />
       <p>{message}</p>
-      <PostLikePanel id={id} likes={likes} comments={comments} />
+      <PostLikePanel postId={id} likes={likes} comments={comments} />
       <PostComments comments={comments} />
-      <CreateComment id={id}/>
+      <CreateComment postId={id}/>
     </Paper>
   )
 }
