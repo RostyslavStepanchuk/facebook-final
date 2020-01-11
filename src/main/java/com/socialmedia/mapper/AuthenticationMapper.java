@@ -31,4 +31,8 @@ public class AuthenticationMapper {
 
     return authenticationService.generateRefreshToken(username);
   }
+
+  public void logOut(String username) {
+    authenticationService.logOut(username);
+  }
 }

@@ -9,7 +9,7 @@ import IconButton from '@material-ui/core/IconButton'
 
 import { updateLikes } from '../../../actions/post'
 
-const PostLikePanel = ({ post, user, uploadLikes}) => {
+const PostLikePanel = ({ post, user }) => {
   const classes = useStyles()
 
   const [count, setCount] = useState(post.likes.length)
@@ -27,11 +27,11 @@ const PostLikePanel = ({ post, user, uploadLikes}) => {
     if(postIsLiked){
       setPostIsLiked(false)
       setCount(count - 1)
-      uploadLikes(post.id)
+      updateLikes(post.id)
     } else {
       setPostIsLiked(true)
       setCount(count + 1)
-      uploadLikes(post.id)
+      updateLikes(post.id)
     }
   }
 
@@ -53,12 +53,11 @@ const PostLikePanel = ({ post, user, uploadLikes}) => {
 
 PostLikePanel.propTypes = {
   user: PropTypes.object,
-  post: PropTypes.object,
-  uploadLikes: PropTypes.func,
+  post: PropTypes.object
 }
 
 const mapStateToProps = state => ({
   user: state.auth.user,
 })
 
-export default connect(mapStateToProps, { updateLikes } )(PostLikePanel)
+export default connect(mapStateToProps, null)(PostLikePanel)

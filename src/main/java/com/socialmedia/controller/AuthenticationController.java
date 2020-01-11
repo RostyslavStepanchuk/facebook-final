@@ -41,7 +41,7 @@ public class AuthenticationController {
     return ResponseEntity.ok(token);
   }
 
-  @PostMapping("/refresh-tokens/{username}")
+  @PostMapping("/reissue-tokens/{username}")
   public ResponseEntity<Token> refreshAccessJwt(@PathVariable String username,
                                                 @CookieValue(REFRESH_TOKEN_COOKIE_NAME) String refreshToken,
                                                 HttpServletResponse resp) {
@@ -51,6 +51,13 @@ public class AuthenticationController {
     cookieMgr.addRefreshTokenCookie(resp, newRefreshToken);
 
     return ResponseEntity.ok(token);
+  }
+
+  @PostMapping("logout/{username}")
+  public ResponseEntity<String> logOut(@PathVariable String username, HttpServletResponse resp) {
+    authenticationMapper.logOut(username);
+    cookieMgr.removeRefreshTokenCookie(resp);
+    return ResponseEntity.ok("User has been logged out");
   }
 
 }
