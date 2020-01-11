@@ -12,6 +12,7 @@ import { updateLikes } from '../../../actions/post'
 const PostLikePanel = ({ post, user }) => {
   const classes = useStyles()
 
+  console.log(post)
   const [count, setCount] = useState(post.likes.length)
   const [postIsLiked, setPostIsLiked] = useState(false)
 

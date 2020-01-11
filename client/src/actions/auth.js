@@ -20,6 +20,10 @@ import { Toastr } from '../utils/toastr/Toastr'
 
 export const loadUser = () => dispatch => {
 
+  dispatch({
+    type: START_LOADING
+  })
+
   apiRequest.get('/users/current')
     .then(data => {
       dispatch({
