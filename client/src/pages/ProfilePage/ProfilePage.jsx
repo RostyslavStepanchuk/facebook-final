@@ -14,7 +14,7 @@ const ProfilePage = () =>  {
 
   return (
     <Fragment>
-      <Grid container className={classes.grid_container}>
+      <Grid container className={classes.gridContainer}>
         <Grid item xs={9}>
           <Paper className={classes.paper}>
             <ProfileCover/>

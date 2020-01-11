@@ -82,5 +82,5 @@ export const getPostsForProfile = () => async dispatch => {
 //updateLikes
 export const updateLikes = (postId) =>  {
 
-  apiRequest.put('/api/v1/posts/' + postId + '/like')
+  apiRequest.put('/posts/' + postId + '/like')
 }

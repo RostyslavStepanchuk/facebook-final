@@ -8,8 +8,8 @@ const CreateComent = ( { id, user } ) => {
   const classes = useStyles()
 
   return (
-    <Fragment className={classes.root}>
-      <Grid container className={classes.container}>
+    <Fragment>
+      <Grid container className={classes.panel}>
         <Grid container item xs={1}  justify='center' alignItems='flex-start'>
           <Avatar className={classes.avatar} src={user.avatar}/>
         </Grid>
@@ -29,6 +29,7 @@ const CreateComent = ( { id, user } ) => {
 }
 
 CreateComent.propTypes = {
+  id: PropTypes.number,
   user: PropTypes.object,
 }
 
