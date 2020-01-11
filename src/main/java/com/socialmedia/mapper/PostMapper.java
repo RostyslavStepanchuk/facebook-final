@@ -81,4 +81,8 @@ public class PostMapper extends AbstractControllerToCrudServiceMapper<Post,Long,
         .map(this::responseDtoOf)
         .collect(Collectors.toList());
   }
+
+  public void updateLikes(Long postId) {
+    crudService.updateLikes(postId);
+  }
 }

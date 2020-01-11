@@ -1,23 +1,25 @@
 import React, { Fragment } from 'react'
 import useStyles from './postCommentsStyles'
+import PropTypes from 'prop-types'
 
-const PostComments = ( props )  => {
+import Comment from './Comment/Comment'
+
+const PostComments = ( { comments } )  => {
   const classes = useStyles()
 
-  const commentList = props.comments.map(item =>
-    <div className={classes.comment}>
-      <p className={classes.comment_text}><span className={classes.comment_author}>{item.author.firstName} {item.author.lastName}</span>{item.message}</p>
-      <p className={classes.comment_date}>{item.date}</p>
-    </div>
-  )
+  const commentList = comments.map( comment => <Comment comment={comment} key={comment.id}/>)
 
   return (
-    <Fragment className={classes.root}>
+    <Fragment>
       <div className={classes.comments}>
         {commentList}
       </div>
     </Fragment>
   )
+}
+
+PostComments.propTypes = {
+  comments: PropTypes.array,
 }
 
 export default PostComments
