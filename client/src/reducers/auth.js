@@ -1,22 +1,21 @@
 /* global localStorage */
 
 import {
-  REGISTER_SUCCESS,
-  REGISTER_FAIL,
-  USER_LOADED,
   AUTH_ERROR,
-  LOGIN_SUCCESS,
+  EMAIL_CONFIRMED,
   LOGIN_FAIL,
+  LOGIN_SUCCESS,
   LOGOUT,
+  REGISTER_FAIL,
+  REGISTER_SUCCESS,
   RESET_PASSWORD,
   START_LOADING,
   STOP_LOADING,
-  EMAIL_CONFIRMED
-  // RESET_PASSWORD_FAIL
+  USER_LOADED
 } from '../utils/constants/actionsName'
 
 const initialState = {
-  isAuthenticated: false,
+  isAuthenticated: true,
   loading: false,
   user: null,
   resetEmailSend: false,

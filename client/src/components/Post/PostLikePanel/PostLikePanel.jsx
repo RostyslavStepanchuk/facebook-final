@@ -8,40 +8,36 @@ import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline'
 import IconButton from '@material-ui/core/IconButton'
 
 import { updateLikes } from '../../../actions/post'
-import { forEach } from 'lodash'
 
-const PostLikePanel = ({ id, likes, comments, user, updateLikes}) => {
+const PostLikePanel = ({ post, user, uploadLikes}) => {
   const classes = useStyles()
 
-  const [count, setCount] = useState(likes.length)
+  const [count, setCount] = useState(post.likes.length)
   const [postIsLiked, setPostIsLiked] = useState(false)
 
+  const postLikes = post.likes
   const username = user.username
 
-  useEffect(() => {
-     forEach(likes, like => {
-        if (like.username === username) {
-          setPostIsLiked(true)
-          return false
-        }
-      })
-    },[likes, username]
+  useEffect(
+    () => setPostIsLiked(postLikes.some(like=>like.username === username)),
+    [postLikes, username]
   )
 
   const changeLike = () =>  {
     if(postIsLiked){
       setPostIsLiked(false)
       setCount(count - 1)
+      uploadLikes(post.id)
     } else {
       setPostIsLiked(true)
       setCount(count + 1)
+      uploadLikes(post.id)
     }
-    updateLikes(id)
   }
 
   return (
-    <Fragment className={classes.root}>
-      <div className={classes.container}>
+    <Fragment>
+      <div className={classes.panel}>
         <IconButton aria-label="like" onClick={changeLike}>
           { postIsLiked ? <FavoriteIcon color="secondary" /> : <FavoriteBorderIcon/> }
         </IconButton>
@@ -49,18 +45,16 @@ const PostLikePanel = ({ id, likes, comments, user, updateLikes}) => {
         <IconButton aria-label="comments">
           <ChatBubbleOutlineIcon />
         </IconButton>
-        {comments.length}
+        {post.comments.length}
       </div>
     </Fragment>
   )
 }
 
 PostLikePanel.propTypes = {
-  id: PropTypes.number,
-  likes: PropTypes.array,
-  comments: PropTypes.array,
   user: PropTypes.object,
-  updateLikes: PropTypes.func,
+  post: PropTypes.object,
+  uploadLikes: PropTypes.func,
 }
 
 const mapStateToProps = state => ({
