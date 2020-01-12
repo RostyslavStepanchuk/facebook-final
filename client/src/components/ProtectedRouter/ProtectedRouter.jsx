@@ -8,9 +8,9 @@ import { Redirect, Route, Switch } from 'react-router-dom'
 import { loadUser } from '../../actions/auth'
 import Preloader from '../Preloader/Preloader'
 
-const ProtectedRouter = ({ isAuthenticated, isUserLoading, emailIsConfirmed, user, loadUser }) => {
+const ProtectedRouter = ({ authFailed, emailIsConfirmed, user, loadUser }) => {
   useEffect(()=> loadUser(), [ loadUser ])
-  if ( !isAuthenticated && !isUserLoading) {
+  if (authFailed) {
     return <Redirect to='/login'/>
   } else if ( user === null ) {
     return <Preloader/>
@@ -28,16 +28,14 @@ const ProtectedRouter = ({ isAuthenticated, isUserLoading, emailIsConfirmed, use
 }
 
 ProtectedRouter.propTypes = {
-  isAuthenticated: PropTypes.bool.isRequired,
-  isUserLoading: PropTypes.bool.isRequired,
+  authFailed: PropTypes.bool.isRequired,
   user: PropTypes.object,
   emailIsConfirmed: PropTypes.bool.isRequired,
   loadUser: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated,
-  isUserLoading: state.auth.loading,
+  authFailed: state.auth.authFailed,
   user: state.auth.user,
   emailIsConfirmed: state.auth.emailIsConfirmed
 })
