@@ -38,6 +38,11 @@ const useStyles = makeStyles(theme => ({
     display: 'inline-block',
     lineHeight: '25px'
   },
+  modalContainer: {
+    padding: 0,
+    margin: '50px auto',
+    backgroundColor: 'white',
+  },
   avatarName: {
     fontSize: 26,
     position: 'absolute',
@@ -54,7 +59,7 @@ const useStyles = makeStyles(theme => ({
   submenuItem: {
     borderLeft: '1px solid #e9eaed',
     minWidth: 120,
-  },
+  }
 }))
 
 export default useStyles

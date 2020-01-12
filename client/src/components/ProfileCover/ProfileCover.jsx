@@ -1,19 +1,25 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 
-import { Avatar, Button, Tab, Tabs } from '@material-ui/core'
+import { Avatar, Button, Container, Modal, Tab, Tabs } from '@material-ui/core'
 import useStyles from './profileCoverStyles'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined'
+import UpdateProfile from '../UpdateProfile/UpdateProfile'
 
 const ProfileCover = ({ user }) =>  {
   const classes = useStyles()
 
   const { avatar, firstName, lastName } = user
-  const [value, setValue] = React.useState('profile')
+  const [value, setValue] = useState('profile')
+  const [ modalOpen, setModalOpen ] = useState(false)
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
+  }
+
+  const handleModal = () => {
+    setModalOpen(!modalOpen)
   }
 
   return (
@@ -21,12 +27,25 @@ const ProfileCover = ({ user }) =>  {
       <div className={classes.avatarBg}>
         <Avatar className={classes.avatarImg} src={avatar}/>
         <p className={classes.avatarName}>{firstName} {lastName}</p>
-        <Button variant='contained' className={classes.editProfileBtn}>
+        <Button
+          variant='contained'
+          onClick={handleModal}
+          className={classes.editProfileBtn}
+        >
           <div className={classes.label}>
             <EditOutlinedIcon className={classes.icon}/>
-            <div className={classes.labelText}> update info</div>
+            <div className={classes.labelText}> Edit profile</div>
           </div>
         </Button>
+        <Modal
+          disableAutoFocus
+          open={modalOpen}
+          onClose={handleModal}
+        >
+          <Container className={classes.modalContainer} maxWidth='md'>
+          <UpdateProfile handleClose={handleModal}/>
+          </Container>
+        </Modal>
       </div>
       <Tabs value={value}
             onChange={handleChange}
