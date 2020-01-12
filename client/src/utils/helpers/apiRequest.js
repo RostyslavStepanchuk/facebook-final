@@ -125,7 +125,7 @@ class ApiRequest {
         this.pendingTokenRequest = null;
       }).catch(()=>{
         this.pendingTokenRequest = null;
-        window.location.reload()
+        window.location.href = '/login'
         return Promise.reject({})
       })
 

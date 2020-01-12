@@ -8,9 +8,11 @@ import EditOutlinedIcon from '@material-ui/icons/EditOutlined'
 import UpdateProfile from '../UpdateProfile/UpdateProfile'
 
 const ProfileCover = ({ user }) =>  {
-  const classes = useStyles()
 
-  const { avatar, firstName, lastName } = user
+
+  const { avatar, firstName, lastName, profileCover } = user
+  const classes = useStyles({profileCover})
+
   const [value, setValue] = useState('profile')
   const [ modalOpen, setModalOpen ] = useState(false)
 
@@ -71,10 +73,4 @@ const mapStateToProps = state => ({
   user: state.auth.user,
 })
 
-const mapDispatchToProps = dispatch => {
-  return {
-
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileCover)
+export default connect(mapStateToProps, null)(ProfileCover)

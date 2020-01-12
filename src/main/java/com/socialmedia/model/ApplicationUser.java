@@ -38,17 +38,25 @@ public class ApplicationUser implements DbEntity<String> {
   private String password;
   @Column(name = "email")
   private String email;
-  @MayAcceptNull
   @Column(name = "first_name")
   private String firstName;
-  @MayAcceptNull
   @Column(name = "last_name")
   private String lastName;
   @MayAcceptNull
   @Column(name = "birth_date")
   private Long birthDate;
-  @Column(name = "avatar")
-  private String avatar;
+  @MayAcceptNull
+  @Column(name = "gender")
+  private Gender gender;
+
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "fk_avatar_img_id")
+  private Image avatar;
+
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "fk_cover_img_id")
+  private Image profileCover;
+
   @Column(name = "open_account")
   private Boolean openAccount;
 

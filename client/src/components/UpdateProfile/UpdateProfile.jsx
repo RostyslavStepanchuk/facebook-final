@@ -24,9 +24,8 @@ import { validateEmail } from '../../utils/helpers/inputValidators'
 
 const UpdateProfile = ({user, handleClose}) => {
 
-  const classes = useStyles()
-  const { avatar, firstName, lastName, birthDate, email } = user
-
+  const { avatar, firstName, lastName, birthDate, email, profileCover } = user
+  const classes = useStyles({ profileCover })
 
   const [ formData, setFormData ] = useState({
     firstName,

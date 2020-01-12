@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   user: {
     display: 'flex',
     margin: 'auto 0',
@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
   userName: {
     margin: 'auto 0',
   },
-  userFullname: {
+  userFullName: {
     display: 'flex',
     fontWeight: 600,
     margin: 0,
