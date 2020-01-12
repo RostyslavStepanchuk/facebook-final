@@ -14,6 +14,7 @@ import {
 
 const initialState = {
   isAuthenticated: false,
+  authFailed: false,
   loading: false,
   user: null,
   resetEmailSend: false,
@@ -31,16 +32,16 @@ export default function(state = initialState, action) {
       return { ...state, isAuthenticated: true, loading: false, user: payload, emailIsConfirmed: payload.emailIsConfirmed }
 
     case REGISTER_SUCCESS:
-      return { ...state, isAuthenticated: true }
+      return { ...state, isAuthenticated: true, authFailed: false }
 
     case LOGIN_SUCCESS:
-      return { ...state, isAuthenticated: true, loading: false }
+      return { ...state, isAuthenticated: true, authFailed: false, loading: false }
 
     case REGISTER_FAIL:
       return { ...state, loading: false }
 
     case AUTH_ERROR:
-      return { ...state, user: null, isAuthenticated: false, emailIsConfirmed: false, loading: false }
+      return { ...state, user: null, isAuthenticated: false, authFailed: true, emailIsConfirmed: false, loading: false }
 
     case LOGIN_FAIL:
       return { ...state, loading: false }
