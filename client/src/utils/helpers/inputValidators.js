@@ -1,10 +1,5 @@
 export const isNoErrors = errorsObj => {
-  for (let key in errorsObj) {
-    if (errorsObj.hasOwnProperty(key) && errorsObj[key] !== '') {
-      return false
-    }
-  }
-  return true
+  return Object.values(errorsObj).some(err => err !== '')
 }
 
 export const validatePassword = (password) => {
