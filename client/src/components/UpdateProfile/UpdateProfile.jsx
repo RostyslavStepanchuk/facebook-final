@@ -20,18 +20,22 @@ import { KeyboardDatePicker, MuiPickersUtilsProvider, } from '@material-ui/picke
 
 import useStyles from './updateProfileStyles'
 import { PhotoCamera } from '@material-ui/icons'
+import { validateEmail } from '../../utils/helpers/inputValidators'
 
 const UpdateProfile = ({user, handleClose}) => {
 
   const classes = useStyles()
-  const { avatar, firstName, lastName, birthDate } = user
+  const { avatar, firstName, lastName, birthDate, email } = user
 
 
   const [ formData, setFormData ] = useState({
     firstName,
     lastName,
+    email,
     birthDate: Number(birthDate),
-    gender: 'male'
+    gender: 'male',
+    emailError: '',
+
   });
 
   const onChange = e => {
@@ -44,6 +48,12 @@ const UpdateProfile = ({user, handleClose}) => {
 
   const onSubmit = e => {
     e.preventDefault()
+
+    setFormData({...formData, emailError: validateEmail(formData.email) })
+
+    if (formData.emailError === '') {
+      console.log('loading to server')
+    }
   }
 
 
@@ -82,8 +92,7 @@ const UpdateProfile = ({user, handleClose}) => {
         Personal info
       </Typography>
       <Grid container className={classes.sectionContainer}>
-        <Grid item sm={2}/>
-        <Grid item xs>
+        <Grid item xs={12} sm>
           <TextField
             className={classes.textInput}
             name='firstName'
@@ -105,8 +114,8 @@ const UpdateProfile = ({user, handleClose}) => {
             onChange={onChange}
           />
         </Grid>
-        <Grid item alignContent='center' justify='center' container xs >
-          <FormControl component='fieldset' >
+        <Grid item alignContent='center' justify='center' container xs={6} sm={3} md={2} >
+          <FormControl component='fieldset' className={classes.ageRadioSet} >
             <FormLabel component='legend'>Gender</FormLabel>
             <RadioGroup aria-label='gender' name='gender' value={formData.gender} onChange={onChange}>
               <FormControlLabel
@@ -130,7 +139,7 @@ const UpdateProfile = ({user, handleClose}) => {
             </RadioGroup>
           </FormControl>
         </Grid>
-        <Grid item alignContent='center' justify='center' container xs >
+        <Grid item alignContent='center' justify='center' container xs={6} sm >
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDatePicker
               disableToolbar
@@ -148,7 +157,19 @@ const UpdateProfile = ({user, handleClose}) => {
             />
           </MuiPickersUtilsProvider>
         </Grid>
-        <Grid item sm={2}/>
+        <Grid item container alignContent='center' xs={12} md>
+          <TextField
+            name='email'
+            variant='outlined'
+            required
+            fullWidth
+            label='email'
+            value={formData.email}
+            onChange={onChange}
+            error={formData.emailError !== ''}
+            helperText={formData.emailError}
+          />
+        </Grid>
       </Grid>
       <Grid container alignContent='center' justify='flex-end' className={classes.btnSection}>
         <Button

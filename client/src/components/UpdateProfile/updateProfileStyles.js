@@ -49,13 +49,16 @@ const useStyles = makeStyles(() => ({
     backgroundSize: 'cover',
   },
   sectionContainer: {
-    padding: '5px 0'
+    padding: '15px 20px 5px'
   },
   textInput: {
     margin: '5px 10px'
   },
+  ageRadioSet: {
+    paddingLeft: 30
+  },
   ageRadioBtn: {
-    height: 25,
+    height: 30
   },
   btnSection: {
     padding: '10px 20px'
