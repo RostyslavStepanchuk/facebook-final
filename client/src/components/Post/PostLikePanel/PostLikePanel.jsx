@@ -6,10 +6,9 @@ import FavoriteIcon from '@material-ui/icons/Favorite'
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline'
 import IconButton from '@material-ui/core/IconButton'
-
 import { updateLikes } from '../../../actions/post'
 
-const PostLikePanel = ({ postId, likes, comments, user }) => {
+const PostLikePanel = ({ postId, likes, comments, user } ) => {
   const classes = useStyles()
 
   const [count, setCount] = useState(likes.length)
@@ -40,7 +39,7 @@ const PostLikePanel = ({ postId, likes, comments, user }) => {
           { postIsLiked ? <FavoriteIcon color="secondary" /> : <FavoriteBorderIcon/> }
         </IconButton>
         {count}
-        <IconButton aria-label="comments">
+        <IconButton aria-label="comments" >
           <ChatBubbleOutlineIcon />
         </IconButton>
         {comments.length}
