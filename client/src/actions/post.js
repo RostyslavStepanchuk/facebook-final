@@ -2,7 +2,7 @@
 import { POSTS_END_LOADING, POSTS_RECEIVED, POSTS_START_LOADING } from '../utils/constants/actionsName'
 import apiRequest from '../utils/helpers/apiRequest'
 
-export const uploadSingleImage = image => {
+export const uploadImages = images => {
   const configMultipart = {
     headers: {
       'Content-Type': 'multipart/form-data'
@@ -11,16 +11,16 @@ export const uploadSingleImage = image => {
 
   const uploadImageRequests = images.map((img, i) => {
     const formData = new FormData()
-    formData.append("file", img.file)
+    formData.append('file', img.file)
     return apiRequest.post('/storage/fake_upload', formData, configMultipart)
-      .catch(()=> {
+      .catch(() => {
         images[i].uploadError = true
       })
   })
 
   return Promise.all(uploadImageRequests)
     .then(resArr => {
-      if (images.some(img => img.uploadError === true)){
+      if (images.some(img => img.uploadError === true)) {
         return Promise.reject(images)
       }
       return Promise.resolve(resArr.map(res => res.data))
@@ -45,6 +45,7 @@ export const getPostsForHomePage = () => async dispatch => {
 
   try {
     const posts = await apiRequest.get('/posts')
+
     dispatch({
       type: POSTS_RECEIVED,
       payload: posts
@@ -62,6 +63,7 @@ export const getPostsForProfile = () => async dispatch => {
   })
   try {
     const posts = await apiRequest.get('/posts/profile')
+
     dispatch({
       type: POSTS_RECEIVED,
       payload: posts
