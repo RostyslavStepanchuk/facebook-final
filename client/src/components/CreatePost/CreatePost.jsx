@@ -25,7 +25,7 @@ import { Toastr } from '../../utils/toastr/Toastr'
 
 const CreatePost = ({ user }) => {
   const classes = useStyles()
-  const { firstName, avatar } = user;
+  const { firstName, avatar } = user
   const [uploadForm, setUploadForm] = useState({
     imagesToUpload: [],
     textToUpload: ''

@@ -8,7 +8,6 @@ import EditOutlinedIcon from '@material-ui/icons/EditOutlined'
 import UpdateProfile from '../UpdateProfile/UpdateProfile'
 
 const ProfileCover = ({ user }) => {
-
   const { avatar, firstName, lastName, profileCover } = user
   const classes = useStyles({profileCover: profileCover.src})
 
@@ -44,7 +43,7 @@ const ProfileCover = ({ user }) => {
           onClose={handleModal}
         >
           <Container className={classes.modalContainer} maxWidth='md'>
-          <UpdateProfile handleClose={handleModal} />
+            <UpdateProfile handleClose={handleModal} />
           </Container>
         </Modal>
       </div>

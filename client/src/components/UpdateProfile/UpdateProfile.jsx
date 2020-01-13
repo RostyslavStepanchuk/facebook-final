@@ -23,7 +23,6 @@ import { PhotoCamera } from '@material-ui/icons'
 import { validateEmail } from '../../utils/helpers/inputValidators'
 
 const UpdateProfile = ({user, handleClose}) => {
-
   const { avatar, firstName, lastName, birthDate, email, profileCover } = user
   const classes = useStyles({ profileCover: profileCover.src })
 
@@ -33,28 +32,27 @@ const UpdateProfile = ({user, handleClose}) => {
     email,
     birthDate: Number(birthDate),
     gender: 'male',
-    emailError: '',
+    emailError: ''
 
-  });
+  })
 
   const onChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
   const onBirthDateChange = date => {
-    setFormData({ ...formData, birthDate: date.getTime()})
+    setFormData({ ...formData, birthDate: date.getTime() })
   }
 
   const onSubmit = e => {
     e.preventDefault()
 
-    setFormData({...formData, emailError: validateEmail(formData.email) })
+    setFormData({ ...formData, emailError: validateEmail(formData.email) })
 
     if (formData.emailError === '') {
       console.log('loading to server')
     }
   }
-
 
   return (
     <form className={classes.form} onSubmit={onSubmit}>
@@ -73,7 +71,7 @@ const UpdateProfile = ({user, handleClose}) => {
           </IconButton>
         </label>
         <div className={classes.avatarContainer}>
-          <Avatar className={classes.avatarImg} src={avatar}/>
+          <Avatar className={classes.avatarImg} src={avatar} />
           <input accept='image/*' className={classes.hidden} id='avatar-img-file' type='file' />
           <label htmlFor='avatar-img-file'>
             <IconButton
@@ -151,7 +149,7 @@ const UpdateProfile = ({user, handleClose}) => {
               value={new Date(formData.birthDate)}
               onChange={onBirthDateChange}
               KeyboardButtonProps={{
-                'aria-label': 'change date',
+                'aria-label': 'change date'
               }}
             />
           </MuiPickersUtilsProvider>
@@ -201,8 +199,7 @@ UpdateProfile.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  user: state.auth.user,
+  user: state.auth.user
 })
 
-
-export default connect(mapStateToProps,null)(UpdateProfile)
+export default connect(mapStateToProps, null)(UpdateProfile)
