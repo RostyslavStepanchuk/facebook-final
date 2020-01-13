@@ -1,3 +1,4 @@
+/* global URL */
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -16,7 +17,7 @@ import {
   TextField,
   Typography
 } from '@material-ui/core'
-import { KeyboardDatePicker, MuiPickersUtilsProvider, } from '@material-ui/pickers'
+import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
 
 import useStyles from './updateProfileStyles'
 import { PhotoCamera } from '@material-ui/icons'

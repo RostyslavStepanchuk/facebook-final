@@ -1,13 +1,13 @@
 import { makeStyles } from '@material-ui/core/styles'
 import { BACKGROUND_COLOR } from '../../utils/constants/styleConstants'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   background: {
     backgroundColor: BACKGROUND_COLOR,
     minHeight: '100vh'
   },
   container: {
-    padding: '10px 0',
+    padding: '10px 0'
   },
   leftSectionPlaceholder: {
     height: '200px',

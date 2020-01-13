@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
     borderBottom: '1px solid #dddfe2',
     borderRadius: '4px 4px 0 0',
     fontWeight: '900',
-    color: '#1c1e21',
+    color: '#1c1e21'
   },
   textContainer: {
     padding: '5px'
@@ -34,10 +34,10 @@ const useStyles = makeStyles(theme => ({
     height: '30px',
     background:
       'linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, ' +
-      'rgba(0,0,0,0.1) 70%, rgba(0,0,0,0) 100%)',
+      'rgba(0,0,0,0.1) 70%, rgba(0,0,0,0) 100%)'
   },
   iconButton: {
-    color: 'white',
+    color: 'white'
   },
   toolsContainer: {
     padding: '5px'

@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined'
 import UpdateProfile from '../UpdateProfile/UpdateProfile'
 
-const ProfileCover = ({ user }) =>  {
+const ProfileCover = ({ user }) => {
   const classes = useStyles()
 
   const { avatar, firstName, lastName } = user
@@ -25,7 +25,7 @@ const ProfileCover = ({ user }) =>  {
   return (
     <Fragment>
       <div className={classes.avatarBg}>
-        <Avatar className={classes.avatarImg} src={avatar}/>
+        <Avatar className={classes.avatarImg} src={avatar} />
         <p className={classes.avatarName}>{firstName} {lastName}</p>
         <Button
           variant='contained'
@@ -33,7 +33,7 @@ const ProfileCover = ({ user }) =>  {
           className={classes.editProfileBtn}
         >
           <div className={classes.label}>
-            <EditOutlinedIcon className={classes.icon}/>
+            <EditOutlinedIcon className={classes.icon} />
             <div className={classes.labelText}> Edit profile</div>
           </div>
         </Button>
@@ -43,38 +43,32 @@ const ProfileCover = ({ user }) =>  {
           onClose={handleModal}
         >
           <Container className={classes.modalContainer} maxWidth='md'>
-          <UpdateProfile handleClose={handleModal}/>
+            <UpdateProfile handleClose={handleModal} />
           </Container>
         </Modal>
       </div>
       <Tabs value={value}
-            onChange={handleChange}
-            indicatorColor="primary"
-            textColor="primary"
-            aria-label="icon label tabs"
-            className={classes.submenu}>
-        <Tab className={classes.submenuItem} label="Profile" value="profile" /> {/*icon={<AccountCircleIcon />}*/}
-        <Tab className={classes.submenuItem} label="About" value="about" /> {/*icon={<PersonIcon />}*/}
-        <Tab className={classes.submenuItem} label="Friends" value="friends" /> {/*icon={<SupervisorAccountIcon />}*/}
-        <Tab className={classes.submenuItem} label="Photos" value="photos" /> {/*icon={<PhotoCameraIcon />}*/}
-        <Tab className={classes.submenuItem} label="Messages" value="messages" /> {/*icon={<EmailIcon />}*/}
+        onChange={handleChange}
+        indicatorColor='primary'
+        textColor='primary'
+        aria-label='icon label tabs'
+        className={classes.submenu}>
+        <Tab className={classes.submenuItem} label='Profile' value='profile' /> {/* icon={<AccountCircleIcon />} */}
+        <Tab className={classes.submenuItem} label='About' value='about' /> {/* icon={<PersonIcon />} */}
+        <Tab className={classes.submenuItem} label='Friends' value='friends' /> {/* icon={<SupervisorAccountIcon />} */}
+        <Tab className={classes.submenuItem} label='Photos' value='photos' /> {/* icon={<PhotoCameraIcon />} */}
+        <Tab className={classes.submenuItem} label='Messages' value='messages' /> {/* icon={<EmailIcon />} */}
       </Tabs>
     </Fragment>
   )
 }
 
 ProfileCover.propTypes = {
-  user: PropTypes.object,
+  user: PropTypes.object
 }
 
 const mapStateToProps = state => ({
-  user: state.auth.user,
+  user: state.auth.user
 })
 
-const mapDispatchToProps = dispatch => {
-  return {
-
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileCover)
+export default connect(mapStateToProps, null)(ProfileCover)

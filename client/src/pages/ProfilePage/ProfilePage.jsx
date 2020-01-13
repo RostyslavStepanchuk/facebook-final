@@ -9,7 +9,7 @@ import PostFeed from '../../components/PostFeed/PostFeed'
 import { Grid, Paper } from '@material-ui/core'
 import useStyles from './profilePageStyles'
 
-const ProfilePage = () =>  {
+const ProfilePage = () => {
   const classes = useStyles()
 
   return (
@@ -17,23 +17,23 @@ const ProfilePage = () =>  {
       <Grid container className={classes.gridContainer}>
         <Grid item xs={9}>
           <Paper className={classes.paper}>
-            <ProfileCover/>
+            <ProfileCover />
           </Paper>
         </Grid>
         <Grid item xs={9} sm={4}>
           <Paper className={classes.paper}>
-            <ShortUserData/>
+            <ShortUserData />
           </Paper>
           <Paper className={classes.paper}>
-            <UserPhotos/>
+            <UserPhotos />
           </Paper>
           <Paper className={classes.paper}>
-            <UserFriends/>
+            <UserFriends />
           </Paper>
         </Grid>
         <Grid item xs={9} sm={5}>
           <Paper className={classes.paper}>
-            <CreatePost/>
+            <CreatePost />
           </Paper>
           <Paper className={classes.paper}>
             <PostFeed origin='profile' />

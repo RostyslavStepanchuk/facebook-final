@@ -1,8 +1,8 @@
+/* global FormData */
 import { POSTS_END_LOADING, POSTS_RECEIVED, POSTS_START_LOADING } from '../utils/constants/actionsName'
 import apiRequest from '../utils/helpers/apiRequest'
 
-export const uploadImages = images => {
-
+export const uploadSingleImage = image => {
   const configMultipart = {
     headers: {
       'Content-Type': 'multipart/form-data'
@@ -28,7 +28,6 @@ export const uploadImages = images => {
 }
 
 export const createPost = (message, images, isShownToEveryone) => {
-
   const body = {
     message,
     image: images[0],
@@ -36,23 +35,20 @@ export const createPost = (message, images, isShownToEveryone) => {
   }
 
   return apiRequest.post('/posts/profile', body)
-    .then(()=> window.location.reload())
+    .then(() => window.location.reload())
 }
 
 export const getPostsForHomePage = () => async dispatch => {
-
   dispatch({
     type: POSTS_START_LOADING
   })
 
   try {
     const posts = await apiRequest.get('/posts')
-
     dispatch({
       type: POSTS_RECEIVED,
       payload: posts
     })
-
   } catch (e) {
     dispatch({
       type: POSTS_END_LOADING
@@ -61,17 +57,15 @@ export const getPostsForHomePage = () => async dispatch => {
 }
 
 export const getPostsForProfile = () => async dispatch => {
-
   dispatch({
     type: POSTS_START_LOADING
   })
   try {
     const posts = await apiRequest.get('/posts/profile')
-
     dispatch({
-    type: POSTS_RECEIVED,
-    payload: posts
-  })
+      type: POSTS_RECEIVED,
+      payload: posts
+    })
   } catch (e) {
     dispatch({
       type: POSTS_END_LOADING
@@ -79,8 +73,7 @@ export const getPostsForProfile = () => async dispatch => {
   }
 }
 
-//updateLikes
-export const updateLikes = (postId) =>  {
-
+// updateLikes
+export const updateLikes = (postId) => {
   apiRequest.put('/posts/' + postId + '/like')
 }
