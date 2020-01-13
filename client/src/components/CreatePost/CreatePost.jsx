@@ -1,3 +1,4 @@
+/* global URL */
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -23,7 +24,6 @@ import useStyles from './CreatePostStyles'
 import { Toastr } from '../../utils/toastr/Toastr'
 
 const CreatePost = ({ user }) => {
-
   const classes = useStyles()
   const { firstName, avatar } = user;
   const [uploadForm, setUploadForm] = useState({
@@ -32,7 +32,7 @@ const CreatePost = ({ user }) => {
   })
 
   const {
-    imagesToUpload,
+    imagesToUpload
   } = uploadForm
 
   const handleFileInputChange = (e) => {
@@ -66,17 +66,17 @@ const CreatePost = ({ user }) => {
     <GridListTile key={img.url} className={img.uploadError ? classes.errorImg : null} cols={1}>
       <img src={img.url} alt={'userImage' + index} />
       <GridListTileBar
-        titlePosition="top"
+        titlePosition='top'
         actionIcon={
           <IconButton
-            onClick={()=>removeImage(img.url)}
+            onClick={() => removeImage(img.url)}
             className={classes.iconButton}
             size='small'>
-            <CloseOutlinedIcon/>
+            <CloseOutlinedIcon />
           </IconButton>
         }
         className={classes.titleBar}
-        actionPosition="right"
+        actionPosition='right'
       />
     </GridListTile>
   ))
@@ -90,7 +90,7 @@ const CreatePost = ({ user }) => {
         <form className={classes.form}>
           <Grid container className={classes.textContainer}>
             <Grid container item xs={2} lg={1} justify='center' alignItems='flex-start'>
-              <Avatar className={classes.avatar} src={avatar.src}/>
+              <Avatar className={classes.avatar} src={avatar.src} />
             </Grid>
             <Grid item xs={10} lg={11} >
               <TextField
@@ -112,21 +112,21 @@ const CreatePost = ({ user }) => {
           </Grid>
           <Grid container className={classes.toolsContainer}>
             <Grid item xs={10}>
-              <Button color="primary" className={classes.button}>
-                <label htmlFor="file_upload" className={classes.label}>
-                  <CropOriginalOutlinedIcon className={classes.icon}/>
+              <Button color='primary' className={classes.button}>
+                <label htmlFor='file_upload' className={classes.label}>
+                  <CropOriginalOutlinedIcon className={classes.icon} />
                   <div className={classes.labelText}> Add image</div>
                 </label>
                 <input id='file_upload'
-                       className={classes.fileInput}
-                       multiple
-                       type="file"
-                       onChange={handleFileInputChange}
+                  className={classes.fileInput}
+                  multiple
+                  type='file'
+                  onChange={handleFileInputChange}
                 />
               </Button>
-              <Button color="primary" className={classes.button}>
+              <Button color='primary' className={classes.button}>
                 <div className={classes.label}>
-                  <AssignmentIndOutlinedIcon className={classes.icon}/>
+                  <AssignmentIndOutlinedIcon className={classes.icon} />
                   <div className={classes.labelText}> Tag a friend</div>
                 </div>
               </Button>
@@ -145,7 +145,7 @@ const CreatePost = ({ user }) => {
         </form>
       </div>
     </Paper>
-)
+  )
 }
 
 CreatePost.propTypes = {
@@ -155,7 +155,5 @@ CreatePost.propTypes = {
 const mapStateToProps = state => ({
   user: state.auth.user
 })
-
-
 
 export default connect(mapStateToProps, null)(CreatePost)

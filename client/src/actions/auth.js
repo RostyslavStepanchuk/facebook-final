@@ -19,7 +19,6 @@ import { Toastr } from '../utils/toastr/Toastr'
 // Load User
 
 export const loadUser = () => dispatch => {
-
   dispatch({
     type: START_LOADING
   })
@@ -51,9 +50,8 @@ export const register = (registerData) => async dispatch => {
     Toastr.success('Congrats! Register success!')
     apiRequest.rememberUser(data.accessToken)
     dispatch({
-      type: REGISTER_SUCCESS,
+      type: REGISTER_SUCCESS
     })
-
   } catch (err) {
     dispatch({
       type: REGISTER_FAIL
@@ -75,9 +73,8 @@ export const login = ({ username, password }) => async dispatch => {
     Toastr.success('User logged in')
     apiRequest.rememberUser(data.accessToken)
     dispatch({
-      type: LOGIN_SUCCESS,
+      type: LOGIN_SUCCESS
     })
-
   } catch (err) {
     if (err.status === 400) {
       Toastr.error('Wrong username or password')
@@ -135,8 +132,8 @@ export const confirmEmail = token => dispatch => {
 
   apiRequest.get('/users/email/confirm/' + token, {}, false)
     .then(() => dispatch({
-          type: EMAIL_CONFIRMED
-        }))
+      type: EMAIL_CONFIRMED
+    }))
     .catch(() => dispatch({
       type: STOP_LOADING
     }))

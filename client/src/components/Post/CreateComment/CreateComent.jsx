@@ -4,7 +4,7 @@ import useStyles from './createCommentStyles'
 import PropTypes from 'prop-types'
 import { Avatar, Grid, TextField } from '@material-ui/core'
 
-const CreateComent = ( { id, user } ) => {
+const CreateComent = ({ id, user }) => {
   const classes = useStyles()
 
   const { avatar } = user
@@ -12,8 +12,8 @@ const CreateComent = ( { id, user } ) => {
   return (
     <Fragment>
       <Grid container className={classes.panel}>
-        <Grid container item xs={1}  justify='center' alignItems='flex-start'>
-          <Avatar className={classes.avatar} src={avatar.src}/>
+        <Grid container item xs={1} justify='center' alignItems='flex-start'>
+          <Avatar className={classes.avatar} src={avatar.src} />
         </Grid>
         <Grid item xs={11} >
           <TextField
@@ -32,12 +32,12 @@ const CreateComent = ( { id, user } ) => {
 
 CreateComent.propTypes = {
   id: PropTypes.number,
-  user: PropTypes.object,
+  user: PropTypes.object
 }
 
 const mapStateToProps = state => ({
-  user: state.auth.user,
+  user: state.auth.user
 })
 
-//export default connect(mapStateToProps, { createComment } )(CreateComent)
-export default connect(mapStateToProps, {  } )(CreateComent)
+// export default connect(mapStateToProps, { createComment } )(CreateComent)
+export default connect(mapStateToProps, null)(CreateComent)

@@ -16,7 +16,7 @@ import {
   TextField,
   Typography
 } from '@material-ui/core'
-import { KeyboardDatePicker, MuiPickersUtilsProvider, } from '@material-ui/pickers'
+import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
 
 import useStyles from './updateProfileStyles'
 import { PhotoCamera } from '@material-ui/icons'
@@ -25,7 +25,7 @@ import { validateEmail } from '../../utils/helpers/inputValidators'
 const UpdateProfile = ({user, handleClose}) => {
 
   const { avatar, firstName, lastName, birthDate, email, profileCover } = user
-  const classes = useStyles({ profileCover })
+  const classes = useStyles({ profileCover: profileCover.src })
 
   const [ formData, setFormData ] = useState({
     firstName,

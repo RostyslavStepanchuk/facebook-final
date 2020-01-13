@@ -9,7 +9,7 @@ import { confirmEmail } from '../../actions/auth'
 import useStyles from './EmailConfirmedPageStyles'
 import Preloader from '../../components/Preloader/Preloader'
 
-const EmailConfirmedPage = ( props ) => {
+const EmailConfirmedPage = (props) => {
   const classes = useStyles()
   const token = get(props, 'match.params.token')
   const { loading, emailIsConfirmed, confirmEmail } = props
@@ -41,7 +41,7 @@ const EmailConfirmedPage = ( props ) => {
 EmailConfirmedPage.propTypes = {
   loading: PropTypes.func,
   emailIsConfirmed: PropTypes.func,
-  confirmEmail: PropTypes.func,
+  confirmEmail: PropTypes.func
 }
 
 const mapStateToProps = state => ({

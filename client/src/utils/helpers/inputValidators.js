@@ -1,4 +1,4 @@
-export const isNoErrors = errorsObj => {
+export const areNoErrors = errorsObj => {
   return Object.values(errorsObj).every(err => err === '')
 }
 

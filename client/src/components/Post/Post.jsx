@@ -15,12 +15,12 @@ const Post = ({ post }) => {
 
   return (
     <Paper key={id} className={classes.post}>
-      <PostAuthor author={author} owner={owner} date={date}/>
+      <PostAuthor author={author} owner={owner} date={date} />
       <img src={image.src} className={classes.postImg} alt='Post' />
       <p>{message}</p>
       <PostLikePanel id={id} likes={likes} comments={comments} />
       <PostComments comments={comments} />
-      <CreateComment id={id}/>
+      <CreateComment id={id} />
     </Paper>
   )
 }

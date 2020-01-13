@@ -9,8 +9,8 @@ import useStyles from './registerStyles'
 import { register } from '../../actions/auth'
 import Preloader from '../../components/Preloader/Preloader'
 import {
+  areNoErrors,
   checkPasswordsMatch,
-  isNoErrors,
   validateEmail,
   validatePassword,
   validateUsername
@@ -49,17 +49,16 @@ const Register = ({ isAuthenticated, loading, register, emailIsConfirmed }) => {
 
   // todo: refractor needed
   const validate = () => {
-    
     const errors = {}
 
     errors.passwordError = validatePassword(password)
     errors.repeatPasswordError = checkPasswordsMatch(password, password2)
     errors.usernameError = validateUsername(username)
     errors.emailError = validateEmail(email)
-    
+
     setFormData({ ...formData, ...errors })
 
-    return isNoErrors(errors)
+    return areNoErrors(errors)
   }
 
   const onSubmit = async e => {
@@ -70,7 +69,7 @@ const Register = ({ isAuthenticated, loading, register, emailIsConfirmed }) => {
       register({ email, username, password, firstName, lastName })
     }
   }
-  
+
   if (isAuthenticated && !emailIsConfirmed) {
     return <Redirect to='/access_denied' />
   }

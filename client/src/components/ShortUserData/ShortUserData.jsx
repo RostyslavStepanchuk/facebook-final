@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react'
 
-const ShortUserData = () =>  {
-
+const ShortUserData = () => {
   return (
     <Fragment>
       ShortUserData
