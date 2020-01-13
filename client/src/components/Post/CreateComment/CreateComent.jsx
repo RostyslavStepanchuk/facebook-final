@@ -7,11 +7,13 @@ import { Avatar, Grid, TextField } from '@material-ui/core'
 const CreateComent = ( { id, user } ) => {
   const classes = useStyles()
 
+  const { avatar } = user
+
   return (
     <Fragment>
       <Grid container className={classes.panel}>
         <Grid container item xs={1}  justify='center' alignItems='flex-start'>
-          <Avatar className={classes.avatar} src={user.avatar}/>
+          <Avatar className={classes.avatar} src={avatar.src}/>
         </Grid>
         <Grid item xs={11} >
           <TextField

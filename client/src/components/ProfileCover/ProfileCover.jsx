@@ -11,7 +11,7 @@ const ProfileCover = ({ user }) =>  {
 
 
   const { avatar, firstName, lastName, profileCover } = user
-  const classes = useStyles({profileCover})
+  const classes = useStyles({profileCover: profileCover.src})
 
   const [value, setValue] = useState('profile')
   const [ modalOpen, setModalOpen ] = useState(false)
@@ -27,7 +27,7 @@ const ProfileCover = ({ user }) =>  {
   return (
     <Fragment>
       <div className={classes.avatarBg}>
-        <Avatar className={classes.avatarImg} src={avatar}/>
+        <Avatar className={classes.avatarImg} src={avatar.src}/>
         <p className={classes.avatarName}>{firstName} {lastName}</p>
         <Button
           variant='contained'

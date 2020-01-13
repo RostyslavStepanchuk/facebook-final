@@ -31,8 +31,6 @@ public final class UserMapper extends
   protected UserDtoOut responseDtoOf(ApplicationUser entity) {
     UserDtoOut user = modelMapper.map(entity, UserDtoOut.class);
     user.setEmailIsConfirmed(entity.getTokensData().getEmailIsConfirmed());
-    user.setAvatar(entity.getAvatar().getSrc());
-    user.setProfileCover(entity.getProfileCover().getSrc());
     return user;
   }
 
