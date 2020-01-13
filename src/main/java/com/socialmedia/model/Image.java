@@ -19,7 +19,7 @@ public class Image implements DbEntity<Long> {
   @Column(name = "id")
   private Long id;
 
-  @Column(name = "key")
+  @Column(name = "source_key")
   private String key;
 
   @Column(name = "src")

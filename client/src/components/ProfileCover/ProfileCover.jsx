@@ -8,9 +8,9 @@ import EditOutlinedIcon from '@material-ui/icons/EditOutlined'
 import UpdateProfile from '../UpdateProfile/UpdateProfile'
 
 const ProfileCover = ({ user }) => {
-  const classes = useStyles()
+  const { avatar, firstName, lastName, profileCover } = user
+  const classes = useStyles({profileCover: profileCover.src})
 
-  const { avatar, firstName, lastName } = user
   const [value, setValue] = useState('profile')
   const [ modalOpen, setModalOpen ] = useState(false)
 
@@ -25,7 +25,7 @@ const ProfileCover = ({ user }) => {
   return (
     <Fragment>
       <div className={classes.avatarBg}>
-        <Avatar className={classes.avatarImg} src={avatar} />
+        <Avatar className={classes.avatarImg} src={avatar.src} />
         <p className={classes.avatarName}>{firstName} {lastName}</p>
         <Button
           variant='contained'
