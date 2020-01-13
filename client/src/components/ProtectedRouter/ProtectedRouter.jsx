@@ -9,12 +9,12 @@ import { loadUser } from '../../actions/auth'
 import Preloader from '../Preloader/Preloader'
 
 const ProtectedRouter = ({ authFailed, emailIsConfirmed, user, loadUser }) => {
-  useEffect(()=> loadUser(), [ loadUser ])
+  useEffect(() => loadUser(), [ loadUser ])
   if (authFailed) {
-    return <Redirect to='/login'/>
-  } else if ( user === null ) {
-    return <Preloader/>
-  } else if ( !emailIsConfirmed ) {
+    return <Redirect to='/login' />
+  } else if (user === null) {
+    return <Preloader />
+  } else if (!emailIsConfirmed) {
     return <Redirect to='/access_denied' />
   } else {
     return (
@@ -24,7 +24,6 @@ const ProtectedRouter = ({ authFailed, emailIsConfirmed, user, loadUser }) => {
       </Switch>
     )
   }
-
 }
 
 ProtectedRouter.propTypes = {
@@ -42,8 +41,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    loadUser: ()=>dispatch(loadUser()),
+    loadUser: () => dispatch(loadUser())
   }
-};
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProtectedRouter)

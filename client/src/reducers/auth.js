@@ -18,10 +18,10 @@ const initialState = {
   loading: false,
   user: null,
   resetEmailSend: false,
-  emailIsConfirmed: false,
+  emailIsConfirmed: false
 }
 
-export default function(state = initialState, action) {
+export default function (state = initialState, action) {
   const { type, payload } = action
 
   switch (type) {

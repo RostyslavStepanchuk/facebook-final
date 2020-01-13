@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react'
 
-const UserPhotos = () =>  {
-
+const UserPhotos = () => {
   return (
     <Fragment>
       UserPhotos

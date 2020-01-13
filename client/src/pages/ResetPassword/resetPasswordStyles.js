@@ -29,11 +29,11 @@ const useStyles = makeStyles(theme => ({
   },
 
   link: {
-    textDecoration:'none',
+    textDecoration: 'none',
     color: 'grey'
   },
   center: {
-      textAlign: 'center'
+    textAlign: 'center'
   }
 
 }))

@@ -4,10 +4,10 @@ import PropTypes from 'prop-types'
 
 import Comment from './Comment/Comment'
 
-const PostComments = ( { comments } )  => {
+const PostComments = ({ comments }) => {
   const classes = useStyles()
 
-  const commentList = comments.map( comment => <Comment comment={comment} key={comment.id}/>)
+  const commentList = comments.map(comment => <Comment comment={comment} key={comment.id} />)
 
   return (
     <Fragment>
@@ -19,7 +19,7 @@ const PostComments = ( { comments } )  => {
 }
 
 PostComments.propTypes = {
-  comments: PropTypes.array,
+  comments: PropTypes.array
 }
 
 export default PostComments
