@@ -1,13 +1,20 @@
 import React, { useState } from 'react'
-import { Avatar, Button, CssBaseline, TextField, Grid, Container, Typography } from '@material-ui/core'
+import { Avatar, Button, Container, CssBaseline, Grid, TextField, Typography } from '@material-ui/core'
 import { connect } from 'react-redux'
-import { Redirect, Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import useStyles from './registerStyles'
 
 import { register } from '../../actions/auth'
 import Preloader from '../../components/Preloader/Preloader'
+import {
+  areNoErrors,
+  checkPasswordsMatch,
+  validateEmail,
+  validatePassword,
+  validateUsername
+} from '../../utils/helpers/inputValidators'
 
 const Register = ({ isAuthenticated, loading, register, emailIsConfirmed }) => {
   const classes = useStyles()
@@ -39,48 +46,30 @@ const Register = ({ isAuthenticated, loading, register, emailIsConfirmed }) => {
   const onChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
+
   // todo: refractor needed
   const validate = () => {
-    let isError = false
-    const errors = {
-      usernameError: '',
-      passwordError: '',
-      repeatPasswordError: '',
-      emailError: ''
-    }
+    const errors = {}
 
-    if (password.length < 6) {
-      isError = true
-      errors.passwordError = 'Password needs to be at least 6 characters long'
-    }
+    errors.passwordError = validatePassword(password)
+    errors.repeatPasswordError = checkPasswordsMatch(password, password2)
+    errors.usernameError = validateUsername(username)
+    errors.emailError = validateEmail(email)
 
-    if (password !== password2) {
-      isError = true
-      errors.repeatPasswordError = 'Passwords do not match'
-    }
-
-    if (username.length < 6) {
-      isError = true
-      errors.usernameError = 'username needs to be at least 6 characters long'
-    }
-
-    if (!email.match(/^(\D)+(\w)*((\.(\w)+)?)+@(\D)+(\w)*((\.(\D)+(\w)*)+)?(\.)[a-z]{2,}$/)) {
-      isError = true
-      errors.emailError = 'email address is required'
-    }
     setFormData({ ...formData, ...errors })
 
-    return isError
+    return areNoErrors(errors)
   }
 
   const onSubmit = async e => {
     e.preventDefault()
-    const err = validate()
+    const inputIsValid = validate()
 
-    if (!err) {
+    if (inputIsValid) {
       register({ email, username, password, firstName, lastName })
     }
   }
+
   if (isAuthenticated && !emailIsConfirmed) {
     return <Redirect to='/access_denied' />
   }

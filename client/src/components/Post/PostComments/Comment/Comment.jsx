@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 import getDate from '../../../../utils/date/getDate'
 
-const Comment = ( { comment } )  => {
+const Comment = ({ comment }) => {
   const classes = useStyles()
 
   const { author, message, date } = comment
@@ -20,7 +20,7 @@ const Comment = ( { comment } )  => {
 }
 
 Comment.propTypes = {
-  comment: PropTypes.object,
+  comment: PropTypes.object
 }
 
 export default Comment

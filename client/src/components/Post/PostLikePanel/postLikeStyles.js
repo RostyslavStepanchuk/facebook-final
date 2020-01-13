@@ -1,10 +1,10 @@
 import { makeStyles } from '@material-ui/core/styles'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   panel: {
     borderTop: '1px solid #e6e6e6',
-    borderBottom: '1px solid #e6e6e6',
-  },
+    borderBottom: '1px solid #e6e6e6'
+  }
 
 }))
 

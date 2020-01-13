@@ -1,8 +1,6 @@
 import React, { Fragment } from 'react'
 
-
-const UserFriends = () =>  {
-
+const UserFriends = () => {
   return (
     <Fragment>
       UserFriends

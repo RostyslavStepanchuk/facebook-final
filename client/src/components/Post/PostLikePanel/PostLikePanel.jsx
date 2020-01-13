@@ -18,12 +18,12 @@ const PostLikePanel = ({ id, likes, comments, user }) => {
   const username = user.username
 
   useEffect(
-    () => setPostIsLiked(likes.some(like=>like.username === username)),
+    () => setPostIsLiked(likes.some(like => like.username === username)),
     [likes, username]
   )
 
-  const changeLike = () =>  {
-    if(postIsLiked){
+  const changeLike = () => {
+    if (postIsLiked) {
       setPostIsLiked(false)
       setCount(count - 1)
     } else {
@@ -36,11 +36,11 @@ const PostLikePanel = ({ id, likes, comments, user }) => {
   return (
     <Fragment>
       <div className={classes.panel}>
-        <IconButton aria-label="like" onClick={changeLike}>
-          { postIsLiked ? <FavoriteIcon color="secondary" /> : <FavoriteBorderIcon/> }
+        <IconButton aria-label='like' onClick={changeLike}>
+          { postIsLiked ? <FavoriteIcon color='secondary' /> : <FavoriteBorderIcon /> }
         </IconButton>
         {count}
-        <IconButton aria-label="comments">
+        <IconButton aria-label='comments'>
           <ChatBubbleOutlineIcon />
         </IconButton>
         {comments.length}
@@ -53,11 +53,11 @@ PostLikePanel.propTypes = {
   id: PropTypes.number,
   likes: PropTypes.array,
   comments: PropTypes.array,
-  user: PropTypes.object,
+  user: PropTypes.object
 }
 
 const mapStateToProps = state => ({
-  user: state.auth.user,
+  user: state.auth.user
 })
 
 export default connect(mapStateToProps, null)(PostLikePanel)
