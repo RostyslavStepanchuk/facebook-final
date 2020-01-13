@@ -1,5 +1,5 @@
 export const isNoErrors = errorsObj => {
-  return Object.values(errorsObj).some(err => err !== '')
+  return Object.values(errorsObj).every(err => err === '')
 }
 
 export const validatePassword = (password) => {
