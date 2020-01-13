@@ -14,7 +14,7 @@ const useStyles = makeStyles(() => ({
   userName: {
     margin: 'auto 0'
   },
-  userFullname: {
+  userFullName: {
     display: 'flex',
     fontWeight: 600,
     margin: 0,

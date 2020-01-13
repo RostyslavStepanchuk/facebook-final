@@ -6,8 +6,10 @@ public class TestConstants {
   public static final String USER_EMAIL = "test@test.com";
   public static final String USER_FIRST_NAME = "Tyler";
   public static final String USER_LAST_NAME = "Durden";
+  public static final String USER_GENDER = "FEMALE";
   public static final Long USER_BIRTH_DATE = 659998800000L;
   public static final String USER_AVATAR_URL = "https://s3.us-west-2.amazonaws.com/fs-8/1576923750814-avatar.jpg";
+  public static final String USER_PROFILE_COVER_URL = "https://s3.us-west-2.amazonaws.com/fs-8/1576923813421-avatar-bg.jpg";
   public static final String USER_REFRESH_TOKEN = "034daREFRESHTOKENf341fd";
   public static final String USER_FORGOT_PASSWORD_TOKEN = "41fdFORGOTPASSWORDTOKEN093wgs";
   public static final Boolean USER_OPEN_ACCOUNT = true;

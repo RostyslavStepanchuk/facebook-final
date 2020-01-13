@@ -25,6 +25,7 @@ import { Toastr } from '../../utils/toastr/Toastr'
 
 const CreatePost = ({ user }) => {
   const classes = useStyles()
+  const { firstName, avatar } = user
   const [uploadForm, setUploadForm] = useState({
     imagesToUpload: [],
     textToUpload: ''
@@ -89,7 +90,7 @@ const CreatePost = ({ user }) => {
         <form className={classes.form}>
           <Grid container className={classes.textContainer}>
             <Grid container item xs={2} lg={1} justify='center' alignItems='flex-start'>
-              <Avatar className={classes.avatar} src={user.avatar} />
+              <Avatar className={classes.avatar} src={avatar.src} />
             </Grid>
             <Grid item xs={10} lg={11} >
               <TextField
@@ -97,7 +98,7 @@ const CreatePost = ({ user }) => {
                 autoComplete='lastName'
                 name='lastName'
                 variant='outlined'
-                placeholder={'\n What you\'d like to share, ' + user.firstName + '?'}
+                placeholder={'\n What you\'d like to share, ' + firstName + '?'}
                 rows='3'
                 onChange={handleTextInputChange}
                 multiline

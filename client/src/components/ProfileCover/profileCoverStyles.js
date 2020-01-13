@@ -1,14 +1,14 @@
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(() => ({
-  avatarBg: {
-    backgroundImage: `url('https://s3.us-west-2.amazonaws.com/fs-8/1576923813421-avatar-bg.jpg')`,
+  avatarBg: props => ({
+    backgroundImage: `url(${props.profileCover})`,
     height: 250,
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
     backgroundSize: 'cover',
     position: 'relative'
-  },
+  }),
   avatarImg: {
     width: 175,
     height: 175,
