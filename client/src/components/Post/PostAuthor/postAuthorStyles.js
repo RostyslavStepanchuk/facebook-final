@@ -25,6 +25,9 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'left',
     lineHeight: '16px',
   },
+  btnDelete: {
+    margin: '0 0 0 auto'
+  }
 }))
 
 export default useStyles

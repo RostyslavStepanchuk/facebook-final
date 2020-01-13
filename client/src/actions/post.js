@@ -88,6 +88,5 @@ export const createComment = (postId, comment) =>  {
   const body = {
     message: comment,
   }
-  return apiRequest.post('/comments/post/' + postId, body)
-    .then(()=> window.location.reload())
+  return apiRequest.post('/posts/comments/' + postId, body)
 }

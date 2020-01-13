@@ -15,12 +15,12 @@ const ProfilePage = () =>  {
   return (
     <Fragment>
       <Grid container className={classes.gridContainer}>
-        <Grid item xs={9}>
+        <Grid item xs={10}>
           <Paper className={classes.paper}>
             <ProfileCover/>
           </Paper>
         </Grid>
-        <Grid item xs={9} sm={4}>
+        <Grid item xs={10} sm={4}>
           <Paper className={classes.paper}>
             <ShortUserData/>
           </Paper>
@@ -31,7 +31,7 @@ const ProfilePage = () =>  {
             <UserFriends/>
           </Paper>
         </Grid>
-        <Grid item xs={9} sm={5}>
+        <Grid item xs={10} sm={5}>
           <Paper className={classes.paper}>
             <CreatePost/>
           </Paper>

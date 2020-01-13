@@ -1,5 +1,7 @@
 package com.socialmedia.controller;
 
+import com.socialmedia.dto.comment.CommentDtoIn;
+import com.socialmedia.dto.comment.CommentDtoOut;
 import com.socialmedia.dto.post.PostDtoIn;
 import com.socialmedia.dto.post.PostDtoOut;
 import com.socialmedia.mapper.PostMapper;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -76,5 +79,11 @@ public class PostController {
   @PutMapping("/{postId}/like")
   public void updateLikes(@PathVariable Long postId) {
     postMapper.updateLikes(postId);
+  }
+
+  @PostMapping("/comments/{postId}")
+  public ResponseEntity<List<CommentDtoOut>> createComment(@PathVariable Long postId,
+                                                           @RequestBody CommentDtoIn commentDtoIn) {
+    return ResponseEntity.ok(postMapper.createComment(postId, commentDtoIn));
   }
 }

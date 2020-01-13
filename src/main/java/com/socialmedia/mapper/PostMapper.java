@@ -1,8 +1,11 @@
 package com.socialmedia.mapper;
 
+import com.socialmedia.dto.comment.CommentDtoIn;
+import com.socialmedia.dto.comment.CommentDtoOut;
 import com.socialmedia.dto.post.PostDtoIn;
 import com.socialmedia.dto.post.PostDtoOut;
 import com.socialmedia.model.ApplicationUser;
+import com.socialmedia.model.Comment;
 import com.socialmedia.model.Post;
 import com.socialmedia.service.PostService;
 import org.modelmapper.ModelMapper;
@@ -12,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Component
@@ -84,5 +88,13 @@ public class PostMapper extends AbstractControllerToCrudServiceMapper<Post,Long,
 
   public void updateLikes(Long postId) {
     crudService.updateLikes(postId);
+  }
+
+  public List<CommentDtoOut> createComment(Long postId, CommentDtoIn commentDtoIn) {
+    Comment comment = modelMapper.map(commentDtoIn, Comment.class);
+
+    return crudService.createComment(postId, comment).stream()
+            .map(entity -> modelMapper.map(entity, CommentDtoOut.class))
+            .collect(Collectors.toList());
   }
 }

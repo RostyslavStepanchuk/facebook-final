@@ -6,7 +6,6 @@ import useStyles from './postStyles'
 import PostAuthor from './PostAuthor/PostAuthor'
 import PostLikePanel from './PostLikePanel/PostLikePanel'
 import PostComments from './PostComments/PostComments'
-import CreateComment from './CreateComment/CreateComent'
 
 const Post = ({ post }) => {
   const classes = useStyles()
@@ -19,8 +18,7 @@ const Post = ({ post }) => {
       <img src={image} className={classes.postImg} alt='Post' />
       <p>{message}</p>
       <PostLikePanel postId={id} likes={likes} comments={comments} />
-      <PostComments comments={comments} />
-      <CreateComment postId={id}/>
+      <PostComments postId={id} comments={comments} />
     </Paper>
   )
 }

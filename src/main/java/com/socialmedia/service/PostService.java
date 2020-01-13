@@ -2,6 +2,7 @@ package com.socialmedia.service;
 
 import com.socialmedia.exception.NoDataFoundException;
 import com.socialmedia.model.ApplicationUser;
+import com.socialmedia.model.Comment;
 import com.socialmedia.model.Post;
 import com.socialmedia.repository.PostRepository;
 import com.socialmedia.util.SmartCopyBeanUtilsBean;
@@ -12,13 +13,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class PostService extends AbstractCrudService<Post, Long, PostRepository> {
+public final class PostService extends AbstractCrudService<Post, Long, PostRepository> {
 
   private UserService userService;
 
@@ -93,5 +95,19 @@ public class PostService extends AbstractCrudService<Post, Long, PostRepository>
       post.setLikes(likes);
     }
     update(postId, post);
+  }
+
+  public List<Comment> createComment(Long postId, Comment comment) {
+    Principal principal = SecurityContextHolder.getContext().getAuthentication();
+    ApplicationUser author = userService.getById(principal.getName());
+    Post post = getById(postId);
+    comment.setDate(System.currentTimeMillis());
+    comment.setAuthor(author);
+    comment.setPost(post);
+
+    List<Comment> comments = post.getComments();
+    comments.add(comment);
+
+    return update(postId, post).getComments();
   }
 }
