@@ -8,9 +8,9 @@ const useStyles = makeStyles(() => ({
     borderBottom: '1px solid #dddfe2',
     borderRadius: '4px 4px 0 0',
     fontWeight: '900',
-    color: '#1c1e21',
+    color: '#1c1e21'
   },
-  avatarBg: props =>({
+  avatarBg: props => ({
     backgroundImage: `url(${props.profileCover})`,
     height: 250,
     backgroundRepeat: 'no-repeat',
@@ -19,18 +19,18 @@ const useStyles = makeStyles(() => ({
     position: 'relative'
   }),
   hidden: {
-    display: 'none',
+    display: 'none'
   },
   uploadImgBtn: {
     position: 'absolute',
     width: 20,
     height: 20,
-    backgroundColor: '#EAEAEA',
+    backgroundColor: '#EAEAEA'
   },
   uploadAvatarBtn: {
     bottom: 0,
-    left:'50%',
-    transform:'translate(-50%, 30%)'
+    left: '50%',
+    transform: 'translate(-50%, 30%)'
   },
   uploadBgBtn: {
     top: 10,
@@ -39,14 +39,14 @@ const useStyles = makeStyles(() => ({
   avatarContainer: {
     position: 'absolute',
     bottom: 20,
-    left: 20,
+    left: 20
   },
   avatarImg: {
     width: 125,
     height: 125,
     border: '3px solid white',
     backgroundPosition: 'center',
-    backgroundSize: 'cover',
+    backgroundSize: 'cover'
   },
   sectionContainer: {
     padding: '15px 20px 5px'

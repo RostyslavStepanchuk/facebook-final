@@ -30,7 +30,7 @@ public class Post implements DbEntity<Long> {
   private String message;
   @Column(name = "date")
   private Long date;
-  @OneToOne(cascade = CascadeType.ALL)
+  @OneToOne
   @JoinColumn(name = "fk_image_id")
   private Image image;
   @Column(name = "show_everyone")

@@ -43,30 +43,6 @@ const useStyles = makeStyles(() => ({
     margin: '50px auto',
     backgroundColor: 'white'
   },
-  editProfileBtn: {
-    position: 'absolute',
-    padding: '2px 4px',
-    bottom: '5px',
-    right: '5px'
-  },
-  label: {
-    padding: 0
-  },
-  icon: {
-    verticalAlign: 'middle',
-    display: 'inline-block',
-    paddingRight: '2px'
-  },
-  labelText: {
-    verticalAlign: 'middle',
-    display: 'inline-block',
-    lineHeight: '25px'
-  },
-  modalContainer: {
-    padding: 0,
-    margin: '50px auto',
-    backgroundColor: 'white',
-  },
   avatarName: {
     fontSize: 26,
     position: 'absolute',

@@ -46,18 +46,17 @@ public abstract class AbstractCrudService<E extends DbEntity<T>, T, R extends Jp
   }
 
   public E update(T id, E incomingEntity) {
+    E existingEntity = getById(id);
+    return update(existingEntity, incomingEntity);
+  }
 
-    Optional<E> searchResult = jpaRepository.findById(id);
-
-    searchResult.ifPresent(existingEntity -> {
-      try {
-        beanUtilsBean.copyProperties(existingEntity, incomingEntity);
-        jpaRepository.save(existingEntity);
-      } catch (ReflectiveOperationException reflectionException) {
-        throw new RuntimeException(reflectionException.getMessage());
-      }
-    });
-    return resolvedOptional(searchResult, id);
+  public E update (E existingEntity, E incomingEntity) {
+    try {
+      beanUtilsBean.copyProperties(existingEntity, incomingEntity);
+      return jpaRepository.save(existingEntity);
+    } catch (ReflectiveOperationException reflectionException) {
+      throw new RuntimeException(reflectionException.getMessage());
+    }
   }
 
 
