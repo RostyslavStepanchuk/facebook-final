@@ -50,7 +50,7 @@ public abstract class AbstractCrudService<E extends DbEntity<T>, T, R extends Jp
     return update(existingEntity, incomingEntity);
   }
 
-  public E update (E existingEntity, E incomingEntity) {
+  public E update(E existingEntity, E incomingEntity) {
     try {
       beanUtilsBean.copyProperties(existingEntity, incomingEntity);
       return jpaRepository.save(existingEntity);
