@@ -70,7 +70,10 @@ public class AmazonService extends AbstractCrudService<Image, Long, ImageReposit
       image.setKey(fileName);
       image.setSrc(endpointUrl + "/" + bucketName + "/" + fileName);
       jpaRepository.save(image);
-      file.delete();
+      boolean deleted = file.delete();
+      if (!deleted) {
+        throw new RuntimeException("Images are not deleted from sever temporary storage");
+      }
       return image;
     } catch (Exception exc) {
       log.error(exc.getMessage(), exc);
