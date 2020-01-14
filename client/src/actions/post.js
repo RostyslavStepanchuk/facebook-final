@@ -88,5 +88,5 @@ export const createComment = (postId, comment) =>  {
   const body = {
     message: comment,
   }
-  return apiRequest.post('/posts/comments/' + postId, body)
+  return apiRequest.post('/posts/' + postId + '/comment', body)
 }

@@ -81,7 +81,7 @@ public class PostController {
     postMapper.updateLikes(postId);
   }
 
-  @PostMapping("/comments/{postId}")
+  @PostMapping("/{postId}/comment")
   public ResponseEntity<List<CommentDtoOut>> createComment(@PathVariable Long postId,
                                                            @RequestBody CommentDtoIn commentDtoIn) {
     return ResponseEntity.ok(postMapper.createComment(postId, commentDtoIn));
