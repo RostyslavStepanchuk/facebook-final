@@ -6,6 +6,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite'
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline'
 import IconButton from '@material-ui/core/IconButton'
+
 import { updateLikes } from '../../../actions/post'
 
 const PostLikePanel = ({ postId, likes, comments, user, updateLikes } ) => {
@@ -43,7 +44,7 @@ PostLikePanel.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  user: state.auth.user,
+  user: state.auth.user
 })
 
 export default connect(mapStateToProps, { updateLikes })(PostLikePanel)

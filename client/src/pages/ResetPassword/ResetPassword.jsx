@@ -1,10 +1,10 @@
 import React, { Fragment, useState } from 'react'
 import { connect } from 'react-redux'
-import { Redirect, Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { resetPassword } from '../../actions/auth'
 
-import { Avatar, Button, TextField, Typography, Container, CssBaseline, Paper } from '@material-ui/core'
+import { Avatar, Button, Container, CssBaseline, Paper, TextField, Typography } from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 
 import usestyles from './resetPasswordStyles'
@@ -91,7 +91,7 @@ const ResetPassword = ({ isAuthenticated, resetPassword, resetEmailSend }) => {
           </Fragment>
         ) : (
           <Fragment>
-            <Typography component='h2' variant='body2'  className={classes.center}>
+            <Typography component='h2' variant='body2' className={classes.center}>
               Check your email for a link to reset your password. If it does not appear within a few minutes, check your spam folder.
             </Typography>
             <Button fullWidth variant='contained' color='default' className={classes.submit}>

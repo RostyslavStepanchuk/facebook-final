@@ -13,6 +13,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.util.List;
 
@@ -29,8 +30,9 @@ public class Post implements DbEntity<Long> {
   private String message;
   @Column(name = "date")
   private Long date;
-  @Column(name = "image")
-  private String image;
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "fk_image_id")
+  private Image image;
   @Column(name = "show_everyone")
   private Boolean showEveryone;
 

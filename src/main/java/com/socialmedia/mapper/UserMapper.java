@@ -36,9 +36,7 @@ public final class UserMapper extends
 
   @Override
   ApplicationUser entityOf(UserDtoIn dtoIn) {
-
-    ApplicationUser user = modelMapper.map(dtoIn, ApplicationUser.class);
-    return user;
+    return modelMapper.map(dtoIn, ApplicationUser.class);
   }
 
   private ApplicationUser entityOf(UserRegistrationDtoIn userData) {
@@ -53,7 +51,6 @@ public final class UserMapper extends
   }
 
   private UserLabelDtoOut userLabelDtoOf(ApplicationUser entity) {
-
     return modelMapper.map(entity, UserLabelDtoOut.class);
   }
 

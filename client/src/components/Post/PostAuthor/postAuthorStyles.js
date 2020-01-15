@@ -1,29 +1,29 @@
 import { makeStyles } from '@material-ui/core/styles'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   user: {
     display: 'flex',
-    margin: 'auto 0',
+    margin: 'auto 0'
   },
   userPhoto: {
     borderRadius: '50%',
     width: 40,
     height: 40,
-    margin: '5px 15px 5px 10px',
+    margin: '5px 15px 5px 10px'
   },
   userName: {
-    margin: 'auto 0',
+    margin: 'auto 0'
   },
-  userFullname: {
+  userFullName: {
     display: 'flex',
     fontWeight: 600,
     margin: 0,
-    textAlign: 'left',
+    textAlign: 'left'
   },
   postDate: {
     margin: 0,
     textAlign: 'left',
-    lineHeight: '16px',
+    lineHeight: '16px'
   },
   btnDelete: {
     margin: '0 0 0 auto'
