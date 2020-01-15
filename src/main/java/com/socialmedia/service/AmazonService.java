@@ -26,6 +26,7 @@ import java.util.UUID;
 public class AmazonService extends AbstractCrudService<Image, Long, ImageRepository> {
 
   private AmazonS3 s3client;
+  private static final String FILE_EXTENSION = ".png";
 
   @Autowired
   public AmazonService(ImageRepository jpaRepository,
@@ -50,17 +51,6 @@ public class AmazonService extends AbstractCrudService<Image, Long, ImageReposit
     throw new RuntimeException("Images entities mustn't be updated");
   }
 
-  @Override
-  public Image delete(Long fileId) {
-    Image image = getById(fileId);
-    boolean isDeleted = deleteFileFromS3Bucket(image.getKey());
-    if (isDeleted) {
-      jpaRepository.deleteById(image.getId());
-      return image;
-    }
-    throw new RuntimeException("Image wasn't found in storage");
-  }
-
   public Image uploadFile(MultipartFile multipartFile) {
     try {
       File file = convertMultiPartToFile(multipartFile);
@@ -69,12 +59,11 @@ public class AmazonService extends AbstractCrudService<Image, Long, ImageReposit
       Image image = new Image();
       image.setKey(fileName);
       image.setSrc(endpointUrl + "/" + bucketName + "/" + fileName);
-      jpaRepository.save(image);
       boolean deleted = file.delete();
       if (!deleted) {
         throw new RuntimeException("Images are not deleted from sever temporary storage");
       }
-      return image;
+      return jpaRepository.save(image);
     } catch (Exception exc) {
       log.error(exc.getMessage(), exc);
       throw new RuntimeException(exc);
@@ -98,7 +87,10 @@ public class AmazonService extends AbstractCrudService<Image, Long, ImageReposit
   }
 
   private String generateFileName() {
-    return new Date().getTime() + "-" + UUID.randomUUID().toString().substring(0,7);
+    return new Date().getTime()
+        + "-"
+        + UUID.randomUUID().toString().substring(0,4)
+        + FILE_EXTENSION;
   }
 
   private void uploadFileToS3bucket(String fileName, File file) {
@@ -106,7 +98,7 @@ public class AmazonService extends AbstractCrudService<Image, Long, ImageReposit
         .withCannedAcl(CannedAccessControlList.PublicRead));
   }
 
-  private Boolean deleteFileFromS3Bucket(String fileName) {
+  public Boolean deleteFileFromS3Bucket(String fileName) {
     s3client.deleteObject(new DeleteObjectRequest(bucketName, fileName));
     return !s3client.doesObjectExist(bucketName, fileName);
   }

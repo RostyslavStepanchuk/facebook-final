@@ -3,7 +3,6 @@ package com.socialmedia.service;
 import com.socialmedia.dto.security.Token;
 import com.socialmedia.exception.NoDataFoundException;
 import com.socialmedia.model.ApplicationUser;
-import com.socialmedia.model.Image;
 import com.socialmedia.model.TokensData;
 import com.socialmedia.repository.UserRepository;
 import com.socialmedia.util.EmailHandler;
@@ -14,7 +13,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -30,7 +28,6 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
   private FriendRequestService friendRequestService;
   private PostService postService;
   private EmailHandler emailHandler;
-  private AmazonService imageService;
 
 
   @Autowired
@@ -41,7 +38,7 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
                      ChatService chatService,
                      FriendRequestService friendRequestService,
                      PostService postService,
-                     EmailHandler emailHandler, AmazonService imageService) {
+                     EmailHandler emailHandler) {
     super(jpaRepository, beanUtilBean);
     this.bcryptPasswordEncoder = bcryptPasswordEncoder;
     this.authenticationService = authenticationService;
@@ -49,25 +46,12 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
     this.friendRequestService = friendRequestService;
     this.postService = postService;
     this.emailHandler = emailHandler;
-    this.imageService = imageService;
   }
 
   @Override
   public ApplicationUser update(ApplicationUser user, ApplicationUser incomingEntity) {
-
-    List<Image> toDelete = new ArrayList<>();
-
-    if (user.getAvatar() != null && !user.getAvatar().sameEntity(incomingEntity.getAvatar())) {
-      toDelete.add(user.getAvatar());
-    }
-
-    if (user.getProfileCover() != null && !user.getProfileCover().sameEntity(incomingEntity.getProfileCover())) {
-      toDelete.add(user.getProfileCover());
-    }
-
     try {
       beanUtilsBean.copyProperties(user, incomingEntity);
-      toDelete.forEach(img -> imageService.delete(img.getId()));
       return jpaRepository.save(user);
     } catch (ReflectiveOperationException reflectionException) {
       throw new RuntimeException(reflectionException.getMessage());
