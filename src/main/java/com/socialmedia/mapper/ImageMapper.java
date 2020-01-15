@@ -31,7 +31,7 @@ public class ImageMapper extends AbstractControllerToCrudServiceMapper<Image, Lo
     return responseDtoOf(crudService.uploadFile(file));
   }
 
-  public Boolean deleteFile(String fileName) {
-    return crudService.deleteFile(fileName);
+  public Boolean deleteFile(Long fileId) {
+    return crudService.deleteFile(fileId);
   }
 }

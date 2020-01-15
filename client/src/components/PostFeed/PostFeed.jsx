@@ -6,22 +6,21 @@ import Post from '../Post/Post'
 import Preloader from '../Preloader/Preloader'
 
 const PostFeed = ({ loadPostsHomePage, loadPostsProfile, loading, origin, posts }) => {
-
-  useEffect(()=>{
+  useEffect(() => {
     switch (origin) {
       case 'homepage':
         loadPostsHomePage()
-        break;
+        break
       case 'profile':
         loadPostsProfile()
-        break;
+        break
       default:
-        throw new Error("PostFeed origin is not defined")
+        throw new Error('PostFeed origin is not defined')
     }
   }, [origin, loadPostsHomePage, loadPostsProfile])
 
-  const postComponents = posts.map(post => <Post post={post} key={post.id}/>)
-  const content = loading ? <Preloader/> : postComponents
+  const postComponents = posts.map(post => <Post post={post} key={post.id} />)
+  const content = loading ? <Preloader /> : postComponents
 
   return (
     <div>

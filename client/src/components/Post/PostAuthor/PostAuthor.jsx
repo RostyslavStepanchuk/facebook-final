@@ -48,9 +48,9 @@ const PostAuthor = ( { postId, author, owner, date, user, deletePost } ) => {
   return (
     <Fragment>
       <div className={classes.user}>
-        <Avatar className={classes.userPhoto} src={author.avatar} alt='User' />
+        <Avatar className={classes.userPhoto} src={author.avatar.src} alt='User' />
         <div className={classes.userName}>
-          <p className={classes.userFullname}>{author.firstName} {author.lastName} <ArrowRightIcon/> {owner.firstName} {owner.lastName}</p>
+          <p className={classes.userFullName}>{author.firstName} {author.lastName} <ArrowRightIcon /> {owner.firstName} {owner.lastName}</p>
           <p className={classes.postDate}>{getDate(date)}</p>
         </div>
         { showDeleteBtn &&

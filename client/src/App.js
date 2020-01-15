@@ -12,7 +12,7 @@ import Toastr from './components/Toastr/Toastr'
 import EmailConfirmedPage from './pages/EmailConfirmed/EmailConfirmedPage'
 import ProtectedRouter from './components/ProtectedRouter/ProtectedRouter'
 
-function App() {
+function App () {
   return (
     <Provider store={store}>
       <Toastr />

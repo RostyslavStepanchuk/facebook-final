@@ -26,8 +26,10 @@ import static com.socialmedia.controller.util.TestConstants.USER_BIRTH_DATE;
 import static com.socialmedia.controller.util.TestConstants.USER_EMAIL;
 import static com.socialmedia.controller.util.TestConstants.USER_EMAIL_CONFIRMATION_ID;
 import static com.socialmedia.controller.util.TestConstants.USER_FIRST_NAME;
+import static com.socialmedia.controller.util.TestConstants.USER_GENDER;
 import static com.socialmedia.controller.util.TestConstants.USER_LAST_NAME;
 import static com.socialmedia.controller.util.TestConstants.USER_OPEN_ACCOUNT;
+import static com.socialmedia.controller.util.TestConstants.USER_PROFILE_COVER_URL;
 import static com.socialmedia.controller.util.TestConstants.USER_USERNAME;
 import static org.hamcrest.Matchers.comparesEqualTo;
 import static org.hamcrest.collection.IsIterableWithSize.iterableWithSize;
@@ -70,7 +72,9 @@ public class ApplicationUserControllerTest {
             .andExpect(jsonPath("$.email").value(USER_EMAIL))
             .andExpect(jsonPath("$.firstName").value(USER_FIRST_NAME))
             .andExpect(jsonPath("$.lastName").value(USER_LAST_NAME))
-            .andExpect(jsonPath("$.avatar").value(USER_AVATAR_URL))
+            .andExpect(jsonPath("$.avatar.src").value(USER_AVATAR_URL))
+            .andExpect(jsonPath("$.profileCover.src").value(USER_PROFILE_COVER_URL))
+            .andExpect(jsonPath("$.gender").value(USER_GENDER))
             .andExpect(jsonPath("$.openAccount").value(USER_OPEN_ACCOUNT))
             .andExpect(jsonPath("$.friends", iterableWithSize(comparesEqualTo(1))))
             .andExpect(jsonPath("$.incomingFriendRequests", iterableWithSize(comparesEqualTo(1))));
@@ -130,7 +134,7 @@ public class ApplicationUserControllerTest {
             .andExpect(jsonPath("$.avatar").isNotEmpty())
             .andExpect(jsonPath("$.openAccount").isNotEmpty())
             .andExpect(jsonPath("$.emailIsConfirmed").isNotEmpty())
-            .andExpect(jsonPath("$.firstName").isEmpty())
+            .andExpect(jsonPath("$.firstName").isNotEmpty())
             .andExpect(jsonPath("$.birthDate").isEmpty());
     }
 
