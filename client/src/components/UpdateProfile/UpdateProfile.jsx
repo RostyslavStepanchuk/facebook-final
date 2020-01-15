@@ -104,8 +104,8 @@ const UpdateProfile = ({ user, handleClose, updateProfile }) => {
         .then(img => { images.profileCover = img }))
 
       Promise.all(imgUploads).then(() => {
-        const { firstName, lastName, gender, birthDate } = formData
-        updateProfile(({ ...images, firstName, lastName, gender, birthDate }))
+        const { firstName, lastName, gender, birthDate, email } = formData
+        updateProfile(({ ...images, firstName, lastName, gender, birthDate, email }))
           .then(handleClose)
       })
     }
