@@ -9,7 +9,7 @@ import IconButton from '@material-ui/core/IconButton'
 
 import { updateLikes } from '../../../actions/post'
 
-const PostLikePanel = ({ postId, likes, comments, user, updateLikes } ) => {
+const PostLikePanel = ({ postId, likes, comments, user, updateLikes, focusForCreatingComment } ) => {
   const classes = useStyles()
 
   const [postIsLiked, setPostIsLiked] = useState(false)
@@ -26,7 +26,7 @@ const PostLikePanel = ({ postId, likes, comments, user, updateLikes } ) => {
           { postIsLiked ? <FavoriteIcon color="secondary" /> : <FavoriteBorderIcon/> }
         </IconButton>
         {likes.length}
-        <IconButton aria-label="comments" >
+        <IconButton onClick={focusForCreatingComment} aria-label="comments" >
           <ChatBubbleOutlineIcon />
         </IconButton>
         {comments.length}
@@ -41,6 +41,7 @@ PostLikePanel.propTypes = {
   comments: PropTypes.array.isRequired,
   user: PropTypes.object.isRequired,
   updateLikes: PropTypes.func.isRequired,
+  focusForCreatingComment: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = state => ({

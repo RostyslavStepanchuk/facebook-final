@@ -8,7 +8,7 @@ import { createComment } from '../../../actions/post'
 import { Avatar, Grid, TextField } from '@material-ui/core'
 
 
-const PostComments = ( { postId, comments, user, createComment } )  => {
+const PostComments = ( { postId, comments, user, createComment, inputRef } )  => {
   const classes = useStyles()
   const [value, setValue] = useState('')
 
@@ -47,6 +47,7 @@ const PostComments = ( { postId, comments, user, createComment } )  => {
             value={value}
             onChange={handleTextFieldChange}
             onKeyPress={handleKeyPress}
+            inputRef={inputRef}
           />
           <p className={classes.footerText}>Press Enter to post.</p>
         </Grid>
@@ -60,6 +61,7 @@ PostComments.propTypes = {
   user: PropTypes.object.isRequired,
   comments: PropTypes.array.isRequired,
   createComment: PropTypes.func.isRequired,
+  inputRef: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = state => ({

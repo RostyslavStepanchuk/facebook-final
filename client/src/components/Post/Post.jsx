@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import Paper from '@material-ui/core/Paper'
 import PropTypes from 'prop-types'
 import useStyles from './postStyles'
@@ -12,13 +12,18 @@ const Post = ({ post }) => {
 
   const { id, author, owner, date, message, image, likes, comments } = post
 
+  const inputRef = useRef(null)
+  const focusForCreatingComment = () => {
+    inputRef.current.focus()
+  }
+
   return (
     <Paper key={id} className={classes.post}>
       <PostAuthor postId={id} author={author} owner={owner} date={date}/>
       <img src={image.src} className={classes.postImg} alt='Post' />
       <p>{message}</p>
-      <PostLikePanel postId={id} likes={likes} comments={comments} />
-      <PostComments postId={id} comments={comments} />
+      <PostLikePanel postId={id} likes={likes} comments={comments} focusForCreatingComment={focusForCreatingComment} />
+      <PostComments postId={id} comments={comments} inputRef={inputRef} />
     </Paper>
   )
 }
