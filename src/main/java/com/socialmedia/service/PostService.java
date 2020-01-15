@@ -94,7 +94,7 @@ public final class PostService extends AbstractCrudService<Post, Long, PostRepos
       likes.add(author);
       post.setLikes(likes);
     }
-    return update(postId, post);
+    return jpaRepository.save(post);
   }
 
   public Post createComment(Long postId, Comment comment) {
@@ -108,19 +108,18 @@ public final class PostService extends AbstractCrudService<Post, Long, PostRepos
     List<Comment> comments = post.getComments();
     comments.add(comment);
 
-    return update(postId, post);
+    return jpaRepository.save(post);
   }
 
   public Post deleteComment(Long postId, Long commentId) {
     Post post = getById(postId);
 
-    List<Comment> collect = post.getComments()
-            .stream().filter(comment -> !comment.getId().equals(commentId))
-            .collect(Collectors.toList());
+    List<Comment> comments = post.getComments();
+    comments.stream().filter(comment -> comment.getId().equals(commentId)).findAny().ifPresent(comments::remove);
 
-    post.setComments(collect);
+    post.setComments(comments);
 
-    return update(postId, post);
+    return jpaRepository.save(post);
   }
 
 }

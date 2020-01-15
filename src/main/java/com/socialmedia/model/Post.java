@@ -42,7 +42,7 @@ public class Post implements DbEntity<Long> {
   @JoinColumn(name = "fk_owner_username")
   private ApplicationUser owner;
 
-  @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Comment> comments;
 
   @ManyToMany
