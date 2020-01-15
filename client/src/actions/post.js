@@ -89,10 +89,10 @@ export const getPostsForProfile = () => async dispatch => {
 
 export const deletePost = (postId) => async dispatch =>  {
   try {
-    const posts = await apiRequest.delete('/posts/' + postId)
+    const post = await apiRequest.delete('/posts/' + postId)
     dispatch({
       type: DELETE_POST,
-      payload: posts
+      payload: { postId, post }
     })
   } catch (e) {
     console.log(e)
