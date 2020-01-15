@@ -45,7 +45,7 @@ public class Post implements DbEntity<Long> {
   @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
   private List<Comment> comments;
 
-  @ManyToMany(cascade = CascadeType.ALL)
+  @ManyToMany
   @JoinTable(name = "likes",
       joinColumns = @JoinColumn(name = "fk_post_id"),
       inverseJoinColumns = @JoinColumn(name = "fk_provider_username"))

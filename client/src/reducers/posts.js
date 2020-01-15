@@ -25,31 +25,45 @@ export default function (state=initialState, action) {
 
     case POSTS_RECEIVED:
       return { ...state, posts: payload, loading: false }
-      
+
     case UPDATE_LIKES: {
       let result = [...state.posts]
-      result[payload.postId-1] = payload.post
+      let index = result.findIndex(post => post.id === payload.postId)
+      if(index !== -1){
+        result[index] = payload.post
+      }
       return { ...state, posts: result, loading: false }
     }
 
     case DELETE_POST: {
-      // let result = [...state.posts]
-      // result[payload.postId-1] = payload.post
-      return { ...state, posts: [...state.posts], loading: false }
+      let result = [...state.posts]
+      // let index = result.findIndex(post => post.id === payload.postId)
+      // console.log(index)
+      // if(index !== -1){
+      //   result.slice(index, index)
+      // }
+      // console.log(result)
+      return { ...state, posts: result, loading: false }
     }
 
     case ADD_COMMENT: {
       let result = [...state.posts]
-      result[payload.postId-1] = payload.post
+      let index = result.findIndex(post => post.id === payload.postId)
+      if(index !== -1){
+        result[index] = payload.post
+      }
       return { ...state, posts: result, loading: false }
     }
 
     case REMOVE_COMMENT: {
       let result = [...state.posts]
-      result[payload.postId-1] = payload.post
+      let index = result.findIndex(post => post.id === payload.postId)
+      if(index !== -1){
+        result[index] = payload.post
+      }
       return { ...state, posts: result, loading: false }
     }
-    
+
     default:
       return {...state}
 
