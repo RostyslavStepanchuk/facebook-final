@@ -75,11 +75,10 @@ export const getPostsForProfile = () => async dispatch => {
   })
   try {
     const posts = await apiRequest.get('/posts/profile')
-
     dispatch({
-    type: POSTS_RECEIVED,
-    payload: posts
-  })
+      type: POSTS_RECEIVED,
+      payload: posts
+    })
   } catch (e) {
     dispatch({
       type: POSTS_END_LOADING
