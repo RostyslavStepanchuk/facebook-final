@@ -38,11 +38,9 @@ export default function (state=initialState, action) {
     case DELETE_POST: {
       let result = [...state.posts]
       let index = result.findIndex(post => post.id === payload.postId)
-      console.log(index)
       if(index !== -1){
-        result.slice(index, index)
+        result.splice(index, 1)
       }
-      console.log(result)
       return { ...state, posts: result, loading: false }
     }
 

@@ -7,6 +7,7 @@ import com.socialmedia.dto.post.PostDtoOut;
 import com.socialmedia.mapper.PostMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -70,6 +71,7 @@ public class PostController {
     return ResponseEntity.ok(postDtoOut);
   }
 
+  @Transactional
   @DeleteMapping("/{id}")
   public ResponseEntity<PostDtoOut> delete(@PathVariable Long id) {
     PostDtoOut postDtoOut = postMapper.delete(id);
