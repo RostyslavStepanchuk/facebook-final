@@ -7,10 +7,10 @@ import { connect } from 'react-redux'
 import { createComment } from '../../../actions/post'
 import { Avatar, Grid, TextField } from '@material-ui/core'
 
-const PostComments = ( { postId, comments, user } )  => {
+
+const PostComments = ( { postId, comments, user, createComment } )  => {
   const classes = useStyles()
   const [value, setValue] = useState('')
-  const [commentsForPost, setCommentsForPost] = useState(comments)
 
   const handleTextFieldChange = (e) => {
     setValue(e.target.value)
@@ -21,14 +21,12 @@ const PostComments = ( { postId, comments, user } )  => {
       e.target.blur()
       e.preventDefault()
       let comment = e.target.value
-      createComment(postId, comment).then( (comments) => {
-        setCommentsForPost(comments)
-        setValue('')
-      })
+      createComment(postId, comment)
+      setValue('')
     }
   }
 
-  const commentList = commentsForPost.map( comment => <Comment comment={comment} key={comment.id}/>)
+  const commentList = comments.map( comment => <Comment postId={postId} comment={comment} key={comment.id}/>)
 
   return (
     <Fragment>
@@ -61,10 +59,11 @@ PostComments.propTypes = {
   postId: PropTypes.number.isRequired,
   user: PropTypes.object.isRequired,
   comments: PropTypes.array.isRequired,
+  createComment: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = state => ({
   user: state.auth.user,
 })
 
-export default connect(mapStateToProps, null )(PostComments)
+export default connect(mapStateToProps, { createComment } )(PostComments)

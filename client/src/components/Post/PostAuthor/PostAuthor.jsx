@@ -14,22 +14,22 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import useStyles from './postAuthorStyles'
 import PropTypes from 'prop-types'
 
+import { deletePost } from '../../../actions/post'
 import getDate from '../../../utils/date/getDate'
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
 })
 
-const PostAuthor = ( { author, owner, date, user } ) => {
+const PostAuthor = ( { postId, author, owner, date, user, deletePost } ) => {
   const classes = useStyles()
 
   const [showDeleteBtn, setShowDeleteBtn] = useState(false)
   const [openDialog, setOpenDialog] = React.useState(false)
-  const username = user.username
 
   useEffect(
-    () => setShowDeleteBtn(author.username === username || owner.username === username),
-    [author.username, owner.username, username]
+    () => setShowDeleteBtn(author.username === user.username || owner.username === user.username),
+    [author.username, owner.username, user.username]
   )
 
   const handleClickOpen = () => {
@@ -40,6 +40,11 @@ const PostAuthor = ( { author, owner, date, user } ) => {
     setOpenDialog(false)
   }
 
+  const handleCloseDelete = () => {
+    setOpenDialog(false)
+    deletePost(postId)
+  }
+
   return (
     <Fragment>
       <div className={classes.user}>
@@ -48,9 +53,11 @@ const PostAuthor = ( { author, owner, date, user } ) => {
           <p className={classes.userFullname}>{author.firstName} {author.lastName} <ArrowRightIcon/> {owner.firstName} {owner.lastName}</p>
           <p className={classes.postDate}>{getDate(date)}</p>
         </div>
-        { showDeleteBtn && <IconButton className={classes.btnDelete} aria-label="delete" onClick={handleClickOpen}>
-          <DeleteIcon />
-        </IconButton> }
+        { showDeleteBtn &&
+          <IconButton className={classes.btnDelete} onClick={handleClickOpen} aria-label="delete" >
+            <DeleteIcon />
+          </IconButton>
+        }
         <Dialog
           open={openDialog}
           TransitionComponent={Transition}
@@ -67,7 +74,7 @@ const PostAuthor = ( { author, owner, date, user } ) => {
             <Button variant="contained" color="primary" onClick={handleClose}>
               Cancel
             </Button>
-            <Button variant="contained" color="secondary" onClick={handleClose}>
+            <Button variant="contained" color="secondary" onClick={handleCloseDelete}>
               Delete
             </Button>
           </DialogActions>
@@ -78,14 +85,16 @@ const PostAuthor = ( { author, owner, date, user } ) => {
 }
 
 PostAuthor.propTypes = {
+  postId: PropTypes.number.isRequired,
   author: PropTypes.object.isRequired,
   owner: PropTypes.object.isRequired,
   date: PropTypes.number.isRequired,
   user: PropTypes.object.isRequired,
+  deletePost: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = state => ({
   user: state.auth.user,
 })
 
-export default connect(mapStateToProps, null)(PostAuthor)
+export default connect(mapStateToProps, { deletePost } )(PostAuthor)

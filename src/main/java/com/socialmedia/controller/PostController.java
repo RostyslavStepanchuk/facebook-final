@@ -77,13 +77,19 @@ public class PostController {
   }
 
   @PutMapping("/{postId}/like")
-  public void updateLikes(@PathVariable Long postId) {
-    postMapper.updateLikes(postId);
+  public ResponseEntity<PostDtoOut> updateLikes(@PathVariable Long postId) {
+    return ResponseEntity.ok(postMapper.updateLikes(postId));
   }
 
   @PostMapping("/{postId}/comment")
-  public ResponseEntity<List<CommentDtoOut>> createComment(@PathVariable Long postId,
+  public ResponseEntity<PostDtoOut> createComment(@PathVariable Long postId,
                                                            @RequestBody CommentDtoIn commentDtoIn) {
     return ResponseEntity.ok(postMapper.createComment(postId, commentDtoIn));
+  }
+
+  @DeleteMapping("/{postId}/comment/{commentId}")
+  public ResponseEntity<PostDtoOut> deleteComment(@PathVariable Long postId,
+                                                  @PathVariable Long commentId) {
+    return ResponseEntity.ok(postMapper.deleteComment(postId, commentId));
   }
 }

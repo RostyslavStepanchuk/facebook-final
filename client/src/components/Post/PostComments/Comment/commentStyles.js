@@ -1,10 +1,14 @@
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({
-  comment: {
-    textAlign: 'left',
+  panel: {
+    display: 'flex',
+    justifyContent: 'space-between',
     padding: '5px 10px',
     borderBottom: '1px solid #e6e6e6',
+  },
+  comment: {
+    textAlign: 'left',
   },
   commentText: {
     margin: 0,
