@@ -35,7 +35,7 @@ const PostComments = ( { postId, comments, user, createComment } )  => {
       </div>
       <Grid container className={classes.createPanel}>
         <Grid container item xs={2} lg={1}  justify='center' alignItems='flex-start'>
-          <Avatar className={classes.avatar} src={user.avatar}/>
+          <Avatar className={classes.avatar} src={user.avatar.src}/>
         </Grid>
         <Grid item xs={10} lg={11}  >
           <TextField
