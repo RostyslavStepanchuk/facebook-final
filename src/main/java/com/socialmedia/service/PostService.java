@@ -75,7 +75,7 @@ public final class PostService extends AbstractCrudService<Post, Long, PostRepos
         .collect(Collectors.toList());
   }
 
-  public void updateLikes(Long postId) {
+  public Post updateLikes(Long postId) {
     Principal principal = SecurityContextHolder.getContext().getAuthentication();
     ApplicationUser author = userService.getById(principal.getName());
 
@@ -94,10 +94,10 @@ public final class PostService extends AbstractCrudService<Post, Long, PostRepos
       likes.add(author);
       post.setLikes(likes);
     }
-    update(postId, post);
+    return update(postId, post);
   }
 
-  public List<Comment> createComment(Long postId, Comment comment) {
+  public Post createComment(Long postId, Comment comment) {
     Principal principal = SecurityContextHolder.getContext().getAuthentication();
     ApplicationUser author = userService.getById(principal.getName());
     Post post = getById(postId);
@@ -108,6 +108,19 @@ public final class PostService extends AbstractCrudService<Post, Long, PostRepos
     List<Comment> comments = post.getComments();
     comments.add(comment);
 
-    return update(postId, post).getComments();
+    return update(postId, post);
   }
+
+  public Post deleteComment(Long postId, Long commentId) {
+    Post post = getById(postId);
+
+    List<Comment> collect = post.getComments()
+            .stream().filter(comment -> !comment.getId().equals(commentId))
+            .collect(Collectors.toList());
+
+    post.setComments(collect);
+
+    return update(postId, post);
+  }
+
 }

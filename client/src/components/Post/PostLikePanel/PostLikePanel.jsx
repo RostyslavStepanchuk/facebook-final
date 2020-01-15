@@ -8,37 +8,23 @@ import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline'
 import IconButton from '@material-ui/core/IconButton'
 import { updateLikes } from '../../../actions/post'
 
-const PostLikePanel = ({ postId, likes, comments, user } ) => {
+const PostLikePanel = ({ postId, likes, comments, user, updateLikes } ) => {
   const classes = useStyles()
 
-  const [count, setCount] = useState(likes.length)
   const [postIsLiked, setPostIsLiked] = useState(false)
 
-  const username = user.username
-
   useEffect(
-    () => setPostIsLiked(likes.some(like=>like.username === username)),
-    [likes, username]
+    () => setPostIsLiked(likes.some(like=>like.username === user.username)),
+    [likes, user.username]
   )
-
-  const changeLike = () =>  {
-    if(postIsLiked){
-      setPostIsLiked(false)
-      setCount(count - 1)
-    } else {
-      setPostIsLiked(true)
-      setCount(count + 1)
-    }
-    updateLikes(postId)
-  }
 
   return (
     <Fragment>
       <div className={classes.panel}>
-        <IconButton aria-label="like" onClick={changeLike}>
+        <IconButton onClick={() => updateLikes(postId)} aria-label="like" >
           { postIsLiked ? <FavoriteIcon color="secondary" /> : <FavoriteBorderIcon/> }
         </IconButton>
-        {count}
+        {likes.length}
         <IconButton aria-label="comments" >
           <ChatBubbleOutlineIcon />
         </IconButton>
@@ -53,10 +39,11 @@ PostLikePanel.propTypes = {
   likes: PropTypes.array.isRequired,
   comments: PropTypes.array.isRequired,
   user: PropTypes.object.isRequired,
+  updateLikes: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = state => ({
   user: state.auth.user,
 })
 
-export default connect(mapStateToProps, null)(PostLikePanel)
+export default connect(mapStateToProps, { updateLikes })(PostLikePanel)

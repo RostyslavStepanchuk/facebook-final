@@ -86,15 +86,16 @@ public class PostMapper extends AbstractControllerToCrudServiceMapper<Post,Long,
         .collect(Collectors.toList());
   }
 
-  public void updateLikes(Long postId) {
-    crudService.updateLikes(postId);
+  public PostDtoOut updateLikes(Long postId) {
+    return responseDtoOf(crudService.updateLikes(postId));
   }
 
-  public List<CommentDtoOut> createComment(Long postId, CommentDtoIn commentDtoIn) {
+  public PostDtoOut createComment(Long postId, CommentDtoIn commentDtoIn) {
     Comment comment = modelMapper.map(commentDtoIn, Comment.class);
+    return responseDtoOf(crudService.createComment(postId, comment));
+  }
 
-    return crudService.createComment(postId, comment).stream()
-            .map(entity -> modelMapper.map(entity, CommentDtoOut.class))
-            .collect(Collectors.toList());
+  public PostDtoOut deleteComment(Long postId, Long commentId) {
+    return responseDtoOf(crudService.deleteComment(postId, commentId));
   }
 }

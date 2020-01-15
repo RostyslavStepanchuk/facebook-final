@@ -1,4 +1,12 @@
-import { POSTS_END_LOADING, POSTS_RECEIVED, POSTS_START_LOADING } from '../utils/constants/actionsName'
+import {
+  POSTS_END_LOADING,
+  POSTS_RECEIVED,
+  POSTS_START_LOADING,
+  ADD_COMMENT,
+  UPDATE_LIKES,
+  REMOVE_COMMENT,
+  DELETE_POST
+} from '../utils/constants/actionsName'
 import apiRequest from '../utils/helpers/apiRequest'
 
 export const uploadImages = images => {
@@ -79,14 +87,57 @@ export const getPostsForProfile = () => async dispatch => {
   }
 }
 
-export const updateLikes = (postId) =>  {
-
-  apiRequest.put('/posts/' + postId + '/like')
+export const deletePost = (postId) => async dispatch =>  {
+  try {
+    const posts = await apiRequest.delete('/posts/' + postId)
+    dispatch({
+      type: DELETE_POST,
+      payload: posts
+    })
+  } catch (e) {
+    console.log(e)
+  }
 }
 
-export const createComment = (postId, comment) =>  {
+export const updateLikes = (postId) => async dispatch =>  {
+  try {
+    const post = await apiRequest.put('/posts/' + postId + '/like')
+    dispatch({
+      type: UPDATE_LIKES,
+      payload: { postId, post }
+    })
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+export const createComment = (postId, comment) => async dispatch => {
   const body = {
     message: comment,
   }
-  return apiRequest.post('/posts/' + postId + '/comment', body)
+
+  try {
+    const post = await apiRequest.post('/posts/' + postId + '/comment', body)
+    dispatch({
+      type: ADD_COMMENT,
+      payload: { postId, post }
+    })
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+export const deleteComment = (postId, commentId) => async dispatch => {
+  console.log(postId)
+  console.log(commentId)
+  try {
+    const post = await apiRequest.delete('/posts/' + postId + '/comment/'+ commentId)
+    console.log(postId)
+    dispatch({
+      type: REMOVE_COMMENT,
+      payload: { postId, post }
+    })
+  } catch (e) {
+    console.log(e)
+  }
 }
