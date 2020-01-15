@@ -32,16 +32,12 @@ const PostAuthor = ( { postId, author, owner, date, user, deletePost } ) => {
     [author.username, owner.username, user.username]
   )
 
-  const handleClickOpen = () => {
-    setOpenDialog(true)
+  const handleModal = () => {
+    setOpenDialog(!openDialog)
   }
 
-  const handleClose = () => {
-    setOpenDialog(false)
-  }
-
-  const handleCloseDelete = () => {
-    setOpenDialog(false)
+  const handleModalDelete = () => {
+    handleModal()
     deletePost(postId)
   }
 
@@ -54,7 +50,7 @@ const PostAuthor = ( { postId, author, owner, date, user, deletePost } ) => {
           <p className={classes.postDate}>{getDate(date)}</p>
         </div>
         { showDeleteBtn &&
-          <IconButton className={classes.btnDelete} onClick={handleClickOpen} aria-label="delete" >
+          <IconButton className={classes.btnDelete} onClick={handleModal} aria-label="delete" >
             <DeleteIcon />
           </IconButton>
         }
@@ -62,7 +58,7 @@ const PostAuthor = ( { postId, author, owner, date, user, deletePost } ) => {
           open={openDialog}
           TransitionComponent={Transition}
           keepMounted
-          onClose={handleClose}
+          onClose={handleModal}
         >
           <DialogTitle id="alert">Delete Post?</DialogTitle>
           <DialogContent>
@@ -71,10 +67,10 @@ const PostAuthor = ( { postId, author, owner, date, user, deletePost } ) => {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button variant="contained" color="primary" onClick={handleClose}>
+            <Button variant="contained" color="primary" onClick={handleModal}>
               Cancel
             </Button>
-            <Button variant="contained" color="secondary" onClick={handleCloseDelete}>
+            <Button variant="contained" color="secondary" onClick={handleModalDelete}>
               Delete
             </Button>
           </DialogActions>
