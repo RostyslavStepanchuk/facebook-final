@@ -1,8 +1,8 @@
 package com.socialmedia.service;
 
-import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.DeleteObjectRequest;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.socialmedia.model.Image;
 import com.socialmedia.repository.ImageRepository;
@@ -14,8 +14,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
 import java.util.UUID;
@@ -25,13 +23,13 @@ import java.util.UUID;
 @Slf4j
 public class AmazonService extends AbstractCrudService<Image, Long, ImageRepository> {
 
-  private AmazonS3 s3client;
+  private AmazonS3Client s3client;
   private static final String FILE_EXTENSION = ".png";
 
   @Autowired
   public AmazonService(ImageRepository jpaRepository,
                        SmartCopyBeanUtilsBean beanUtilBean,
-                       AmazonS3 s3client) {
+                       AmazonS3Client s3client) {
     super(jpaRepository, beanUtilBean);
     this.s3client = s3client;
   }
@@ -43,47 +41,26 @@ public class AmazonService extends AbstractCrudService<Image, Long, ImageReposit
 
   @Override
   public Image create(Image entity) {
-    throw new RuntimeException("Images entities must be created only by uploading files");
+    throw new UnsupportedOperationException("Images entities must be created only by uploading files");
   }
 
   @Override
   public Image update(Image existingEntity, Image incomingEntity) {
-    throw new RuntimeException("Images entities mustn't be updated");
+    throw new UnsupportedOperationException("Images entities mustn't be updated");
   }
 
   public Image uploadFile(MultipartFile multipartFile) {
     try {
-      File file = convertMultiPartToFile(multipartFile);
       String fileName = generateFileName();
-      uploadFileToS3bucket(fileName, file);
+      uploadFileToS3bucket(fileName, multipartFile);
       Image image = new Image();
       image.setKey(fileName);
-      image.setSrc(endpointUrl + "/" + bucketName + "/" + fileName);
-      boolean deleted = file.delete();
-      if (!deleted) {
-        throw new RuntimeException("Images are not deleted from sever temporary storage");
-      }
+      image.setSrc(s3client.getResourceUrl(bucketName, fileName));
       return jpaRepository.save(image);
     } catch (Exception exc) {
       log.error(exc.getMessage(), exc);
       throw new RuntimeException(exc);
     }
-  }
-
-  private File convertMultiPartToFile(MultipartFile file) throws IOException {
-
-    FileOutputStream fos = null;
-    try {
-      File convFile = new File(file.getOriginalFilename());
-      fos = new FileOutputStream(convFile);
-      fos.write(file.getBytes());
-      return convFile;
-    } finally {
-      if (fos != null) {
-        fos.close();
-      }
-    }
-
   }
 
   private String generateFileName() {
@@ -93,13 +70,19 @@ public class AmazonService extends AbstractCrudService<Image, Long, ImageReposit
         + FILE_EXTENSION;
   }
 
-  private void uploadFileToS3bucket(String fileName, File file) {
-    s3client.putObject(new PutObjectRequest(bucketName, fileName, file)
+  private void uploadFileToS3bucket(String fileName, MultipartFile file) throws IOException {
+    ObjectMetadata metadata = new ObjectMetadata();
+    metadata.setContentLength(file.getBytes().length);
+
+    s3client.putObject(new PutObjectRequest(bucketName,
+        fileName,
+        file.getInputStream(),
+        metadata)
         .withCannedAcl(CannedAccessControlList.PublicRead));
   }
 
   public Boolean deleteFileFromS3Bucket(String fileName) {
-    s3client.deleteObject(new DeleteObjectRequest(bucketName, fileName));
+    s3client.deleteObject(bucketName, fileName);
     return !s3client.doesObjectExist(bucketName, fileName);
   }
 }
