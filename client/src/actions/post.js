@@ -3,10 +3,10 @@ import {
   POSTS_END_LOADING,
   POSTS_RECEIVED,
   POSTS_START_LOADING,
-  ADD_COMMENT,
-  UPDATE_LIKES,
-  REMOVE_COMMENT,
-  DELETE_POST
+  COMMENT_ADDED,
+  LIKES_UPDATED,
+  COMMENT_REMOVED,
+  POST_DELETED
 } from '../utils/constants/actionsName'
 import apiRequest from '../utils/helpers/apiRequest'
 
@@ -80,11 +80,11 @@ export const getPostsForProfile = () => async dispatch => {
   }
 }
 
-export const deletePost = (postId) => async dispatch =>  {
+export const deletePost = (postId) => async dispatch => {
   try {
     const post = await apiRequest.delete('/posts/' + postId)
     dispatch({
-      type: DELETE_POST,
+      type: POST_DELETED,
       payload: { postId, post }
     })
   } catch (e) {
@@ -92,11 +92,11 @@ export const deletePost = (postId) => async dispatch =>  {
   }
 }
 
-export const updateLikes = (postId) => async dispatch =>  {
+export const updateLikes = (postId) => async dispatch => {
   try {
     const post = await apiRequest.put('/posts/' + postId + '/like')
     dispatch({
-      type: UPDATE_LIKES,
+      type: LIKES_UPDATED,
       payload: { postId, post }
     })
   } catch (e) {
@@ -106,13 +106,13 @@ export const updateLikes = (postId) => async dispatch =>  {
 
 export const createComment = (postId, comment) => async dispatch => {
   const body = {
-    message: comment,
+    message: comment
   }
 
   try {
     const post = await apiRequest.post('/posts/' + postId + '/comment', body)
     dispatch({
-      type: ADD_COMMENT,
+      type: COMMENT_ADDED,
       payload: { postId, post }
     })
   } catch (e) {
@@ -121,12 +121,11 @@ export const createComment = (postId, comment) => async dispatch => {
 }
 
 export const deleteComment = (postId, commentId) => async dispatch => {
-
   try {
-    const post = await apiRequest.delete('/posts/' + postId + '/comment/'+ commentId)
+    const post = await apiRequest.delete('/posts/' + postId + '/comment/' + commentId)
     console.log(postId)
     dispatch({
-      type: REMOVE_COMMENT,
+      type: COMMENT_REMOVED,
       payload: { postId, post }
     })
   } catch (e) {

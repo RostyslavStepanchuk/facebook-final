@@ -17,11 +17,11 @@ import PropTypes from 'prop-types'
 import { deletePost } from '../../../actions/post'
 import getDate from '../../../utils/date/getDate'
 
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />
+const Transition = React.forwardRef(function Transition (props, ref) {
+  return <Slide direction='up' ref={ref} {...props} />
 })
 
-const PostAuthor = ( { postId, author, owner, date, user, deletePost } ) => {
+const PostAuthor = ({ postId, author, owner, date, user, deletePost }) => {
   const classes = useStyles()
 
   const [showDeleteBtn, setShowDeleteBtn] = useState(false)
@@ -50,7 +50,7 @@ const PostAuthor = ( { postId, author, owner, date, user, deletePost } ) => {
           <p className={classes.postDate}>{getDate(date)}</p>
         </div>
         { showDeleteBtn &&
-          <IconButton className={classes.btnDelete} onClick={handleModal} aria-label="delete" >
+          <IconButton className={classes.btnDelete} onClick={handleModal} aria-label='delete' >
             <DeleteIcon />
           </IconButton>
         }
@@ -60,17 +60,17 @@ const PostAuthor = ( { postId, author, owner, date, user, deletePost } ) => {
           keepMounted
           onClose={handleModal}
         >
-          <DialogTitle id="alert">Delete Post?</DialogTitle>
+          <DialogTitle id='alert'>Delete Post?</DialogTitle>
           <DialogContent>
             <DialogContentText>
               Are you sure you want to permanently remove this post from DanBook?
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button variant="contained" color="primary" onClick={handleModal}>
+            <Button variant='contained' color='primary' onClick={handleModal}>
               Cancel
             </Button>
-            <Button variant="contained" color="secondary" onClick={handleModalDelete}>
+            <Button variant='contained' color='secondary' onClick={handleModalDelete}>
               Delete
             </Button>
           </DialogActions>
@@ -86,11 +86,11 @@ PostAuthor.propTypes = {
   owner: PropTypes.object.isRequired,
   date: PropTypes.number.isRequired,
   user: PropTypes.object.isRequired,
-  deletePost: PropTypes.func.isRequired,
+  deletePost: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
-  user: state.auth.user,
+  user: state.auth.user
 })
 
-export default connect(mapStateToProps, { deletePost } )(PostAuthor)
+export default connect(mapStateToProps, { deletePost })(PostAuthor)
