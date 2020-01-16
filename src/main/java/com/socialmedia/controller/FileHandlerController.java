@@ -30,9 +30,10 @@ public class FileHandlerController {
     return ResponseEntity.ok(imageMapper.uploadFile(file));
   }
 
+  // todo delete method
   @DeleteMapping("/delete/{fileId}")
-  public ResponseEntity<Boolean> deleteFile(@PathVariable(value = "fileId") Long fileId) {
-    return ResponseEntity.ok(imageMapper.deleteFile(fileId));
+  public ResponseEntity<ImageDtoOut> deleteFile(@PathVariable(value = "fileId") Long fileId) {
+    return ResponseEntity.ok(imageMapper.delete(fileId));
   }
 
   @GetMapping

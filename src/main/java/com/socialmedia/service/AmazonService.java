@@ -1,8 +1,8 @@
 package com.socialmedia.service;
 
-import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.DeleteObjectRequest;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.socialmedia.model.Image;
 import com.socialmedia.repository.ImageRepository;
@@ -14,23 +14,22 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
-import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Configuration
 @Slf4j
 public class AmazonService extends AbstractCrudService<Image, Long, ImageRepository> {
 
-  private AmazonS3 s3client;
+  private AmazonS3Client s3client;
+  private static final String FILE_EXTENSION = ".png";
 
   @Autowired
   public AmazonService(ImageRepository jpaRepository,
                        SmartCopyBeanUtilsBean beanUtilBean,
-                       AmazonS3 s3client) {
+                       AmazonS3Client s3client) {
     super(jpaRepository, beanUtilBean);
     this.s3client = s3client;
   }
@@ -40,60 +39,50 @@ public class AmazonService extends AbstractCrudService<Image, Long, ImageReposit
   @Value("${amazonProperties.bucketName}")
   private String bucketName;
 
+  @Override
+  public Image create(Image entity) {
+    throw new UnsupportedOperationException("Images entities must be created only by uploading files");
+  }
+
+  @Override
+  public Image update(Image existingEntity, Image incomingEntity) {
+    throw new UnsupportedOperationException("Images entities mustn't be updated");
+  }
+
   public Image uploadFile(MultipartFile multipartFile) {
     try {
-      File file = convertMultiPartToFile(multipartFile);
-      String fileName = generateFileName(multipartFile);
-      uploadFileToS3bucket(fileName, file);
+      String fileName = generateFileName();
+      uploadFileToS3bucket(fileName, multipartFile);
       Image image = new Image();
       image.setKey(fileName);
-      image.setSrc(endpointUrl + "/" + bucketName + "/" + fileName);
-      jpaRepository.save(image);
-      return image;
+      image.setSrc(s3client.getResourceUrl(bucketName, fileName));
+      return jpaRepository.save(image);
     } catch (Exception exc) {
       log.error(exc.getMessage(), exc);
       throw new RuntimeException(exc);
     }
   }
 
-  public Boolean deleteFile(Long fileId) {
-    String fileName = getById(fileId).getKey();
-    boolean deleted = deleteFileFromS3Bucket(fileName);
-    if (Boolean.TRUE.equals(deleted)) {
-      Optional<Image> existingEntity = jpaRepository.findByKey(fileName);
-      existingEntity.ifPresent(image -> jpaRepository.delete(image));
-    }
-    return deleted;
+  private String generateFileName() {
+    return new Date().getTime()
+        + "-"
+        + UUID.randomUUID().toString().substring(0,4)
+        + FILE_EXTENSION;
   }
 
-  private File convertMultiPartToFile(MultipartFile file) throws IOException {
+  private void uploadFileToS3bucket(String fileName, MultipartFile file) throws IOException {
+    ObjectMetadata metadata = new ObjectMetadata();
+    metadata.setContentLength(file.getBytes().length);
 
-    FileOutputStream fos = null;
-    try {
-      File convFile = new File(file.getOriginalFilename());
-      fos = new FileOutputStream(convFile);
-      fos.write(file.getBytes());
-      fos.close();
-      return convFile;
-    } finally {
-      if (fos != null) {
-        fos.close();
-      }
-    }
-
-  }
-
-  private String generateFileName(MultipartFile multiPart) {
-    return new Date().getTime() + "-" + multiPart.getOriginalFilename().replace(" ", "_");
-  }
-
-  private void uploadFileToS3bucket(String fileName, File file) {
-    s3client.putObject(new PutObjectRequest(bucketName, fileName, file)
+    s3client.putObject(new PutObjectRequest(bucketName,
+        fileName,
+        file.getInputStream(),
+        metadata)
         .withCannedAcl(CannedAccessControlList.PublicRead));
   }
 
-  private Boolean deleteFileFromS3Bucket(String fileName) {
-    s3client.deleteObject(new DeleteObjectRequest(bucketName, fileName));
+  public Boolean deleteFileFromS3Bucket(String fileName) {
+    s3client.deleteObject(bucketName, fileName);
     return !s3client.doesObjectExist(bucketName, fileName);
   }
 }
