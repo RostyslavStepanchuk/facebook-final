@@ -7,8 +7,7 @@ import { connect } from 'react-redux'
 import { createComment } from '../../../actions/post'
 import { Avatar, Grid, TextField } from '@material-ui/core'
 
-
-const PostComments = ( { postId, comments, user, createComment, inputRef } )  => {
+const PostComments = ({ postId, comments, user, createComment, inputRef }) => {
   const classes = useStyles()
   const [value, setValue] = useState('')
 
@@ -17,7 +16,7 @@ const PostComments = ( { postId, comments, user, createComment, inputRef } )  =>
   }
 
   const handleKeyPress = (e) => {
-    if(e.key === 'Enter'){
+    if (e.key === 'Enter') {
       e.target.blur()
       e.preventDefault()
       let comment = e.target.value
@@ -26,7 +25,7 @@ const PostComments = ( { postId, comments, user, createComment, inputRef } )  =>
     }
   }
 
-  const commentList = comments.map( comment => <Comment postId={postId} comment={comment} key={comment.id}/>)
+  const commentList = comments.map(comment => <Comment postId={postId} comment={comment} key={comment.id} />)
 
   return (
     <Fragment>
@@ -34,10 +33,10 @@ const PostComments = ( { postId, comments, user, createComment, inputRef } )  =>
         {commentList}
       </div>
       <Grid container className={classes.createPanel}>
-        <Grid container item xs={2} lg={1}  justify='center' alignItems='flex-start'>
-          <Avatar className={classes.avatar} src={user.avatar.src}/>
+        <Grid container item xs={2} lg={1} justify='center' alignItems='flex-start'>
+          <Avatar className={classes.avatar} src={user.avatar.src} />
         </Grid>
-        <Grid item xs={10} lg={11}  >
+        <Grid item xs={10} lg={11} >
           <TextField
             className={classes.createInput}
             variant='outlined'
@@ -61,11 +60,11 @@ PostComments.propTypes = {
   user: PropTypes.object.isRequired,
   comments: PropTypes.array.isRequired,
   createComment: PropTypes.func.isRequired,
-  inputRef: PropTypes.object.isRequired,
+  inputRef: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
-  user: state.auth.user,
+  user: state.auth.user
 })
 
-export default connect(mapStateToProps, { createComment } )(PostComments)
+export default connect(mapStateToProps, { createComment })(PostComments)

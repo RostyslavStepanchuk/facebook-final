@@ -2,10 +2,10 @@ import {
   POSTS_END_LOADING,
   POSTS_RECEIVED,
   POSTS_START_LOADING,
-  ADD_COMMENT,
-  UPDATE_LIKES,
-  REMOVE_COMMENT,
-  DELETE_POST
+  COMMENT_ADDED,
+  LIKES_UPDATED,
+  COMMENT_REMOVED,
+  POST_DELETED
 } from '../utils/constants/actionsName'
 
 const initialState = {
@@ -26,39 +26,35 @@ export default function (state = initialState, action) {
     case POSTS_RECEIVED:
       return { ...state, posts: payload, loading: false }
 
-    case UPDATE_LIKES: {
+    case LIKES_UPDATED: {
       let result = [...state.posts]
       let index = result.findIndex(post => post.id === payload.postId)
-      if(index !== -1){
+      if (index !== -1) {
         result[index] = payload.post
       }
       return { ...state, posts: result, loading: false }
     }
 
-    case DELETE_POST: {
-      let result = [...state.posts]
-      let index = result.findIndex(post => post.id === payload.postId)
-      if(index !== -1){
-        result.splice(index, 1)
-      }
+    case POST_DELETED: {
+      let result = [...state.posts].filter(post => post.id !== payload.postId)
       return { ...state, posts: result, loading: false }
     }
 
-    case ADD_COMMENT: {
-      let result = [...state.posts]
-      let index = result.findIndex(post => post.id === payload.postId)
-      if(index !== -1){
-        result[index] = payload.post
-      }
+    case COMMENT_ADDED: {
+      let result = [...state.posts].map((post) => {
+        if(post.id === payload.postId) return payload.post
+        return post
+      })
+
       return { ...state, posts: result, loading: false }
     }
 
-    case REMOVE_COMMENT: {
-      let result = [...state.posts]
-      let index = result.findIndex(post => post.id === payload.postId)
-      if(index !== -1){
-        result[index] = payload.post
-      }
+    case COMMENT_REMOVED: {
+      let result = [...state.posts].map((post) => {
+        if(post.id === payload.postId) return payload.post
+        return post
+      })
+
       return { ...state, posts: result, loading: false }
     }
 

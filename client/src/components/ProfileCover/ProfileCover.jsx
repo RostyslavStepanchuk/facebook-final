@@ -64,7 +64,7 @@ const ProfileCover = ({ user }) => {
 }
 
 ProfileCover.propTypes = {
-  user: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({

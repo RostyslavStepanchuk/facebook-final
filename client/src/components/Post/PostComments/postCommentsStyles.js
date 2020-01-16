@@ -11,7 +11,7 @@ const useStyles = makeStyles(() => ({
     borderRadius: '50%',
     width: 40,
     height: 40,
-    margin: '5px 15px 5px 10px',
+    margin: '5px 15px 5px 10px'
   },
   createInput: {
 
@@ -20,7 +20,7 @@ const useStyles = makeStyles(() => ({
     fontSize: 12,
     textAlign: 'left',
     color: '#90949c',
-    margin: 0,
+    margin: 0
   }
 }))
 

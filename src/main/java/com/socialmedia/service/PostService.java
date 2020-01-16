@@ -15,7 +15,9 @@ import org.springframework.stereotype.Service;
 import java.security.Principal;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public final class PostService extends AbstractCrudService<Post, Long, PostRepository> {
@@ -127,14 +129,21 @@ public final class PostService extends AbstractCrudService<Post, Long, PostRepos
   }
 
   public Post deleteComment(Long postId, Long commentId) {
+    Principal principal = SecurityContextHolder.getContext().getAuthentication();
     Post post = getById(postId);
-
     List<Comment> comments = post.getComments();
-    comments.stream().filter(comment -> comment.getId().equals(commentId)).findAny().ifPresent(comments::remove);
+    Comment comment = comments.stream().filter(item -> item.getId().equals(commentId)).findFirst().get();
 
-    post.setComments(comments);
+    final boolean hasCredentialsToDelete = principal.getName().equals(post.getAuthor().getUsername())
+            || principal.getName().equals(post.getOwner().getUsername())
+            || principal.getName().equals(comment.getAuthor().getUsername());
 
-    return jpaRepository.save(post);
+    if (hasCredentialsToDelete) {
+      comments.stream().filter(item -> item.getId().equals(commentId)).findAny().ifPresent(comments::remove);
+      post.setComments(comments);
+      return jpaRepository.save(post);
+    } else {
+      throw new BadCredentialsException("You can only delete your own comments");
+    }
   }
-
 }
