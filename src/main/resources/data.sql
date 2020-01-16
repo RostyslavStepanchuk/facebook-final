@@ -12,7 +12,7 @@ INSERT INTO images (source_key, src) values ('1576923900764-kendal', 'https://s3
 INSERT INTO images (source_key, src) values ('1576923813421-avatar-bg', 'https://s3.us-west-2.amazonaws.com/fs-8/1576923813421-avatar-bg.jpg');
 INSERT INTO images (source_key, src) values ('1578253112874-bg', 'https://s3.us-west-2.amazonaws.com/fs-8/1578253112874-bg.jpg');
 INSERT INTO images (source_key, src) values ('1578253112874-bg', 'https://s3.us-west-2.amazonaws.com/fs-8/1578253112874-bg.jpg');
-/* posts */
+/* posts images */
 INSERT INTO images (source_key, src) values ('1576923813421-avatar-bg', 'https://s3.us-west-2.amazonaws.com/fs-8/1576923813421-avatar-bg.jpg');
 INSERT INTO images (source_key, src) values ('1576923750814-avatar', 'https://s3.us-west-2.amazonaws.com/fs-8/1576923750814-avatar.jpg');
 INSERT INTO images (source_key, src) values ('1578253112874-bg', 'https://s3.us-west-2.amazonaws.com/fs-8/1578253112874-bg.jpg');

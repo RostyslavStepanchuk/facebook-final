@@ -1,3 +1,4 @@
+/* global URL */
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -20,21 +21,31 @@ import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/picker
 
 import useStyles from './updateProfileStyles'
 import { PhotoCamera } from '@material-ui/icons'
-import { validateEmail } from '../../utils/helpers/inputValidators'
+import { areNoErrors, validateEmail } from '../../utils/helpers/inputValidators'
+import { uploadSingleImage } from '../../actions/post'
+import { updateProfile } from '../../actions/auth'
 
-const UpdateProfile = ({user, handleClose}) => {
-  const { avatar, firstName, lastName, birthDate, email, profileCover } = user
-  const classes = useStyles({ profileCover: profileCover.src })
+const UpdateProfile = ({ user, handleClose, updateProfile }) => {
+  const { avatar, firstName, lastName, birthDate, email, profileCover, gender } = user
 
   const [ formData, setFormData ] = useState({
+    avatar: {
+      file: null,
+      url: avatar.src
+    },
+    profileCover: {
+      file: null,
+      url: profileCover.src
+    },
     firstName,
     lastName,
     email,
     birthDate: Number(birthDate),
-    gender: 'male',
+    gender: gender,
     emailError: ''
-
   })
+
+  const classes = useStyles({ profileCover: formData.profileCover.url })
 
   const onChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -44,13 +55,59 @@ const UpdateProfile = ({user, handleClose}) => {
     setFormData({ ...formData, birthDate: date.getTime() })
   }
 
+  const getFileObject = e => {
+    const file = e.target.files[0]
+    return {
+      file,
+      url: URL.createObjectURL(file),
+      uploadError: false
+    }
+  }
+
+  const handleBackgroundChange = e => {
+    const newBackground = getFileObject(e)
+    setFormData({...formData, profileCover: newBackground})
+  }
+
+  const handleAvatarChange = e => {
+    const newAvatar = getFileObject(e)
+    setFormData({...formData, avatar: newAvatar})
+  }
+
+  const validateInput = () => {
+    const errors = {}
+    errors.emailError = validateEmail(formData.email)
+    setFormData({ ...formData, ...errors })
+
+    return areNoErrors(errors)
+  }
+
+  const sendImage = (newImg, currentImg) => {
+    if (newImg.file) {
+      return uploadSingleImage(newImg)
+    }
+    return Promise.resolve(currentImg)
+  }
+
   const onSubmit = e => {
     e.preventDefault()
 
-    setFormData({ ...formData, emailError: validateEmail(formData.email) })
+    const inputIsValid = validateInput()
 
-    if (formData.emailError === '') {
-      console.log('loading to server')
+    const images = {}
+
+    if (inputIsValid) {
+      const imgUploads = []
+      imgUploads.push(sendImage(formData.avatar, avatar)
+        .then(img => { images.avatar = img }))
+      imgUploads.push(sendImage(formData.profileCover, profileCover)
+        .then(img => { images.profileCover = img }))
+
+      Promise.all(imgUploads).then(() => {
+        const { firstName, lastName, gender, birthDate, email } = formData
+        updateProfile(({ ...images, firstName, lastName, gender, birthDate, email }))
+          .then(handleClose)
+      })
     }
   }
 
@@ -60,7 +117,12 @@ const UpdateProfile = ({user, handleClose}) => {
         Edit profile
       </Typography>
       <div className={classes.avatarBg}>
-        <input accept='image/*' className={classes.hidden} id='bg-img-file' type='file' />
+        <input
+          className={classes.hidden}
+          id='bg-img-file'
+          type='file'
+          onChange={handleBackgroundChange}
+        />
         <label htmlFor='bg-img-file'>
           <IconButton
             color='primary'
@@ -71,8 +133,13 @@ const UpdateProfile = ({user, handleClose}) => {
           </IconButton>
         </label>
         <div className={classes.avatarContainer}>
-          <Avatar className={classes.avatarImg} src={avatar} />
-          <input accept='image/*' className={classes.hidden} id='avatar-img-file' type='file' />
+          <Avatar className={classes.avatarImg} src={formData.avatar.url} />
+          <input
+            className={classes.hidden}
+            id='avatar-img-file'
+            type='file'
+            onChange={handleAvatarChange}
+          />
           <label htmlFor='avatar-img-file'>
             <IconButton
               color='primary'
@@ -116,19 +183,19 @@ const UpdateProfile = ({user, handleClose}) => {
             <FormLabel component='legend'>Gender</FormLabel>
             <RadioGroup aria-label='gender' name='gender' value={formData.gender} onChange={onChange}>
               <FormControlLabel
-                value='female'
+                value='FEMALE'
                 control={<Radio color='primary' size='small' />}
                 label='Female'
                 className={classes.ageRadioBtn}
               />
               <FormControlLabel
-                value='male'
+                value='MALE'
                 control={<Radio color='primary' size='small' />}
                 label='Male'
                 className={classes.ageRadioBtn}
               />
               <FormControlLabel
-                value='other'
+                value='OTHER'
                 control={<Radio color='primary' size='small' />}
                 label='Other'
                 className={classes.ageRadioBtn}
@@ -194,7 +261,8 @@ const UpdateProfile = ({user, handleClose}) => {
 
 UpdateProfile.propTypes = {
   user: PropTypes.object.isRequired,
-  handleClose: PropTypes.func.isRequired
+  handleClose: PropTypes.func.isRequired,
+  updateProfile: PropTypes.func.isRequired
 
 }
 
@@ -202,4 +270,8 @@ const mapStateToProps = state => ({
   user: state.auth.user
 })
 
-export default connect(mapStateToProps, null)(UpdateProfile)
+const mapDispatchToProps = dispatch => ({
+  updateProfile: (formData) => dispatch(updateProfile(formData))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(UpdateProfile)

@@ -18,7 +18,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
-import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Configuration
@@ -40,30 +40,45 @@ public class AmazonService extends AbstractCrudService<Image, Long, ImageReposit
   @Value("${amazonProperties.bucketName}")
   private String bucketName;
 
+  @Override
+  public Image create(Image entity) {
+    throw new RuntimeException("Images entities must be created only by uploading files");
+  }
+
+  @Override
+  public Image update(Image existingEntity, Image incomingEntity) {
+    throw new RuntimeException("Images entities mustn't be updated");
+  }
+
+  @Override
+  public Image delete(Long fileId) {
+    Image image = getById(fileId);
+    boolean isDeleted = deleteFileFromS3Bucket(image.getKey());
+    if (isDeleted) {
+      jpaRepository.deleteById(image.getId());
+      return image;
+    }
+    throw new RuntimeException("Image wasn't found in storage");
+  }
+
   public Image uploadFile(MultipartFile multipartFile) {
     try {
       File file = convertMultiPartToFile(multipartFile);
-      String fileName = generateFileName(multipartFile);
+      String fileName = generateFileName();
       uploadFileToS3bucket(fileName, file);
       Image image = new Image();
       image.setKey(fileName);
       image.setSrc(endpointUrl + "/" + bucketName + "/" + fileName);
       jpaRepository.save(image);
+      boolean deleted = file.delete();
+      if (!deleted) {
+        throw new RuntimeException("Images are not deleted from sever temporary storage");
+      }
       return image;
     } catch (Exception exc) {
       log.error(exc.getMessage(), exc);
       throw new RuntimeException(exc);
     }
-  }
-
-  public Boolean deleteFile(Long fileId) {
-    String fileName = getById(fileId).getKey();
-    boolean deleted = deleteFileFromS3Bucket(fileName);
-    if (Boolean.TRUE.equals(deleted)) {
-      Optional<Image> existingEntity = jpaRepository.findByKey(fileName);
-      existingEntity.ifPresent(image -> jpaRepository.delete(image));
-    }
-    return deleted;
   }
 
   private File convertMultiPartToFile(MultipartFile file) throws IOException {
@@ -73,7 +88,6 @@ public class AmazonService extends AbstractCrudService<Image, Long, ImageReposit
       File convFile = new File(file.getOriginalFilename());
       fos = new FileOutputStream(convFile);
       fos.write(file.getBytes());
-      fos.close();
       return convFile;
     } finally {
       if (fos != null) {
@@ -83,8 +97,8 @@ public class AmazonService extends AbstractCrudService<Image, Long, ImageReposit
 
   }
 
-  private String generateFileName(MultipartFile multiPart) {
-    return new Date().getTime() + "-" + multiPart.getOriginalFilename().replace(" ", "_");
+  private String generateFileName() {
+    return new Date().getTime() + "-" + UUID.randomUUID().toString().substring(0,7);
   }
 
   private void uploadFileToS3bucket(String fileName, File file) {
