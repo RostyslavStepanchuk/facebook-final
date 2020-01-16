@@ -53,18 +53,18 @@ const ProfileCover = ({ user }) => {
         textColor='primary'
         aria-label='icon label tabs'
         className={classes.submenu}>
-        <Tab className={classes.submenuItem} label='Profile' value='profile' /> {/* icon={<AccountCircleIcon />} */}
-        <Tab className={classes.submenuItem} label='About' value='about' /> {/* icon={<PersonIcon />} */}
-        <Tab className={classes.submenuItem} label='Friends' value='friends' /> {/* icon={<SupervisorAccountIcon />} */}
-        <Tab className={classes.submenuItem} label='Photos' value='photos' /> {/* icon={<PhotoCameraIcon />} */}
-        <Tab className={classes.submenuItem} label='Messages' value='messages' /> {/* icon={<EmailIcon />} */}
+        <Tab className={classes.submenuItem} label='Profile' value='profile' />
+        <Tab className={classes.submenuItem} label='About' value='about' />
+        <Tab className={classes.submenuItem} label='Friends' value='friends' />
+        <Tab className={classes.submenuItem} label='Photos' value='photos' />
+        <Tab className={classes.submenuItem} label='Messages' value='messages' />
       </Tabs>
     </Fragment>
   )
 }
 
 ProfileCover.propTypes = {
-  user: PropTypes.object
+  user: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({

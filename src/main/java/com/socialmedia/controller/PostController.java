@@ -1,10 +1,12 @@
 package com.socialmedia.controller;
 
+import com.socialmedia.dto.comment.CommentDtoIn;
 import com.socialmedia.dto.post.PostDtoIn;
 import com.socialmedia.dto.post.PostDtoOut;
 import com.socialmedia.mapper.PostMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -67,6 +69,7 @@ public class PostController {
     return ResponseEntity.ok(postDtoOut);
   }
 
+  @Transactional
   @DeleteMapping("/{id}")
   public ResponseEntity<PostDtoOut> delete(@PathVariable Long id) {
     PostDtoOut postDtoOut = postMapper.delete(id);
@@ -74,7 +77,19 @@ public class PostController {
   }
 
   @PutMapping("/{postId}/like")
-  public void updateLikes(@PathVariable Long postId) {
-    postMapper.updateLikes(postId);
+  public ResponseEntity<PostDtoOut> updateLikes(@PathVariable Long postId) {
+    return ResponseEntity.ok(postMapper.updateLikes(postId));
+  }
+
+  @PostMapping("/{postId}/comment")
+  public ResponseEntity<PostDtoOut> createComment(@PathVariable Long postId,
+                                                           @RequestBody CommentDtoIn commentDtoIn) {
+    return ResponseEntity.ok(postMapper.createComment(postId, commentDtoIn));
+  }
+
+  @DeleteMapping("/{postId}/comment/{commentId}")
+  public ResponseEntity<PostDtoOut> deleteComment(@PathVariable Long postId,
+                                                  @PathVariable Long commentId) {
+    return ResponseEntity.ok(postMapper.deleteComment(postId, commentId));
   }
 }
