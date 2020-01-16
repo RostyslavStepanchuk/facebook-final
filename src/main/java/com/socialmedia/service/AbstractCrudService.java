@@ -55,7 +55,7 @@ public abstract class AbstractCrudService<E extends DbEntity<T>, T, R extends Jp
       beanUtilsBean.copyProperties(existingEntity, incomingEntity);
       return jpaRepository.save(existingEntity);
     } catch (ReflectiveOperationException reflectionException) {
-      throw new RuntimeException(reflectionException.getMessage());
+      throw new ClassCastException(reflectionException.getMessage());
     }
   }
 

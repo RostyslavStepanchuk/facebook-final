@@ -34,6 +34,7 @@ import static com.socialmedia.controller.util.TestConstants.USER_PROFILE_COVER_U
 import static com.socialmedia.controller.util.TestConstants.USER_USERNAME;
 import static org.hamcrest.Matchers.comparesEqualTo;
 import static org.hamcrest.collection.IsIterableWithSize.iterableWithSize;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -168,7 +169,7 @@ public class ApplicationUserControllerTest {
 
       Image image = new Image();
       image.setId(1L);
-      when(imageService.delete(1L)).thenReturn(image);
+      when(imageService.deleteFileFromS3Bucket(anyString())).thenReturn(true);
         mockMvc.perform(delete(URL_USERS_BASIC))
             .andExpect(status().isOk());
     }

@@ -54,20 +54,8 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
 
   @Override
   public ApplicationUser update(ApplicationUser user, ApplicationUser incomingEntity) {
-
-    List<Image> toDelete = new ArrayList<>();
-
-    if (user.getAvatar() != null && !user.getAvatar().sameEntity(incomingEntity.getAvatar())) {
-      toDelete.add(user.getAvatar());
-    }
-
-    if (user.getProfileCover() != null && !user.getProfileCover().sameEntity(incomingEntity.getProfileCover())) {
-      toDelete.add(user.getProfileCover());
-    }
-
     try {
       beanUtilsBean.copyProperties(user, incomingEntity);
-      toDelete.forEach(img -> imageService.delete(img.getId()));
       return jpaRepository.save(user);
     } catch (ReflectiveOperationException reflectionException) {
       throw new RuntimeException(reflectionException.getMessage());
