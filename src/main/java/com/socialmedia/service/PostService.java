@@ -1,8 +1,8 @@
 package com.socialmedia.service;
 
-import com.socialmedia.exception.NoDataFoundException;
 import com.socialmedia.model.ApplicationUser;
 import com.socialmedia.model.Comment;
+import com.socialmedia.model.Image;
 import com.socialmedia.model.Post;
 import com.socialmedia.repository.PostRepository;
 import com.socialmedia.util.SmartCopyBeanUtilsBean;
@@ -13,25 +13,30 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
-
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public final class PostService extends AbstractCrudService<Post, Long, PostRepository> {
 
   private UserService userService;
+  private AmazonService imageService;
 
   @Autowired
-  public PostService(PostRepository jpaRepository, SmartCopyBeanUtilsBean beanUtilsBean, @Lazy UserService userService) {
+  public PostService(PostRepository jpaRepository,
+                     SmartCopyBeanUtilsBean beanUtilsBean,
+                     @Lazy UserService userService,
+                     AmazonService imageService) {
     super(jpaRepository, beanUtilsBean);
     this.userService = userService;
+    this.imageService = imageService;
   }
 
   @Override
   public Post create(Post entity) {
+    Image postImage = imageService.getById(entity.getImage().getId());
+    entity.setImage(postImage);
     entity.setDate(System.currentTimeMillis());
     return super.create(entity);
   }
@@ -39,17 +44,27 @@ public final class PostService extends AbstractCrudService<Post, Long, PostRepos
   @Override
   public Post delete(Long id) {
     Principal principal = SecurityContextHolder.getContext().getAuthentication();
-    Optional<Post> existingEntity = jpaRepository.findById(id);
-    Post post = existingEntity.orElseThrow(() -> new NoDataFoundException("Post wasn't found"));
+    Post post = getById(id);
 
     final boolean hasCredentialsToDelete = principal.getName().equals(post.getAuthor().getUsername())
         || principal.getName().equals(post.getOwner().getUsername());
 
     if (hasCredentialsToDelete) {
+      Image image = post.getImage();
+      post.setImage(null);
+      imageService.delete(image.getId());
       return super.delete(id);
     } else {
       throw new BadCredentialsException("You can only delete your own posts");
     }
+  }
+
+  @Override
+  public Post update(Post existingEntity, Post incomingEntity) {
+    if (existingEntity.getImage() != null && existingEntity.getImage().sameEntity(incomingEntity.getImage())) {
+      imageService.delete(existingEntity.getImage().getId());
+    }
+    return super.update(existingEntity, incomingEntity);
   }
 
   public List<Post> findAllUsersPosts() {

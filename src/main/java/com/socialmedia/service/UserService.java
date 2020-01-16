@@ -3,6 +3,7 @@ package com.socialmedia.service;
 import com.socialmedia.dto.security.Token;
 import com.socialmedia.exception.NoDataFoundException;
 import com.socialmedia.model.ApplicationUser;
+import com.socialmedia.model.Image;
 import com.socialmedia.model.TokensData;
 import com.socialmedia.repository.UserRepository;
 import com.socialmedia.util.EmailHandler;
@@ -13,9 +14,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -29,6 +30,7 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
   private FriendRequestService friendRequestService;
   private PostService postService;
   private EmailHandler emailHandler;
+  private AmazonService imageService;
 
 
   @Autowired
@@ -39,7 +41,7 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
                      ChatService chatService,
                      FriendRequestService friendRequestService,
                      PostService postService,
-                     EmailHandler emailHandler) {
+                     EmailHandler emailHandler, AmazonService imageService) {
     super(jpaRepository, beanUtilBean);
     this.bcryptPasswordEncoder = bcryptPasswordEncoder;
     this.authenticationService = authenticationService;
@@ -47,27 +49,17 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
     this.friendRequestService = friendRequestService;
     this.postService = postService;
     this.emailHandler = emailHandler;
+    this.imageService = imageService;
   }
 
   @Override
-  public ApplicationUser update(String username, ApplicationUser incomingEntity) {
-
-    Optional<ApplicationUser> existingEntity = jpaRepository.findById(username);
-
-    existingEntity.ifPresent(user -> {
-      try {
-        beanUtilsBean.copyProperties(user, incomingEntity);
-        jpaRepository.save(user);
-        if (!username.equals(incomingEntity.getUsername())) {
-          // if user changed username entity with old username should be removed
-          jpaRepository.deleteById(incomingEntity.getUsername());
-        }
-      } catch (ReflectiveOperationException reflectionException) {
-        throw new RuntimeException(reflectionException.getMessage());
-      }
-    });
-
-    return resolvedOptional(existingEntity, username);
+  public ApplicationUser update(ApplicationUser user, ApplicationUser incomingEntity) {
+    try {
+      beanUtilsBean.copyProperties(user, incomingEntity);
+      return jpaRepository.save(user);
+    } catch (ReflectiveOperationException reflectionException) {
+      throw new RuntimeException(reflectionException.getMessage());
+    }
   }
 
   @Override
@@ -106,7 +98,7 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
   @Override
   @Transactional
   public ApplicationUser delete(String id) {
-    ApplicationUser deletedUser = resolvedOptional(jpaRepository.findById(id), id);
+    ApplicationUser deletedUser = getById(id);
 
     deletedUser.getFriends().forEach(friend -> removeFriend(friend, id));
     deletedUser.getChats().forEach(chat-> chatService.removeParticipant(chat, id));

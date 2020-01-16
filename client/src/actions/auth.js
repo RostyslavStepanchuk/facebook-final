@@ -138,3 +138,14 @@ export const confirmEmail = token => dispatch => {
       type: STOP_LOADING
     }))
 }
+
+export const updateProfile = dataForm => dispatch => {
+  return apiRequest.put('/users', dataForm)
+    .then(data => {
+      console.log('userUpdateResponded')
+      dispatch({
+        type: USER_LOADED,
+        payload: data
+      })
+    })
+}
