@@ -3,6 +3,8 @@ package com.socialmedia.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.JsonPath;
 import com.socialmedia.dto.user.UserRegistrationDtoIn;
+import com.socialmedia.model.Image;
+import com.socialmedia.service.AmazonService;
 import com.socialmedia.util.EmailHandler;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,7 +21,6 @@ import static com.socialmedia.controller.util.TestConstants.CONTENT_TYPE_JSON;
 import static com.socialmedia.controller.util.TestConstants.URL_CONFIRM_EMAIL;
 import static com.socialmedia.controller.util.TestConstants.URL_GET_CURRENT_USER;
 import static com.socialmedia.controller.util.TestConstants.URL_USERS_BASIC;
-import static com.socialmedia.controller.util.TestConstants.USER2_USERNAME;
 import static com.socialmedia.controller.util.TestConstants.USER3_USERNAME;
 import static com.socialmedia.controller.util.TestConstants.USER_AVATAR_URL;
 import static com.socialmedia.controller.util.TestConstants.USER_BIRTH_DATE;
@@ -33,6 +34,7 @@ import static com.socialmedia.controller.util.TestConstants.USER_PROFILE_COVER_U
 import static com.socialmedia.controller.util.TestConstants.USER_USERNAME;
 import static org.hamcrest.Matchers.comparesEqualTo;
 import static org.hamcrest.collection.IsIterableWithSize.iterableWithSize;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -53,6 +55,9 @@ public class ApplicationUserControllerTest {
 
     @MockBean
     private EmailHandler emailHandler;
+
+    @MockBean
+    private AmazonService imageService;
 
     @Test
     public void getCurrentUserShouldBlockRequestWithoutAuthentication() throws Exception{
@@ -139,22 +144,6 @@ public class ApplicationUserControllerTest {
     }
 
     @Test
-    @WithMockUser(username = USER_USERNAME)
-    public void updateUserShouldNotAllowToUpdatedOtherUsersExceptAuthenticated() throws Exception {
-        String newLastName = "Wane";
-        UserRegistrationDtoIn userRegistrationDtoIn = new UserRegistrationDtoIn();
-        userRegistrationDtoIn.setLastName(newLastName);
-        userRegistrationDtoIn.setUsername(USER2_USERNAME);
-
-        RequestBuilder requestBuilder = put(URL_USERS_BASIC)
-            .content(mapper.writeValueAsString(userRegistrationDtoIn))
-            .contentType(CONTENT_TYPE_JSON);
-
-        mockMvc.perform(requestBuilder)
-            .andExpect(status().isConflict());
-    }
-
-    @Test
     public void updateUserShouldNotAllowUpdateNonAuthenticatedUser() throws Exception {
         UserRegistrationDtoIn userRegistrationDtoIn = new UserRegistrationDtoIn();
 
@@ -177,6 +166,9 @@ public class ApplicationUserControllerTest {
     @WithMockUser(username = USER3_USERNAME)
     public void deleteUserShouldDeleteAuthenticatedUser() throws Exception {
 
+      Image image = new Image();
+      image.setId(1L);
+      when(imageService.delete(1L)).thenReturn(image);
         mockMvc.perform(delete(URL_USERS_BASIC))
             .andExpect(status().isOk());
     }

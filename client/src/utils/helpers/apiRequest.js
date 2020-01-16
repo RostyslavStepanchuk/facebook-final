@@ -7,7 +7,7 @@ const METHOD_GET = 'get'
 const METHOD_POST = 'post'
 const METHOD_PUT = 'put'
 const METHOD_DELETE = 'delete'
-const API_BASE_URL = 'api/v1'
+const API_BASE_URL = '/api/v1'
 
 const setAuthToken = token => {
   if (token) {
@@ -26,9 +26,7 @@ const tokenIsValid = () => {
 
 const handleRequestError = error => {
   if (error.response) {
-    if (error.response.status > 403) {
       Toastr.error('Error occurred during request to sever: ' + error.response.statusText)
-    }
     return error.response
   } else if (error.request) {
     Toastr.error('Application is not responding, check your network connection')

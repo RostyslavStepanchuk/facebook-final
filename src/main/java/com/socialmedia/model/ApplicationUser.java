@@ -49,11 +49,11 @@ public class ApplicationUser implements DbEntity<String> {
   @Column(name = "gender")
   private Gender gender;
 
-  @OneToOne(cascade = CascadeType.ALL)
+  @OneToOne
   @JoinColumn(name = "fk_avatar_img_id")
   private Image avatar;
 
-  @OneToOne(cascade = CascadeType.ALL)
+  @OneToOne
   @JoinColumn(name = "fk_cover_img_id")
   private Image profileCover;
 
