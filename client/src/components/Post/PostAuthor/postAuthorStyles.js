@@ -24,6 +24,9 @@ const useStyles = makeStyles(() => ({
     margin: 0,
     textAlign: 'left',
     lineHeight: '16px'
+  },
+  btnDelete: {
+    margin: '0 0 0 auto'
   }
 }))
 

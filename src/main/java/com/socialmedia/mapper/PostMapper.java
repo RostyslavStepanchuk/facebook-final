@@ -1,8 +1,10 @@
 package com.socialmedia.mapper;
 
+import com.socialmedia.dto.comment.CommentDtoIn;
 import com.socialmedia.dto.post.PostDtoIn;
 import com.socialmedia.dto.post.PostDtoOut;
 import com.socialmedia.model.ApplicationUser;
+import com.socialmedia.model.Comment;
 import com.socialmedia.model.Post;
 import com.socialmedia.service.PostService;
 import org.modelmapper.ModelMapper;
@@ -82,7 +84,16 @@ public class PostMapper extends AbstractControllerToCrudServiceMapper<Post,Long,
         .collect(Collectors.toList());
   }
 
-  public void updateLikes(Long postId) {
-    crudService.updateLikes(postId);
+  public PostDtoOut updateLikes(Long postId) {
+    return responseDtoOf(crudService.updateLikes(postId));
+  }
+
+  public PostDtoOut createComment(Long postId, CommentDtoIn commentDtoIn) {
+    Comment comment = modelMapper.map(commentDtoIn, Comment.class);
+    return responseDtoOf(crudService.createComment(postId, comment));
+  }
+
+  public PostDtoOut deleteComment(Long postId, Long commentId) {
+    return responseDtoOf(crudService.deleteComment(postId, commentId));
   }
 }

@@ -9,38 +9,24 @@ import IconButton from '@material-ui/core/IconButton'
 
 import { updateLikes } from '../../../actions/post'
 
-const PostLikePanel = ({ id, likes, comments, user }) => {
+const PostLikePanel = ({ postId, likes, comments, user, updateLikes, focusForCreatingComment }) => {
   const classes = useStyles()
 
-  const [count, setCount] = useState(likes.length)
   const [postIsLiked, setPostIsLiked] = useState(false)
 
-  const username = user.username
-
   useEffect(
-    () => setPostIsLiked(likes.some(like => like.username === username)),
-    [likes, username]
+    () => setPostIsLiked(likes.some(like => like.username === user.username)),
+    [likes, user.username]
   )
-
-  const changeLike = () => {
-    if (postIsLiked) {
-      setPostIsLiked(false)
-      setCount(count - 1)
-    } else {
-      setPostIsLiked(true)
-      setCount(count + 1)
-    }
-    updateLikes(id)
-  }
 
   return (
     <Fragment>
       <div className={classes.panel}>
-        <IconButton aria-label='like' onClick={changeLike}>
+        <IconButton onClick={() => updateLikes(postId)} aria-label='like' >
           { postIsLiked ? <FavoriteIcon color='secondary' /> : <FavoriteBorderIcon /> }
         </IconButton>
-        {count}
-        <IconButton aria-label='comments'>
+        {likes.length}
+        <IconButton onClick={focusForCreatingComment} aria-label='comments' >
           <ChatBubbleOutlineIcon />
         </IconButton>
         {comments.length}
@@ -50,14 +36,16 @@ const PostLikePanel = ({ id, likes, comments, user }) => {
 }
 
 PostLikePanel.propTypes = {
-  id: PropTypes.number,
-  likes: PropTypes.array,
-  comments: PropTypes.array,
-  user: PropTypes.object
+  postId: PropTypes.number.isRequired,
+  likes: PropTypes.array.isRequired,
+  comments: PropTypes.array.isRequired,
+  user: PropTypes.object.isRequired,
+  updateLikes: PropTypes.func.isRequired,
+  focusForCreatingComment: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
   user: state.auth.user
 })
 
-export default connect(mapStateToProps, null)(PostLikePanel)
+export default connect(mapStateToProps, { updateLikes })(PostLikePanel)

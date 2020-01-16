@@ -1,6 +1,7 @@
 package com.socialmedia.service;
 
 import com.socialmedia.model.ApplicationUser;
+import com.socialmedia.model.Comment;
 import com.socialmedia.model.Image;
 import com.socialmedia.model.Post;
 import com.socialmedia.repository.PostRepository;
@@ -89,7 +90,7 @@ public final class PostService extends AbstractCrudService<Post, Long, PostRepos
         .collect(Collectors.toList());
   }
 
-  public void updateLikes(Long postId) {
+  public Post updateLikes(Long postId) {
     Principal principal = SecurityContextHolder.getContext().getAuthentication();
     ApplicationUser author = userService.getById(principal.getName());
 
@@ -108,6 +109,39 @@ public final class PostService extends AbstractCrudService<Post, Long, PostRepos
       likes.add(author);
       post.setLikes(likes);
     }
-    update(postId, post);
+    return jpaRepository.save(post);
+  }
+
+  public Post createComment(Long postId, Comment comment) {
+    Principal principal = SecurityContextHolder.getContext().getAuthentication();
+    ApplicationUser author = userService.getById(principal.getName());
+    Post post = getById(postId);
+    comment.setDate(System.currentTimeMillis());
+    comment.setAuthor(author);
+    comment.setPost(post);
+
+    List<Comment> comments = post.getComments();
+    comments.add(comment);
+
+    return jpaRepository.save(post);
+  }
+
+  public Post deleteComment(Long postId, Long commentId) {
+    Principal principal = SecurityContextHolder.getContext().getAuthentication();
+    Post post = getById(postId);
+    List<Comment> comments = post.getComments();
+    Comment comment = comments.stream().filter(item -> item.getId().equals(commentId)).findFirst().get();
+
+    final boolean hasCredentialsToDelete = principal.getName().equals(post.getAuthor().getUsername())
+            || principal.getName().equals(post.getOwner().getUsername())
+            || principal.getName().equals(comment.getAuthor().getUsername());
+
+    if (hasCredentialsToDelete) {
+      comments.stream().filter(item -> item.getId().equals(commentId)).findAny().ifPresent(comments::remove);
+      post.setComments(comments);
+      return jpaRepository.save(post);
+    } else {
+      throw new BadCredentialsException("You can only delete your own comments");
+    }
   }
 }

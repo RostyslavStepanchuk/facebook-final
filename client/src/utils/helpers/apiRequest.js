@@ -26,7 +26,7 @@ const tokenIsValid = () => {
 
 const handleRequestError = error => {
   if (error.response) {
-      Toastr.error('Error occurred during request to sever: ' + error.response.statusText)
+    Toastr.error('Error occurred during request to sever: ' + error.response.statusText)
     return error.response
   } else if (error.request) {
     Toastr.error('Application is not responding, check your network connection')
