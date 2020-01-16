@@ -3,6 +3,7 @@ package com.socialmedia.util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -19,6 +20,7 @@ public class EmailHandler {
     this.emailSender = emailSender;
   }
 
+  @Async
   public void sendEmailConfirmationLetter(
       String to, String token) {
     SimpleMailMessage message = new SimpleMailMessage();
