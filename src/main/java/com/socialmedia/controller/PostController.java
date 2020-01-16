@@ -1,7 +1,6 @@
 package com.socialmedia.controller;
 
 import com.socialmedia.dto.comment.CommentDtoIn;
-import com.socialmedia.dto.comment.CommentDtoOut;
 import com.socialmedia.dto.post.PostDtoIn;
 import com.socialmedia.dto.post.PostDtoOut;
 import com.socialmedia.mapper.PostMapper;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController

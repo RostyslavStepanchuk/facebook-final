@@ -1,7 +1,6 @@
 package com.socialmedia.mapper;
 
 import com.socialmedia.dto.comment.CommentDtoIn;
-import com.socialmedia.dto.comment.CommentDtoOut;
 import com.socialmedia.dto.post.PostDtoIn;
 import com.socialmedia.dto.post.PostDtoOut;
 import com.socialmedia.model.ApplicationUser;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Component;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Component
