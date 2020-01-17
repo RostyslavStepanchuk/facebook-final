@@ -20,8 +20,8 @@ const PostFeed = ({ loadPostsHomePage, loadPostsProfile, loading, origin, posts 
     }
   }, [origin, loadPostsHomePage, loadPostsProfile])
 
-  const postComponents = posts.length > 0 ?
-    posts.map(post => <Post post={post} key={post.id} />)
+  const postComponents = posts.length > 0
+    ? posts.map(post => <Post post={post} key={post.id} />)
     : <Typography>Your posts and posts of your friends will be displayed here</Typography>
   const content = loading ? <Preloader /> : postComponents
 

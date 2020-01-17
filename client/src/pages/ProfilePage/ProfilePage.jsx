@@ -35,7 +35,7 @@ const ProfilePage = () => {
           <Paper className={classes.paper}>
             <CreatePost />
           </Paper>
-            <PostFeed origin='profile' />
+          <PostFeed origin='profile' />
         </Grid>
       </Grid>
     </div>
