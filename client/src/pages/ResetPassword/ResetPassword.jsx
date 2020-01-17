@@ -54,7 +54,7 @@ const ResetPassword = ({ isAuthenticated, resetPassword, resetEmailSend }) => {
   }
 
   return (
-    <Container component='main' maxWidth='xs' style={{ height: '80vh' }}>
+    <Container component='main' maxWidth='xs' className={classes.container}>
       <CssBaseline />
       <Paper className={classes.paper}>
         <Avatar className={classes.avatar}>

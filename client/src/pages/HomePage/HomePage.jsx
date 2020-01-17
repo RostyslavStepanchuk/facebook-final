@@ -1,15 +1,16 @@
+import React, { Fragment } from 'react'
+
 import { Container, Grid } from '@material-ui/core'
 import useStyles from './homePageStyles'
 
 import CreatePost from '../../components/CreatePost/CreatePost'
 import PostFeed from '../../components/PostFeed/PostFeed'
-import React from 'react'
 
 const HomePage = () => {
   const classes = useStyles()
 
   return (
-    <div className={classes.background}>
+    <Fragment>
       <Container className={classes.container} maxWidth='lg'>
         <Grid container spacing={2}>
           <Grid item md={2}>
@@ -24,7 +25,7 @@ const HomePage = () => {
           </Grid>
         </Grid>
       </Container>
-    </div>
+    </Fragment>
   )
 }
 
