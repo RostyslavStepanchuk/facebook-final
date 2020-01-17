@@ -1,5 +1,13 @@
 /* global FormData */
-import { POSTS_END_LOADING, POSTS_RECEIVED, POSTS_START_LOADING } from '../utils/constants/actionsName'
+import {
+  COMMENT_ADDED,
+  COMMENT_REMOVED,
+  LIKES_UPDATED,
+  POST_DELETED,
+  POSTS_END_LOADING,
+  POSTS_RECEIVED,
+  POSTS_START_LOADING
+} from '../utils/constants/actionsName'
 import apiRequest from '../utils/helpers/apiRequest'
 
 export const uploadSingleImage = image => {
@@ -72,7 +80,55 @@ export const getPostsForProfile = () => async dispatch => {
   }
 }
 
-// updateLikes
-export const updateLikes = (postId) => {
-  apiRequest.put('/posts/' + postId + '/like')
+export const deletePost = (postId) => async dispatch => {
+  try {
+    const post = await apiRequest.delete('/posts/' + postId)
+    dispatch({
+      type: POST_DELETED,
+      payload: { postId, post }
+    })
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+export const updateLikes = (postId) => async dispatch => {
+  try {
+    const post = await apiRequest.put('/posts/' + postId + '/like')
+    dispatch({
+      type: LIKES_UPDATED,
+      payload: { postId, post }
+    })
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+export const createComment = (postId, comment) => async dispatch => {
+  const body = {
+    message: comment
+  }
+
+  try {
+    const post = await apiRequest.post('/posts/' + postId + '/comment', body)
+    dispatch({
+      type: COMMENT_ADDED,
+      payload: { postId, post }
+    })
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+export const deleteComment = (postId, commentId) => async dispatch => {
+  try {
+    const post = await apiRequest.delete('/posts/' + postId + '/comment/' + commentId)
+    console.log(postId)
+    dispatch({
+      type: COMMENT_REMOVED,
+      payload: { postId, post }
+    })
+  } catch (e) {
+    console.log(e)
+  }
 }
