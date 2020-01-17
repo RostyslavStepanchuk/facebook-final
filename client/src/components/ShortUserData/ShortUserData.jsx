@@ -1,11 +1,35 @@
-import React, { Fragment } from 'react'
+import React from 'react'
+import useStyles from './shortUserDataStyles'
+import { connect } from 'react-redux'
+import Typography from '@material-ui/core/Typography'
+import getDate from '../../utils/date/getDate'
+import PropTypes from 'prop-types'
 
-const ShortUserData = () => {
+const ShortUserData = ({ user }) => {
+  const classes = useStyles()
+
+  const { email, birthDate, gender } = user
+
   return (
-    <Fragment>
-      ShortUserData
-    </Fragment>
+    <div className={classes.container}>
+      <Typography className={classes.header}  variant='subtitle1' component='div'>
+        Short data
+      </Typography>
+      <div className={classes.textContainer}>
+        <p><span className={classes.textSpan}>Gender:</span> {gender}</p>
+        <p><span className={classes.textSpan}>Email:</span> {email}</p>
+        <p><span className={classes.textSpan}>Birthday:</span> {getDate(birthDate)}</p>
+      </div>
+    </div>
   )
 }
 
-export default ShortUserData
+ShortUserData.propTypes = {
+  user: PropTypes.object.isRequired,
+}
+
+const mapStateToProps = state => ({
+  user: state.auth.user,
+})
+
+export default connect(mapStateToProps, null)(ShortUserData)

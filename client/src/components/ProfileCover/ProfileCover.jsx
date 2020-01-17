@@ -7,16 +7,11 @@ import PropTypes from 'prop-types'
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined'
 import UpdateProfile from '../UpdateProfile/UpdateProfile'
 
-const ProfileCover = ({ user }) => {
+const ProfileCover = ({ user, profileTab, handleChangeTab }) => {
   const { avatar, firstName, lastName, profileCover } = user
-  const classes = useStyles({profileCover: profileCover.src})
+  const classes = useStyles({ profileCover: profileCover.src })
 
-  const [value, setValue] = useState('profile')
   const [ modalOpen, setModalOpen ] = useState(false)
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue)
-  }
 
   const handleModal = () => {
     setModalOpen(!modalOpen)
@@ -24,6 +19,7 @@ const ProfileCover = ({ user }) => {
 
   return (
     <Fragment>
+      <div className={classes.container}>
       <div className={classes.avatarBg}>
         <Avatar className={classes.avatarImg} src={avatar.src} />
         <p className={classes.avatarName}>{firstName} {lastName}</p>
@@ -47,24 +43,34 @@ const ProfileCover = ({ user }) => {
           </Container>
         </Modal>
       </div>
-      <Tabs value={value}
-        onChange={handleChange}
+      <Tabs value={profileTab}
+        onChange={handleChangeTab}
         indicatorColor='primary'
         textColor='primary'
         aria-label='icon label tabs'
         className={classes.submenu}>
-        <Tab className={classes.submenuItem} label='Profile' value='profile' />
-        <Tab className={classes.submenuItem} label='About' value='about' />
-        <Tab className={classes.submenuItem} label='Friends' value='friends' />
-        <Tab className={classes.submenuItem} label='Photos' value='photos' />
-        <Tab className={classes.submenuItem} label='Messages' value='messages' />
+        <Tab className={classes.submenuItem}
+             label='Your story '
+             value='your story' />
+        <Tab className={classes.submenuItem}
+             label='Friend requests'
+             value='friend requests' />
+        <Tab className={classes.submenuItem}
+             label='Friends'
+             value='friends' />
+        <Tab className={classes.submenuItem}
+             label='Messages'
+             value='messages' />
       </Tabs>
+      </div>
     </Fragment>
   )
 }
 
 ProfileCover.propTypes = {
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  profileTab: PropTypes.string.isRequired,
+  handleChangeTab: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
