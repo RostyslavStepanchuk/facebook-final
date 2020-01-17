@@ -24,6 +24,7 @@ import java.util.Collections;
 import java.util.UUID;
 
 import static com.socialmedia.security.SecurityConstants.ACCESS_TOKEN_MAX_AGE;
+import static com.socialmedia.security.SecurityConstants.FORGOT_PASSWORD_TOKEN_MAX_AGE;
 import static com.socialmedia.security.SecurityConstants.HEADER_STRING;
 import static com.socialmedia.security.SecurityConstants.REFRESH_TOKEN_MAX_AGE;
 
@@ -103,7 +104,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     TokensData tokensData = user.getTokensData();
     tokensData.setRefreshToken(refreshToken);
     tokensData.setRefreshTokenValidTill(System.currentTimeMillis() + REFRESH_TOKEN_MAX_AGE);
-    userService.update(user.getUsername(), user);
+    userService.update(user);
     return refreshToken;
   }
 
@@ -112,6 +113,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     ApplicationUser user = userService.getById(username);
     user.getTokensData().setRefreshTokenValidTill(0L);
     user.getTokensData().setRefreshToken(null);
+    userService.update(user);
+  }
+
+  @Override
+  public String generateForgotPasswordToken(ApplicationUser user) {
+    TokensData tokensData = user.getTokensData();
+    tokensData.setForgotPasswordToken(UUID.randomUUID().toString());
+    tokensData.setForgotPasswordTokenValidTill(System.currentTimeMillis() + FORGOT_PASSWORD_TOKEN_MAX_AGE);
+    userService.update(user);
+    return user.getTokensData().getForgotPasswordToken();
   }
 
   private Token generateAccessToken(String subject) {

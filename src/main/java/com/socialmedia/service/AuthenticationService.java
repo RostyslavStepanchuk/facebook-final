@@ -2,6 +2,7 @@ package com.socialmedia.service;
 
 import com.socialmedia.dto.security.Token;
 import com.socialmedia.dto.security.UserCredentials;
+import com.socialmedia.model.ApplicationUser;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
@@ -21,4 +22,6 @@ public interface AuthenticationService {
   String generateRefreshToken(String username);
 
   void logOut(String username);
+
+  String generateForgotPasswordToken(ApplicationUser user);
 }

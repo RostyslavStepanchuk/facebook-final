@@ -45,6 +45,10 @@ public abstract class AbstractCrudService<E extends DbEntity<T>, T, R extends Jp
     return jpaRepository.findAll();
   }
 
+  public E update(E existingEnity) {
+    return jpaRepository.save(existingEnity);
+  }
+
   public E update(T id, E incomingEntity) {
     E existingEntity = getById(id);
     return update(existingEntity, incomingEntity);
@@ -60,7 +64,7 @@ public abstract class AbstractCrudService<E extends DbEntity<T>, T, R extends Jp
   }
 
 
-  protected E resolvedOptional(Optional<E> entity, T id) {
+  private E resolvedOptional(Optional<E> entity, T id) {
     return entity.orElseThrow(()->new NoDataFoundException(String.format("Entity with id %s wasn't found", id)));
   }
 
