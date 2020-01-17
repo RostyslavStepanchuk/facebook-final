@@ -11,6 +11,7 @@ import Login from './pages/Login/Login'
 import Toastr from './components/Toastr/Toastr'
 import EmailConfirmedPage from './pages/EmailConfirmed/EmailConfirmedPage'
 import ProtectedRouter from './components/ProtectedRouter/ProtectedRouter'
+import Background from './components/Background/Background'
 
 function App () {
   return (
@@ -18,14 +19,16 @@ function App () {
       <Toastr />
       <Router>
         <Navbar />
-        <Switch>
-          <Route exact path='/register' component={Register} />
-          <Route exact path='/login' component={Login} />
-          <Route exact path='/email/confirm/:token' component={EmailConfirmedPage} />
-          <Route exact path='/password_reset' component={ResetPassword} />
-          <Route exact path='/access_denied' component={EmailNeedsConfirmationPage} />
-          <Route path='/' component={ProtectedRouter} />
-        </Switch>
+        <Background>
+          <Switch>
+            <Route exact path='/register' component={Register} />
+            <Route exact path='/login' component={Login} />
+            <Route exact path='/email/confirm/:token' component={EmailConfirmedPage} />
+            <Route exact path='/password_reset' component={ResetPassword} />
+            <Route exact path='/access_denied' component={EmailNeedsConfirmationPage} />
+            <Route path='/' component={ProtectedRouter} />
+          </Switch>
+        </Background>
       </Router>
     </Provider>
   )
