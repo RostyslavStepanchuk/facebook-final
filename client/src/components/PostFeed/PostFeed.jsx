@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { getPostsForHomePage, getPostsForProfile } from '../../actions/post'
 import Post from '../Post/Post'
 import Preloader from '../Preloader/Preloader'
+import { Typography } from '@material-ui/core'
 
 const PostFeed = ({ loadPostsHomePage, loadPostsProfile, loading, origin, posts }) => {
   useEffect(() => {
@@ -19,7 +20,9 @@ const PostFeed = ({ loadPostsHomePage, loadPostsProfile, loading, origin, posts 
     }
   }, [origin, loadPostsHomePage, loadPostsProfile])
 
-  const postComponents = posts.map(post => <Post post={post} key={post.id} />)
+  const postComponents = posts.length > 0 ?
+    posts.map(post => <Post post={post} key={post.id} />)
+    : <Typography>Your posts and posts of your friends will be displayed here</Typography>
   const content = loading ? <Preloader /> : postComponents
 
   return (

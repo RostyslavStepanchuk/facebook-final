@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import ProfileCover from '../../components/ProfileCover/ProfileCover'
 import ShortUserData from '../../components/ShortUserData/ShortUserData'
 import UserPhotos from '../../components/UserPhotos/UserPhotos'
@@ -13,7 +13,7 @@ const ProfilePage = () => {
   const classes = useStyles()
 
   return (
-    <Fragment>
+    <div className={classes.background}>
       <Grid container className={classes.gridContainer}>
         <Grid item xs={10}>
           <Paper className={classes.paper}>
@@ -35,12 +35,10 @@ const ProfilePage = () => {
           <Paper className={classes.paper}>
             <CreatePost />
           </Paper>
-          <Paper className={classes.paper}>
             <PostFeed origin='profile' />
-          </Paper>
         </Grid>
       </Grid>
-    </Fragment>
+    </div>
   )
 }
 
