@@ -14,7 +14,7 @@ public class UserDtoOut {
   private String email;
   private String firstName;
   private String lastName;
-  private String birthDate;
+  private Long birthDate;
   private ImageDtoOut avatar;
   private ImageDtoOut profileCover;
   private Gender gender;

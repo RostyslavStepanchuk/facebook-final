@@ -25,7 +25,7 @@ const PostAuthor = ({ postId, author, owner, date, user, deletePost }) => {
   const classes = useStyles()
 
   const [showDeleteBtn, setShowDeleteBtn] = useState(false)
-  const [openDialog, setOpenDialog] = React.useState(false)
+  const [openDialog, setOpenDialog] = useState(false)
 
   useEffect(
     () => setShowDeleteBtn(author.username === user.username || owner.username === user.username),
