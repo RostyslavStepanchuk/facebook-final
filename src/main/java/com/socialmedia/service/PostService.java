@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class PostService extends AbstractCrudService<Post, Long, PostRepository> {
+public final class PostService extends AbstractCrudService<Post, Long, PostRepository> {
 
   private UserService userService;
   private AmazonService imageService;
