@@ -7,4 +7,3 @@ export const getDate = (dateMilliseconds) => {
 export const getDateForBirthday = (dateMilliseconds) => {
   return moment(dateMilliseconds).format('Do MMM YYYY')
 }
-
