@@ -9,15 +9,15 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import { deleteComment } from '../../../../actions/post'
 import { getDate } from '../../../../utils/date/getDate'
 
-const Comment = ({ postId, comment, user, deleteComment }) => {
+const Comment = ({ postId, owner, comment, user, deleteComment }) => {
   const classes = useStyles()
 
   const [showDeleteBtn, setShowDeleteBtn] = useState(false)
   const { id, author, message, date } = comment
 
   useEffect(
-    () => setShowDeleteBtn(author.username === user.username),
-    [author.username, user.username]
+    () => setShowDeleteBtn(author.username === user.username || owner.username === user.username),
+    [author.username, owner.username, user.username]
   )
 
   return (
@@ -39,6 +39,7 @@ Comment.propTypes = {
   postId: PropTypes.number.isRequired,
   comment: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
+  owner: PropTypes.object.isRequired,
   deleteComment: PropTypes.func.isRequired
 }
 
