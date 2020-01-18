@@ -8,7 +8,7 @@ import EditOutlinedIcon from '@material-ui/icons/EditOutlined'
 import UpdateProfile from '../UpdateProfile/UpdateProfile'
 
 const ProfileCover = ({ user, profileTab, handleChangeTab }) => {
-  const { avatar, firstName, lastName, profileCover } = user
+  const { avatar, firstName, lastName, profileCover, friends, incomingFriendRequests } = user
   const classes = useStyles({ profileCover: profileCover.src })
 
   const [ modalOpen, setModalOpen ] = useState(false)
@@ -53,10 +53,10 @@ const ProfileCover = ({ user, profileTab, handleChangeTab }) => {
             label='Your story '
             value='your story' />
           <Tab className={classes.submenuItem}
-            label='Friend requests'
+            label={'Friend requests: ' + incomingFriendRequests.length}
             value='friend requests' />
           <Tab className={classes.submenuItem}
-            label='Friends'
+            label={'Friends: ' + friends.length}
             value='friends' />
           <Tab className={classes.submenuItem}
             label='Messages'
