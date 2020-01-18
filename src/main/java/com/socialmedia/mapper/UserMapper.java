@@ -61,6 +61,14 @@ public final class UserMapper extends
   public String generateRefreshToken(String username) {
     return crudService.generateRefreshToken(username);
   }
+
+  public void sendChangePasswordLink(String email) {
+    crudService.sendChangePasswordLink(email);
+  }
+
+  public void setNewPassword(String forgotPasswordToken, String password) {
+    crudService.setNewPassword(forgotPasswordToken, password);
+  }
 }
 
 

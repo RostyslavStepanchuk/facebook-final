@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import { Redirect, Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { Avatar, Button, TextField, Grid, Typography, Container, CssBaseline } from '@material-ui/core'
+import { Avatar, Button, Container, CssBaseline, Grid, TextField, Typography } from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 
 import { login } from '../../actions/auth'
 import Preloader from '../../components/Preloader/Preloader'
 import usestyles from './loginStyles'
+import Paper from '@material-ui/core/Paper'
 
 const Login = ({ isAuthenticated, login, loading }) => {
   const classes = usestyles()
@@ -62,9 +63,9 @@ const Login = ({ isAuthenticated, login, loading }) => {
   }
 
   return loading ? <Preloader /> : (
-    <Container component='main' maxWidth='xs' style={{ height: '80vh' }}>
+    <Container component='main' maxWidth='xs' className={classes.container}>
       <CssBaseline />
-      <div className={classes.paper}>
+      <Paper className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
@@ -119,7 +120,7 @@ const Login = ({ isAuthenticated, login, loading }) => {
             </Grid>
           </Grid>
         </form>
-      </div>
+      </Paper>
     </Container>
   )
 }

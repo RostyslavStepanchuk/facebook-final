@@ -24,6 +24,8 @@ public class TokensData implements DbEntity<Long> {
   private Long refreshTokenValidTill;
   @Column(name = "forgot_password_tkn")
   private String forgotPasswordToken;
+  @Column(name = "forgot_password__tkn_valid_till")
+  private Long forgotPasswordTokenValidTill;
   @Column(name = "email_confirmation_id")
   private String emailConfirmationId;
   @Column(name = "email_is_confirmed")

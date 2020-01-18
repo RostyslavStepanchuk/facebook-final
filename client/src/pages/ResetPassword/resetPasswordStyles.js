@@ -1,16 +1,13 @@
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({
-  '@global': {
-    body: {
-      backgroundColor: theme.palette.common.white
-    }
+  container: {
+    paddingTop: theme.spacing(8)
   },
   header: {
     marginBottom: theme.spacing(5)
   },
   paper: {
-    marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -27,10 +24,9 @@ const useStyles = makeStyles(theme => ({
   submit: {
     margin: theme.spacing(1, 0, 2)
   },
-
-  link: {
-    textDecoration: 'none',
-    color: 'grey'
+  linkBtn: {
+    width: '100%',
+    textDecoration: 'none'
   },
   center: {
     textAlign: 'center'

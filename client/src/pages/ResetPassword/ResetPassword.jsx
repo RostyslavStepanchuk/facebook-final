@@ -8,6 +8,7 @@ import { Avatar, Button, Container, CssBaseline, Paper, TextField, Typography } 
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 
 import usestyles from './resetPasswordStyles'
+import { validateEmail } from '../../utils/helpers/inputValidators'
 
 const ResetPassword = ({ isAuthenticated, resetPassword, resetEmailSend }) => {
   const classes = usestyles()
@@ -23,38 +24,28 @@ const ResetPassword = ({ isAuthenticated, resetPassword, resetEmailSend }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
-  // todo: refractor needed
-  const validate = () => {
-    let isError = false
-
-    if (!email.match(/^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/)) {
-      isError = true
-      emailError = 'Provide valid emailAddress'
-    }
+  const validateInput = () => {
+    const emailError = validateEmail(email)
     setFormData({ ...formData, emailError })
-    console.log(emailError)
-
-    return isError
+    return emailError === ''
   }
 
   const onSubmit = async e => {
     e.preventDefault()
-    const err = validate()
+    const inputIsValid = validateInput()
 
-    if (!err) {
-      //   todo: implement reset password action
+    if (inputIsValid) {
       resetPassword(email)
     }
   }
 
-//   Redirect if loged in
-
+//   Redirect if logged in
   if (isAuthenticated) {
     return <Redirect to='/' />
   }
 
   return (
-    <Container component='main' maxWidth='xs' style={{ height: '80vh' }}>
+    <Container component='main' maxWidth='xs' className={classes.container}>
       <CssBaseline />
       <Paper className={classes.paper}>
         <Avatar className={classes.avatar}>
@@ -94,11 +85,11 @@ const ResetPassword = ({ isAuthenticated, resetPassword, resetEmailSend }) => {
             <Typography component='h2' variant='body2' className={classes.center}>
               Check your email for a link to reset your password. If it does not appear within a few minutes, check your spam folder.
             </Typography>
-            <Button fullWidth variant='contained' color='default' className={classes.submit}>
-              <Link to='/login' className={classes.link}>
+            <Link to='/login' className={classes.linkBtn}>
+              <Button fullWidth variant='contained' color='primary' className={classes.submit}>
                 Return to Log In
-              </Link>
             </Button>
+            </Link>
           </Fragment>
         )}
       </Paper>

@@ -53,7 +53,7 @@ public class AuthenticationController {
     return ResponseEntity.ok(token);
   }
 
-  @PostMapping("logout/{username}")
+  @PostMapping("/logout/{username}")
   public ResponseEntity<String> logOut(@PathVariable String username, HttpServletResponse resp) {
     authenticationMapper.logOut(username);
     cookieMgr.removeRefreshTokenCookie(resp);

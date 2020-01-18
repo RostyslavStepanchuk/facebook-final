@@ -1,6 +1,11 @@
 import { makeStyles } from '@material-ui/core/styles'
+import { BACKGROUND_COLOR } from '../../utils/constants/styleConstants'
 
 const useStyles = makeStyles(theme => ({
+  background: {
+    backgroundColor: BACKGROUND_COLOR,
+    minHeight: '100vh'
+  },
   gridContainer: {
     display: 'flex',
     justifyContent: 'center',
