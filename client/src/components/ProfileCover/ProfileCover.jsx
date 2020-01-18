@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { useState } from 'react'
 
 import { Avatar, Button, Container, Modal, Tab, Tabs } from '@material-ui/core'
 import useStyles from './profileCoverStyles'
@@ -9,8 +9,8 @@ import UpdateProfile from '../UpdateProfile/UpdateProfile'
 import { getAvatarLink, getProfileCoverLink } from '../../utils/helpers/imageLinkHelpers'
 
 const ProfileCover = ({ user, profileTab, handleChangeTab }) => {
-  const { avatar, firstName, lastName, profileCover, friends, incomingFriendRequests } = user
-  const classes = useStyles({profileCover: getProfileCoverLink(profileCover))
+  const { avatar, firstName, lastName, profileCover } = user
+  const classes = useStyles({profileCover: getProfileCoverLink(profileCover)})
 
   const [ modalOpen, setModalOpen ] = useState(false)
 
@@ -19,7 +19,6 @@ const ProfileCover = ({ user, profileTab, handleChangeTab }) => {
   }
 
   return (
-    <Fragment>
       <div className={classes.container}>
         <div className={classes.avatarBg}>
           <Avatar className={classes.avatarImg} src={getAvatarLink(avatar)} />
@@ -54,17 +53,17 @@ const ProfileCover = ({ user, profileTab, handleChangeTab }) => {
             label='Your story '
             value='your story' />
           <Tab className={classes.submenuItem}
-            label={'Friend requests: ' + incomingFriendRequests.length}
+            label={'Friend requests'}
             value='friend requests' />
           <Tab className={classes.submenuItem}
-            label={'Friends: ' + friends.length}
+            label={'Friends'}
             value='friends' />
           <Tab className={classes.submenuItem}
             label='Messages'
             value='messages' />
         </Tabs>
       </div>
-    </Fragment>
+
   )
 }
 

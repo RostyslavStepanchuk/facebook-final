@@ -4,46 +4,34 @@ import useStyles from './profileFieldStyles'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Preloader from '../Preloader/Preloader'
+import Tile from '../Tile/Tile'
 import { getUserPhotosFromPosts } from '../../actions/image'
+import { getAvatarLink } from '../../utils/helpers/imageLinkHelpers'
 
-const ProfileField = ({ user, fieldName, loadUserPhotos, userPhotos, loading }) => {
+const ProfileField = ({ user, fieldName,  loadUserPhotos, userPhotos, loading }) => {
   const classes = useStyles()
   const { friends } = user
 
   useEffect(() => {
-    switch (fieldName) {
-      case 'Photos':
-        loadUserPhotos()
-        break
-      case 'Friends':
-        break
-      default:
-        throw new Error('FieldName is not defined')
-    }
+    if (fieldName === 'Photos') loadUserPhotos()
   }, [fieldName, loadUserPhotos])
 
-  const fieldComponents = (components) => components.map((item, index) => {
-      if (index < 9) {
-        return (
-          <Grid item xs={4} key={index}>
-            <div className={classes.gridItem}>
-              { fieldName === "Photos" &&
-                <img src={item.src} className={classes.image} alt='UserPhoto'/>
-              }
-              { fieldName === "Friends" &&
-                <>
-                  <img src={item.avatar.src} className={classes.image} alt='Avatar'/>
-                  <p className={classes.userName}>{item.firstName} {item.lastName}</p>
-                </>
-              }
-            </div>
-          </Grid>
-        )
-      } else return '';
-    })
+  const fieldComponents = components => {
+    let listForRender = components.slice(0, 9)
+    switch (fieldName) {
+      case 'Photos': {
+        return listForRender.map( photo => <Tile imageSrc={photo.src} key={photo.id}/>)
+      }
+      case 'Friends': {
+        return listForRender.map( friend => <Tile imageSrc={getAvatarLink(friend.avatar)} title={friend.firstName + ' ' + friend.lastName} key={friend.avatar.id}/>)
+      }
+      default:
+    }
+  }
 
 
-  const content = (fieldName === "Friends") ? fieldComponents(friends)
+  const content = (fieldName === "Friends")
+    ? fieldComponents(friends)
     : (loading ? <Preloader /> : fieldComponents(userPhotos))
 
   return (

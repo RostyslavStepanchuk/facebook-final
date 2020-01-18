@@ -17,6 +17,7 @@ import MailOutlineIcon from '@material-ui/icons/MailOutline'
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import Tooltip from '@material-ui/core/Tooltip'
 import IconButton from '@material-ui/core/IconButton'
+import { getAvatarLink } from '../../utils/helpers/imageLinkHelpers'
 
 const Transition = React.forwardRef(function Transition (props, ref) {
   return <Slide direction='up' ref={ref} {...props} />
@@ -39,7 +40,7 @@ const FriendRequestsList = ({ user }) => {
   const friendsList = incomingFriendRequests.map((request) =>
     <Grid item xs={12} sm={6} className={classes.gridItem}>
       <div className={classes.friendAvatar}>
-        <img src={request.requester.avatar.src} className={classes.image} alt='Avatar'/>
+        <img src={getAvatarLink(request.requester.avatar)} className={classes.image} alt='Avatar'/>
       </div>
       <div className={classes.friendInfo}>
         <p className={classes.userName}>{request.requester.firstName} {request.requester.lastName}</p>
