@@ -1,28 +1,27 @@
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({
-  container: {
-    paddingTop: theme.spacing(8)
-  },
-  header: {
-    marginBottom: theme.spacing(5)
+  '@global': {
+    body: {
+      backgroundColor: theme.palette.common.white
+    }
   },
   paper: {
+    marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
-    padding: theme.spacing(5)
+    alignItems: 'center'
   },
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main
   },
   form: {
-    width: '100%',
-    marginTop: theme.spacing(1)
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(3)
   },
   submit: {
-    margin: theme.spacing(1, 0, 2)
+    margin: theme.spacing(3, 0, 2)
   },
   linkBtn: {
     width: '100%',
@@ -31,7 +30,6 @@ const useStyles = makeStyles(theme => ({
   center: {
     textAlign: 'center'
   }
-
 }))
 
 export default useStyles

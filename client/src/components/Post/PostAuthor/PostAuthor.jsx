@@ -1,14 +1,16 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import { Avatar,
-  IconButton,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
+import {
+  Avatar,
   Button,
   Dialog,
-  Slide } from '@material-ui/core'
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  IconButton,
+  Slide
+} from '@material-ui/core'
 import ArrowRightIcon from '@material-ui/icons/ArrowRight'
 import DeleteIcon from '@material-ui/icons/Delete'
 import useStyles from './postAuthorStyles'

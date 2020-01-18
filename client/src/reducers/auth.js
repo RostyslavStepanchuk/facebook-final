@@ -4,9 +4,9 @@ import {
   LOGIN_FAIL,
   LOGIN_SUCCESS,
   LOGOUT,
+  PASSWORD_RESET,
   REGISTER_FAIL,
   REGISTER_SUCCESS,
-  RESET_PASSWORD,
   START_LOADING,
   STOP_LOADING,
   USER_LOADED
@@ -52,8 +52,8 @@ export default function (state = initialState, action) {
     case EMAIL_CONFIRMED:
       return { ...state, loading: false, emailIsConfirmed: true }
 
-    case RESET_PASSWORD:
-      return { ...state, resetEmailSend: true }
+    case PASSWORD_RESET:
+      return { ...state, resetEmailSend: true, loading: false }
 
     case STOP_LOADING:
       return { ...state, loading: false }

@@ -6,10 +6,9 @@ import {
   LOGIN_FAIL,
   LOGIN_SUCCESS,
   LOGOUT,
+  PASSWORD_RESET,
   REGISTER_FAIL,
   REGISTER_SUCCESS,
-  RESET_PASSWORD,
-  RESET_PASSWORD_FAIL,
   START_LOADING,
   STOP_LOADING,
   USER_LOADED
@@ -25,6 +24,17 @@ export const loadUser = () => dispatch => {
 
   apiRequest.get('/users/current')
     .then(data => {
+      // todo: resolve reflecting users without avatars issue
+      // temporary step to avoid crushing script without images for new user
+      // next task I am going to do is to fix this for all occasions
+      if (!data.avatar) {
+        data.avatar = { src: '/images/no-avatar.png' }
+      }
+
+      if (!data.profileCover) {
+        data.profileCover = { src: '/images/profile-cover-placeholder.jpg' }
+      }
+
       dispatch({
         type: USER_LOADED,
         payload: data
@@ -94,32 +104,27 @@ export const logout = () => dispatch => {
 
 // Reset password
 
-export const resetPassword = (email) => dispatch => {
-  //   const config = {
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//   }
+export const resetPassword = email => async dispatch => {
+  dispatch({ type: START_LOADING })
 
   try {
-    //   const res = await axios.post("/api/auth/password_reset", emailAddress, config)
+    await apiRequest.post('/users/reset_password', { email }, null, false)
+    dispatch({ type: PASSWORD_RESET })
+  } catch (e) {
+    dispatch({ type: STOP_LOADING })
+  }
+}
 
-    //   dispatch({
-    //     type: LOGIN_SUCCESS,
-    //     payload: res.data
-    //   })
-    dispatch({
-      type: RESET_PASSWORD
-    })
-  } catch (err) {
-    // const errors = err.response.data.errors
+export const setNewPassword = (password, token) => async dispatch => {
+  dispatch({ type: START_LOADING })
 
-    // if(errors) {
-    // errors.forEach(error => dispatch(setAlert(error.msg, "danger")))
-    // }
-    dispatch({
-      type: RESET_PASSWORD_FAIL
-    })
+  try {
+    await apiRequest.post('/users/set_new_password/' + token, { password }, null, false)
+    dispatch({ type: STOP_LOADING })
+    return true
+  } catch (e) {
+    dispatch({ type: STOP_LOADING })
+    return false
   }
 }
 

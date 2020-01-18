@@ -11,5 +11,7 @@ public interface UserRepository extends JpaRepository<ApplicationUser, String> {
   @Query("SELECT u from ApplicationUser u WHERE u.tokensData.emailConfirmationId = :confirmationId")
   Optional<ApplicationUser> getByEmailConfirmationId(@Param("confirmationId") String emailConfirmationId);
 
+  ApplicationUser getByTokensData_ForgotPasswordToken(String forgotPasswordToken);
+
   Optional<ApplicationUser> findByEmail(String email);
 }
