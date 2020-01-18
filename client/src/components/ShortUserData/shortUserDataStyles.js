@@ -9,8 +9,9 @@ const useStyles = makeStyles(() => ({
     padding: '8px 10px',
     fontWeight: 900,
     borderBottom: '1px solid #dddfe2',
+    borderRadius: '4px 4px 0 0',
     paddingRight: 24,
-    backgroundColor: '#f5f6f7'
+    backgroundColor: '#f5f6f7',
   },
   textContainer: {
     padding: 5,

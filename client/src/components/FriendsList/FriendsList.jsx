@@ -16,6 +16,7 @@ import HighlightOffIcon from '@material-ui/icons/HighlightOff'
 import MailOutlineIcon from '@material-ui/icons/MailOutline'
 import Tooltip from '@material-ui/core/Tooltip'
 import IconButton from '@material-ui/core/IconButton'
+import { getAvatarLink } from '../../utils/helpers/imageLinkHelpers'
 
 const Transition = React.forwardRef(function Transition (props, ref) {
   return <Slide direction='up' ref={ref} {...props} />
@@ -35,10 +36,10 @@ const FriendsList = ({ user }) => {
     //deleteFriend(postId)
   }
 
-  const friendsList = friends.map((friend) =>
+  const friendsList = friends.map( friend =>
     <Grid item xs={12} sm={6} className={classes.gridItem}>
       <div className={classes.friendAvatar}>
-        <img src={friend.avatar.src} className={classes.image} alt='Avatar'/>
+        <img src={getAvatarLink(friend.avatar)} className={classes.image} alt='Avatar'/>
       </div>
       <div className={classes.friendInfo}>
         <p className={classes.userName}>{friend.firstName} {friend.lastName}</p>

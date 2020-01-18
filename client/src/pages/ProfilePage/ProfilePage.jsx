@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { useState } from 'react'
 import ProfileCover from '../../components/ProfileCover/ProfileCover'
 import ShortUserData from '../../components/ShortUserData/ShortUserData'
 import ProfileField from '../../components/ProfileField/ProfileField'
@@ -73,7 +73,7 @@ const ProfilePage = () => {
           </Grid>
         }
         </Grid>
-    </Fragment>
+    </div>
   )
 }
 
