@@ -7,7 +7,7 @@ import IconButton from '@material-ui/core/IconButton'
 import DeleteIcon from '@material-ui/icons/Delete'
 
 import { deleteComment } from '../../../../actions/post'
-import getDate from '../../../../utils/date/getDate'
+import { getDate } from '../../../../utils/date/getDate'
 
 const Comment = ({ postId, comment, user, deleteComment }) => {
   const classes = useStyles()

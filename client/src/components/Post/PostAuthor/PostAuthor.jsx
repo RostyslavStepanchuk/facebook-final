@@ -15,7 +15,7 @@ import useStyles from './postAuthorStyles'
 import PropTypes from 'prop-types'
 
 import { deletePost } from '../../../actions/post'
-import getDate from '../../../utils/date/getDate'
+import { getDate } from '../../../utils/date/getDate'
 
 const Transition = React.forwardRef(function Transition (props, ref) {
   return <Slide direction='up' ref={ref} {...props} />

@@ -4,49 +4,44 @@ import useStyles from './profileFieldStyles'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Preloader from '../Preloader/Preloader'
-import { getUserPhotos } from '../../actions/image'
+import { getUserPhotosFromPosts } from '../../actions/image'
 
 const ProfileField = ({ user, fieldName, loadUserPhotos, userPhotos, loading }) => {
   const classes = useStyles()
   const { friends } = user
 
-  let listForRender = []
-
   useEffect(() => {
     switch (fieldName) {
       case 'Photos':
-        // loadUserPhotos()
-        // listForRender = userPhotos
+        loadUserPhotos()
         break
       case 'Friends':
-        listForRender = friends
         break
       default:
         throw new Error('FieldName is not defined')
     }
-  }, [fieldName, listForRender, loadUserPhotos])
+  }, [fieldName, loadUserPhotos])
 
-  const fieldComponents = (components) => {
-    return components.map((item, index) => {
+  const fieldComponents = (components) => components.map((item, index) => {
       if (index < 9) {
         return (
-          <Grid item xs={4}>
+          <Grid item xs={4} key={index}>
             <div className={classes.gridItem}>
               { fieldName === "Photos" &&
-                <img src={item.src} className={classes.image} alt='Image'/>
+                <img src={item.src} className={classes.image} alt='UserPhoto'/>
               }
               { fieldName === "Friends" &&
                 <>
-                  <img src={item.avatar.src} className={classes.image} alt='Image'/>
+                  <img src={item.avatar.src} className={classes.image} alt='Avatar'/>
                   <p className={classes.userName}>{item.firstName} {item.lastName}</p>
                 </>
               }
             </div>
           </Grid>
         )
-      }
+      } else return '';
     })
-  }
+
 
   const content = (fieldName === "Friends") ? fieldComponents(friends)
     : (loading ? <Preloader /> : fieldComponents(userPhotos))
@@ -54,7 +49,7 @@ const ProfileField = ({ user, fieldName, loadUserPhotos, userPhotos, loading }) 
   return (
     <div className={classes.container}>
       <Typography className={classes.header}  variant='subtitle1' component='div'>
-        {fieldName} <span className={classes.count}>length</span>
+        {fieldName} <span className={classes.count}>{fieldName === "Photos" ? userPhotos.length : friends.length}</span>
       </Typography>
       <Grid className={classes.gridContainer} container spacing={1}>
         {content}
@@ -79,7 +74,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    loadUserPhotos: () => dispatch(getUserPhotos()),
+    loadUserPhotos: () => dispatch(getUserPhotosFromPosts()),
   }
 }
 

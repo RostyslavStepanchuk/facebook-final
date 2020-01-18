@@ -20,48 +20,48 @@ const ProfileCover = ({ user, profileTab, handleChangeTab }) => {
   return (
     <Fragment>
       <div className={classes.container}>
-      <div className={classes.avatarBg}>
-        <Avatar className={classes.avatarImg} src={avatar.src} />
-        <p className={classes.avatarName}>{firstName} {lastName}</p>
-        <Button
-          variant='contained'
-          onClick={handleModal}
-          className={classes.editProfileBtn}
+        <div className={classes.avatarBg}>
+          <Avatar className={classes.avatarImg} src={avatar.src} />
+          <p className={classes.avatarName}>{firstName} {lastName}</p>
+          <Button
+            variant='contained'
+            onClick={handleModal}
+            className={classes.editProfileBtn}
         >
-          <div className={classes.label}>
-            <EditOutlinedIcon className={classes.icon} />
-            <div className={classes.labelText}> Edit profile</div>
-          </div>
-        </Button>
-        <Modal
-          disableAutoFocus
-          open={modalOpen}
-          onClose={handleModal}
+            <div className={classes.label}>
+              <EditOutlinedIcon className={classes.icon} />
+              <div className={classes.labelText}> Edit profile</div>
+            </div>
+          </Button>
+          <Modal
+            disableAutoFocus
+            open={modalOpen}
+            onClose={handleModal}
         >
-          <Container className={classes.modalContainer} maxWidth='md'>
-            <UpdateProfile handleClose={handleModal} />
-          </Container>
-        </Modal>
-      </div>
-      <Tabs value={profileTab}
-        onChange={handleChangeTab}
-        indicatorColor='primary'
-        textColor='primary'
-        aria-label='icon label tabs'
-        className={classes.submenu}>
-        <Tab className={classes.submenuItem}
-             label='Your story '
-             value='your story' />
-        <Tab className={classes.submenuItem}
-             label='Friend requests'
-             value='friend requests' />
-        <Tab className={classes.submenuItem}
-             label='Friends'
-             value='friends' />
-        <Tab className={classes.submenuItem}
-             label='Messages'
-             value='messages' />
-      </Tabs>
+            <Container className={classes.modalContainer} maxWidth='md'>
+              <UpdateProfile handleClose={handleModal} />
+            </Container>
+          </Modal>
+        </div>
+        <Tabs value={profileTab}
+          onChange={handleChangeTab}
+          indicatorColor='primary'
+          textColor='primary'
+          aria-label='icon label tabs'
+          className={classes.submenu}>
+          <Tab className={classes.submenuItem}
+            label='Your story '
+            value='your story' />
+          <Tab className={classes.submenuItem}
+            label='Friend requests'
+            value='friend requests' />
+          <Tab className={classes.submenuItem}
+            label='Friends'
+            value='friends' />
+          <Tab className={classes.submenuItem}
+            label='Messages'
+            value='messages' />
+        </Tabs>
       </div>
     </Fragment>
   )
