@@ -3,7 +3,6 @@ package com.socialmedia.service;
 import com.socialmedia.dto.security.Token;
 import com.socialmedia.exception.NoDataFoundException;
 import com.socialmedia.model.ApplicationUser;
-import com.socialmedia.model.Image;
 import com.socialmedia.model.TokensData;
 import com.socialmedia.repository.UserRepository;
 import com.socialmedia.util.EmailHandler;
@@ -14,7 +13,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -30,7 +28,7 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
   private FriendRequestService friendRequestService;
   private PostService postService;
   private EmailHandler emailHandler;
-  private AmazonService imageService;
+
 
 
   @Autowired
@@ -41,7 +39,7 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
                      ChatService chatService,
                      FriendRequestService friendRequestService,
                      PostService postService,
-                     EmailHandler emailHandler, AmazonService imageService) {
+                     EmailHandler emailHandler) {
     super(jpaRepository, beanUtilBean);
     this.bcryptPasswordEncoder = bcryptPasswordEncoder;
     this.authenticationService = authenticationService;
@@ -49,7 +47,6 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
     this.friendRequestService = friendRequestService;
     this.postService = postService;
     this.emailHandler = emailHandler;
-    this.imageService = imageService;
   }
 
   @Override
@@ -139,5 +136,22 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
 
   public String generateRefreshToken(String username) {
     return authenticationService.generateRefreshToken(username);
+  }
+
+  public void sendChangePasswordLink(String email) {
+    ApplicationUser user = jpaRepository.findByEmail(email).orElseThrow(() -> new BadCredentialsException("Invalid email"));
+    String forgotPasswordToken = authenticationService.generateForgotPasswordToken(user);
+    emailHandler.sendResetPasswordLetter(user.getEmail(), forgotPasswordToken);
+  }
+
+
+  public void setNewPassword(String forgotPasswordToken, String password) {
+    ApplicationUser user = jpaRepository.getByTokensData_ForgotPasswordToken(forgotPasswordToken);
+    if (user.getTokensData().getForgotPasswordTokenValidTill() < System.currentTimeMillis()) {
+      throw new BadCredentialsException("Password recovery data has expired, please get new link");
+    }
+    user.setPassword(bcryptPasswordEncoder.encode(password));
+    user.getTokensData().setForgotPasswordTokenValidTill(0L);
+    jpaRepository.save(user);
   }
 }

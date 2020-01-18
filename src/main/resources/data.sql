@@ -1,7 +1,7 @@
 /* tokens_storage */
-INSERT INTO tokens_storage (refresh_token, refresh_token_valid_till, forgot_password_tkn, email_confirmation_id, email_is_confirmed) values ('034daREFRESHTOKENf341fd', 0, '41fdFORGOTPASSWORDTOKEN093wgs', 1234563141324, true);
-INSERT INTO tokens_storage (refresh_token, refresh_token_valid_till, forgot_password_tkn, email_confirmation_id, email_is_confirmed) values ('fadseREFRESHTOKENf98fds', 0, '89dseFORGOTPASSWORDTOKEN425dw', 8034793431244, true);
-INSERT INTO tokens_storage (refresh_token, refresh_token_valid_till, forgot_password_tkn, email_confirmation_id, email_is_confirmed) values ('trqwREFRESHTOKENf31defe', 0, '21fdv2FORGOTPASSWORDTOKEN84gr', 0831431473943, true);
+INSERT INTO tokens_storage (refresh_token, refresh_token_valid_till, forgot_password_tkn, forgot_password__tkn_valid_till, email_confirmation_id, email_is_confirmed) values ('034daREFRESHTOKENf341fd', 0, '41fdFORGOTPASSWORDTOKEN093wgs', 0, 1234563141324, true);
+INSERT INTO tokens_storage (refresh_token, refresh_token_valid_till, forgot_password_tkn, forgot_password__tkn_valid_till, email_confirmation_id, email_is_confirmed) values ('fadseREFRESHTOKENf98fds', 0, '89dseFORGOTPASSWORDTOKEN425dw', 0, 8034793431244, true);
+INSERT INTO tokens_storage (refresh_token, refresh_token_valid_till, forgot_password_tkn, forgot_password__tkn_valid_till, email_confirmation_id, email_is_confirmed) values ('trqwREFRESHTOKENf31defe', 0, '21fdv2FORGOTPASSWORDTOKEN84gr', 0, 0831431473943, true);
 
 /* images */
 /* avatars */
