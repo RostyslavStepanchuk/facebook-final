@@ -6,10 +6,11 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined'
 import UpdateProfile from '../UpdateProfile/UpdateProfile'
+import { getAvatarLink, getProfileCoverLink } from '../../utils/helpers/imageLinkHelpers'
 
 const ProfileCover = ({ user, profileTab, handleChangeTab }) => {
   const { avatar, firstName, lastName, profileCover, friends, incomingFriendRequests } = user
-  const classes = useStyles({ profileCover: profileCover.src })
+  const classes = useStyles({profileCover: getProfileCoverLink(profileCover))
 
   const [ modalOpen, setModalOpen ] = useState(false)
 
@@ -21,7 +22,7 @@ const ProfileCover = ({ user, profileTab, handleChangeTab }) => {
     <Fragment>
       <div className={classes.container}>
         <div className={classes.avatarBg}>
-          <Avatar className={classes.avatarImg} src={avatar.src} />
+          <Avatar className={classes.avatarImg} src={getAvatarLink(avatar)} />
           <p className={classes.avatarName}>{firstName} {lastName}</p>
           <Button
             variant='contained'

@@ -21,7 +21,7 @@ const ProfilePage = () => {
   }
 
   return (
-    <Fragment>
+    <div className={classes.background}>
       <Grid container className={classes.gridContainer}>
         <Grid item xs={9}>
           <Paper className={classes.paper}>

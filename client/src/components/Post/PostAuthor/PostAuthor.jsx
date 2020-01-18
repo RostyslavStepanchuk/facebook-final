@@ -1,14 +1,16 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import { Avatar,
-  IconButton,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
+import {
+  Avatar,
   Button,
   Dialog,
-  Slide } from '@material-ui/core'
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  IconButton,
+  Slide
+} from '@material-ui/core'
 import ArrowRightIcon from '@material-ui/icons/ArrowRight'
 import DeleteIcon from '@material-ui/icons/Delete'
 import useStyles from './postAuthorStyles'
@@ -16,6 +18,7 @@ import PropTypes from 'prop-types'
 
 import { deletePost } from '../../../actions/post'
 import { getDate } from '../../../utils/date/getDate'
+import { getAvatarLink } from '../../../utils/helpers/imageLinkHelpers'
 
 const Transition = React.forwardRef(function Transition (props, ref) {
   return <Slide direction='up' ref={ref} {...props} />
@@ -44,7 +47,7 @@ const PostAuthor = ({ postId, author, owner, date, user, deletePost }) => {
   return (
     <Fragment>
       <div className={classes.user}>
-        <Avatar className={classes.userPhoto} src={author.avatar.src} alt='User' />
+        <Avatar className={classes.userPhoto} src={getAvatarLink(author.avatar)} alt='User' />
         <div className={classes.userName}>
           <p className={classes.userFullName}>{author.firstName} {author.lastName} <ArrowRightIcon /> {owner.firstName} {owner.lastName}</p>
           <p className={classes.postDate}>{getDate(date)}</p>

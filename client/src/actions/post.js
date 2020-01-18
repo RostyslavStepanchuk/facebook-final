@@ -1,12 +1,12 @@
 /* global FormData */
 import {
+  COMMENT_ADDED,
+  COMMENT_REMOVED,
+  LIKES_UPDATED,
+  POST_DELETED,
   POSTS_END_LOADING,
   POSTS_RECEIVED,
-  POSTS_START_LOADING,
-  COMMENT_ADDED,
-  LIKES_UPDATED,
-  COMMENT_REMOVED,
-  POST_DELETED
+  POSTS_START_LOADING
 } from '../utils/constants/actionsName'
 import apiRequest from '../utils/helpers/apiRequest'
 

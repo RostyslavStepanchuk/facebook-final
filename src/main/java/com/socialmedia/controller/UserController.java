@@ -65,4 +65,17 @@ public class UserController {
     return ResponseEntity.ok(userMapper.delete(principal.getName()));
   }
 
+  @PostMapping("/reset_password")
+  public ResponseEntity<String> resetPassword(@RequestBody UserRegistrationDtoIn emailOnly) {
+    userMapper.sendChangePasswordLink(emailOnly.getEmail());
+    return ResponseEntity.ok("Link to password update has been sent");
+  }
+
+  @PostMapping("/set_new_password/{forgotPasswordToken}")
+  public ResponseEntity<String> setNewPassword(@PathVariable String forgotPasswordToken,
+                                               @RequestBody UserRegistrationDtoIn passwordOnly) {
+    userMapper.setNewPassword(forgotPasswordToken, passwordOnly.getPassword());
+    return ResponseEntity.ok("Password was updated");
+  }
+
 }
