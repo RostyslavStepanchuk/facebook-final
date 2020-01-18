@@ -24,6 +24,7 @@ import { PhotoCamera } from '@material-ui/icons'
 import { areNoErrors, validateEmail } from '../../utils/helpers/inputValidators'
 import { uploadSingleImage } from '../../actions/post'
 import { updateProfile } from '../../actions/auth'
+import { getAvatarLink, getProfileCoverLink } from '../../utils/helpers/imageLinkHelpers'
 
 const UpdateProfile = ({ user, handleClose, updateProfile }) => {
   const { avatar, firstName, lastName, birthDate, email, profileCover, gender } = user
@@ -31,11 +32,11 @@ const UpdateProfile = ({ user, handleClose, updateProfile }) => {
   const [ formData, setFormData ] = useState({
     avatar: {
       file: null,
-      url: avatar.src
+      url: getAvatarLink(avatar)
     },
     profileCover: {
       file: null,
-      url: profileCover.src
+      url: getProfileCoverLink(profileCover)
     },
     firstName,
     lastName,

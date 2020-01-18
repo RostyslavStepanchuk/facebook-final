@@ -22,6 +22,7 @@ import CloseOutlinedIcon from '@material-ui/icons/CloseOutlined'
 
 import useStyles from './CreatePostStyles'
 import { Toastr } from '../../utils/toastr/Toastr'
+import { getAvatarLink } from '../../utils/helpers/imageLinkHelpers'
 
 const CreatePost = ({ user }) => {
   const classes = useStyles()
@@ -90,7 +91,7 @@ const CreatePost = ({ user }) => {
         <form className={classes.form}>
           <Grid container className={classes.textContainer}>
             <Grid container item xs={2} lg={1} justify='center' alignItems='flex-start'>
-              <Avatar className={classes.avatar} src={avatar.src} />
+              <Avatar className={classes.avatar} src={getAvatarLink(avatar)} />
             </Grid>
             <Grid item xs={10} lg={11} >
               <TextField
