@@ -25,14 +25,14 @@ const ProfilePage = () => {
       <Grid container className={classes.gridContainer}>
         <Grid item xs={9}>
           <Paper className={classes.paper}>
-            <ProfileCover profileTab={profileTab} handleChangeTab={handleChangeTab}/>
+            <ProfileCover profileTab={profileTab} handleChangeTab={handleChangeTab} />
           </Paper>
         </Grid>
         { profileTab === 'your story' &&
           <Fragment>
             <Grid item xs={9} sm={4}>
               <Paper className={classes.paper}>
-                <ShortUserData/>
+                <ShortUserData />
               </Paper>
               <Paper className={classes.paper}>
                 <ProfileField fieldName='Photos' />
@@ -72,7 +72,7 @@ const ProfilePage = () => {
             </Paper>
           </Grid>
         }
-        </Grid>
+      </Grid>
     </div>
   )
 }

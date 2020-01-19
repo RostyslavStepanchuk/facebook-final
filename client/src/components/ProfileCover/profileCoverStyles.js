@@ -54,7 +54,7 @@ const useStyles = makeStyles(() => ({
     left: 240
   },
   submenu: {
-    maxWidth: 530,
+    maxWidth: 515,
     margin: '0 0 0 auto',
     paddingLeft: 200
   },

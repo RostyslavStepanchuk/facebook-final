@@ -40,7 +40,7 @@ export default function (state = initialState, action) {
     }
 
     case COMMENT_ADDED: {
-      let result = [...state.posts].map((post) => {
+      let result = [...state.posts].map(post => {
         if (post.id === payload.postId) return payload.post
         return post
       })
@@ -48,7 +48,7 @@ export default function (state = initialState, action) {
     }
 
     case COMMENT_REMOVED: {
-      let result = [...state.posts].map((post) => {
+      let result = [...state.posts].map(post => {
         if (post.id === payload.postId) return payload.post
         return post
       })

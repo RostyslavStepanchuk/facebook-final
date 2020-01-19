@@ -23,7 +23,7 @@ const Post = ({ post }) => {
       <img src={image.src} className={classes.postImg} alt='Post' />
       <p>{message}</p>
       <PostLikePanel postId={id} likes={likes} comments={comments} focusForCreatingComment={focusForCreatingComment} />
-      <PostComments postId={id} owner={owner} comments={comments} inputRef={inputRef} />
+      <PostComments postId={id} postOwner={owner} comments={comments} inputRef={inputRef} />
     </Paper>
   )
 }

@@ -38,7 +38,7 @@ const FriendsList = ({ user }) => {
   }
 
   const friendsList = friends.map(friend =>
-    <Grid item xs={12} sm={6} className={classes.gridItem} key={friend.avatar.id}>
+    <Grid item sm={5} className={classes.gridItem} key={friend.avatar.id}>
       <Tile imageSrc={getAvatarLink(friend.avatar)} />
       <div className={classes.friendInfo}>
         <p className={classes.userName}>{friend.firstName} {friend.lastName}</p>

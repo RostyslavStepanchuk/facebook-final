@@ -61,10 +61,10 @@ export default function (state = initialState, action) {
       return { ...state, loading: false }
 
     case REQUEST_DELETED:
-      return {...state, user: payload }
+      return { ...state, user: payload }
 
     case REQUEST_CONFIRMED:
-      return {...state, user: payload }
+      return { ...state, user: payload }
 
     default:
       return { ...state }

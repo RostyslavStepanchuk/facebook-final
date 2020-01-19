@@ -165,7 +165,7 @@ export const confirmRequest = (requestId) => async dispatch => {
       payload: user
     })
   } catch (e) {
-    console.log(e)
+    Toastr.error('Something goes wrong! Please try again later')
   }
 }
 
@@ -177,7 +177,6 @@ export const deleteRequest = (requestId) => async dispatch => {
       payload: requestList
     })
   } catch (e) {
-    console.log(e)
+    Toastr.error('Something goes wrong! Please try again later')
   }
 }
-
