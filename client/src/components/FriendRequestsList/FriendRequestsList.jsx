@@ -41,7 +41,7 @@ const FriendRequestsList = ({ user, confirmRequest, deleteRequest }) => {
     deleteRequest(requestId)
   }
 
-  const requestList = incomingFriendRequests.map((request) =>
+  const requestList = incomingFriendRequests.map(request =>
     <Grid item sm={5} className={classes.gridItem} key={request.id}>
       <Tile imageSrc={getAvatarLink(request.requester.avatar)} />
       <div className={classes.friendInfo}>

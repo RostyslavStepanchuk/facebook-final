@@ -54,7 +54,7 @@ public class FriendRequestService extends AbstractCrudService<FriendRequest, Lon
 
     user.setIncomingFriendRequests(requests);
 
-    return userService.getById(principal.getName());
+    return user;
   }
 
   public ApplicationUser deleteRequest(Long requestId) {
@@ -66,6 +66,6 @@ public class FriendRequestService extends AbstractCrudService<FriendRequest, Lon
 
     user.setIncomingFriendRequests(requests);
 
-    return userService.getById(principal.getName());
+    return user;
   }
 }
