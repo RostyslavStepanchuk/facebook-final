@@ -16,6 +16,7 @@ import HighlightOffIcon from '@material-ui/icons/HighlightOff'
 import MailOutlineIcon from '@material-ui/icons/MailOutline'
 import Tooltip from '@material-ui/core/Tooltip'
 import IconButton from '@material-ui/core/IconButton'
+import { deleteFriend } from '../../actions/auth'
 import { getAvatarLink } from '../../utils/helpers/imageLinkHelpers'
 import Tile from '../Tile/Tile'
 
@@ -23,7 +24,7 @@ const Transition = React.forwardRef(function Transition (props, ref) {
   return <Slide direction='up' ref={ref} {...props} />
 })
 
-const FriendsList = ({ user }) => {
+const FriendsList = ({ user, deleteFriend }) => {
   const classes = useStyles()
   const [openDialog, setOpenDialog] = useState(false)
   const { friends } = user
@@ -32,9 +33,9 @@ const FriendsList = ({ user }) => {
     setOpenDialog(!openDialog)
   }
 
-  const handleModalDelete = () => {
+  const handleModalDelete = friendUsername => {
     handleModal()
-    // deleteFriend(postId)
+    deleteFriend(friendUsername)
   }
 
   const friendsList = friends.map(friend =>
@@ -69,7 +70,7 @@ const FriendsList = ({ user }) => {
               <Button variant='contained' color='primary' onClick={handleModal}>
                 Cancel
               </Button>
-              <Button variant='contained' color='secondary' onClick={handleModalDelete}>
+              <Button variant='contained' color='secondary' onClick={() => handleModalDelete(friend.username)}>
                 Delete
               </Button>
             </DialogActions>
@@ -92,11 +93,12 @@ const FriendsList = ({ user }) => {
 }
 
 FriendsList.propTypes = {
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  deleteFriend: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
   user: state.auth.user
 })
 
-export default connect(mapStateToProps, null)(FriendsList)
+export default connect(mapStateToProps, { deleteFriend })(FriendsList)
