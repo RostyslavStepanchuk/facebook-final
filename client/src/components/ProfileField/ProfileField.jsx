@@ -59,10 +59,8 @@ const mapStateToProps = state => ({
   loading: state.images.loading
 })
 
-const mapDispatchToProps = dispatch => {
-  return {
-    loadUserPhotos: () => dispatch(getUserPhotosFromPosts())
-  }
-}
+const mapDispatchToProps = dispatch => ({
+  loadUserPhotos: () => dispatch(getUserPhotosFromPosts())
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileField)
