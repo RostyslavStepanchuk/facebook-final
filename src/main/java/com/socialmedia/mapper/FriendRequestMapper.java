@@ -35,6 +35,10 @@ public class FriendRequestMapper
     return modelMapper.map(friendRequestDtoIn, FriendRequest.class);
   }
 
+  public UserDtoOut createRequest(String responderUsername) {
+    return userMapper.responseDtoOf(crudService.createRequest(responderUsername));
+  }
+
   public UserDtoOut confirmRequest(Long requestId) {
     return userMapper.responseDtoOf(crudService.confirmRequest(requestId));
   }
@@ -42,4 +46,6 @@ public class FriendRequestMapper
   public UserDtoOut deleteRequest(Long requestId) {
     return userMapper.responseDtoOf(crudService.deleteRequest(requestId));
   }
+
+
 }
