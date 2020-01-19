@@ -9,10 +9,12 @@ import com.socialmedia.util.EmailHandler;
 import com.socialmedia.util.SmartCopyBeanUtilsBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -153,5 +155,25 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
     user.setPassword(bcryptPasswordEncoder.encode(password));
     user.getTokensData().setForgotPasswordTokenValidTill(0L);
     jpaRepository.save(user);
+  }
+
+  public ApplicationUser deleteFriend(String friendUsername) {
+    Principal principal = SecurityContextHolder.getContext().getAuthentication();
+
+    ApplicationUser user = getById(principal.getName());
+    ApplicationUser friend = getById(friendUsername);
+
+    List<ApplicationUser> userFriends = user.getFriends();
+    userFriends.stream().filter(item -> item.getUsername().equals(friendUsername))
+            .findAny().ifPresent(userFriends::remove);
+
+    List<ApplicationUser> friendFriends = friend.getFriends();
+    friendFriends.stream().filter(item -> item.getUsername().equals(user.getUsername()))
+            .findAny().ifPresent(friendFriends::remove);
+
+    user.setFriends(userFriends);
+    friend.setFriends(friendFriends);
+
+    return user;
   }
 }

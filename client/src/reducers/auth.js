@@ -11,7 +11,8 @@ import {
   STOP_LOADING,
   USER_LOADED,
   REQUEST_DELETED,
-  REQUEST_CONFIRMED
+  REQUEST_CONFIRMED,
+  FRIEND_DELETED
 } from '../utils/constants/actionsName'
 
 const initialState = {
@@ -64,6 +65,9 @@ export default function (state = initialState, action) {
       return { ...state, user: payload }
 
     case REQUEST_CONFIRMED:
+      return { ...state, user: payload }
+
+    case FRIEND_DELETED:
       return { ...state, user: payload }
 
     default:

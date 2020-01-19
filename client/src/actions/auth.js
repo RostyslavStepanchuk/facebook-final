@@ -13,7 +13,8 @@ import {
   STOP_LOADING,
   USER_LOADED,
   REQUEST_DELETED,
-  REQUEST_CONFIRMED
+  REQUEST_CONFIRMED,
+  FRIEND_DELETED
 } from '../utils/constants/actionsName'
 import { Toastr } from '../utils/toastr/Toastr'
 
@@ -155,6 +156,18 @@ export const updateProfile = dataForm => dispatch => {
         payload: data
       })
     })
+}
+
+export const deleteFriend = friendUsername => async dispatch => {
+  try {
+    const user = await apiRequest.delete('/users/friends/' + friendUsername)
+    dispatch({
+      type: FRIEND_DELETED,
+      payload: user
+    })
+  } catch (e) {
+    Toastr.error('Something goes wrong! Please try again later')
+  }
 }
 
 export const confirmRequest = (requestId) => async dispatch => {
