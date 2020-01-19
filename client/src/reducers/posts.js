@@ -27,7 +27,7 @@ export default function (state = initialState, action) {
       return { ...state, posts: payload, loading: false }
 
     case LIKES_UPDATED: {
-      let result = [...state.posts].map((post) => {
+      let result = [...state.posts].map(post => {
         if (post.id === payload.postId) return payload.post
         return post
       })
