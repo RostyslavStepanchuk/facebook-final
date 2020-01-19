@@ -5,6 +5,7 @@ import ProfileField from '../../components/ProfileField/ProfileField'
 import FriendRequestsList from '../../components/FriendRequestsList/FriendRequestsList'
 import FriendsList from '../../components/FriendsList/FriendsList'
 import MessagesList from '../../components/MessagesList/MessagesList'
+import PhotosList from '../../components/PhotosList/PhotosList'
 import CreatePost from '../../components/CreatePost/CreatePost'
 import PostFeed from '../../components/PostFeed/PostFeed'
 
@@ -42,7 +43,7 @@ const ProfilePage = ({ user, loadUserPhotos, userPhotos, loadingPhotos }) => {
                 <ShortUserData />
               </Paper>
               <Paper className={classes.paper}>
-                <ProfileField userPhotos={userPhotos} loadingPhotos={loadingPhotos}/>
+                <ProfileField userPhotos={userPhotos} loadingPhotos={loadingPhotos} />
               </Paper>
               <Paper className={classes.paper}>
                 <ProfileField friends={friends} />
@@ -71,6 +72,13 @@ const ProfilePage = ({ user, loadUserPhotos, userPhotos, loadingPhotos }) => {
               <FriendsList />
             </Paper>
           </Grid>
+        }
+        { profileTab === 'photos' &&
+        <Grid item sm={9}>
+          <Paper className={classes.paper}>
+            <PhotosList userPhotos={userPhotos} />
+          </Paper>
+        </Grid>
         }
         { profileTab === 'messages' &&
           <Grid item sm={9}>
