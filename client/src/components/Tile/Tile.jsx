@@ -8,26 +8,23 @@ const Tile = ({ imageSrc, title }) => {
 
   const content = (imageSrc, title) => {
     return <Grid item xs={4}>
-      <div className={classes.gridItem}>
-        <img src={imageSrc} className={classes.image} alt='UserImage'/>
-        { title &&
-          <p className={classes.title}>{title}</p>
-        }
-      </div>
+      <img src={imageSrc} className={classes.image} alt='UserImage' />
+      { title &&
+        <p className={classes.title}>{title}</p>
+      }
     </Grid>
   }
 
   return (
     <Fragment>
-        {content(imageSrc, title)}
+      {content(imageSrc, title)}
     </Fragment>
   )
 }
 
 Tile.propTypes = {
   imageSrc: PropTypes.string.isRequired,
-  title: PropTypes.string,
+  title: PropTypes.string
 }
 
 export default Tile
-

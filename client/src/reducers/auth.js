@@ -9,7 +9,9 @@ import {
   REGISTER_SUCCESS,
   START_LOADING,
   STOP_LOADING,
-  USER_LOADED
+  USER_LOADED,
+  REQUEST_DELETED,
+  REQUEST_CONFIRMED
 } from '../utils/constants/actionsName'
 
 const initialState = {
@@ -57,6 +59,12 @@ export default function (state = initialState, action) {
 
     case STOP_LOADING:
       return { ...state, loading: false }
+
+    case REQUEST_DELETED:
+      return {...state, user: payload }
+
+    case REQUEST_CONFIRMED:
+      return {...state, user: payload }
 
     default:
       return { ...state }

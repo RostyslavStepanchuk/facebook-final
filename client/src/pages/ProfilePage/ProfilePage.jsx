@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import ProfileCover from '../../components/ProfileCover/ProfileCover'
 import ShortUserData from '../../components/ShortUserData/ShortUserData'
 import ProfileField from '../../components/ProfileField/ProfileField'
@@ -29,7 +29,7 @@ const ProfilePage = () => {
           </Paper>
         </Grid>
         { profileTab === 'your story' &&
-          <>
+          <Fragment>
             <Grid item xs={9} sm={4}>
               <Paper className={classes.paper}>
                 <ShortUserData/>
@@ -49,7 +49,7 @@ const ProfilePage = () => {
                 <PostFeed origin='profile' />
               </Paper>
             </Grid>
-          </>
+          </Fragment>
         }
         { profileTab === 'friend requests' &&
           <Grid item sm={9}>

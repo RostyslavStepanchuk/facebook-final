@@ -17,27 +17,22 @@ const useStyles = makeStyles(() => ({
     fontWeight: 500
   },
   gridContainer: {
-    padding: '8px 10px',
+    padding: '8px 10px'
   },
   gridItem: {
     display: 'flex',
     border: '1px solid #e9ebee',
-    marginBottom: 8,
+    marginBottom: 8
   },
-  friendAvatar: {
-    width: '30%',
-  },
+
   friendInfo: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    width: '70%',
-    padding: '0 10px'
-
-  },
-  image: {
     width: '100%',
+    padding: '0 10px'
   },
+
   userName: {
     margin: 0,
     wordBreak: 'break-word'
