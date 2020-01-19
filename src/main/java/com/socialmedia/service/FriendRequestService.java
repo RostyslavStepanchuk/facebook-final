@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import javax.print.attribute.standard.RequestingUserName;
 import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,6 +35,20 @@ public class FriendRequestService extends AbstractCrudService<FriendRequest, Lon
     return jpaRepository.getAllByRequester(user);
   }
 
+  public ApplicationUser createRequest(String responderUsername) {
+    Principal principal = SecurityContextHolder.getContext().getAuthentication();
+    ApplicationUser user = userService.getById(principal.getName());
+    ApplicationUser responder = userService.getById(responderUsername);
+
+    FriendRequest friendRequest = new FriendRequest();
+    friendRequest.setDate(System.currentTimeMillis());
+    friendRequest.setRequester(user);
+    friendRequest.setResponder(responder);
+
+    jpaRepository.save(friendRequest);
+
+    return user;
+  }
 
   public ApplicationUser confirmRequest(Long requestId) {
     Principal principal = SecurityContextHolder.getContext().getAuthentication();
