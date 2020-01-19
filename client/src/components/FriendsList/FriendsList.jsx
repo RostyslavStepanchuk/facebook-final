@@ -17,6 +17,7 @@ import MailOutlineIcon from '@material-ui/icons/MailOutline'
 import Tooltip from '@material-ui/core/Tooltip'
 import IconButton from '@material-ui/core/IconButton'
 import { getAvatarLink } from '../../utils/helpers/imageLinkHelpers'
+import Tile from '../Tile/Tile'
 
 const Transition = React.forwardRef(function Transition (props, ref) {
   return <Slide direction='up' ref={ref} {...props} />
@@ -33,24 +34,22 @@ const FriendsList = ({ user }) => {
 
   const handleModalDelete = () => {
     handleModal()
-    //deleteFriend(postId)
+    // deleteFriend(postId)
   }
 
-  const friendsList = friends.map( friend =>
-    <Grid item xs={12} sm={6} className={classes.gridItem}>
-      <div className={classes.friendAvatar}>
-        <img src={getAvatarLink(friend.avatar)} className={classes.image} alt='Avatar'/>
-      </div>
+  const friendsList = friends.map(friend =>
+    <Grid item xs={12} sm={6} className={classes.gridItem} key={friend.avatar.id}>
+      <Tile imageSrc={getAvatarLink(friend.avatar)} />
       <div className={classes.friendInfo}>
         <p className={classes.userName}>{friend.firstName} {friend.lastName}</p>
         <div>
-          <Tooltip title="Send message">
-            <IconButton color="primary" aria-label="Send message">
+          <Tooltip title='Send message'>
+            <IconButton color='primary' aria-label='Send message'>
               <MailOutlineIcon />
             </IconButton>
           </Tooltip>
-          <Tooltip title="Remove friend">
-            <IconButton color="secondary" onClick={handleModal} aria-label="Remove friend">
+          <Tooltip title='Remove friend'>
+            <IconButton color='secondary' onClick={handleModal} aria-label='Remove friend'>
               <HighlightOffIcon />
             </IconButton>
           </Tooltip>
@@ -82,7 +81,7 @@ const FriendsList = ({ user }) => {
 
   return (
     <div className={classes.container}>
-      <Typography className={classes.header}  variant='subtitle1' component='div'>
+      <Typography className={classes.header} variant='subtitle1' component='div'>
         Friends <span className={classes.count}>{friends.length}</span>
       </Typography>
       <Grid className={classes.gridContainer} container>
@@ -93,11 +92,11 @@ const FriendsList = ({ user }) => {
 }
 
 FriendsList.propTypes = {
-  user: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
-  user: state.auth.user,
+  user: state.auth.user
 })
 
 export default connect(mapStateToProps, null)(FriendsList)

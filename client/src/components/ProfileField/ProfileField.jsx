@@ -8,7 +8,7 @@ import Tile from '../Tile/Tile'
 import { getUserPhotosFromPosts } from '../../actions/image'
 import { getAvatarLink } from '../../utils/helpers/imageLinkHelpers'
 
-const ProfileField = ({ user, fieldName,  loadUserPhotos, userPhotos, loading }) => {
+const ProfileField = ({ user, fieldName, loadUserPhotos, userPhotos, loading }) => {
   const classes = useStyles()
   const { friends } = user
 
@@ -20,24 +20,23 @@ const ProfileField = ({ user, fieldName,  loadUserPhotos, userPhotos, loading })
     let listForRender = components.slice(0, 9)
     switch (fieldName) {
       case 'Photos': {
-        return listForRender.map( photo => <Tile imageSrc={photo.src} key={photo.id}/>)
+        return listForRender.map(photo => <Tile imageSrc={photo.src} key={photo.id} />)
       }
       case 'Friends': {
-        return listForRender.map( friend => <Tile imageSrc={getAvatarLink(friend.avatar)} title={friend.firstName + ' ' + friend.lastName} key={friend.avatar.id}/>)
+        return listForRender.map(friend => <Tile imageSrc={getAvatarLink(friend.avatar)} title={friend.firstName + ' ' + friend.lastName} key={friend.avatar.id} />)
       }
       default:
     }
   }
 
-
-  const content = (fieldName === "Friends")
+  const content = (fieldName === 'Friends')
     ? fieldComponents(friends)
     : (loading ? <Preloader /> : fieldComponents(userPhotos))
 
   return (
     <div className={classes.container}>
-      <Typography className={classes.header}  variant='subtitle1' component='div'>
-        {fieldName} <span className={classes.count}>{fieldName === "Photos" ? userPhotos.length : friends.length}</span>
+      <Typography className={classes.header} variant='subtitle1' component='div'>
+        {fieldName} <span className={classes.count}>{fieldName === 'Photos' ? userPhotos.length : friends.length}</span>
       </Typography>
       <Grid className={classes.gridContainer} container spacing={1}>
         {content}
@@ -51,7 +50,7 @@ ProfileField.propTypes = {
   fieldName: PropTypes.oneOf(['Photos', 'Friends']).isRequired,
   loadUserPhotos: PropTypes.func.isRequired,
   userPhotos: PropTypes.array,
-  loading: PropTypes.bool.isRequired,
+  loading: PropTypes.bool.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -62,9 +61,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    loadUserPhotos: () => dispatch(getUserPhotosFromPosts()),
+    loadUserPhotos: () => dispatch(getUserPhotosFromPosts())
   }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileField)
-
