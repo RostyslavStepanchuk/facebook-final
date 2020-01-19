@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import { createComment } from '../../../actions/post'
 import { Avatar, Grid, TextField } from '@material-ui/core'
 
-const PostComments = ({ postId, comments, owner, user, createComment, inputRef }) => {
+const PostComments = ({ postId, comments, postOwner, user, createComment, inputRef }) => {
   const classes = useStyles()
   const [value, setValue] = useState('')
 
@@ -25,7 +25,7 @@ const PostComments = ({ postId, comments, owner, user, createComment, inputRef }
     }
   }
 
-  const commentList = comments.map(comment => <Comment postId={postId} owner={owner} comment={comment} key={comment.id} />)
+  const commentList = comments.map(comment => <Comment postId={postId} postOwner={postOwner} comment={comment} key={comment.id} />)
 
   return (
     <Fragment>
@@ -58,7 +58,7 @@ const PostComments = ({ postId, comments, owner, user, createComment, inputRef }
 PostComments.propTypes = {
   postId: PropTypes.number.isRequired,
   user: PropTypes.object.isRequired,
-  owner: PropTypes.object.isRequired,
+  postOwner: PropTypes.object.isRequired,
   comments: PropTypes.array.isRequired,
   createComment: PropTypes.func.isRequired,
   inputRef: PropTypes.object.isRequired

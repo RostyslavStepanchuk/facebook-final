@@ -19,6 +19,7 @@ import Tooltip from '@material-ui/core/Tooltip'
 import IconButton from '@material-ui/core/IconButton'
 import { getAvatarLink } from '../../utils/helpers/imageLinkHelpers'
 import { confirmRequest, deleteRequest } from '../../actions/auth'
+import { getDateWithoutTime } from '../../utils/date/getDate'
 
 import Tile from '../Tile/Tile'
 
@@ -35,16 +36,19 @@ const FriendRequestsList = ({ user, confirmRequest, deleteRequest }) => {
     setOpenDialog(!openDialog)
   }
 
-  const handleModalDelete = (requestId) => {
+  const handleModalDelete = requestId => {
     handleModal()
     deleteRequest(requestId)
   }
 
   const requestList = incomingFriendRequests.map((request) =>
-    <Grid item sm={6} className={classes.gridItem} key={request.id}>
+    <Grid item sm={5} className={classes.gridItem} key={request.id}>
       <Tile imageSrc={getAvatarLink(request.requester.avatar)} />
       <div className={classes.friendInfo}>
-        <p className={classes.userName}>{request.requester.firstName} {request.requester.lastName}</p>
+        <div>
+          <p className={classes.friendName}>{request.requester.firstName} {request.requester.lastName}</p>
+          <p className={classes.requestDate}>{getDateWithoutTime(request.date)}</p>
+        </div>
         <div>
           <Tooltip title='Send message'>
             <IconButton color='primary' aria-label='Send message'>
@@ -102,7 +106,7 @@ const FriendRequestsList = ({ user, confirmRequest, deleteRequest }) => {
 FriendRequestsList.propTypes = {
   user: PropTypes.object.isRequired,
   confirmRequest: PropTypes.func.isRequired,
-  deleteRequest: PropTypes.func.isRequired,
+  deleteRequest: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({

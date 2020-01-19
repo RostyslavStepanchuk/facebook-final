@@ -2,7 +2,7 @@ import React from 'react'
 import useStyles from './shortUserDataStyles'
 import { connect } from 'react-redux'
 import Typography from '@material-ui/core/Typography'
-import { getDateForBirthday } from '../../utils/date/getDate'
+import { getDateWithoutTime } from '../../utils/date/getDate'
 import PropTypes from 'prop-types'
 
 const ShortUserData = ({ user }) => {
@@ -18,7 +18,7 @@ const ShortUserData = ({ user }) => {
       <div className={classes.textContainer}>
         <p><span className={classes.textSpan}>Gender:</span> {gender}</p>
         <p><span className={classes.textSpan}>Email:</span> {email}</p>
-        <p><span className={classes.textSpan}>Birthday:</span> {getDateForBirthday(birthDate)}</p>
+        <p><span className={classes.textSpan}>Birthday:</span> {getDateWithoutTime(birthDate)}</p>
       </div>
     </div>
   )

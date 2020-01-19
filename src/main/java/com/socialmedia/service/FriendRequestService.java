@@ -46,11 +46,12 @@ public class FriendRequestService extends AbstractCrudService<FriendRequest, Lon
     List<ApplicationUser> requesterFriends = requester.getFriends();
     requesterFriends.add(user);
 
+    requester.setFriends(requesterFriends);
+    user.setFriends(userFriends);
+
     List<FriendRequest> requests = user.getIncomingFriendRequests();
     requests.stream().filter(request -> request.getId().equals(requestId)).findAny().ifPresent(requests::remove);
 
-    requester.setFriends(requesterFriends);
-    user.setFriends(userFriends);
     user.setIncomingFriendRequests(requests);
 
     return userService.getById(principal.getName());

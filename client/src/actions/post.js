@@ -8,6 +8,7 @@ import {
   POSTS_RECEIVED,
   POSTS_START_LOADING
 } from '../utils/constants/actionsName'
+import { Toastr } from '../utils/toastr/Toastr'
 import apiRequest from '../utils/helpers/apiRequest'
 
 export const uploadSingleImage = image => {
@@ -88,7 +89,7 @@ export const deletePost = (postId) => async dispatch => {
       payload: { postId, post }
     })
   } catch (e) {
-    console.log(e)
+    Toastr.error('Something goes wrong! Please try again later')
   }
 }
 
@@ -100,7 +101,7 @@ export const updateLikes = (postId) => async dispatch => {
       payload: { postId, post }
     })
   } catch (e) {
-    console.log(e)
+    Toastr.error('Something goes wrong! Please try again later')
   }
 }
 
@@ -116,7 +117,7 @@ export const createComment = (postId, comment) => async dispatch => {
       payload: { postId, post }
     })
   } catch (e) {
-    console.log(e)
+    Toastr.error('Something goes wrong! Please try again later')
   }
 }
 
@@ -129,6 +130,6 @@ export const deleteComment = (postId, commentId) => async dispatch => {
       payload: { postId, post }
     })
   } catch (e) {
-    console.log(e)
+    Toastr.error('Something goes wrong! Please try again later')
   }
 }

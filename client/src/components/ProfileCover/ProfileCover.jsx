@@ -63,7 +63,6 @@ const ProfileCover = ({ user, profileTab, handleChangeTab }) => {
           value='messages' />
       </Tabs>
     </div>
-
   )
 }
 

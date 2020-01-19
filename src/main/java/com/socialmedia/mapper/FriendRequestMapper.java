@@ -13,7 +13,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class FriendRequestMapper extends AbstractControllerToCrudServiceMapper<FriendRequest, Long, FriendRequestDtoIn, FriendRequestDtoOut, FriendRequestService> {
+public class FriendRequestMapper
+        extends AbstractControllerToCrudServiceMapper
+        <FriendRequest, Long, FriendRequestDtoIn, FriendRequestDtoOut, FriendRequestService> {
 
   private UserMapper userMapper;
 
