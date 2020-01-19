@@ -27,11 +27,10 @@ export default function (state = initialState, action) {
       return { ...state, posts: payload, loading: false }
 
     case LIKES_UPDATED: {
-      let result = [...state.posts]
-      let index = result.findIndex(post => post.id === payload.postId)
-      if (index !== -1) {
-        result[index] = payload.post
-      }
+      let result = [...state.posts].map(post => {
+        if (post.id === payload.postId) return payload.post
+        return post
+      })
       return { ...state, posts: result, loading: false }
     }
 
@@ -41,24 +40,18 @@ export default function (state = initialState, action) {
     }
 
     case COMMENT_ADDED: {
-      let result = [...state.posts].map((post) => {
-        if (post.id === payload.postId) {
-          return payload.post
-        }
+      let result = [...state.posts].map(post => {
+        if (post.id === payload.postId) return payload.post
         return post
       })
-
       return { ...state, posts: result, loading: false }
     }
 
     case COMMENT_REMOVED: {
-      let result = [...state.posts].map((post) => {
-        if (post.id === payload.postId) {
-          return payload.post
-        }
+      let result = [...state.posts].map(post => {
+        if (post.id === payload.postId) return payload.post
         return post
       })
-
       return { ...state, posts: result, loading: false }
     }
 

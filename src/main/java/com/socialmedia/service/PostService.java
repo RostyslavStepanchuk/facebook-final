@@ -144,4 +144,11 @@ public final class PostService extends AbstractCrudService<Post, Long, PostRepos
       throw new BadCredentialsException("You can only delete your own comments");
     }
   }
+
+  public List<Image> getUserPhotosFromPosts() {
+    Principal principal = SecurityContextHolder.getContext().getAuthentication();
+    List<Post> allPostsByOwner = jpaRepository.findAllByOwner_Username(principal.getName());
+    List<Image> collect = allPostsByOwner.stream().map(Post::getImage).collect(Collectors.toList());
+    return collect;
+  }
 }

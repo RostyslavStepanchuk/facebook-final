@@ -1,6 +1,7 @@
 package com.socialmedia.mapper;
 
 import com.socialmedia.dto.comment.CommentDtoIn;
+import com.socialmedia.dto.image.ImageDtoOut;
 import com.socialmedia.dto.post.PostDtoIn;
 import com.socialmedia.dto.post.PostDtoOut;
 import com.socialmedia.model.ApplicationUser;
@@ -20,11 +21,14 @@ import java.util.stream.Collectors;
 public class PostMapper extends AbstractControllerToCrudServiceMapper<Post,Long, PostDtoIn, PostDtoOut, PostService> {
 
   private UserMapper userMapper;
+  private ImageMapper imageMapper;
+
 
   @Autowired
-  public PostMapper(ModelMapper modelMapper, PostService postService, UserMapper userMapper) {
+  public PostMapper(ModelMapper modelMapper, PostService postService, UserMapper userMapper, ImageMapper imageMapper) {
     super(modelMapper, postService);
     this.userMapper = userMapper;
+    this.imageMapper = imageMapper;
   }
 
   @Override
@@ -95,5 +99,11 @@ public class PostMapper extends AbstractControllerToCrudServiceMapper<Post,Long,
 
   public PostDtoOut deleteComment(Long postId, Long commentId) {
     return responseDtoOf(crudService.deleteComment(postId, commentId));
+  }
+
+  public List<ImageDtoOut> getUserPhotosFromPosts() {
+    return crudService.getUserPhotosFromPosts()
+            .stream().map( image -> imageMapper.responseDtoOf(image))
+            .collect(Collectors.toList());
   }
 }

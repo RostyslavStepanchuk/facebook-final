@@ -9,9 +9,6 @@ import {
   Toolbar,
   Typography,
   IconButton,
-  Switch,
-  FormControlLabel,
-  FormGroup,
   MenuItem,
   Menu,
   Badge,
@@ -78,6 +75,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
     >
       <MenuItem onClick={openProfile}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>Find Friends</MenuItem>
+      <MenuItem onClick={handleChange}>Logout</MenuItem>
     </Menu>
   )
 
@@ -124,12 +122,6 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
 
   return (
     <div className={classes.root}>
-      <FormGroup>
-        <FormControlLabel
-          control={<Switch checked={isAuthenticated} onChange={handleChange} aria-label='LoginSwitch' />}
-          label={isAuthenticated ? 'Logout' : 'Login'}
-          />
-      </FormGroup>
       <AppBar position='static'>
         <Toolbar>
           <Link to='/' className={classes.link}>
