@@ -1,11 +1,11 @@
 import React, { Fragment } from 'react'
 
-const UserFriends = () => {
+const MessagesList = () => {
   return (
     <Fragment>
-      UserFriends
+      MessagesList
     </Fragment>
   )
 }
 
-export default UserFriends
+export default MessagesList

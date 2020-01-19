@@ -11,7 +11,9 @@ import {
   REGISTER_SUCCESS,
   START_LOADING,
   STOP_LOADING,
-  USER_LOADED
+  USER_LOADED,
+  REQUEST_DELETED,
+  REQUEST_CONFIRMED
 } from '../utils/constants/actionsName'
 import { Toastr } from '../utils/toastr/Toastr'
 
@@ -153,4 +155,28 @@ export const updateProfile = dataForm => dispatch => {
         payload: data
       })
     })
+}
+
+export const confirmRequest = (requestId) => async dispatch => {
+  try {
+    const user = await apiRequest.put('/requests/' + requestId)
+    dispatch({
+      type: REQUEST_CONFIRMED,
+      payload: user
+    })
+  } catch (e) {
+    Toastr.error('Something goes wrong! Please try again later')
+  }
+}
+
+export const deleteRequest = (requestId) => async dispatch => {
+  try {
+    const requestList = await apiRequest.delete('/requests/' + requestId)
+    dispatch({
+      type: REQUEST_DELETED,
+      payload: requestList
+    })
+  } catch (e) {
+    Toastr.error('Something goes wrong! Please try again later')
+  }
 }

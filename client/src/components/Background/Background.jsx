@@ -14,7 +14,7 @@ const Background = ({ children }) => {
 }
 
 Background.propTypes = {
-  children: PropTypes.array
+  children: PropTypes.object
 }
 
 export default Background
