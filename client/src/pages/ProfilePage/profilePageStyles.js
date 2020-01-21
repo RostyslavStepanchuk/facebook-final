@@ -15,6 +15,9 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     boxSizing: 'border-box'
   },
+  feedColumn: {
+    paddingRight: 30
+  },
   paper: {
     marginBottom: theme.spacing(2),
     textAlign: 'center',

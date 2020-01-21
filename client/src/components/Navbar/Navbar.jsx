@@ -4,19 +4,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { logout } from '../../actions/auth'
 import useStyles from './navbarStyles'
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  IconButton,
-  Switch,
-  FormControlLabel,
-  FormGroup,
-  MenuItem,
-  Menu,
-  Badge,
-  InputBase
-} from '@material-ui/core'
+import { AppBar, Badge, IconButton, InputBase, Menu, MenuItem, Toolbar, Typography } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import MailIcon from '@material-ui/icons/Mail'
@@ -78,6 +66,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
     >
       <MenuItem onClick={openProfile}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>Find Friends</MenuItem>
+      <MenuItem onClick={handleChange}>Logout</MenuItem>
     </Menu>
   )
 
@@ -124,12 +113,6 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
 
   return (
     <div className={classes.root}>
-      <FormGroup>
-        <FormControlLabel
-          control={<Switch checked={isAuthenticated} onChange={handleChange} aria-label='LoginSwitch' />}
-          label={isAuthenticated ? 'Logout' : 'Login'}
-          />
-      </FormGroup>
       <AppBar position='static'>
         <Toolbar>
           <Link to='/' className={classes.link}>

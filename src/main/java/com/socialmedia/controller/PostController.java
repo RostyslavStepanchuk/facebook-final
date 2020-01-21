@@ -1,6 +1,7 @@
 package com.socialmedia.controller;
 
 import com.socialmedia.dto.comment.CommentDtoIn;
+import com.socialmedia.dto.image.ImageDtoOut;
 import com.socialmedia.dto.post.PostDtoIn;
 import com.socialmedia.dto.post.PostDtoOut;
 import com.socialmedia.mapper.PostMapper;
@@ -98,5 +99,11 @@ public class PostController {
   public ResponseEntity<PostDtoOut> deleteComment(@PathVariable Long postId,
                                                   @PathVariable Long commentId) {
     return ResponseEntity.ok(postMapper.deleteComment(postId, commentId));
+  }
+
+  @GetMapping("/photos")
+  public ResponseEntity<List<ImageDtoOut>> getUserPhotosFromPosts(
+      @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable) {
+    return ResponseEntity.ok(postMapper.getUserPhotosFromPosts(pageable));
   }
 }
