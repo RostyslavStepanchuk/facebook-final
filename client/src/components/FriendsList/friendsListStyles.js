@@ -18,7 +18,7 @@ const useStyles = makeStyles(() => ({
   },
   gridContainer: {
     padding: '8px 10px'
-  },
+  }
 
 }))
 

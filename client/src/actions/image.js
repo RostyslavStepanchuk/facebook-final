@@ -1,8 +1,4 @@
-import {
-  PHOTOS_END_LOADING,
-  USER_PHOTOS_RECEIVED,
-  PHOTOS_START_LOADING
-} from '../utils/constants/actionsName'
+import { PHOTOS_END_LOADING, PHOTOS_START_LOADING, USER_PHOTOS_RECEIVED } from '../utils/constants/actionsName'
 import apiRequest from '../utils/helpers/apiRequest'
 
 export const getUserPhotosFromPosts = () => async dispatch => {

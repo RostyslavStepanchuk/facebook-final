@@ -4,16 +4,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { logout } from '../../actions/auth'
 import useStyles from './navbarStyles'
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  IconButton,
-  MenuItem,
-  Menu,
-  Badge,
-  InputBase
-} from '@material-ui/core'
+import { AppBar, Badge, IconButton, InputBase, Menu, MenuItem, Toolbar, Typography } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import MailIcon from '@material-ui/icons/Mail'

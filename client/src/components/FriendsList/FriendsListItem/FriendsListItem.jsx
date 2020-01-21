@@ -1,21 +1,22 @@
 import React, { Fragment, useState } from 'react'
 import {
-  Button, Dialog,
+  Button,
+  Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
   Grid,
+  IconButton,
   Slide,
-  Tooltip,
-  IconButton
+  Tooltip
 } from '@material-ui/core'
 import PropTypes from 'prop-types'
 import useStyles from './friendsListItemStyles'
 import HighlightOffIcon from '@material-ui/icons/HighlightOff'
 import MailOutlineIcon from '@material-ui/icons/MailOutline'
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline'
-import { deleteFriend, confirmRequest, deleteRequest  } from '../../../actions/auth'
+import { confirmRequest, deleteFriend, deleteRequest } from '../../../actions/auth'
 import { getDateWithoutTime } from '../../../utils/date/getDate'
 import { getAvatarLink } from '../../../utils/helpers/imageLinkHelpers'
 import Tile from '../../Tile/Tile'
@@ -45,20 +46,20 @@ const FriendsListItem = ({ friend, deleteFriend, request, confirmRequest, delete
 
   return (
     <Fragment>
-    { friend &&
+      { friend &&
       <Grid item sm={5} className={classes.gridItem}>
-        <Tile imageSrc={getAvatarLink(friend.avatar)}/>
+        <Tile imageSrc={getAvatarLink(friend.avatar)} />
         <div className={classes.friendInfo}>
           <p className={classes.userName}>{friend.firstName} {friend.lastName}</p>
           <div>
             <Tooltip title='Send message'>
               <IconButton color='primary' aria-label='Send message'>
-                <MailOutlineIcon/>
+                <MailOutlineIcon />
               </IconButton>
             </Tooltip>
             <Tooltip title='Remove friend'>
               <IconButton color='secondary' onClick={handleModal} aria-label='Remove friend'>
-                <HighlightOffIcon/>
+                <HighlightOffIcon />
               </IconButton>
             </Tooltip>
             <Dialog
@@ -86,7 +87,7 @@ const FriendsListItem = ({ friend, deleteFriend, request, confirmRequest, delete
         </div>
       </Grid>
     }
-    { request &&
+      { request &&
       <Grid item sm={5} className={classes.gridItem}>
         <Tile imageSrc={getAvatarLink(request.requester.avatar)} />
         <div className={classes.friendInfo}>
@@ -144,7 +145,7 @@ FriendsListItem.propTypes = {
   request: PropTypes.object,
   deleteFriend: PropTypes.func.isRequired,
   confirmRequest: PropTypes.func.isRequired,
-  deleteRequest: PropTypes.func.isRequired,
+  deleteRequest: PropTypes.func.isRequired
 }
 
 export default connect(null, { deleteFriend, confirmRequest, deleteRequest })(FriendsListItem)

@@ -5,7 +5,8 @@ import {
   POST_DELETED,
   POSTS_END_LOADING,
   POSTS_RECEIVED,
-  POSTS_START_LOADING
+  POSTS_START_LOADING,
+  RESET_RECEIVED_POSTS
 } from '../utils/constants/actionsName'
 
 const initialState = {
@@ -15,6 +16,7 @@ const initialState = {
 
 export default function (state = initialState, action) {
   const { type, payload } = action
+  let overlapIndex;
 
   switch (type) {
     case POSTS_START_LOADING:
@@ -23,8 +25,24 @@ export default function (state = initialState, action) {
     case POSTS_END_LOADING:
       return { ...state, loading: false }
 
+    case RESET_RECEIVED_POSTS:
+      return { ...state, posts: [] }
+
     case POSTS_RECEIVED:
-      return { ...state, posts: payload, loading: false }
+      overlapIndex = state.posts.map(post => post.id)
+        .indexOf(payload[0].id)
+
+      if (overlapIndex > -1) {
+        return { ...state,
+          posts: state.posts.slice(0, overlapIndex)
+            .concat(payload),
+          loading: false }
+      } else {
+        return { ...state,
+          posts: state.posts.concat(payload),
+          loading: false }
+      }
+
 
     case LIKES_UPDATED: {
       let result = [...state.posts].map(post => {

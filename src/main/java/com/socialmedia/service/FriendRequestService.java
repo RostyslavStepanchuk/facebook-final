@@ -9,10 +9,8 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import javax.print.attribute.standard.RequestingUserName;
 import java.security.Principal;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class FriendRequestService extends AbstractCrudService<FriendRequest, Long, FriendRequestRepository> {

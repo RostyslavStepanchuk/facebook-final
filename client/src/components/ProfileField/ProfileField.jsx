@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { Typography, Grid } from '@material-ui/core'
+import { Grid, Typography } from '@material-ui/core'
 import useStyles from './profileFieldStyles'
 import PropTypes from 'prop-types'
 import Preloader from '../Preloader/Preloader'

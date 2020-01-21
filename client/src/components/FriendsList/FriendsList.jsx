@@ -1,8 +1,5 @@
 import React, { Fragment } from 'react'
-import {
-  Grid,
-  Typography
-} from '@material-ui/core'
+import { Grid, Typography } from '@material-ui/core'
 import PropTypes from 'prop-types'
 import useStyles from './friendsListStyles'
 import FriendsListItem from './FriendsListItem/FriendsListItem'
@@ -12,9 +9,9 @@ const FriendsList = ({ friends, requests }) => {
 
   const fieldComponents = components => {
     if (friends) {
-      return components.map(friend => <FriendsListItem friend={friend} key={friend.avatar.id}/>)
+      return components.map(friend => <FriendsListItem friend={friend} key={friend.avatar.id} />)
     } else {
-      return components.map(request => <FriendsListItem request={request} key={request.id}/>)
+      return components.map(request => <FriendsListItem request={request} key={request.id} />)
     }
   }
 
@@ -37,7 +34,7 @@ const FriendsList = ({ friends, requests }) => {
 
 FriendsList.propTypes = {
   friends: PropTypes.array,
-  requests: PropTypes.array,
+  requests: PropTypes.array
 }
 
 export default FriendsList

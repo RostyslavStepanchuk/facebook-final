@@ -1,4 +1,8 @@
 import React, { Fragment, useEffect, useState } from 'react'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+
+import { Grid, Paper } from '@material-ui/core'
 import ProfileCover from '../../components/ProfileCover/ProfileCover'
 import ShortUserData from '../../components/ShortUserData/ShortUserData'
 import ProfileField from '../../components/ProfileField/ProfileField'
@@ -7,14 +11,14 @@ import MessagesList from '../../components/MessagesList/MessagesList'
 import PhotosList from '../../components/PhotosList/PhotosList'
 import CreatePost from '../../components/CreatePost/CreatePost'
 import PostFeed from '../../components/PostFeed/PostFeed'
+import InfiniteScroll from '../../components/InfiniteScroll/InfiniteScroll'
 
-import { Grid, Paper } from '@material-ui/core'
-import useStyles from './profilePageStyles'
 import { getUserPhotosFromPosts } from '../../actions/image'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
+import { getPostsForOwnProfile } from '../../actions/post'
 
-const ProfilePage = ({ user, loadUserPhotos, userPhotos, loadingPhotos }) => {
+import useStyles from './profilePageStyles'
+
+const ProfilePage = ({ loadPostsProfile, posts, postsAreLoading, user, loadUserPhotos, userPhotos, loadingPhotos }) => {
   const classes = useStyles()
   const [profileTab, setProfileTab] = useState('your story')
   const { friends, incomingFriendRequests } = user
@@ -28,7 +32,11 @@ const ProfilePage = ({ user, loadUserPhotos, userPhotos, loadingPhotos }) => {
   }
 
   return (
-    <div className={classes.background}>
+    <InfiniteScroll
+      contentArr={posts}
+      loadContent={loadPostsProfile}
+      contentIsLoading={postsAreLoading}
+    >
       <Grid container className={classes.gridContainer}>
         <Grid item xs={9}>
           <Paper className={classes.paper}>
@@ -48,13 +56,9 @@ const ProfilePage = ({ user, loadUserPhotos, userPhotos, loadingPhotos }) => {
                 <ProfileField friends={friends} />
               </Paper>
             </Grid>
-            <Grid item xs={9} sm={5}>
-              <Paper className={classes.paper}>
-                <CreatePost />
-              </Paper>
-              <Paper className={classes.paper}>
-                <PostFeed origin='profile' />
-              </Paper>
+            <Grid item xs={9} sm={5} className={classes.feedColumn}>
+              <CreatePost />
+              <PostFeed />
             </Grid>
           </Fragment>
         }
@@ -87,7 +91,7 @@ const ProfilePage = ({ user, loadUserPhotos, userPhotos, loadingPhotos }) => {
           </Grid>
         }
       </Grid>
-    </div>
+    </InfiniteScroll>
   )
 }
 
@@ -95,17 +99,23 @@ ProfilePage.propTypes = {
   user: PropTypes.object.isRequired,
   loadUserPhotos: PropTypes.func.isRequired,
   userPhotos: PropTypes.array.isRequired,
-  loadingPhotos: PropTypes.bool.isRequired
+  loadingPhotos: PropTypes.bool.isRequired,
+  postsAreLoading: PropTypes.bool.isRequired,
+  posts: PropTypes.array.isRequired,
+  loadPostsProfile: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
   user: state.auth.user,
   userPhotos: state.images.userPhotos,
-  loadingPhotos: state.images.loading
+  loadingPhotos: state.images.loading,
+  postsAreLoading: state.posts.loading,
+  posts: state.posts.posts
 })
 
 const mapDispatchToProps = dispatch => ({
-  loadUserPhotos: () => dispatch(getUserPhotosFromPosts())
+  loadUserPhotos: () => dispatch(getUserPhotosFromPosts()),
+  loadPostsProfile: (page, size, isInitial) => dispatch(getPostsForOwnProfile(page, size, isInitial))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage)
