@@ -16,6 +16,7 @@ const initialState = {
 
 export default function (state = initialState, action) {
   const { type, payload } = action
+  let overlapIndex;
 
   switch (type) {
     case POSTS_START_LOADING:
@@ -28,16 +29,20 @@ export default function (state = initialState, action) {
       return { ...state, posts: [] }
 
     case POSTS_RECEIVED:
-      const overlapIndex = state.posts.map(post => post.id)
+      overlapIndex = state.posts.map(post => post.id)
         .indexOf(payload[0].id)
-      let updatedPosts = []
+
       if (overlapIndex > -1) {
-        updatedPosts = state.posts.slice(0, overlapIndex)
-          .concat(payload)
+        return { ...state,
+          posts: state.posts.slice(0, overlapIndex)
+            .concat(payload),
+          loading: false }
       } else {
-        updatedPosts = state.posts.concat(payload)
+        return { ...state,
+          posts: state.posts.concat(payload),
+          loading: false }
       }
-      return { ...state, posts: updatedPosts, loading: false }
+
 
     case LIKES_UPDATED: {
       let result = [...state.posts].map(post => {
