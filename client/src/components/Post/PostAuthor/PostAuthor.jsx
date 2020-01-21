@@ -17,7 +17,7 @@ import useStyles from './postAuthorStyles'
 import PropTypes from 'prop-types'
 
 import { deletePost } from '../../../actions/post'
-import getDate from '../../../utils/date/getDate'
+import { getDate } from '../../../utils/date/getDate'
 import { getAvatarLink } from '../../../utils/helpers/imageLinkHelpers'
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -28,7 +28,7 @@ const PostAuthor = ({ postId, author, owner, date, user, deletePost }) => {
   const classes = useStyles()
 
   const [showDeleteBtn, setShowDeleteBtn] = useState(false)
-  const [openDialog, setOpenDialog] = React.useState(false)
+  const [openDialog, setOpenDialog] = useState(false)
 
   useEffect(
     () => setShowDeleteBtn(author.username === user.username || owner.username === user.username),

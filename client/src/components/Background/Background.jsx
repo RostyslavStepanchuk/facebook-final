@@ -6,7 +6,8 @@ const Background = ({ children }) => {
   return (
     <div style={{
       backgroundColor: BACKGROUND_COLOR,
-      minHeight: 'calc(100vh - 100px)'
+      minHeight: 'calc(100vh - 65px)',
+      position: 'relative'
     }}>
       {children}
     </div>
@@ -14,7 +15,7 @@ const Background = ({ children }) => {
 }
 
 Background.propTypes = {
-  children: PropTypes.array
+  children: PropTypes.object
 }
 
 export default Background

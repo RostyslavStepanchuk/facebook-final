@@ -7,17 +7,17 @@ import IconButton from '@material-ui/core/IconButton'
 import DeleteIcon from '@material-ui/icons/Delete'
 
 import { deleteComment } from '../../../../actions/post'
-import getDate from '../../../../utils/date/getDate'
+import { getDate } from '../../../../utils/date/getDate'
 
-const Comment = ({ postId, comment, user, deleteComment }) => {
+const Comment = ({ postId, postOwner, comment, user, deleteComment }) => {
   const classes = useStyles()
 
   const [showDeleteBtn, setShowDeleteBtn] = useState(false)
   const { id, author, message, date } = comment
 
   useEffect(
-    () => setShowDeleteBtn(author.username === user.username),
-    [author.username, user.username]
+    () => setShowDeleteBtn(author.username === user.username || postOwner.username === user.username),
+    [author.username, postOwner.username, user.username]
   )
 
   return (
@@ -39,6 +39,7 @@ Comment.propTypes = {
   postId: PropTypes.number.isRequired,
   comment: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
+  postOwner: PropTypes.object.isRequired,
   deleteComment: PropTypes.func.isRequired
 }
 

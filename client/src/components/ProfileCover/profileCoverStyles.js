@@ -1,6 +1,9 @@
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(() => ({
+  container: {
+    boxSizing: 'border-box'
+  },
   avatarBg: props => ({
     backgroundImage: `url(${props.profileCover})`,
     height: 250,
@@ -51,8 +54,7 @@ const useStyles = makeStyles(() => ({
     left: 240
   },
   submenu: {
-    flexGrow: 1,
-    maxWidth: 600,
+    maxWidth: 635,
     margin: '0 0 0 auto',
     paddingLeft: 200
   },
