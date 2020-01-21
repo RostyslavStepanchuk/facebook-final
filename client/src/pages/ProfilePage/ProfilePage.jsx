@@ -1,4 +1,6 @@
 import React from 'react'
+import { connect } from 'react-redux'
+
 import ProfileCover from '../../components/ProfileCover/ProfileCover'
 import ShortUserData from '../../components/ShortUserData/ShortUserData'
 import UserPhotos from '../../components/UserPhotos/UserPhotos'
@@ -8,12 +10,19 @@ import PostFeed from '../../components/PostFeed/PostFeed'
 
 import { Grid, Paper } from '@material-ui/core'
 import useStyles from './profilePageStyles'
+import PropTypes from 'prop-types'
+import { getPostsForOwnProfile } from '../../actions/post'
+import InfiniteScroll from '../../components/InfiniteScroll/InfiniteScroll'
 
-const ProfilePage = () => {
+const ProfilePage = ({ loadPostsProfile, posts, postsAreLoading }) => {
   const classes = useStyles()
 
   return (
-    <div className={classes.background}>
+    <InfiniteScroll
+      contentArr={posts}
+      loadContent={loadPostsProfile}
+      contentIsLoading={postsAreLoading}
+    >
       <Grid container className={classes.gridContainer}>
         <Grid item xs={10}>
           <Paper className={classes.paper}>
@@ -35,11 +44,27 @@ const ProfilePage = () => {
           <Paper className={classes.paper}>
             <CreatePost />
           </Paper>
-          <PostFeed origin='profile' />
+          <PostFeed />
         </Grid>
       </Grid>
-    </div>
+    </InfiniteScroll>
   )
 }
 
-export default ProfilePage
+ProfilePage.propTypes = {
+  postsAreLoading: PropTypes.bool.isRequired,
+  posts: PropTypes.array.isRequired
+}
+
+const mapStateToProps = state => ({
+  postsAreLoading: state.posts.loading,
+  posts: state.posts.posts
+})
+
+const mapDispatchToProps = dispatch => {
+  return {
+    loadPostsProfile: (page, size, isInitial) => dispatch(getPostsForOwnProfile(page, size, isInitial))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage)

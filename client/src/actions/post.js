@@ -6,7 +6,8 @@ import {
   POST_DELETED,
   POSTS_END_LOADING,
   POSTS_RECEIVED,
-  POSTS_START_LOADING
+  POSTS_START_LOADING,
+  RESET_RECEIVED_POSTS
 } from '../utils/constants/actionsName'
 import apiRequest from '../utils/helpers/apiRequest'
 
@@ -45,30 +46,27 @@ export const createPost = (message, images, isShownToEveryone) => {
     .then(() => window.location.reload())
 }
 
-export const getPostsForHomePage = () => async dispatch => {
-  dispatch({
-    type: POSTS_START_LOADING
-  })
-
-  try {
-    const posts = await apiRequest.get('/posts')
-    dispatch({
-      type: POSTS_RECEIVED,
-      payload: posts
-    })
-  } catch (e) {
-    dispatch({
-      type: POSTS_END_LOADING
-    })
-  }
+export const getPostsForHomePage = (page, size, isInitialRequest) => dispatch => {
+  return getPosts(dispatch, '/posts', { page, size }, isInitialRequest)
 }
 
-export const getPostsForProfile = () => async dispatch => {
+export const getPostsForOwnProfile = (page, size, isInitialRequest) => dispatch => {
+  return getPosts(dispatch, '/posts/profile', { page, size }, isInitialRequest)
+}
+
+export const getPosts = async (dispatch, url, params, isInitialRequest) => {
   dispatch({
     type: POSTS_START_LOADING
   })
+
+  if (isInitialRequest) {
+    dispatch({
+      type: RESET_RECEIVED_POSTS
+    })
+  }
+
   try {
-    const posts = await apiRequest.get('/posts/profile')
+    const posts = await apiRequest.get(url, { params })
     dispatch({
       type: POSTS_RECEIVED,
       payload: posts
