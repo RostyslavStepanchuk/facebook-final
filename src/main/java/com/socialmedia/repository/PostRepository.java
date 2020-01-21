@@ -15,6 +15,8 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
   List<Post> findAllByOwner_Username(String id);
 
+  Page<Post> findAllByOwnerUsernameAndImageNotNull(String id, Pageable pageable);
+
   Page<Post> findAllByOwner_Username(String id, Pageable pageable);
 
   @Query("SELECT p from Post p WHERE p.owner.username in (:ids)")

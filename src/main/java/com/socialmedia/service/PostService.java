@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -164,10 +163,9 @@ public final class PostService extends AbstractCrudService<Post, Long, PostRepos
 
   public List<Image> getUserPhotosFromPosts(Pageable pageable) {
     Principal principal = SecurityContextHolder.getContext().getAuthentication();
-    Page<Post> allPostsByOwner = jpaRepository.findAllByOwner_Username(principal.getName(), pageable);
+    Page<Post> allPostsByOwner = jpaRepository.findAllByOwnerUsernameAndImageNotNull(principal.getName(), pageable);
     List<Image> collect = allPostsByOwner.stream()
         .map(Post::getImage)
-        .filter(Objects::nonNull)
         .collect(Collectors.toList());
     return collect;
   }
