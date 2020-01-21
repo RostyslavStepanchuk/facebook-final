@@ -1,5 +1,5 @@
 import React from 'react'
-import { Typography, Grid } from '@material-ui/core'
+import { Grid, Typography } from '@material-ui/core'
 import useStyles from './photosListStyles'
 import PropTypes from 'prop-types'
 import Tile from '../Tile/Tile'

@@ -3,18 +3,18 @@ import apiRequest from '../utils/helpers/apiRequest'
 import {
   AUTH_ERROR,
   EMAIL_CONFIRMED,
+  FRIEND_DELETED,
   LOGIN_FAIL,
   LOGIN_SUCCESS,
   LOGOUT,
   PASSWORD_RESET,
   REGISTER_FAIL,
   REGISTER_SUCCESS,
+  REQUEST_CONFIRMED,
+  REQUEST_DELETED,
   START_LOADING,
   STOP_LOADING,
-  USER_LOADED,
-  REQUEST_DELETED,
-  REQUEST_CONFIRMED,
-  FRIEND_DELETED
+  USER_LOADED
 } from '../utils/constants/actionsName'
 import { Toastr } from '../utils/toastr/Toastr'
 

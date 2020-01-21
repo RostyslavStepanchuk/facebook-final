@@ -6,6 +6,9 @@ import com.socialmedia.dto.post.PostDtoIn;
 import com.socialmedia.dto.post.PostDtoOut;
 import com.socialmedia.mapper.PostMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,18 +34,22 @@ public class PostController {
   }
 
   @GetMapping
-  public ResponseEntity<List<PostDtoOut>> getAllPostsForFeed() {
-    return ResponseEntity.ok(postMapper.getAllPostsForFeed());
+  public ResponseEntity<List<PostDtoOut>> getAllPostsForFeed(
+      @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable) {
+    return ResponseEntity.ok(postMapper.getAllPostsForFeed(pageable));
   }
 
   @GetMapping("/profile")
-  public ResponseEntity<List<PostDtoOut>> getAllOwnPosts() {
-    return ResponseEntity.ok(postMapper.getAllUsersPosts());
+  public ResponseEntity<List<PostDtoOut>> getAllOwnPosts(
+      @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable) {
+    return ResponseEntity.ok(postMapper.getAllUsersPosts(pageable));
   }
 
   @GetMapping("/profile/{feedOwner}")
-  public ResponseEntity<List<PostDtoOut>> getAllUserPost(@PathVariable String feedOwner) {
-    return ResponseEntity.ok(postMapper.getAllUsersPosts(feedOwner));
+  public ResponseEntity<List<PostDtoOut>> getAllUserPost(
+      @PathVariable String feedOwner,
+      @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable) {
+    return ResponseEntity.ok(postMapper.getAllUsersPosts(feedOwner, pageable));
   }
 
   @GetMapping("/{id}")
@@ -84,7 +91,7 @@ public class PostController {
 
   @PostMapping("/{postId}/comment")
   public ResponseEntity<PostDtoOut> createComment(@PathVariable Long postId,
-                                                           @RequestBody CommentDtoIn commentDtoIn) {
+                                                  @RequestBody CommentDtoIn commentDtoIn) {
     return ResponseEntity.ok(postMapper.createComment(postId, commentDtoIn));
   }
 
@@ -95,7 +102,8 @@ public class PostController {
   }
 
   @GetMapping("/photos")
-  public ResponseEntity<List<ImageDtoOut>> getUserPhotosFromPosts() {
-    return ResponseEntity.ok(postMapper.getUserPhotosFromPosts());
+  public ResponseEntity<List<ImageDtoOut>> getUserPhotosFromPosts(
+      @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable) {
+    return ResponseEntity.ok(postMapper.getUserPhotosFromPosts(pageable));
   }
 }
