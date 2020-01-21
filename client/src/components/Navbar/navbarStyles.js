@@ -3,7 +3,8 @@ import { fade, makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
+    height: 75
   },
   menuButton: {
     marginRight: theme.spacing(2)
@@ -18,6 +19,10 @@ const useStyles = makeStyles(theme => ({
     textDecoration: 'none',
     color: 'white'
   },
+  searchContainer: {
+    width: '300px',
+    marginLeft: '20px'
+  },
   search: {
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
@@ -31,26 +36,6 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing(3),
       width: 'auto'
-    }
-  },
-  searchIcon: {
-    width: theme.spacing(7),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  inputRoot: {
-    color: 'inherit'
-  },
-  inputInput: {
-    padding: theme.spacing(1, 1, 1, 7),
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: 200
     }
   },
   sectionDesktop: {

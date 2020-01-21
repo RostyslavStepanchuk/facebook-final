@@ -14,15 +14,15 @@ import {
   FormGroup,
   MenuItem,
   Menu,
-  Badge,
-  InputBase
+  Badge
 } from '@material-ui/core'
-import SearchIcon from '@material-ui/icons/Search'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import MailIcon from '@material-ui/icons/Mail'
 import NotificationsIcon from '@material-ui/icons/Notifications'
 import MoreIcon from '@material-ui/icons/MoreVert'
 import MenuIcon from '@material-ui/icons/Menu'
+
+import Search from '../Search/Search'
 
 const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   const classes = useStyles()
@@ -140,19 +140,10 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
           <Typography variant='h6' className={classes.title}>
             DANBook
           </Typography>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder='Search…'
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput
-              }}
-              inputProps={{ 'aria-label': 'search' }}
-            />
+          <div className={classes.searchContainer}>
+            <Search />
           </div>
+
           {isAuthenticated && (
           <Fragment>
             <div className={classes.root} />
