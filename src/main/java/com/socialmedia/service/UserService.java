@@ -154,4 +154,8 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
     user.getTokensData().setForgotPasswordTokenValidTill(0L);
     jpaRepository.save(user);
   }
+
+  public List<ApplicationUser>  getUsersByQuery (String query) {
+    return jpaRepository.findAllByFirstNameContainsOrLastNameContains(query, query);
+  }
 }
