@@ -9,10 +9,12 @@ import com.socialmedia.util.EmailHandler;
 import com.socialmedia.util.SmartCopyBeanUtilsBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -97,11 +99,11 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
   public ApplicationUser delete(String id) {
     ApplicationUser deletedUser = getById(id);
 
-    deletedUser.getFriends().forEach(friend -> removeFriend(friend, id));
+    deletedUser.getFriends().forEach(friend -> cancelFriendship(friend, id));
     deletedUser.getChats().forEach(chat-> chatService.removeParticipant(chat, id));
     friendRequestService.getAllByRequester(deletedUser).forEach(request-> friendRequestService.delete(request.getId()));
     friendRequestService.getAllByResponder(deletedUser).forEach(request-> friendRequestService.delete(request.getId()));
-    postService.findAllUsersPosts().forEach(post -> postService.delete(post.getId()));
+    postService.findAllPostsAuthoredBy(deletedUser.getUsername()).forEach(post -> postService.delete(post.getId()));
     postService.findAllUsersPosts(deletedUser.getUsername()).forEach(post -> postService.delete(post.getId()));
     deletedUser.setIncomingFriendRequests(Collections.emptyList());
     deletedUser.getLikedPosts().forEach(post-> {
@@ -116,24 +118,6 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
     return deletedUser;
   }
 
-  public ApplicationUser cancelFrienship(String userId, String friendId) {
-    ApplicationUser user = getById(userId);
-    removeFriend(user, friendId);
-
-    ApplicationUser removedFriend = getById(friendId);
-    removeFriend(removedFriend, userId);
-
-    return user;
-  }
-
-  private void removeFriend(ApplicationUser user, String friendUsername) {
-    List<ApplicationUser> filteredFriendsList = user.getFriends().stream()
-        .filter(friend -> !friend.getUsername().equals(friendUsername))
-        .collect(Collectors.toList());
-    user.setFriends(filteredFriendsList);
-    jpaRepository.save(user);
-  }
-
   public String generateRefreshToken(String username) {
     return authenticationService.generateRefreshToken(username);
   }
@@ -144,7 +128,6 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
     emailHandler.sendResetPasswordLetter(user.getEmail(), forgotPasswordToken);
   }
 
-
   public void setNewPassword(String forgotPasswordToken, String password) {
     ApplicationUser user = jpaRepository.getByTokensData_ForgotPasswordToken(forgotPasswordToken);
     if (user.getTokensData().getForgotPasswordTokenValidTill() < System.currentTimeMillis()) {
@@ -152,6 +135,27 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
     }
     user.setPassword(bcryptPasswordEncoder.encode(password));
     user.getTokensData().setForgotPasswordTokenValidTill(0L);
+    jpaRepository.save(user);
+  }
+
+  public ApplicationUser deleteFriend(String friendUsername) {
+    Principal principal = SecurityContextHolder.getContext().getAuthentication();
+
+    ApplicationUser user = getById(principal.getName());
+    cancelFriendship(user, friendUsername);
+
+    ApplicationUser friend = getById(friendUsername);
+    cancelFriendship(friend, user.getUsername());
+
+    return user;
+  }
+
+  private void cancelFriendship(ApplicationUser user, String friendUsername) {
+    List<ApplicationUser> friends = user.getFriends();
+    friends.stream().filter(friend -> friend.getUsername().equals(friendUsername))
+            .findAny().ifPresent(friends::remove);
+
+    user.setFriends(friends);
     jpaRepository.save(user);
   }
 }

@@ -69,11 +69,9 @@ public class ApplicationUser implements DbEntity<String> {
   @JoinTable(name = "friends",
       joinColumns = @JoinColumn(name = "fk_username"),
       inverseJoinColumns = @JoinColumn(name = "fk_friend_username"))
-  @ToString.Exclude
   private List<ApplicationUser> friends;
 
-  @OneToMany(mappedBy = "responder")
-  @ToString.Exclude
+  @OneToMany(mappedBy = "responder", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<FriendRequest> incomingFriendRequests;
 
   @ManyToMany(mappedBy = "participants")

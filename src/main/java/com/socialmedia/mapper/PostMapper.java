@@ -1,6 +1,7 @@
 package com.socialmedia.mapper;
 
 import com.socialmedia.dto.comment.CommentDtoIn;
+import com.socialmedia.dto.image.ImageDtoOut;
 import com.socialmedia.dto.post.PostDtoIn;
 import com.socialmedia.dto.post.PostDtoOut;
 import com.socialmedia.model.ApplicationUser;
@@ -9,6 +10,7 @@ import com.socialmedia.model.Post;
 import com.socialmedia.service.PostService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
@@ -20,11 +22,14 @@ import java.util.stream.Collectors;
 public class PostMapper extends AbstractControllerToCrudServiceMapper<Post,Long, PostDtoIn, PostDtoOut, PostService> {
 
   private UserMapper userMapper;
+  private ImageMapper imageMapper;
+
 
   @Autowired
-  public PostMapper(ModelMapper modelMapper, PostService postService, UserMapper userMapper) {
+  public PostMapper(ModelMapper modelMapper, PostService postService, UserMapper userMapper, ImageMapper imageMapper) {
     super(modelMapper, postService);
     this.userMapper = userMapper;
+    this.imageMapper = imageMapper;
   }
 
   @Override
@@ -60,25 +65,25 @@ public class PostMapper extends AbstractControllerToCrudServiceMapper<Post,Long,
     return responseDtoOf(crudService.create(entity));
   }
 
-  public List<PostDtoOut> getAllPostsForFeed() {
+  public List<PostDtoOut> getAllPostsForFeed(Pageable pageable) {
 
-    return crudService.getAllPostsForFeed()
+    return crudService.getAllPostsForFeed(pageable)
         .stream()
         .map(this::responseDtoOf)
         .collect(Collectors.toList());
   }
 
-  public List<PostDtoOut> getAllUsersPosts() {
+  public List<PostDtoOut> getAllUsersPosts(Pageable pageable) {
 
-    return crudService.findAllUsersPosts()
+    return crudService.findAllUsersPosts(pageable)
         .stream()
         .map(this::responseDtoOf)
         .collect(Collectors.toList());
   }
 
-  public List<PostDtoOut> getAllUsersPosts(String feedOwner) {
+  public List<PostDtoOut> getAllUsersPosts(String feedOwner, Pageable pageable) {
 
-    return crudService.findAllUsersPosts(feedOwner)
+    return crudService.findAllUsersPosts(feedOwner, pageable)
         .stream()
         .map(this::responseDtoOf)
         .collect(Collectors.toList());
@@ -95,5 +100,11 @@ public class PostMapper extends AbstractControllerToCrudServiceMapper<Post,Long,
 
   public PostDtoOut deleteComment(Long postId, Long commentId) {
     return responseDtoOf(crudService.deleteComment(postId, commentId));
+  }
+
+  public List<ImageDtoOut> getUserPhotosFromPosts(Pageable pageable) {
+    return crudService.getUserPhotosFromPosts(pageable)
+            .stream().map( image -> imageMapper.responseDtoOf(image))
+            .collect(Collectors.toList());
   }
 }
