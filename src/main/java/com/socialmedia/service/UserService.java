@@ -139,7 +139,7 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
   }
 
   public List<ApplicationUser>  getUsersByQuery (String query) {
-    return jpaRepository.findAllByFirstNameContainsOrLastNameContains(query, query);
+    return jpaRepository.findAllByFirstOrLastName(query.toLowerCase());
   }
 
   public ApplicationUser deleteFriend(String friendUsername) {
