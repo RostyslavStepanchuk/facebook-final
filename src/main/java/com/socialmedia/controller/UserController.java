@@ -54,6 +54,11 @@ public class UserController {
     return ResponseEntity.ok(userMapper.confirmEmail(emailConfirmationId));
   }
 
+  @GetMapping("/{username}")
+  ResponseEntity<UserDtoOut> getUser(@PathVariable String username) {
+    return ResponseEntity.ok(userMapper.getById(username));
+  }
+
   @GetMapping("/users_search/{query}")
   ResponseEntity<List<UserDtoOut>> usersSearch(@PathVariable String query) {
     return ResponseEntity.ok(userMapper.usersSearch(query));

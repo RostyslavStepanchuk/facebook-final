@@ -21,7 +21,7 @@ import MenuIcon from '@material-ui/icons/Menu'
 
 import Search from '../Search/Search'
 
-const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
+const Navbar = ({ auth: { isAuthenticated, user }, logout }) => {
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = useState(null)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null)
@@ -55,7 +55,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
 
   const openProfile = () => {
     handleMenuClose()
-    history.push('/profile')
+    history.push(`/profile/${user.username}`)
   }
 
   const handleMobileMenuOpen = event => {
