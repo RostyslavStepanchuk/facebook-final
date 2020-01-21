@@ -17,7 +17,7 @@ public interface UserRepository extends JpaRepository<ApplicationUser, String> {
 
   Optional<ApplicationUser> findByEmail(String email);
 
-  @Query("select u from ApplicationUser u where lower(u.firstName) like %:queryStr% " +
-      "or lower(u.lastName) like %:queryStr%  ")
+  @Query("select u from ApplicationUser u where lower(u.firstName) like %:queryStr% "
+      + "or lower(u.lastName) like %:queryStr%  ")
   List<ApplicationUser> findAllByFirstOrLastName(String queryStr);
 }
