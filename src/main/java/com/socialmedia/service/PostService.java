@@ -1,5 +1,6 @@
 package com.socialmedia.service;
 
+import com.socialmedia.exception.NoDataFoundException;
 import com.socialmedia.model.ApplicationUser;
 import com.socialmedia.model.Comment;
 import com.socialmedia.model.Image;
@@ -8,12 +9,13 @@ import com.socialmedia.repository.PostRepository;
 import com.socialmedia.util.SmartCopyBeanUtilsBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -69,27 +71,36 @@ public final class PostService extends AbstractCrudService<Post, Long, PostRepos
     return super.update(existingEntity, incomingEntity);
   }
 
-  public List<Post> findAllUsersPosts() {
+  public List<Post> findAllPostsAuthoredBy(String username) {
+    return jpaRepository.findAllByAuthor_Username(username);
+  }
+
+  public List<Post> findAllUsersPosts(String username) {
+    return jpaRepository.findAllByOwner_Username(username);
+  }
+
+  public Page<Post> findAllUsersPosts(Pageable pageable) {
+
     Principal principal = SecurityContextHolder.getContext().getAuthentication();
-
-    return jpaRepository.findAllByOwner_Username(principal.getName());
+    return jpaRepository.findAllByOwner_Username(principal.getName(), pageable);
   }
 
-  public List<Post> findAllUsersPosts(String feedOwner) {
-    return jpaRepository.findAllByOwner_Username(feedOwner);
+  public Page<Post> findAllUsersPosts(String feedOwner, Pageable pageable) {
+
+    return jpaRepository.findAllByOwner_Username(feedOwner, pageable);
   }
 
-  public List<Post> getAllPostsForFeed() {
+  public Page<Post> getAllPostsForFeed(Pageable pageable) {
     Principal principal = SecurityContextHolder.getContext().getAuthentication();
     ApplicationUser user = userService.getById(principal.getName());
     List<ApplicationUser> postOwners = user.getFriends();
     postOwners.add(user);
 
-    return postOwners.stream()
-        .map(owner -> jpaRepository.findAllByOwner_Username(owner.getId()))
-        .flatMap(Collection::stream)
-        .sorted((p1, p2) -> (int) (p1.getDate() - p2.getDate()))
+    List<String> ownersIds = postOwners.stream()
+        .map(ApplicationUser::getId)
         .collect(Collectors.toList());
+
+    return jpaRepository.getAllByPostOwner(ownersIds, pageable);
   }
 
   public Post updateLikes(Long postId) {
@@ -132,7 +143,10 @@ public final class PostService extends AbstractCrudService<Post, Long, PostRepos
     Principal principal = SecurityContextHolder.getContext().getAuthentication();
     Post post = getById(postId);
     List<Comment> comments = post.getComments();
-    Comment comment = comments.stream().filter(item -> item.getId().equals(commentId)).findFirst().get();
+    Comment comment = comments.stream()
+        .filter(item -> item.getId().equals(commentId))
+        .findFirst()
+        .orElseThrow(()-> new NoDataFoundException(String.format("Comment with id %d wasn't found", commentId)));
 
     final boolean hasCredentialsToDelete = principal.getName().equals(post.getAuthor().getUsername())
             || principal.getName().equals(post.getOwner().getUsername())

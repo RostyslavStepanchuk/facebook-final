@@ -9,6 +9,7 @@ import com.socialmedia.model.Post;
 import com.socialmedia.service.PostService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
@@ -60,25 +61,25 @@ public class PostMapper extends AbstractControllerToCrudServiceMapper<Post,Long,
     return responseDtoOf(crudService.create(entity));
   }
 
-  public List<PostDtoOut> getAllPostsForFeed() {
+  public List<PostDtoOut> getAllPostsForFeed(Pageable pageable) {
 
-    return crudService.getAllPostsForFeed()
+    return crudService.getAllPostsForFeed(pageable)
         .stream()
         .map(this::responseDtoOf)
         .collect(Collectors.toList());
   }
 
-  public List<PostDtoOut> getAllUsersPosts() {
+  public List<PostDtoOut> getAllUsersPosts(Pageable pageable) {
 
-    return crudService.findAllUsersPosts()
+    return crudService.findAllUsersPosts(pageable)
         .stream()
         .map(this::responseDtoOf)
         .collect(Collectors.toList());
   }
 
-  public List<PostDtoOut> getAllUsersPosts(String feedOwner) {
+  public List<PostDtoOut> getAllUsersPosts(String feedOwner, Pageable pageable) {
 
-    return crudService.findAllUsersPosts(feedOwner)
+    return crudService.findAllUsersPosts(feedOwner, pageable)
         .stream()
         .map(this::responseDtoOf)
         .collect(Collectors.toList());

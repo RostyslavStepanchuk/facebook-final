@@ -40,7 +40,7 @@ const HomePage = ({ loadPostsHomePage, postsAreLoading, posts }) => {
 HomePage.propTypes = {
   postsAreLoading: PropTypes.bool.isRequired,
   posts: PropTypes.array.isRequired,
-  loadPostsProfile: PropTypes.func.isRequired
+  loadPostsHomePage: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
