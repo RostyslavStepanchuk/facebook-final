@@ -34,11 +34,9 @@ public class PostControllerTest {
         .andExpect(jsonPath("$[*].image").exists())
         .andExpect(jsonPath("$[*].showEveryone").isNotEmpty())
         .andExpect(jsonPath("$[*].author.username").isNotEmpty())
-        .andExpect(jsonPath("$[*].comments[*].message").isNotEmpty())
-        .andExpect(jsonPath("$[*].comments[*].date").isNotEmpty())
-        .andExpect(jsonPath("$[*].comments[*].author.username").isNotEmpty())
-        .andExpect(jsonPath("$[*].comments[*].author.username").isNotEmpty())
-        .andExpect(jsonPath("$[*].likes[*].username").isNotEmpty());
+        .andExpect(jsonPath("$[*].owner.username").isNotEmpty())
+        .andExpect(jsonPath("$[*].comments").exists())
+        .andExpect(jsonPath("$[*].likes").exists());
 
   }
 

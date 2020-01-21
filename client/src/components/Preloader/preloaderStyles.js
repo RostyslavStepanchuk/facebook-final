@@ -6,8 +6,6 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: '80px',
-
     '&.fullScreen': {
       height: '80vh',
       paddingTop: 0

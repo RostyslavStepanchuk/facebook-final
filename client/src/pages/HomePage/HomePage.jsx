@@ -1,16 +1,24 @@
-import React, { Fragment } from 'react'
+import React from 'react'
+import { connect } from 'react-redux'
 
 import { Container, Grid } from '@material-ui/core'
 import useStyles from './homePageStyles'
 
 import CreatePost from '../../components/CreatePost/CreatePost'
 import PostFeed from '../../components/PostFeed/PostFeed'
+import { getPostsForHomePage } from '../../actions/post'
+import PropTypes from 'prop-types'
+import InfiniteScroll from '../../components/InfiniteScroll/InfiniteScroll'
 
-const HomePage = () => {
+const HomePage = ({ loadPostsHomePage, postsAreLoading, posts }) => {
   const classes = useStyles()
 
   return (
-    <Fragment>
+    <InfiniteScroll
+      contentArr={posts}
+      loadContent={loadPostsHomePage}
+      contentIsLoading={postsAreLoading}
+    >
       <Container className={classes.container} maxWidth='lg'>
         <Grid container spacing={2}>
           <Grid item md={2}>
@@ -18,19 +26,32 @@ const HomePage = () => {
           </Grid>
           <Grid item md={6}>
             <CreatePost />
-            <PostFeed origin='homepage' />
+            <PostFeed />
           </Grid>
           <Grid item md={4}>
             <div className={classes.rightSectionPlaceholder} />
           </Grid>
         </Grid>
       </Container>
-    </Fragment>
+    </InfiniteScroll>
   )
 }
 
 HomePage.propTypes = {
-
+  postsAreLoading: PropTypes.bool.isRequired,
+  posts: PropTypes.array.isRequired,
+  loadPostsHomePage: PropTypes.func.isRequired
 }
 
-export default HomePage
+const mapStateToProps = state => ({
+  postsAreLoading: state.posts.loading,
+  posts: state.posts.posts
+})
+
+const mapDispatchToProps = dispatch => {
+  return {
+    loadPostsHomePage: (page, size, isInitial) => dispatch(getPostsForHomePage(page, size, isInitial))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage)

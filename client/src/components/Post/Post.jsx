@@ -20,10 +20,10 @@ const Post = ({ post }) => {
   return (
     <Paper key={id} className={classes.post}>
       <PostAuthor postId={id} author={author} owner={owner} date={date} />
-      <img src={image.src} className={classes.postImg} alt='Post' />
+      {image && <img src={image.src} className={classes.postImg} alt='Post' />}
       <p>{message}</p>
       <PostLikePanel postId={id} likes={likes} comments={comments} focusForCreatingComment={focusForCreatingComment} />
-      <PostComments postId={id} comments={comments} inputRef={inputRef} />
+      <PostComments postId={id} postOwner={owner} comments={comments} inputRef={inputRef} />
     </Paper>
   )
 }

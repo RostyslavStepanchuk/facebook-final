@@ -34,6 +34,30 @@ INSERT INTO posts (message, date, fk_image_id, show_everyone, fk_author_username
 INSERT INTO posts (message, date, fk_image_id, show_everyone, fk_author_username, fk_owner_username) values ('Smart friends post', 1575390091359 , 9, true, 'imaginaryUser', 'imaginaryUser');
 INSERT INTO posts (message, date, fk_image_id, show_everyone, fk_author_username, fk_owner_username) values ('Not Smart post from a stranger', 1575390091359 , 10, true, 'nonExistingUser', 'nonExistingUser');
 
+
+INSERT INTO posts (message, date, fk_image_id, show_everyone, fk_author_username, fk_owner_username) values ('post for pagination test', 1575390051359 , null , true, 'testUser', 'testUser');
+INSERT INTO posts (message, date, fk_image_id, show_everyone, fk_author_username, fk_owner_username) values ('post for pagination test', 1575390051359 , null , true, 'testUser', 'testUser');
+INSERT INTO posts (message, date, fk_image_id, show_everyone, fk_author_username, fk_owner_username) values ('post for pagination test', 1575390051359 , null , true, 'testUser', 'testUser');
+INSERT INTO posts (message, date, fk_image_id, show_everyone, fk_author_username, fk_owner_username) values ('post for pagination test', 1575390051359 , null , true, 'testUser', 'testUser');
+INSERT INTO posts (message, date, fk_image_id, show_everyone, fk_author_username, fk_owner_username) values ('post for pagination test', 1575390051359 , null , true, 'testUser', 'testUser');
+INSERT INTO posts (message, date, fk_image_id, show_everyone, fk_author_username, fk_owner_username) values ('post for pagination test', 1575390051359 , null , true, 'testUser', 'testUser');
+INSERT INTO posts (message, date, fk_image_id, show_everyone, fk_author_username, fk_owner_username) values ('post for pagination test', 1575390051359 , null , true, 'testUser', 'testUser');
+INSERT INTO posts (message, date, fk_image_id, show_everyone, fk_author_username, fk_owner_username) values ('post for pagination test', 1575390051359 , null , true, 'testUser', 'testUser');
+INSERT INTO posts (message, date, fk_image_id, show_everyone, fk_author_username, fk_owner_username) values ('post for pagination test', 1575390051359 , null , true, 'testUser', 'testUser');
+INSERT INTO posts (message, date, fk_image_id, show_everyone, fk_author_username, fk_owner_username) values ('post for pagination test', 1575390051359 , null , true, 'testUser', 'testUser');
+INSERT INTO posts (message, date, fk_image_id, show_everyone, fk_author_username, fk_owner_username) values ('post for pagination test', 1575390051359 , null , true, 'testUser', 'testUser');
+INSERT INTO posts (message, date, fk_image_id, show_everyone, fk_author_username, fk_owner_username) values ('post for pagination test', 1575390051359 , null , true, 'testUser', 'testUser');
+INSERT INTO posts (message, date, fk_image_id, show_everyone, fk_author_username, fk_owner_username) values ('post for pagination test', 1575390051359 , null , true, 'testUser', 'testUser');
+INSERT INTO posts (message, date, fk_image_id, show_everyone, fk_author_username, fk_owner_username) values ('post for pagination test', 1575390051359 , null , true, 'testUser', 'testUser');
+INSERT INTO posts (message, date, fk_image_id, show_everyone, fk_author_username, fk_owner_username) values ('post for pagination test', 1575390051359 , null , true, 'testUser', 'testUser');
+INSERT INTO posts (message, date, fk_image_id, show_everyone, fk_author_username, fk_owner_username) values ('post for pagination test', 1575390051359 , null , true, 'testUser', 'testUser');
+INSERT INTO posts (message, date, fk_image_id, show_everyone, fk_author_username, fk_owner_username) values ('post for pagination test', 1575390051359 , null , true, 'testUser', 'testUser');
+INSERT INTO posts (message, date, fk_image_id, show_everyone, fk_author_username, fk_owner_username) values ('post for pagination test', 1575390051359 , null , true, 'testUser', 'testUser');
+INSERT INTO posts (message, date, fk_image_id, show_everyone, fk_author_username, fk_owner_username) values ('post for pagination test', 1575390051359 , null , true, 'testUser', 'testUser');
+INSERT INTO posts (message, date, fk_image_id, show_everyone, fk_author_username, fk_owner_username) values ('post for pagination test', 1575390051359 , null , true, 'testUser', 'testUser');
+INSERT INTO posts (message, date, fk_image_id, show_everyone, fk_author_username, fk_owner_username) values ('post for pagination test', 1575390051359 , null , true, 'testUser', 'testUser');
+
+
 /* comments */
 INSERT INTO comments (message, date, fk_author_username, fk_post_id) values ('this post sucks, actually', 1575390058432, 'imaginaryUser', 1);
 INSERT INTO comments (message, date, fk_author_username, fk_post_id) values ('second comment', 1575390058432 , 'nonExistingUser', 1);
