@@ -12,6 +12,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public final class UserMapper extends
     AbstractControllerToCrudServiceMapper<ApplicationUser, String, UserDtoIn, UserDtoOut, UserService> {
@@ -48,6 +51,13 @@ public final class UserMapper extends
 
   public ApplicationUser entityOf(String userId) {
     return crudService.getById(userId);
+  }
+
+  public List<UserDtoOut> usersSearch(String query) {
+    return crudService.getUsersByQuery(query)
+        .stream()
+        .map(this::responseDtoOf)
+        .collect(Collectors.toList());
   }
 
   private UserLabelDtoOut userLabelDtoOf(ApplicationUser entity) {

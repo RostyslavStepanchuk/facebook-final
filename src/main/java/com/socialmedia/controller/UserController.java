@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/v1/users")
@@ -51,6 +52,11 @@ public class UserController {
   @GetMapping("/email/confirm/{emailConfirmationId}")
   ResponseEntity<Boolean> confirmEmail(@PathVariable String emailConfirmationId) {
     return ResponseEntity.ok(userMapper.confirmEmail(emailConfirmationId));
+  }
+
+  @GetMapping("/users_search/{query}")
+  ResponseEntity<List<UserDtoOut>> usersSearch(@PathVariable String query) {
+    return ResponseEntity.ok(userMapper.usersSearch(query));
   }
 
   @PutMapping
