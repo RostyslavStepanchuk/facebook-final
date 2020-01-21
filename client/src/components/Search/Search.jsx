@@ -31,6 +31,8 @@ const Search = ({loading, searchData, searchResults}) => {
   const handleInputChange = (evt, inputValue) => {
     if (inputValue.length >= 2) {
       searchData(inputValue)
+    } else {
+      setOptions([])
     }
   }
   const renderOption = option => (

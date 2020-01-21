@@ -16,6 +16,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.socialmedia.controller.util.TestConstants.CONTENT_TYPE_JSON;
 import static com.socialmedia.controller.util.TestConstants.URL_CONFIRM_EMAIL;
@@ -46,6 +47,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
+@Transactional
 public class ApplicationUserControllerTest {
 
     @Autowired
