@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +21,12 @@ public class FriendRequestController {
   @Autowired
   public FriendRequestController(FriendRequestMapper friendRequestMapper) {
     this.friendRequestMapper = friendRequestMapper;
+  }
+
+  @Transactional
+  @PostMapping("/{responderUsername}")
+  public ResponseEntity<UserDtoOut> createRequest(@PathVariable String responderUsername) {
+    return ResponseEntity.ok(friendRequestMapper.createRequest(responderUsername));
   }
 
   @Transactional

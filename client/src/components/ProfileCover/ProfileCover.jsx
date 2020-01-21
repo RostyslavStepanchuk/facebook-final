@@ -59,6 +59,9 @@ const ProfileCover = ({ user, profileTab, handleChangeTab }) => {
           label={'Friends'}
           value='friends' />
         <Tab className={classes.submenuItem}
+          label='Photos'
+          value='photos' />
+        <Tab className={classes.submenuItem}
           label='Messages'
           value='messages' />
       </Tabs>

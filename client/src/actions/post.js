@@ -124,7 +124,6 @@ export const createComment = (postId, comment) => async dispatch => {
 export const deleteComment = (postId, commentId) => async dispatch => {
   try {
     const post = await apiRequest.delete('/posts/' + postId + '/comment/' + commentId)
-    console.log(postId)
     dispatch({
       type: COMMENT_REMOVED,
       payload: { postId, post }

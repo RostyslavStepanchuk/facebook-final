@@ -69,6 +69,10 @@ public final class UserMapper extends
   public void setNewPassword(String forgotPasswordToken, String password) {
     crudService.setNewPassword(forgotPasswordToken, password);
   }
+
+  public UserDtoOut deleteFriend(String friendUsername) {
+    return responseDtoOf(crudService.deleteFriend(friendUsername));
+  }
 }
 
 

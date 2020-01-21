@@ -8,6 +8,7 @@ import com.socialmedia.mapper.UserMapper;
 import com.socialmedia.util.CookieMgr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -76,6 +77,12 @@ public class UserController {
                                                @RequestBody UserRegistrationDtoIn passwordOnly) {
     userMapper.setNewPassword(forgotPasswordToken, passwordOnly.getPassword());
     return ResponseEntity.ok("Password was updated");
+  }
+
+  @Transactional
+  @DeleteMapping("/friends/{friendUsername}")
+  public ResponseEntity<UserDtoOut> deleteFriend(@PathVariable String friendUsername) {
+    return ResponseEntity.ok(userMapper.deleteFriend(friendUsername));
   }
 
 }
