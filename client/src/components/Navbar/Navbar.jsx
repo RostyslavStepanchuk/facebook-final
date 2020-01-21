@@ -9,9 +9,6 @@ import {
   Toolbar,
   Typography,
   IconButton,
-  Switch,
-  FormControlLabel,
-  FormGroup,
   MenuItem,
   Menu,
   Badge
