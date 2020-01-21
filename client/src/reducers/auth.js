@@ -1,12 +1,15 @@
 import {
   AUTH_ERROR,
   EMAIL_CONFIRMED,
+  FRIEND_DELETED,
   LOGIN_FAIL,
   LOGIN_SUCCESS,
   LOGOUT,
   PASSWORD_RESET,
   REGISTER_FAIL,
   REGISTER_SUCCESS,
+  REQUEST_CONFIRMED,
+  REQUEST_DELETED,
   START_LOADING,
   STOP_LOADING,
   USER_LOADED
@@ -57,6 +60,15 @@ export default function(state = initialState, action) {
 
     case STOP_LOADING:
       return { ...state, loading: false }
+
+    case REQUEST_DELETED:
+      return { ...state, user: payload }
+
+    case REQUEST_CONFIRMED:
+      return { ...state, user: payload }
+
+    case FRIEND_DELETED:
+      return { ...state, user: payload }
 
     default:
       return { ...state }
