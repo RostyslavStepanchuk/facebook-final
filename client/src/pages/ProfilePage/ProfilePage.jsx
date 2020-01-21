@@ -2,7 +2,6 @@ import React, { Fragment, useEffect, useState } from 'react'
 import ProfileCover from '../../components/ProfileCover/ProfileCover'
 import ShortUserData from '../../components/ShortUserData/ShortUserData'
 import ProfileField from '../../components/ProfileField/ProfileField'
-import FriendRequestsList from '../../components/FriendRequestsList/FriendRequestsList'
 import FriendsList from '../../components/FriendsList/FriendsList'
 import MessagesList from '../../components/MessagesList/MessagesList'
 import PhotosList from '../../components/PhotosList/PhotosList'
@@ -18,7 +17,7 @@ import PropTypes from 'prop-types'
 const ProfilePage = ({ user, loadUserPhotos, userPhotos, loadingPhotos }) => {
   const classes = useStyles()
   const [profileTab, setProfileTab] = useState('your story')
-  const { friends } = user
+  const { friends, incomingFriendRequests } = user
 
   useEffect(() => {
     loadUserPhotos()
@@ -62,23 +61,23 @@ const ProfilePage = ({ user, loadUserPhotos, userPhotos, loadingPhotos }) => {
         { profileTab === 'friend requests' &&
           <Grid item sm={9}>
             <Paper className={classes.paper}>
-              <FriendRequestsList />
+              <FriendsList requests={incomingFriendRequests} />
             </Paper>
           </Grid>
         }
         { profileTab === 'friends' &&
           <Grid item sm={9}>
             <Paper className={classes.paper}>
-              <FriendsList />
+              <FriendsList friends={friends} />
             </Paper>
           </Grid>
         }
         { profileTab === 'photos' &&
-        <Grid item sm={9}>
-          <Paper className={classes.paper}>
-            <PhotosList userPhotos={userPhotos} />
-          </Paper>
-        </Grid>
+          <Grid item sm={9}>
+            <Paper className={classes.paper}>
+              <PhotosList userPhotos={userPhotos} />
+            </Paper>
+          </Grid>
         }
         { profileTab === 'messages' &&
           <Grid item sm={9}>

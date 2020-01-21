@@ -99,7 +99,7 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
   public ApplicationUser delete(String id) {
     ApplicationUser deletedUser = getById(id);
 
-    deletedUser.getFriends().forEach(friend -> removeFriend(friend, id));
+    deletedUser.getFriends().forEach(friend -> cancelFriendship(friend, id));
     deletedUser.getChats().forEach(chat-> chatService.removeParticipant(chat, id));
     friendRequestService.getAllByRequester(deletedUser).forEach(request-> friendRequestService.delete(request.getId()));
     friendRequestService.getAllByResponder(deletedUser).forEach(request-> friendRequestService.delete(request.getId()));
@@ -118,24 +118,6 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
     return deletedUser;
   }
 
-  public ApplicationUser cancelFrienship(String userId, String friendId) {
-    ApplicationUser user = getById(userId);
-    removeFriend(user, friendId);
-
-    ApplicationUser removedFriend = getById(friendId);
-    removeFriend(removedFriend, userId);
-
-    return user;
-  }
-
-  private void removeFriend(ApplicationUser user, String friendUsername) {
-    List<ApplicationUser> filteredFriendsList = user.getFriends().stream()
-        .filter(friend -> !friend.getUsername().equals(friendUsername))
-        .collect(Collectors.toList());
-    user.setFriends(filteredFriendsList);
-    jpaRepository.save(user);
-  }
-
   public String generateRefreshToken(String username) {
     return authenticationService.generateRefreshToken(username);
   }
@@ -145,7 +127,6 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
     String forgotPasswordToken = authenticationService.generateForgotPasswordToken(user);
     emailHandler.sendResetPasswordLetter(user.getEmail(), forgotPasswordToken);
   }
-
 
   public void setNewPassword(String forgotPasswordToken, String password) {
     ApplicationUser user = jpaRepository.getByTokensData_ForgotPasswordToken(forgotPasswordToken);
@@ -161,19 +142,20 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
     Principal principal = SecurityContextHolder.getContext().getAuthentication();
 
     ApplicationUser user = getById(principal.getName());
+    cancelFriendship(user, friendUsername);
+
     ApplicationUser friend = getById(friendUsername);
-
-    List<ApplicationUser> userFriends = user.getFriends();
-    userFriends.stream().filter(item -> item.getUsername().equals(friendUsername))
-            .findAny().ifPresent(userFriends::remove);
-
-    List<ApplicationUser> friendFriends = friend.getFriends();
-    friendFriends.stream().filter(item -> item.getUsername().equals(user.getUsername()))
-            .findAny().ifPresent(friendFriends::remove);
-
-    user.setFriends(userFriends);
-    friend.setFriends(friendFriends);
+    cancelFriendship(friend, user.getUsername());
 
     return user;
+  }
+
+  private void cancelFriendship(ApplicationUser user, String friendUsername) {
+    List<ApplicationUser> friends = user.getFriends();
+    friends.stream().filter(friend -> friend.getUsername().equals(friendUsername))
+            .findAny().ifPresent(friends::remove);
+
+    user.setFriends(friends);
+    jpaRepository.save(user);
   }
 }
