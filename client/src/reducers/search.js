@@ -1,15 +1,11 @@
-import {
-  START_SEARCHING,
-  END_SEARCHING,
-  SEARCH_RESULT_RECEIVED
-} from '../utils/constants/actionsName'
+import { END_SEARCHING, SEARCH_RESULT_RECEIVED, START_SEARCHING } from '../utils/constants/actionsName'
 
 const initialState = {
   searchResults: [],
   loading: false
 }
 
-export default function(state = initialState, action) {
+export default function (state = initialState, action) {
   const { type, payload } = action
 
   switch (type) {
