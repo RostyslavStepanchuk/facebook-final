@@ -29,9 +29,10 @@ export default function (state = initialState, action) {
       return { ...state, posts: [] }
 
     case POSTS_RECEIVED:
-      overlapIndex = state.posts.map(post => post.id)
-        .indexOf(payload[0].id)
-
+      if (payload.length > 0) {
+        overlapIndex = state.posts.map(post => post.id)
+          .indexOf(payload[0].id)
+      }
       if (overlapIndex > -1) {
         return { ...state,
           posts: state.posts.slice(0, overlapIndex)
