@@ -16,7 +16,7 @@ const ShortUserData = ({ user }) => {
         Short data
       </Typography>
       <div className={classes.textContainer}>
-        <p><span className={classes.textSpan}>Gender:</span> {gender}</p>
+        <p><span className={classes.textSpan}>Gender:</span> {gender.toLowerCase()}</p>
         <p><span className={classes.textSpan}>Email:</span> {email}</p>
         <p><span className={classes.textSpan}>Birthday:</span> {getDateWithoutTime(birthDate)}</p>
       </div>

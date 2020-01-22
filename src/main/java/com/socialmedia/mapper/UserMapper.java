@@ -10,6 +10,7 @@ import com.socialmedia.model.TokensData;
 import com.socialmedia.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -60,7 +61,7 @@ public final class UserMapper extends
         .collect(Collectors.toList());
   }
 
-  private UserLabelDtoOut userLabelDtoOf(ApplicationUser entity) {
+  public UserLabelDtoOut userLabelDtoOf(ApplicationUser entity) {
     return modelMapper.map(entity, UserLabelDtoOut.class);
   }
 
@@ -82,6 +83,10 @@ public final class UserMapper extends
 
   public UserDtoOut deleteFriend(String friendUsername) {
     return responseDtoOf(crudService.deleteFriend(friendUsername));
+  }
+
+  public List<UserLabelDtoOut> getUserFriends(Pageable pageable) {
+    return crudService.getUserFriends(pageable).stream().map(this::userLabelDtoOf).collect(Collectors.toList());
   }
 }
 

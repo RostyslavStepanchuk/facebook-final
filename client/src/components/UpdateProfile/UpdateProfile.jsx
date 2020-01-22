@@ -2,7 +2,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import DateFnsUtils from '@date-io/date-fns'
 
 import {
   Avatar,
@@ -17,7 +16,6 @@ import {
   TextField,
   Typography
 } from '@material-ui/core'
-import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
 
 import useStyles from './updateProfileStyles'
 import { PhotoCamera } from '@material-ui/icons'
@@ -41,7 +39,7 @@ const UpdateProfile = ({ user, handleClose, updateProfile }) => {
     firstName,
     lastName,
     email,
-    birthDate: Number(birthDate),
+    birthDate: birthDate,
     gender: gender,
     emailError: ''
   })
@@ -52,8 +50,23 @@ const UpdateProfile = ({ user, handleClose, updateProfile }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
-  const onBirthDateChange = date => {
-    setFormData({ ...formData, birthDate: date.getTime() })
+  const onBirthDateChange = e => {
+    setFormData({ ...formData, birthDate: new Date(e.target.value).getTime() })
+  }
+
+  const parseMillisToStringDate = dateMillis => {
+    if (dateMillis === null) {
+      return 'dd.mm.yyyy'
+    }
+    const d = new Date(dateMillis)
+    let month = '' + (d.getMonth() + 1)
+    let day = '' + d.getDate()
+    const year = d.getFullYear()
+
+    if (month.length < 2) { month = '0' + month }
+    if (day.length < 2) { day = '0' + day }
+
+    return [year, month, day].join('-')
   }
 
   const getFileObject = e => {
@@ -205,22 +218,16 @@ const UpdateProfile = ({ user, handleClose, updateProfile }) => {
           </FormControl>
         </Grid>
         <Grid item alignContent='center' justify='center' container xs={6} sm >
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <KeyboardDatePicker
-              disableToolbar
-              variant='inline'
-              format='dd/MM/yyyy'
-              margin='normal'
-              name='birthDate'
-              id='date-picker-inline'
-              label='Birth date'
-              value={new Date(formData.birthDate)}
-              onChange={onBirthDateChange}
-              KeyboardButtonProps={{
-                'aria-label': 'change date'
-              }}
-            />
-          </MuiPickersUtilsProvider>
+          <TextField
+            name='birthDate'
+            label='Birth date'
+            type='date'
+            value={parseMillisToStringDate(formData.birthDate)}
+            InputLabelProps={{
+              shrink: true
+            }}
+            onChange={onBirthDateChange}
+          />
         </Grid>
         <Grid item container alignContent='center' xs={12} md>
           <TextField
