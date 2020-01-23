@@ -39,11 +39,13 @@ const ProfilePage = ({
   const { friends, incomingFriendRequests } = profileOwner // we don't have this in user data anymore
 
   const loadUserPosts = getPostsForProfile.bind(null, userId)
+  /* eslint-disable */
   useEffect(() => {
     loadUserProfile(userId)
     loadUserPhotos(userId)
     loadUserPosts(0, 10, true)
   }, [ loadUserPhotos, loadUserProfile ])
+  /* eslint-enable */
 
   const handleChangeTab = (event, newValue) => {
     setProfileTab(newValue)
