@@ -1,13 +1,13 @@
 import React from 'react'
-import useStyles from './shortUserDataStyles'
-import { connect } from 'react-redux'
-import Typography from '@material-ui/core/Typography'
-import { getDateWithoutTime } from '../../utils/date/getDate'
 import PropTypes from 'prop-types'
+import Typography from '@material-ui/core/Typography'
+
+import { getDateWithoutTime } from '../../utils/date/getDate'
+
+import useStyles from './shortUserDataStyles'
 
 const ShortUserData = ({ user }) => {
   const classes = useStyles()
-
   const { email, birthDate, gender } = user
 
   return (
@@ -28,8 +28,4 @@ ShortUserData.propTypes = {
   user: PropTypes.object.isRequired
 }
 
-const mapStateToProps = state => ({
-  user: state.auth.user
-})
-
-export default connect(mapStateToProps, null)(ShortUserData)
+export default ShortUserData

@@ -2,34 +2,39 @@ import {
   START_SEARCHING,
   STOP_SEARCHING,
   SEARCH_RESULT_RECEIVED,
-  START_LOADING,
-  STOP_LOADING,
+  START_LOADING_PROFILE,
+  STOP_LOADING_PROFILE,
   PROFILE_LOADED
 } from '../utils/constants/actionsName'
 
 const initialState = {
   searchResults: [],
   userProfile: {},
-  loading: false
+  profileLoading: false,
+  searchResultLoading: false
 }
 
-export default function (state = initialState, action) {
+export default function(state = initialState, action) {
   const { type, payload } = action
 
   switch (type) {
     case START_SEARCHING:
-    case START_LOADING:
-      return { ...state, loading: true }
+      return { ...state, searchResultLoading: true }
+
+    case START_LOADING_PROFILE:
+      return { ...state, profileLoading: true }
 
     case STOP_SEARCHING:
-    case STOP_LOADING:
-      return { ...state, loading: false }
+      return { ...state, searchResultLoading: false }
+
+    case STOP_LOADING_PROFILE:
+      return { ...state, profileLoading: false }
 
     case SEARCH_RESULT_RECEIVED:
-      return { ...state, searchResults: payload, loading: false }
+      return { ...state, searchResults: payload, searchResultLoading: false }
 
     case PROFILE_LOADED:
-      return { ...state, userProfile: payload, loading: false }
+      return { ...state, userProfile: payload, profileLoading: false }
 
     default:
       return {...state}

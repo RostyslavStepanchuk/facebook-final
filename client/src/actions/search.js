@@ -2,8 +2,8 @@ import {
   START_SEARCHING,
   STOP_SEARCHING,
   SEARCH_RESULT_RECEIVED,
-  START_LOADING,
-  STOP_LOADING,
+  START_LOADING_PROFILE,
+  STOP_LOADING_PROFILE,
   PROFILE_LOADED
 } from '../utils/constants/actionsName'
 
@@ -29,7 +29,7 @@ export const searchData = query => async dispatch => {
 
 export const getUserProfile = userId => async dispatch => {
   dispatch({
-    type: START_LOADING
+    type: START_LOADING_PROFILE
   })
 
   apiRequest.get(`/users/${userId}`, null, true)
@@ -41,6 +41,6 @@ export const getUserProfile = userId => async dispatch => {
     }
     )
     .catch(() => dispatch({
-      type: STOP_LOADING
+      type: STOP_LOADING_PROFILE
     }))
 }
