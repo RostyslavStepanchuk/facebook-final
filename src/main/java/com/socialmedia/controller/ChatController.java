@@ -22,7 +22,8 @@ public class ChatController {
   }
 
   @GetMapping
-  public ResponseEntity<List<ChatDtoOut>> getChats() {
-    return ResponseEntity.ok(chatMapper.getChats());
+  public ResponseEntity<List<ChatDtoOut>> getAllChats() {
+    return ResponseEntity.ok(chatMapper.getAllChats());
   }
+
 }

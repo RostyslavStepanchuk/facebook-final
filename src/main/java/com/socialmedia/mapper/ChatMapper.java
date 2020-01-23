@@ -12,7 +12,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public final class ChatMapper extends AbstractControllerToCrudServiceMapper<Chat,Long, ChatDtoIn, ChatDtoOut, ChatService> {
+public final class ChatMapper
+        extends AbstractControllerToCrudServiceMapper<Chat,Long, ChatDtoIn, ChatDtoOut, ChatService> {
 
   @Autowired
   public ChatMapper(ModelMapper modelMapper, ChatService crudService) {
@@ -29,9 +30,9 @@ public final class ChatMapper extends AbstractControllerToCrudServiceMapper<Chat
     return modelMapper.map(dtoIn, Chat.class);
   }
 
-  public List<ChatDtoOut> getChats() {
+  public List<ChatDtoOut> getAllChats() {
 
-    return crudService.getChats()
+    return crudService.getAllChats()
             .stream()
             .map(this::responseDtoOf)
             .collect(Collectors.toList());
