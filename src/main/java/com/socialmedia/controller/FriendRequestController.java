@@ -1,6 +1,7 @@
 package com.socialmedia.controller;
 
 import com.socialmedia.dto.user.UserDtoOut;
+import com.socialmedia.dto.user.UserLabelDtoOut;
 import com.socialmedia.mapper.FriendRequestMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +32,7 @@ public class FriendRequestController {
 
   @Transactional
   @PutMapping("/{requestId}")
-  public ResponseEntity<UserDtoOut> confirmRequest(@PathVariable Long requestId) {
+  public ResponseEntity<UserLabelDtoOut> confirmRequest(@PathVariable Long requestId) {
     return ResponseEntity.ok(friendRequestMapper.confirmRequest(requestId));
   }
 

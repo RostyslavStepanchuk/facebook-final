@@ -19,7 +19,6 @@ public class UserDtoOut {
   private ImageDtoOut profileCover;
   private Gender gender;
   private Boolean openAccount;
-  private List<UserLabelDtoOut> friends;
   private List<FriendRequestDtoOut> incomingFriendRequests;
   private Boolean emailIsConfirmed;
 }

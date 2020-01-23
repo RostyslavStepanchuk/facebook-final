@@ -15,17 +15,33 @@ import InfiniteScroll from '../../components/InfiniteScroll/InfiniteScroll'
 
 import { getUserPhotosFromPosts } from '../../actions/image'
 import { getPostsForOwnProfile } from '../../actions/post'
+import { loadUserFriends } from '../../actions/friends'
 
 import useStyles from './profilePageStyles'
 
-const ProfilePage = ({ loadPostsProfile, posts, postsAreLoading, user, loadUserPhotos, userPhotos, loadingPhotos }) => {
+const FRIENDS_PAGE_SIZE = 20
+
+const ProfilePage = ({
+                       loadPostsProfile,
+                       posts,
+                       postsAreLoading,
+                       user,
+                       username,
+                       loadUserPhotos,
+                       userPhotos,
+                       loadingPhotos,
+                       friends,
+                       friendsAreLoading,
+                       loadUserFriends
+                     }) => {
   const classes = useStyles()
   const [profileTab, setProfileTab] = useState('your story')
-  const { friends, incomingFriendRequests } = user
+  const { incomingFriendRequests } = user
 
   useEffect(() => {
     loadUserPhotos()
-  }, [loadUserPhotos])
+    loadUserFriends(username, 0, FRIENDS_PAGE_SIZE, true)
+  }, [loadUserPhotos, loadUserFriends, username])
 
   const handleChangeTab = (event, newValue) => {
     setProfileTab(newValue)
@@ -44,51 +60,51 @@ const ProfilePage = ({ loadPostsProfile, posts, postsAreLoading, user, loadUserP
           </Paper>
         </Grid>
         { profileTab === 'your story' &&
-          <Fragment>
-            <Grid item xs={9} sm={4}>
-              <Paper className={classes.paper}>
-                <ShortUserData />
-              </Paper>
-              <Paper className={classes.paper}>
-                <ProfileField userPhotos={userPhotos} loadingPhotos={loadingPhotos} />
-              </Paper>
-              <Paper className={classes.paper}>
-                <ProfileField friends={friends} />
-              </Paper>
-            </Grid>
-            <Grid item xs={9} sm={5} className={classes.feedColumn}>
-              <CreatePost />
-              <PostFeed />
-            </Grid>
-          </Fragment>
+        <Fragment>
+          <Grid item xs={9} sm={4}>
+            <Paper className={classes.paper}>
+              <ShortUserData />
+            </Paper>
+            <Paper className={classes.paper}>
+              <ProfileField userPhotos={userPhotos} loadingPhotos={loadingPhotos} />
+            </Paper>
+            <Paper className={classes.paper}>
+              <ProfileField friends={friends} />
+            </Paper>
+          </Grid>
+          <Grid item xs={9} sm={5} className={classes.feedColumn}>
+            <CreatePost />
+            <PostFeed />
+          </Grid>
+        </Fragment>
         }
         { profileTab === 'friend requests' &&
-          <Grid item sm={9}>
-            <Paper className={classes.paper}>
-              <FriendsList requests={incomingFriendRequests} />
-            </Paper>
-          </Grid>
+        <Grid item sm={9}>
+          <Paper className={classes.paper}>
+            <FriendsList requests={incomingFriendRequests} />
+          </Paper>
+        </Grid>
         }
         { profileTab === 'friends' &&
-          <Grid item sm={9}>
-            <Paper className={classes.paper}>
-              <FriendsList friends={friends} />
-            </Paper>
-          </Grid>
+        <Grid item sm={9}>
+          <Paper className={classes.paper}>
+            <FriendsList friends={friends} />
+          </Paper>
+        </Grid>
         }
         { profileTab === 'photos' &&
-          <Grid item sm={9}>
-            <Paper className={classes.paper}>
-              <PhotosList userPhotos={userPhotos} />
-            </Paper>
-          </Grid>
+        <Grid item sm={9}>
+          <Paper className={classes.paper}>
+            <PhotosList userPhotos={userPhotos} />
+          </Paper>
+        </Grid>
         }
         { profileTab === 'messages' &&
-          <Grid item sm={9}>
-            <Paper className={classes.paper}>
-              <MessagesList />
-            </Paper>
-          </Grid>
+        <Grid item sm={9}>
+          <Paper className={classes.paper}>
+            <MessagesList />
+          </Paper>
+        </Grid>
         }
       </Grid>
     </InfiniteScroll>
@@ -97,25 +113,33 @@ const ProfilePage = ({ loadPostsProfile, posts, postsAreLoading, user, loadUserP
 
 ProfilePage.propTypes = {
   user: PropTypes.object.isRequired,
+  username: PropTypes.string.isRequired,
   loadUserPhotos: PropTypes.func.isRequired,
   userPhotos: PropTypes.array.isRequired,
   loadingPhotos: PropTypes.bool.isRequired,
   postsAreLoading: PropTypes.bool.isRequired,
   posts: PropTypes.array.isRequired,
-  loadPostsProfile: PropTypes.func.isRequired
+  loadPostsProfile: PropTypes.func.isRequired,
+  friends: PropTypes.array.isRequired,
+  friendsAreLoading: PropTypes.bool.isRequired,
+  loadUserFriends: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
   user: state.auth.user,
+  username: state.auth.user.username,
   userPhotos: state.images.userPhotos,
   loadingPhotos: state.images.loading,
   postsAreLoading: state.posts.loading,
-  posts: state.posts.posts
+  posts: state.posts.posts,
+  friends: state.friends.userFriends,
+  friendsAreLoading: state.friends.loading
 })
 
 const mapDispatchToProps = dispatch => ({
   loadUserPhotos: () => dispatch(getUserPhotosFromPosts()),
-  loadPostsProfile: (page, size, isInitial) => dispatch(getPostsForOwnProfile(page, size, isInitial))
+  loadPostsProfile: (page, size, isInitial) => dispatch(getPostsForOwnProfile(page, size, isInitial)),
+  loadUserFriends: (username, page, size, isInitial) => dispatch(loadUserFriends(username, page, size, isInitial))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage)

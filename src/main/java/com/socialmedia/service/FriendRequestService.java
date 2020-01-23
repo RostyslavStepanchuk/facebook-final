@@ -62,23 +62,21 @@ public class FriendRequestService extends AbstractCrudService<FriendRequest, Lon
     requester.setFriends(requesterFriends);
     user.setFriends(userFriends);
 
-    List<FriendRequest> requests = user.getIncomingFriendRequests();
-    requests.stream().filter(request -> request.getId().equals(requestId)).findAny().ifPresent(requests::remove);
-
-    user.setIncomingFriendRequests(requests);
-
-    return user;
+    deleteRequestFromIncoming(user, requestId);
+    return requester;
   }
 
   public ApplicationUser deleteRequest(Long requestId) {
     Principal principal = SecurityContextHolder.getContext().getAuthentication();
     ApplicationUser user = userService.getById(principal.getName());
 
+    deleteRequestFromIncoming(user, requestId);
+    return user;
+  }
+
+  private void deleteRequestFromIncoming(ApplicationUser user, Long requestId) {
     List<FriendRequest> requests = user.getIncomingFriendRequests();
     requests.stream().filter(request -> request.getId().equals(requestId)).findAny().ifPresent(requests::remove);
-
     user.setIncomingFriendRequests(requests);
-
-    return user;
   }
 }
