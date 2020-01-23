@@ -39,9 +39,9 @@ const EmailConfirmedPage = (props) => {
 }
 
 EmailConfirmedPage.propTypes = {
-  loading: PropTypes.func,
-  emailIsConfirmed: PropTypes.func,
-  confirmEmail: PropTypes.func
+  loading: PropTypes.bool,
+  emailIsConfirmed: PropTypes.bool,
+  confirmEmail: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({

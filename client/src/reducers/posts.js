@@ -8,15 +8,15 @@ import {
   POSTS_START_LOADING,
   RESET_RECEIVED_POSTS
 } from '../utils/constants/actionsName'
+import { addPagedPayload } from '../utils/helpers/payloadAdapter'
 
 const initialState = {
   posts: [],
   loading: false
 }
 
-export default function(state = initialState, action) {
+export default function (state = initialState, action) {
   const { type, payload } = action
-  let overlapIndex;
 
   switch (type) {
     case POSTS_START_LOADING:
@@ -29,21 +29,10 @@ export default function(state = initialState, action) {
       return { ...state, posts: [] }
 
     case POSTS_RECEIVED:
-      overlapIndex = state.posts.map(post => post.id)
-        .indexOf(payload[0].id)
-
-      if (overlapIndex > -1) {
-        return { ...state,
-          posts: state.posts.slice(0, overlapIndex)
-            .concat(payload),
-          loading: false }
-      } else {
-        return { ...state,
-          posts: state.posts.concat(payload),
-          loading: false }
+      return { ...state,
+        posts: addPagedPayload(state.posts, payload, 'id'),
+        loading: false
       }
-
-
     case LIKES_UPDATED: {
       let result = [...state.posts].map(post => {
         if (post.id === payload.postId) return payload.post

@@ -84,7 +84,6 @@ public class ApplicationUserControllerTest {
             .andExpect(jsonPath("$.profileCover.src").value(USER_PROFILE_COVER_URL))
             .andExpect(jsonPath("$.gender").value(USER_GENDER))
             .andExpect(jsonPath("$.openAccount").value(USER_OPEN_ACCOUNT))
-            .andExpect(jsonPath("$.friends", iterableWithSize(comparesEqualTo(1))))
             .andExpect(jsonPath("$.incomingFriendRequests", iterableWithSize(comparesEqualTo(1))));
 
     }
