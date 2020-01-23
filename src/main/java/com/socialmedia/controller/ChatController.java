@@ -21,10 +21,8 @@ public class ChatController {
     this.chatMapper = chatMapper;
   }
 
-  //TODO remove endpoint, it's for test purposes only
   @GetMapping
-  public ResponseEntity<List<ChatDtoOut>> getAll() {
-
-    return ResponseEntity.ok(chatMapper.getAll());
+  public ResponseEntity<List<ChatDtoOut>> getChats() {
+    return ResponseEntity.ok(chatMapper.getChats());
   }
 }

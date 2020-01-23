@@ -4,16 +4,24 @@ import com.socialmedia.model.ApplicationUser;
 import com.socialmedia.model.Chat;
 import com.socialmedia.repository.ChatRepository;
 import com.socialmedia.util.SmartCopyBeanUtilsBean;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public final class ChatService extends AbstractCrudService<Chat, Long, ChatRepository> {
 
-  public ChatService(ChatRepository jpaRepository, SmartCopyBeanUtilsBean beanUtilsBean) {
+  private UserService userService;
+
+  public ChatService(ChatRepository jpaRepository,
+                     SmartCopyBeanUtilsBean beanUtilsBean,
+                     @Lazy UserService userService) {
     super(jpaRepository, beanUtilsBean);
+    this.userService = userService;
   }
 
   public Chat removeParticipant(Long chatId, String participantUsername) {
@@ -28,4 +36,13 @@ public final class ChatService extends AbstractCrudService<Chat, Long, ChatRepos
     chat.setParticipants(filteredParticipantsList);
     return jpaRepository.save(chat);
   }
+  public List<Chat> getChats() {
+    Principal principal = SecurityContextHolder.getContext().getAuthentication();
+    ApplicationUser user = userService.getById(principal.getName());
+    List<Chat> chats = jpaRepository.getAllByParticipantsContaining(user);
+    //exclude group chats
+    chats.stream().filter(chat -> chat.getParticipants().size() != 2).findAny().ifPresent(chats::remove);
+    return chats;
+  }
+
 }
