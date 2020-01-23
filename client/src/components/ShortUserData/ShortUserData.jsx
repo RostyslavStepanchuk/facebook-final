@@ -6,9 +6,9 @@ import { getDateWithoutTime } from '../../utils/date/getDate'
 
 import useStyles from './shortUserDataStyles'
 
-const ShortUserData = ({ user }) => {
+const ShortUserData = ({ profileOwner }) => {
   const classes = useStyles()
-  const { email, birthDate, gender } = user
+  const { email, birthDate, gender } = profileOwner
 
   return (
     <div className={classes.container}>
@@ -25,7 +25,7 @@ const ShortUserData = ({ user }) => {
 }
 
 ShortUserData.propTypes = {
-  user: PropTypes.object.isRequired
+  profileOwner: PropTypes.object.isRequired
 }
 
 export default ShortUserData
