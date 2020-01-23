@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 const PAGE_SIZE = 10
@@ -7,19 +7,9 @@ const InfiniteScroll = ({
   contentArr,
   loadContentHandler,
   contentIsLoading,
-  children,
-  isOwnProfileViewMode = true,
-  userId }) => {
+  children }) => {
   const [ furtherDownloadIsBlocked, setFurtherDownloadBlocked ] = useState(false)
   const page = Math.floor(contentArr.length / PAGE_SIZE)
-
-  useEffect(() => {
-    if (isOwnProfileViewMode) {
-      loadContentHandler(0, PAGE_SIZE, true)
-    } else {
-      loadContentHandler(0, PAGE_SIZE, true, userId)
-    }
-  }, [loadContentHandler, isOwnProfileViewMode, userId])
 
   const handleInfiniteScroll = () => {
     const element = InfiniteScroll.scrollDiv
@@ -27,11 +17,7 @@ const InfiniteScroll = ({
 
     if (scrolledDown && !furtherDownloadIsBlocked && !contentIsLoading) {
       setFurtherDownloadBlocked(true)
-      if (isOwnProfileViewMode) {
-        loadContentHandler(page, PAGE_SIZE, false)
-      } else {
-        loadContentHandler(page, PAGE_SIZE, false, userId)
-      }
+      loadContentHandler(page, PAGE_SIZE, false)
       setTimeout(() => {
         setFurtherDownloadBlocked(false)
       }, 3000)

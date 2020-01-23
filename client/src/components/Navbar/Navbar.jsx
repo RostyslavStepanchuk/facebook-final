@@ -4,15 +4,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { logout } from '../../actions/auth'
 import useStyles from './navbarStyles'
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  IconButton,
-  MenuItem,
-  Menu,
-  Badge
-} from '@material-ui/core'
+import { AppBar, Badge, IconButton, Menu, MenuItem, Toolbar, Typography } from '@material-ui/core'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import MailIcon from '@material-ui/icons/Mail'
 import NotificationsIcon from '@material-ui/icons/Notifications'
@@ -55,7 +47,7 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout }) => {
 
   const openProfile = () => {
     handleMenuClose()
-    history.push(`/profile/${user.username}`)
+    history.push('/me')
   }
 
   const handleMobileMenuOpen = event => {
