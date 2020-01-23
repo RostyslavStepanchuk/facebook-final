@@ -19,7 +19,7 @@ const variantIcon = {
   info: InfoIcon
 }
 
-function MySnackbarContentWrapper(props) {
+function MySnackbarContentWrapper (props) {
   const classes = useStyles1()
   const { className, message, onClose, variant, ...other } = props
   const Icon = variantIcon[variant]
@@ -51,7 +51,7 @@ MySnackbarContentWrapper.propTypes = {
   variant: PropTypes.oneOf(['error', 'info', 'success', 'warning']).isRequired
 }
 
-export default function ToastrContent(props) {
+export default function ToastrContent (props) {
   const { message, variant = 'info' } = props
   const classes = useStyles1()
   const [open, setOpen] = useState(true)

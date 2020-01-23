@@ -17,8 +17,11 @@ import Preloader from '../../components/Preloader/Preloader'
 import { getUserPhotosFromPosts } from '../../actions/image'
 import { getPostsForProfile } from '../../actions/post'
 import { getUserProfile } from '../../actions/search'
+import { loadUserFriends } from '../../actions/friends'
 
 import useStyles from './profilePageStyles'
+
+const FRIENDS_PAGE_SIZE = 20
 
 const ProfilePage = ({
   loadUserProfile,
@@ -30,13 +33,13 @@ const ProfilePage = ({
   loadingPhotos,
   profileOwner,
   profileLoading,
-  getPostsForProfile,
+  getPostsForProfile, friends, friendsAreLoading, loadUserFriends
 }) => {
   const classes = useStyles()
-  const userId = useParams().userId || user.username;
+  const userId = useParams().userId || user.username
   const isOwnProfile = userId === user.username
   const [profileTab, setProfileTab] = useState('your story')
-  const { friends, incomingFriendRequests } = profileOwner // we don't have this in user data anymore
+  const { incomingFriendRequests } = profileOwner // we don't have this in user data anymore
 
   const loadUserPosts = getPostsForProfile.bind(null, userId)
   /* eslint-disable */
@@ -44,6 +47,7 @@ const ProfilePage = ({
     loadUserProfile(userId)
     loadUserPhotos(userId)
     loadUserPosts(0, 10, true)
+    loadUserFriends(userId, 0, FRIENDS_PAGE_SIZE, true)
   }, [ loadUserPhotos, loadUserProfile ])
   /* eslint-enable */
 
@@ -130,6 +134,9 @@ ProfilePage.propTypes = {
   loadUserProfile: PropTypes.func.isRequired,
   profileOwner: PropTypes.object.isRequired,
   profileLoading: PropTypes.bool.isRequired,
+  friends: PropTypes.array.isRequired,
+  friendsAreLoading: PropTypes.bool.isRequired,
+  loadUserFriends: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -140,12 +147,15 @@ const mapStateToProps = state => ({
   posts: state.posts.posts,
   profileOwner: state.search.userProfile,
   profileLoading: state.search.profileLoading,
+  friends: state.friends.userFriends,
+  friendsAreLoading: state.friends.loading
 })
 
 const mapDispatchToProps = dispatch => ({
   loadUserPhotos: (userId) => dispatch(getUserPhotosFromPosts(userId)),
   getPostsForProfile: (userId, page, size, isInitial) => dispatch(getPostsForProfile(userId, page, size, isInitial)),
-  loadUserProfile: (userId) => dispatch(getUserProfile(userId))
+  loadUserProfile: (userId) => dispatch(getUserProfile(userId)),
+  loadUserFriends: (username, page, size, isInitial) => dispatch(loadUserFriends(username, page, size, isInitial))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage)

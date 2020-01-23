@@ -16,13 +16,13 @@ import useStyles from './friendsListItemStyles'
 import HighlightOffIcon from '@material-ui/icons/HighlightOff'
 import MailOutlineIcon from '@material-ui/icons/MailOutline'
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline'
-import { confirmRequest, deleteFriend, deleteRequest } from '../../../actions/auth'
+import { confirmRequest, deleteFriend, deleteRequest } from '../../../actions/friends'
 import { getDateWithoutTime } from '../../../utils/date/getDate'
 import { getAvatarLink } from '../../../utils/helpers/imageLinkHelpers'
 import Tile from '../../Tile/Tile'
 import { connect } from 'react-redux'
 
-const Transition = React.forwardRef(function Transition(props, ref) {
+const Transition = React.forwardRef(function Transition (props, ref) {
   return <Slide direction='up' ref={ref} {...props} />
 })
 

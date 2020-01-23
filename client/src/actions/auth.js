@@ -3,15 +3,12 @@ import apiRequest from '../utils/helpers/apiRequest'
 import {
   AUTH_ERROR,
   EMAIL_CONFIRMED,
-  FRIEND_DELETED,
   LOGIN_FAIL,
   LOGIN_SUCCESS,
   LOGOUT,
   PASSWORD_RESET,
   REGISTER_FAIL,
   REGISTER_SUCCESS,
-  REQUEST_CONFIRMED,
-  REQUEST_DELETED,
   START_LOADING,
   STOP_LOADING,
   USER_LOADED
@@ -156,40 +153,4 @@ export const updateProfile = dataForm => dispatch => {
         payload: data
       })
     })
-}
-
-export const deleteFriend = friendUsername => async dispatch => {
-  try {
-    const user = await apiRequest.delete('/users/friends/' + friendUsername)
-    dispatch({
-      type: FRIEND_DELETED,
-      payload: user
-    })
-  } catch (e) {
-    Toastr.error('Something goes wrong! Please try again later')
-  }
-}
-
-export const confirmRequest = (requestId) => async dispatch => {
-  try {
-    const user = await apiRequest.put('/requests/' + requestId)
-    dispatch({
-      type: REQUEST_CONFIRMED,
-      payload: user
-    })
-  } catch (e) {
-    Toastr.error('Something goes wrong! Please try again later')
-  }
-}
-
-export const deleteRequest = (requestId) => async dispatch => {
-  try {
-    const requestList = await apiRequest.delete('/requests/' + requestId)
-    dispatch({
-      type: REQUEST_DELETED,
-      payload: requestList
-    })
-  } catch (e) {
-    Toastr.error('Something goes wrong! Please try again later')
-  }
 }
