@@ -1,7 +1,8 @@
 package com.socialmedia.repository;
 
 import com.socialmedia.model.ApplicationUser;
-import com.socialmedia.model.Post;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,6 +17,9 @@ public interface UserRepository extends JpaRepository<ApplicationUser, String> {
   ApplicationUser getByTokensData_ForgotPasswordToken(String forgotPasswordToken);
 
   Optional<ApplicationUser> findByEmail(String email);
+
+  @Query("SELECT u.friends FROM ApplicationUser u WHERE u.username = :username")
+  Page<ApplicationUser> getAllUserFriends(String username, Pageable pageable);
 
   @Query("select u from ApplicationUser u where lower(u.firstName) like %:queryStr% "
       + "or lower(u.lastName) like %:queryStr%  ")

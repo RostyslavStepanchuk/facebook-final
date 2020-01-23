@@ -1,7 +1,6 @@
 import {
   AUTH_ERROR,
   EMAIL_CONFIRMED,
-  FRIEND_DELETED,
   LOGIN_FAIL,
   LOGIN_SUCCESS,
   LOGOUT,
@@ -24,7 +23,7 @@ const initialState = {
   emailIsConfirmed: false
 }
 
-export default function(state = initialState, action) {
+export default function (state = initialState, action) {
   const { type, payload } = action
 
   switch (type) {
@@ -61,14 +60,17 @@ export default function(state = initialState, action) {
     case STOP_LOADING:
       return { ...state, loading: false }
 
+      // this should move from user to friends eventually
+
     case REQUEST_DELETED:
       return { ...state, user: payload }
 
     case REQUEST_CONFIRMED:
-      return { ...state, user: payload }
-
-    case FRIEND_DELETED:
-      return { ...state, user: payload }
+      return { ...state,
+        user: { ...state.user,
+          incomingFriendRequests: state.user.incomingFriendRequests.filter(item => item.requester.username !== payload.username)
+        }
+      }
 
     default:
       return { ...state }

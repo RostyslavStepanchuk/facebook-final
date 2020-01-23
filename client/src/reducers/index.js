@@ -4,12 +4,14 @@ import auth from './auth'
 import posts from './posts'
 import search from './search'
 import images from './images'
+import friends from './friends'
 
 export default combineReducers({
   auth,
   posts,
   search,
   images,
+  friends,
   toastr: toastrReducer
 
 })

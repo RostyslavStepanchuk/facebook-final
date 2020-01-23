@@ -47,15 +47,7 @@ export const createPost = (message, images, isShownToEveryone) => {
     .then(() => window.location.reload())
 }
 
-export const getPostsForHomePage = (page, size, isInitialRequest) => dispatch => {
-  return getPosts(dispatch, '/posts', { page, size }, isInitialRequest)
-}
-
-export const getPostsForProfile = (userId, page, size, isInitialRequest) => dispatch => {
-  return getPosts(dispatch, `/posts/profile/${userId}`, { page, size }, isInitialRequest)
-}
-
-export const getPosts = async (dispatch, url, params, isInitialRequest) => {
+const getPosts = async (dispatch, url, params, isInitialRequest) => {
   dispatch({
     type: POSTS_START_LOADING
   })
@@ -77,6 +69,14 @@ export const getPosts = async (dispatch, url, params, isInitialRequest) => {
       type: POSTS_END_LOADING
     })
   }
+}
+
+export const getPostsForHomePage = (page, size, isInitialRequest) => dispatch => {
+  return getPosts(dispatch, '/posts', { page, size }, isInitialRequest)
+}
+
+export const getPostsForProfile = (userId, page, size, isInitialRequest) => dispatch => {
+  return getPosts(dispatch, `/posts/profile/${userId}`, { page, size }, isInitialRequest)
 }
 
 export const deletePost = (postId) => async dispatch => {
