@@ -55,6 +55,10 @@ export const getPostsForOwnProfile = (page, size, isInitialRequest) => dispatch 
   return getPosts(dispatch, '/posts/profile', { page, size }, isInitialRequest)
 }
 
+export const getAllUserPosts = (page, size, isInitialRequest, userId) => dispatch => {
+  return getPosts(dispatch, `/posts/profile/${userId}`, { page, size }, isInitialRequest)
+}
+
 export const getPosts = async (dispatch, url, params, isInitialRequest) => {
   dispatch({
     type: POSTS_START_LOADING

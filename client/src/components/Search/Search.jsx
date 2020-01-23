@@ -92,7 +92,7 @@ Search.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  loading: state.search.loading,
+  loading: state.search.searchResultLoading,
   searchResults: state.search.searchResults
 })
 
