@@ -2,7 +2,6 @@ import React, { Fragment, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { get } from 'lodash'
 import { Grid, Paper } from '@material-ui/core'
 
 import ProfileCover from '../../components/ProfileCover/ProfileCover'
@@ -16,14 +15,12 @@ import PostFeed from '../../components/PostFeed/PostFeed'
 import InfiniteScroll from '../../components/InfiniteScroll/InfiniteScroll'
 import Preloader from '../../components/Preloader/Preloader'
 import { getUserPhotosFromPosts } from '../../actions/image'
-import { getPostsForOwnProfile, getAllUserPosts } from '../../actions/post'
+import { getPostsForProfile } from '../../actions/post'
 import { getUserProfile } from '../../actions/search'
 
 import useStyles from './profilePageStyles'
 
 const ProfilePage = ({
-  loadOwnPosts,
-  loadUserPosts,
   loadUserProfile,
   posts,
   postsAreLoading,
@@ -31,24 +28,22 @@ const ProfilePage = ({
   loadUserPhotos,
   userPhotos,
   loadingPhotos,
-  userProfile,
-  profileLoading
+  profileOwner,
+  profileLoading,
+  getPostsForProfile,
 }) => {
   const classes = useStyles()
-  const { userId } = useParams()
-  const isOwnProfileViewMode = userId === get(user, 'username')
+  const userId = useParams().userId || user.username;
+  const isOwnProfile = userId === user.username
   const [profileTab, setProfileTab] = useState('your story')
-  const userToRender = isOwnProfileViewMode ? user : userProfile
-  const { friends, incomingFriendRequests } = userToRender
+  const { friends, incomingFriendRequests } = profileOwner // we don't have this in user data anymore
 
+  const loadUserPosts = getPostsForProfile.bind(null, userId)
   useEffect(() => {
-    if (!isOwnProfileViewMode) {
-      loadUserProfile(userId)
-      loadUserPhotos(userId)
-    } else {
-      loadUserPhotos()
-    }
-  }, [isOwnProfileViewMode, loadUserPhotos, loadUserProfile, userId])
+    loadUserProfile(userId)
+    loadUserPhotos(userId)
+    loadUserPosts(0, 10, true)
+  }, [ loadUserPhotos, loadUserProfile ])
 
   const handleChangeTab = (event, newValue) => {
     setProfileTab(newValue)
@@ -57,17 +52,15 @@ const ProfilePage = ({
   return profileLoading ? <Preloader /> : (
     <InfiniteScroll
       contentArr={posts}
-      loadContentHandler={isOwnProfileViewMode ? loadOwnPosts : loadUserPosts}
+      loadContentHandler={loadUserPosts}
       contentIsLoading={postsAreLoading}
-      isOwnProfileViewMode={isOwnProfileViewMode}
-      userId={userId}
     >
       <Grid container className={classes.gridContainer}>
         <Grid item xs={9}>
           <Paper className={classes.paper}>
             <ProfileCover
-              user={userToRender}
-              isOwnProfileViewMode={isOwnProfileViewMode}
+              profileOwner={profileOwner}
+              isOwnProfile={isOwnProfile}
               profileTab={profileTab}
               handleChangeTab={handleChangeTab} />
           </Paper>
@@ -76,7 +69,7 @@ const ProfilePage = ({
         <Fragment>
           <Grid item xs={9} sm={4}>
             <Paper className={classes.paper}>
-              <ShortUserData user={userToRender} />
+              <ShortUserData profileOwner={profileOwner} />
             </Paper>
             <Paper className={classes.paper}>
               <ProfileField userPhotos={userPhotos} loadingPhotos={loadingPhotos} />
@@ -131,11 +124,10 @@ ProfilePage.propTypes = {
   loadingPhotos: PropTypes.bool.isRequired,
   postsAreLoading: PropTypes.bool.isRequired,
   posts: PropTypes.array.isRequired,
-  loadOwnPosts: PropTypes.func.isRequired,
-  loadUserPosts: PropTypes.func.isRequired,
+  getPostsForProfile: PropTypes.func.isRequired,
   loadUserProfile: PropTypes.func.isRequired,
-  userProfile: PropTypes.object.isRequired,
-  profileLoading: PropTypes.bool.isRequired
+  profileOwner: PropTypes.object.isRequired,
+  profileLoading: PropTypes.bool.isRequired,
 }
 
 const mapStateToProps = state => ({
@@ -144,14 +136,13 @@ const mapStateToProps = state => ({
   loadingPhotos: state.images.loading,
   postsAreLoading: state.posts.loading,
   posts: state.posts.posts,
-  userProfile: state.search.userProfile,
-  profileLoading: state.search.profileLoading
+  profileOwner: state.search.userProfile,
+  profileLoading: state.search.profileLoading,
 })
 
 const mapDispatchToProps = dispatch => ({
   loadUserPhotos: (userId) => dispatch(getUserPhotosFromPosts(userId)),
-  loadOwnPosts: (page, size, isInitial) => dispatch(getPostsForOwnProfile(page, size, isInitial)),
-  loadUserPosts: (page, size, isInitial, userId) => dispatch(getAllUserPosts(page, size, isInitial, userId)),
+  getPostsForProfile: (userId, page, size, isInitial) => dispatch(getPostsForProfile(userId, page, size, isInitial)),
   loadUserProfile: (userId) => dispatch(getUserProfile(userId))
 })
 

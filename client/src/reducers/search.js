@@ -1,15 +1,18 @@
 import {
-  START_SEARCHING,
-  STOP_SEARCHING,
+  PROFILE_LOADED,
   SEARCH_RESULT_RECEIVED,
   START_LOADING_PROFILE,
+  START_SEARCHING,
   STOP_LOADING_PROFILE,
-  PROFILE_LOADED
+  STOP_SEARCHING
 } from '../utils/constants/actionsName'
 
 const initialState = {
   searchResults: [],
-  userProfile: {},
+  userProfile: {
+    friends: [],
+    incomingFriendRequests: []
+  },
   profileLoading: false,
   searchResultLoading: false
 }
