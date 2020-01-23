@@ -1,14 +1,12 @@
 package com.socialmedia.dto.chat;
 
-import com.socialmedia.dto.chat.message.ChatMessageDtoIn;
 import com.socialmedia.dto.user.UserLabelDtoIn;
+import lombok.Data;
 
 import java.util.List;
 
+@Data
 public class ChatDtoIn {
-  private Long id;
   private String name;
   private List<UserLabelDtoIn> participants;
-  private List<ChatMessageDtoIn> messages;
-
 }
