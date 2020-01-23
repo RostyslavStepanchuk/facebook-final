@@ -4,6 +4,7 @@ import com.socialmedia.model.ApplicationUser;
 import com.socialmedia.model.Chat;
 import com.socialmedia.repository.ChatRepository;
 import com.socialmedia.util.SmartCopyBeanUtilsBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ public final class ChatService extends AbstractCrudService<Chat, Long, ChatRepos
 
   private UserService userService;
 
+  @Autowired
   public ChatService(ChatRepository jpaRepository,
                      SmartCopyBeanUtilsBean beanUtilsBean,
                      @Lazy UserService userService) {
@@ -36,7 +38,8 @@ public final class ChatService extends AbstractCrudService<Chat, Long, ChatRepos
     chat.setParticipants(filteredParticipantsList);
     return jpaRepository.save(chat);
   }
-  public List<Chat> getChats() {
+
+  public List<Chat> getAllChats() {
     Principal principal = SecurityContextHolder.getContext().getAuthentication();
     ApplicationUser user = userService.getById(principal.getName());
     List<Chat> chats = jpaRepository.getAllByParticipantsContaining(user);

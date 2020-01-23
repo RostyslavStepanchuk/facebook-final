@@ -14,9 +14,9 @@ const initialState = {
   loading: false
 }
 
-export default function(state = initialState, action) {
+export default function (state = initialState, action) {
   const { type, payload } = action
-  let overlapIndex;
+  let overlapIndex
 
   switch (type) {
     case POSTS_START_LOADING:
@@ -42,7 +42,6 @@ export default function(state = initialState, action) {
           posts: state.posts.concat(payload),
           loading: false }
       }
-
 
     case LIKES_UPDATED: {
       let result = [...state.posts].map(post => {
