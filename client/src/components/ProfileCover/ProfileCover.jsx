@@ -7,8 +7,8 @@ import EditOutlinedIcon from '@material-ui/icons/EditOutlined'
 import UpdateProfile from '../UpdateProfile/UpdateProfile'
 import { getAvatarLink, getProfileCoverLink } from '../../utils/helpers/imageLinkHelpers'
 
-const ProfileCover = ({ user, isOwnProfileViewMode, profileTab, handleChangeTab }) => {
-  const { avatar, firstName, lastName, profileCover } = user
+const ProfileCover = ({ profileOwner, isOwnProfile, profileTab, handleChangeTab }) => {
+  const { avatar, firstName, lastName, profileCover } = profileOwner
   const classes = useStyles({profileCover: getProfileCoverLink(profileCover)})
 
   const [ modalOpen, setModalOpen ] = useState(false)
@@ -22,7 +22,7 @@ const ProfileCover = ({ user, isOwnProfileViewMode, profileTab, handleChangeTab 
       <div className={classes.avatarBg}>
         <Avatar className={classes.avatarImg} src={getAvatarLink(avatar)} />
         <p className={classes.avatarName}>{firstName} {lastName}</p>
-        {isOwnProfileViewMode ? (<Button
+        {isOwnProfile ? (<Button
           variant='contained'
           onClick={handleModal}
           className={classes.editProfileBtn}
@@ -69,10 +69,10 @@ const ProfileCover = ({ user, isOwnProfileViewMode, profileTab, handleChangeTab 
 }
 
 ProfileCover.propTypes = {
-  user: PropTypes.object.isRequired,
+  profileOwner: PropTypes.object.isRequired,
   profileTab: PropTypes.string.isRequired,
   handleChangeTab: PropTypes.func.isRequired,
-  isOwnProfileViewMode: PropTypes.bool.isRequired
+  isOwnProfile: PropTypes.bool.isRequired
 }
 
 export default ProfileCover
