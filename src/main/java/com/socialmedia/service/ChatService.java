@@ -48,4 +48,19 @@ public final class ChatService extends AbstractCrudService<Chat, Long, ChatRepos
     return chats;
   }
 
+  public Chat createChat(Chat chat) {
+    Principal principal = SecurityContextHolder.getContext().getAuthentication();
+    ApplicationUser user = userService.getById(principal.getName());
+
+    List<ApplicationUser> participants = chat.getParticipants().stream()
+            .map(participant -> userService.getById(participant.getUsername())).collect(Collectors.toList());
+
+    if (participants.size() == 1) {
+      chat.setName(participants.get(0).getFirstName() + ' ' + participants.get(0).getLastName());
+    }
+    participants.add(user);
+    chat.setParticipants(participants);
+
+    return jpaRepository.save(chat);
+  }
 }

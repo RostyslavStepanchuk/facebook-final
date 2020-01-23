@@ -15,9 +15,12 @@ import java.util.stream.Collectors;
 public final class ChatMapper
         extends AbstractControllerToCrudServiceMapper<Chat,Long, ChatDtoIn, ChatDtoOut, ChatService> {
 
+  private UserMapper userMapper;
+
   @Autowired
-  public ChatMapper(ModelMapper modelMapper, ChatService crudService) {
+  public ChatMapper(ModelMapper modelMapper, ChatService crudService, UserMapper userMapper) {
     super(modelMapper, crudService);
+    this.userMapper = userMapper;
   }
 
   @Override
@@ -38,4 +41,7 @@ public final class ChatMapper
             .collect(Collectors.toList());
   }
 
+  public ChatDtoOut createChat(ChatDtoIn chatDtoIn) {
+    return responseDtoOf(crudService.createChat(entityOf(chatDtoIn)));
+  }
 }
