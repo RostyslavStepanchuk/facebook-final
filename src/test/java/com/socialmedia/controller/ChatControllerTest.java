@@ -32,9 +32,6 @@ public class ChatControllerTest {
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[*].name").isNotEmpty())
         .andExpect(jsonPath("$[*].participants[*]", iterableWithSize(greaterThan(1))))
-        .andExpect(jsonPath("$[*].participants[*].username").isNotEmpty())
-        .andExpect(jsonPath("$[*].messages[*].text").isNotEmpty())
-        .andExpect(jsonPath("$[*].messages[*].date").isNotEmpty())
-        .andExpect(jsonPath("$[*].messages[*].author.username").isNotEmpty());
+        .andExpect(jsonPath("$[*].participants[*].username").isNotEmpty());
   }
 }

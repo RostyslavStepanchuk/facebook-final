@@ -73,14 +73,26 @@ INSERT INTO likes (fk_post_id, fk_provider_username) values (2, 'testUser');
 
 /* chats */
 INSERT INTO chats (name) values ('Final project discussion');
+INSERT INTO chats (name) values ('Chat with Bill');
+INSERT INTO chats (name) values ('Chat with Tony');
 
 /* chat_to_user */
 INSERT INTO chat_to_user (fk_chat_id, fk_participant_username) values (1, 'testUser');
 INSERT INTO chat_to_user (fk_chat_id, fk_participant_username) values (1, 'nonExistingUser');
 INSERT INTO chat_to_user (fk_chat_id, fk_participant_username) values (1, 'imaginaryUser');
+INSERT INTO chat_to_user (fk_chat_id, fk_participant_username) values (2, 'testUser');
+INSERT INTO chat_to_user (fk_chat_id, fk_participant_username) values (2, 'nonExistingUser');
+INSERT INTO chat_to_user (fk_chat_id, fk_participant_username) values (3, 'testUser');
+INSERT INTO chat_to_user (fk_chat_id, fk_participant_username) values (3, 'imaginaryUser');
 
 /* messages */
 INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('Guys, how are we going to do final?', 1575481606043, 'testUser', 1);
 INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('Have no idea', 1575485606043, 'imaginaryUser', 1);
 INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('Relaaaax', 1575489606043, 'nonExistingUser', 1);
 INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('Have you ever heard of Stack Overflow?', 1575490206043, 'nonExistingUser', 1);
+INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('Hi, how are you?', 1575481606043, 'testUser', 2);
+INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('I am fine', 1575489606043, 'nonExistingUser', 2);
+INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('Doing the final project', 1575490206043, 'nonExistingUser', 2);
+INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('Did you make a step project?', 1575481606043, 'testUser', 3);
+INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('No', 1575489606043, 'imaginaryUser', 3);
+INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('I have 10 more days for the project', 1575490206043, 'imaginaryUser', 3);
