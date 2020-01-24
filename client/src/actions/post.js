@@ -75,8 +75,8 @@ export const getPostsForHomePage = (page, size, isInitialRequest) => dispatch =>
   return getPosts(dispatch, '/posts', { page, size }, isInitialRequest)
 }
 
-export const getPostsForOwnProfile = (page, size, isInitialRequest) => dispatch => {
-  return getPosts(dispatch, '/posts/profile', { page, size }, isInitialRequest)
+export const getPostsForProfile = (userId, page, size, isInitialRequest) => dispatch => {
+  return getPosts(dispatch, `/posts/profile/${userId}`, { page, size }, isInitialRequest)
 }
 
 export const deletePost = (postId) => async dispatch => {

@@ -36,7 +36,7 @@ const Search = ({loading, searchData, searchResults}) => {
     }
   }
   const renderOption = option => (
-    <Link to='/profile' className={classes.link}>
+    <Link to={`/profile/${get(option, 'username')}`} className={classes.link}>
       <div className={classes.optionWrapper}>
         <Avatar className={classes.userPhoto}
           src={getAvatarLink(option.avatar)}
@@ -92,7 +92,7 @@ Search.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  loading: state.search.loading,
+  loading: state.search.searchResultLoading,
   searchResults: state.search.searchResults
 })
 

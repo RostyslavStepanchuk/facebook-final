@@ -2,14 +2,13 @@ import React, { useState } from 'react'
 
 import { Avatar, Button, Container, Modal, Tab, Tabs } from '@material-ui/core'
 import useStyles from './profileCoverStyles'
-import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined'
 import UpdateProfile from '../UpdateProfile/UpdateProfile'
 import { getAvatarLink, getProfileCoverLink } from '../../utils/helpers/imageLinkHelpers'
 
-const ProfileCover = ({ user, profileTab, handleChangeTab }) => {
-  const { avatar, firstName, lastName, profileCover } = user
+const ProfileCover = ({ profileOwner, isOwnProfile, profileTab, handleChangeTab }) => {
+  const { avatar, firstName, lastName, profileCover } = profileOwner
   const classes = useStyles({profileCover: getProfileCoverLink(profileCover)})
 
   const [ modalOpen, setModalOpen ] = useState(false)
@@ -23,7 +22,7 @@ const ProfileCover = ({ user, profileTab, handleChangeTab }) => {
       <div className={classes.avatarBg}>
         <Avatar className={classes.avatarImg} src={getAvatarLink(avatar)} />
         <p className={classes.avatarName}>{firstName} {lastName}</p>
-        <Button
+        {isOwnProfile ? (<Button
           variant='contained'
           onClick={handleModal}
           className={classes.editProfileBtn}
@@ -32,7 +31,7 @@ const ProfileCover = ({ user, profileTab, handleChangeTab }) => {
             <EditOutlinedIcon className={classes.icon} />
             <div className={classes.labelText}> Edit profile</div>
           </div>
-        </Button>
+        </Button>) : null}
         <Modal
           disableAutoFocus
           open={modalOpen}
@@ -70,13 +69,10 @@ const ProfileCover = ({ user, profileTab, handleChangeTab }) => {
 }
 
 ProfileCover.propTypes = {
-  user: PropTypes.object.isRequired,
+  profileOwner: PropTypes.object.isRequired,
   profileTab: PropTypes.string.isRequired,
-  handleChangeTab: PropTypes.func.isRequired
+  handleChangeTab: PropTypes.func.isRequired,
+  isOwnProfile: PropTypes.bool.isRequired
 }
 
-const mapStateToProps = state => ({
-  user: state.auth.user
-})
-
-export default connect(mapStateToProps, null)(ProfileCover)
+export default ProfileCover

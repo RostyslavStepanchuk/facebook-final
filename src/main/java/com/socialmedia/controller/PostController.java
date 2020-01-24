@@ -46,7 +46,7 @@ public class PostController {
   }
 
   @GetMapping("/profile/{feedOwner}")
-  public ResponseEntity<List<PostDtoOut>> getAllUserPost(
+  public ResponseEntity<List<PostDtoOut>> getAllUserPosts(
       @PathVariable String feedOwner,
       @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable) {
     return ResponseEntity.ok(postMapper.getAllUsersPosts(feedOwner, pageable));
@@ -101,9 +101,9 @@ public class PostController {
     return ResponseEntity.ok(postMapper.deleteComment(postId, commentId));
   }
 
-  @GetMapping("/photos")
-  public ResponseEntity<List<ImageDtoOut>> getUserPhotosFromPosts(
+  @GetMapping("/photos/{userId}")
+  public ResponseEntity<List<ImageDtoOut>> getUserPhotosFromPosts(@PathVariable(required = false) String userId,
       @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable) {
-    return ResponseEntity.ok(postMapper.getUserPhotosFromPosts(pageable));
+    return ResponseEntity.ok(postMapper.getUserPhotosFromPosts(userId, pageable));
   }
 }
