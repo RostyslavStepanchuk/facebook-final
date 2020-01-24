@@ -22,6 +22,8 @@ import { loadUserFriends } from '../../actions/friends'
 import useStyles from './profilePageStyles'
 
 const FRIENDS_PAGE_SIZE = 20
+const POSTS_PAGE_SIZE = 10
+const FIRST_PAGE = 0
 
 const ProfilePage = ({
   loadUserProfile,
@@ -42,14 +44,13 @@ const ProfilePage = ({
   const { incomingFriendRequests } = profileOwner // we don't have this in user data anymore
 
   const loadUserPosts = getPostsForProfile.bind(null, userId)
-  /* eslint-disable */
+
   useEffect(() => {
     loadUserProfile(userId)
     loadUserPhotos(userId)
-    loadUserPosts(0, 10, true)
-    loadUserFriends(userId, 0, FRIENDS_PAGE_SIZE, true)
-  }, [ loadUserPhotos, loadUserProfile ])
-  /* eslint-enable */
+    getPostsForProfile(userId, FIRST_PAGE, POSTS_PAGE_SIZE, true)
+    loadUserFriends(userId, FIRST_PAGE, FRIENDS_PAGE_SIZE, true)
+  }, [ loadUserPhotos, loadUserProfile, loadUserFriends, getPostsForProfile, userId ])
 
   const handleChangeTab = (event, newValue) => {
     setProfileTab(newValue)
