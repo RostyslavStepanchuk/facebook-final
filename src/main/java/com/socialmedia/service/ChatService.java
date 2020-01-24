@@ -4,16 +4,28 @@ import com.socialmedia.model.ApplicationUser;
 import com.socialmedia.model.Chat;
 import com.socialmedia.repository.ChatRepository;
 import com.socialmedia.util.SmartCopyBeanUtilsBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public final class ChatService extends AbstractCrudService<Chat, Long, ChatRepository> {
 
-  public ChatService(ChatRepository jpaRepository, SmartCopyBeanUtilsBean beanUtilsBean) {
+  private UserService userService;
+
+  @Autowired
+  public ChatService(ChatRepository jpaRepository,
+                     SmartCopyBeanUtilsBean beanUtilsBean,
+                     @Lazy UserService userService) {
     super(jpaRepository, beanUtilsBean);
+    this.userService = userService;
   }
 
   public Chat removeParticipant(Long chatId, String participantUsername) {
@@ -28,4 +40,42 @@ public final class ChatService extends AbstractCrudService<Chat, Long, ChatRepos
     chat.setParticipants(filteredParticipantsList);
     return jpaRepository.save(chat);
   }
+
+  public List<Chat> getAllChats() {
+    Principal principal = SecurityContextHolder.getContext().getAuthentication();
+    ApplicationUser user = userService.getById(principal.getName());
+
+    return jpaRepository.getAllByParticipantsContaining(user);
+  }
+
+  public Chat getChatWithParticipant(String participantUsername) {
+    Principal principal = SecurityContextHolder.getContext().getAuthentication();
+    ApplicationUser user = userService.getById(principal.getName());
+    ApplicationUser participant = userService.getById(participantUsername);
+
+    List<Chat> chatsContainingParticipants = jpaRepository
+            .getChatsByParticipantsContainingAndParticipantsContaining(user, participant);
+
+    chatsContainingParticipants.stream().filter(chat -> chat.getParticipants().size() != 2)
+            .findAny().ifPresent(chatsContainingParticipants::remove);
+
+    if (chatsContainingParticipants.size() == 1) {
+      return chatsContainingParticipants.get(0);
+    } else {
+      return createChat(participantUsername);
+    }
+  }
+
+  public Chat createChat(String participantUsername) {
+    Principal principal = SecurityContextHolder.getContext().getAuthentication();
+    ApplicationUser user = userService.getById(principal.getName());
+    ApplicationUser participant = userService.getById(participantUsername);
+
+    Chat chat = new Chat();
+    chat.setName(participantUsername);
+    chat.setParticipants(Arrays.asList(user, participant));
+
+    return jpaRepository.save(chat);
+  }
+
 }

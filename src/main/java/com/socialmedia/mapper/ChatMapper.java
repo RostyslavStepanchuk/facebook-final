@@ -8,12 +8,19 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
-public final class ChatMapper extends AbstractControllerToCrudServiceMapper<Chat,Long, ChatDtoIn, ChatDtoOut, ChatService> {
+public final class ChatMapper
+        extends AbstractControllerToCrudServiceMapper<Chat,Long, ChatDtoIn, ChatDtoOut, ChatService> {
+
+  private UserMapper userMapper;
 
   @Autowired
-  public ChatMapper(ModelMapper modelMapper, ChatService crudService) {
+  public ChatMapper(ModelMapper modelMapper, ChatService crudService, UserMapper userMapper) {
     super(modelMapper, crudService);
+    this.userMapper = userMapper;
   }
 
   @Override
@@ -26,12 +33,21 @@ public final class ChatMapper extends AbstractControllerToCrudServiceMapper<Chat
     return modelMapper.map(dtoIn, Chat.class);
   }
 
-  public ChatDtoOut toDto(Chat chat) {
-    return modelMapper.map(chat, ChatDtoOut.class);
+  public List<ChatDtoOut> getAllChats() {
+
+    return crudService.getAllChats()
+            .stream()
+            .map(this::responseDtoOf)
+            .collect(Collectors.toList());
   }
 
-  public Chat toEntity(ChatDtoIn chatDtoIn) {
-    return modelMapper.map(chatDtoIn, Chat.class);
+  public ChatDtoOut getChatWithParticipant(String participantUsername) {
+    return responseDtoOf(crudService.getChatWithParticipant(participantUsername));
   }
+
+  public ChatDtoOut createChat(String participantUsername) {
+    return responseDtoOf(crudService.createChat(participantUsername));
+  }
+
 
 }
