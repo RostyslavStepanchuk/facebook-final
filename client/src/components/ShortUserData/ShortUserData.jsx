@@ -15,13 +15,11 @@ const ShortUserData = ({ profileOwner }) => {
       <Typography className={classes.header} variant='subtitle1' component='div'>
         Short data
       </Typography>
-      {profileOwner &&
       <div className={classes.textContainer}>
-        <p><span className={classes.textSpan}>Gender:</span> {gender.toLowerCase()}</p>
+        <p><span className={classes.textSpan}>Gender:</span> {gender && gender.toLowerCase()}</p>
         <p><span className={classes.textSpan}>Email:</span> {email}</p>
         <p><span className={classes.textSpan}>Birthday:</span> {getDateWithoutTime(birthDate)}</p>
       </div>
-      }
     </div>
   )
 }
