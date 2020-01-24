@@ -155,9 +155,15 @@ public final class PostService extends AbstractCrudService<Post, Long, PostRepos
     }
   }
 
-  public List<Image> getUserPhotosFromPosts(Pageable pageable) {
+  public List<Image> getUserPhotosFromPosts(String userId, Pageable pageable) {
+    String user;
     Principal principal = SecurityContextHolder.getContext().getAuthentication();
-    Page<Post> allPostsByOwner = jpaRepository.findAllByOwnerUsernameAndImageNotNull(principal.getName(), pageable);
+    if (userId == null) {
+      user = principal.getName();
+    } else {
+      user = userId;
+    }
+    Page<Post> allPostsByOwner = jpaRepository.findAllByOwnerUsernameAndImageNotNull(user, pageable);
     List<Image> collect = allPostsByOwner.stream()
         .map(Post::getImage)
         .collect(Collectors.toList());

@@ -16,7 +16,7 @@ const HomePage = ({ loadPostsHomePage, postsAreLoading, posts }) => {
   return (
     <InfiniteScroll
       contentArr={posts}
-      loadContent={loadPostsHomePage}
+      loadContentHandler={loadPostsHomePage}
       contentIsLoading={postsAreLoading}
     >
       <Container className={classes.container} maxWidth='lg'>

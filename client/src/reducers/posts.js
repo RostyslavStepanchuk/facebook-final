@@ -33,6 +33,7 @@ export default function (state = initialState, action) {
         posts: addPagedPayload(state.posts, payload, 'id'),
         loading: false
       }
+
     case LIKES_UPDATED: {
       let result = [...state.posts].map(post => {
         if (post.id === payload.postId) return payload.post

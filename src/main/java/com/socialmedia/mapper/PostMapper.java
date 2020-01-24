@@ -102,8 +102,8 @@ public class PostMapper extends AbstractControllerToCrudServiceMapper<Post,Long,
     return responseDtoOf(crudService.deleteComment(postId, commentId));
   }
 
-  public List<ImageDtoOut> getUserPhotosFromPosts(Pageable pageable) {
-    return crudService.getUserPhotosFromPosts(pageable)
+  public List<ImageDtoOut> getUserPhotosFromPosts(String userId, Pageable pageable) {
+    return crudService.getUserPhotosFromPosts(userId, pageable)
             .stream().map( image -> imageMapper.responseDtoOf(image))
             .collect(Collectors.toList());
   }

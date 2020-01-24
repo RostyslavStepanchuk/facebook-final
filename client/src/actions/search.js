@@ -1,7 +1,10 @@
 import {
   START_SEARCHING,
-  END_SEARCHING,
-  SEARCH_RESULT_RECEIVED
+  STOP_SEARCHING,
+  SEARCH_RESULT_RECEIVED,
+  START_LOADING_PROFILE,
+  STOP_LOADING_PROFILE,
+  PROFILE_LOADED
 } from '../utils/constants/actionsName'
 
 import apiRequest from '../utils/helpers/apiRequest'
@@ -20,6 +23,24 @@ export const searchData = query => async dispatch => {
     }
       )
     .catch(() => dispatch({
-      type: END_SEARCHING
+      type: STOP_SEARCHING
+    }))
+}
+
+export const getUserProfile = userId => async dispatch => {
+  dispatch({
+    type: START_LOADING_PROFILE
+  })
+
+  apiRequest.get(`/users/${userId}`, null, true)
+    .then(res => {
+      dispatch({
+        type: PROFILE_LOADED,
+        payload: res
+      })
+    }
+    )
+    .catch(() => dispatch({
+      type: STOP_LOADING_PROFILE
     }))
 }
