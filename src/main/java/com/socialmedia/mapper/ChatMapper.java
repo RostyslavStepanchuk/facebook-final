@@ -45,8 +45,8 @@ public final class ChatMapper
     return responseDtoOf(crudService.getChatWithParticipant(participantUsername));
   }
 
-  public ChatDtoOut createChat(ChatDtoIn chatDtoIn) {
-    return responseDtoOf(crudService.createChat(entityOf(chatDtoIn)));
+  public ChatDtoOut createChat(String participantUsername) {
+    return responseDtoOf(crudService.createChat(participantUsername));
   }
 
 

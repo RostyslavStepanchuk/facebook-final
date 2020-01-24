@@ -35,8 +35,8 @@ public class ChatController {
     return ResponseEntity.ok(chatMapper.getChatWithParticipant(participantUsername));
   }
 
-  @PostMapping
-  public ResponseEntity<ChatDtoOut> createChat(@RequestBody ChatDtoIn chatDtoIn) {
-    return ResponseEntity.ok(chatMapper.createChat(chatDtoIn));
+  @PostMapping("/{participantUsername}")
+  public ResponseEntity<ChatDtoOut> createChat(@PathVariable String participantUsername) {
+    return ResponseEntity.ok(chatMapper.createChat(participantUsername));
   }
 }

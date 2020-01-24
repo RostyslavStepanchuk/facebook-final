@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -61,22 +62,18 @@ public final class ChatService extends AbstractCrudService<Chat, Long, ChatRepos
     if (chatsContainingParticipants.size() == 1) {
       return chatsContainingParticipants.get(0);
     } else {
-      return null;
+      return createChat(participantUsername);
     }
   }
 
-  public Chat createChat(Chat chat) {
+  public Chat createChat(String participantUsername) {
     Principal principal = SecurityContextHolder.getContext().getAuthentication();
     ApplicationUser user = userService.getById(principal.getName());
+    ApplicationUser participant = userService.getById(participantUsername);
 
-    List<ApplicationUser> participants = chat.getParticipants().stream()
-            .map(participant -> userService.getById(participant.getUsername())).collect(Collectors.toList());
-
-    if (participants.size() == 1) {
-      chat.setName(participants.get(0).getFirstName() + ' ' + participants.get(0).getLastName());
-    }
-    participants.add(user);
-    chat.setParticipants(participants);
+    Chat chat = new Chat();
+    chat.setName(participantUsername);
+    chat.setParticipants(Arrays.asList(user, participant));
 
     return jpaRepository.save(chat);
   }
