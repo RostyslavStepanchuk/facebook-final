@@ -54,9 +54,6 @@ public final class PostService extends AbstractCrudService<Post, Long, PostRepos
         || principal.getName().equals(post.getOwner().getUsername());
 
     if (hasCredentialsToDelete) {
-      Image image = post.getImage();
-      post.setImage(null);
-      imageService.delete(image.getId());
       return super.delete(id);
     } else {
       throw new BadCredentialsException("You can only delete your own posts");
@@ -65,9 +62,6 @@ public final class PostService extends AbstractCrudService<Post, Long, PostRepos
 
   @Override
   public Post update(Post existingEntity, Post incomingEntity) {
-    if (existingEntity.getImage() != null && existingEntity.getImage().sameEntity(incomingEntity.getImage())) {
-      imageService.delete(existingEntity.getImage().getId());
-    }
     return super.update(existingEntity, incomingEntity);
   }
 
@@ -161,9 +155,15 @@ public final class PostService extends AbstractCrudService<Post, Long, PostRepos
     }
   }
 
-  public List<Image> getUserPhotosFromPosts(Pageable pageable) {
+  public List<Image> getUserPhotosFromPosts(String userId, Pageable pageable) {
+    String user;
     Principal principal = SecurityContextHolder.getContext().getAuthentication();
-    Page<Post> allPostsByOwner = jpaRepository.findAllByOwnerUsernameAndImageNotNull(principal.getName(), pageable);
+    if (userId == null) {
+      user = principal.getName();
+    } else {
+      user = userId;
+    }
+    Page<Post> allPostsByOwner = jpaRepository.findAllByOwnerUsernameAndImageNotNull(user, pageable);
     List<Image> collect = allPostsByOwner.stream()
         .map(Post::getImage)
         .collect(Collectors.toList());

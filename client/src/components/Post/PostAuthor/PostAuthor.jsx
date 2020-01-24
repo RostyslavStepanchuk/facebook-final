@@ -49,7 +49,7 @@ const PostAuthor = ({ postId, author, owner, date, user, deletePost }) => {
       <div className={classes.user}>
         <Avatar className={classes.userPhoto} src={getAvatarLink(author.avatar)} alt='User' />
         <div className={classes.userName}>
-          <p className={classes.userFullName}>{author.firstName} {author.lastName} <ArrowRightIcon /> {owner.firstName} {owner.lastName}</p>
+          <p className={classes.userFullName}>{author.firstName} {author.lastName} { author.username !== owner.username && <Fragment><ArrowRightIcon /> <span> {owner.firstName} {owner.lastName}</span> </Fragment>}</p>
           <p className={classes.postDate}>{getDate(date)}</p>
         </div>
         { showDeleteBtn &&

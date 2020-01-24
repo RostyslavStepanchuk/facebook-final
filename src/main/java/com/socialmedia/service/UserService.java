@@ -8,6 +8,8 @@ import com.socialmedia.repository.UserRepository;
 import com.socialmedia.util.EmailHandler;
 import com.socialmedia.util.SmartCopyBeanUtilsBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -160,5 +162,10 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
 
     user.setFriends(friends);
     jpaRepository.save(user);
+  }
+
+  public Page<ApplicationUser> getUserFriends(Pageable pageable) {
+    Principal principal = SecurityContextHolder.getContext().getAuthentication();
+    return jpaRepository.getAllUserFriends(principal.getName(), pageable);
   }
 }

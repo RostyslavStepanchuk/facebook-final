@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 const PAGE_SIZE = 10
 
-const InfiniteScroll = ({ contentArr, loadContent, contentIsLoading, children }) => {
+const InfiniteScroll = ({
+  contentArr,
+  loadContentHandler,
+  contentIsLoading,
+  children }) => {
   const [ furtherDownloadIsBlocked, setFurtherDownloadBlocked ] = useState(false)
   const page = Math.floor(contentArr.length / PAGE_SIZE)
-
-  useEffect(() => {
-    loadContent(0, PAGE_SIZE, true)
-  }, [ loadContent ])
 
   const handleInfiniteScroll = () => {
     const element = InfiniteScroll.scrollDiv
@@ -17,7 +17,7 @@ const InfiniteScroll = ({ contentArr, loadContent, contentIsLoading, children })
 
     if (scrolledDown && !furtherDownloadIsBlocked && !contentIsLoading) {
       setFurtherDownloadBlocked(true)
-      loadContent(page, PAGE_SIZE)
+      loadContentHandler(page, PAGE_SIZE, false)
       setTimeout(() => {
         setFurtherDownloadBlocked(false)
       }, 3000)
@@ -47,9 +47,11 @@ const InfiniteScroll = ({ contentArr, loadContent, contentIsLoading, children })
 
 InfiniteScroll.propTypes = {
   contentArr: PropTypes.array.isRequired,
-  loadContent: PropTypes.func.isRequired,
+  loadContentHandler: PropTypes.func.isRequired,
   contentIsLoading: PropTypes.bool.isRequired,
-  children: PropTypes.object
+  children: PropTypes.object,
+  isOwnProfileViewMode: PropTypes.bool,
+  userId: PropTypes.string
 }
 
 export default InfiniteScroll
