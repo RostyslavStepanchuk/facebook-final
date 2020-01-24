@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,10 +43,26 @@ public final class ChatService extends AbstractCrudService<Chat, Long, ChatRepos
   public List<Chat> getAllChats() {
     Principal principal = SecurityContextHolder.getContext().getAuthentication();
     ApplicationUser user = userService.getById(principal.getName());
-    List<Chat> chats = jpaRepository.getAllByParticipantsContaining(user);
-    //exclude group chats
-    chats.stream().filter(chat -> chat.getParticipants().size() != 2).findAny().ifPresent(chats::remove);
-    return chats;
+
+    return jpaRepository.getAllByParticipantsContaining(user);
+  }
+
+  public Chat getChatWithParticipant(String participantUsername) {
+    Principal principal = SecurityContextHolder.getContext().getAuthentication();
+    ApplicationUser user = userService.getById(principal.getName());
+    ApplicationUser participant = userService.getById(participantUsername);
+
+    List<Chat> chatsContainingParticipants = jpaRepository
+            .getChatsByParticipantsContainingAndParticipantsContaining(user, participant);
+
+    chatsContainingParticipants.stream().filter(chat -> chat.getParticipants().size() != 2)
+            .findAny().ifPresent(chatsContainingParticipants::remove);
+
+    if (chatsContainingParticipants.size() == 1) {
+      return chatsContainingParticipants.get(0);
+    } else {
+      return null;
+    }
   }
 
   public Chat createChat(Chat chat) {
@@ -63,4 +80,5 @@ public final class ChatService extends AbstractCrudService<Chat, Long, ChatRepos
 
     return jpaRepository.save(chat);
   }
+
 }

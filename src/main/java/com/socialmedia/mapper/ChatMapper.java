@@ -41,7 +41,13 @@ public final class ChatMapper
             .collect(Collectors.toList());
   }
 
+  public ChatDtoOut getChatWithParticipant(String participantUsername) {
+    return responseDtoOf(crudService.getChatWithParticipant(participantUsername));
+  }
+
   public ChatDtoOut createChat(ChatDtoIn chatDtoIn) {
     return responseDtoOf(crudService.createChat(entityOf(chatDtoIn)));
   }
+
+
 }
