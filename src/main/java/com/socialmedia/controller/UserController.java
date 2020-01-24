@@ -3,10 +3,12 @@ package com.socialmedia.controller;
 import com.socialmedia.dto.security.Token;
 import com.socialmedia.dto.user.UserDtoIn;
 import com.socialmedia.dto.user.UserDtoOut;
+import com.socialmedia.dto.user.UserLabelDtoOut;
 import com.socialmedia.dto.user.UserRegistrationDtoIn;
 import com.socialmedia.mapper.UserMapper;
 import com.socialmedia.util.CookieMgr;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -54,6 +56,11 @@ public class UserController {
     return ResponseEntity.ok(userMapper.confirmEmail(emailConfirmationId));
   }
 
+  @GetMapping("/{username}")
+  ResponseEntity<UserDtoOut> getUser(@PathVariable String username) {
+    return ResponseEntity.ok(userMapper.getById(username));
+  }
+
   @GetMapping("/users_search/{query}")
   ResponseEntity<List<UserDtoOut>> usersSearch(@PathVariable String query) {
     return ResponseEntity.ok(userMapper.usersSearch(query));
@@ -90,5 +97,11 @@ public class UserController {
   public ResponseEntity<UserDtoOut> deleteFriend(@PathVariable String friendUsername) {
     return ResponseEntity.ok(userMapper.deleteFriend(friendUsername));
   }
+
+  @GetMapping("/friends")
+  public ResponseEntity<List<UserLabelDtoOut>> getUserFriends(Pageable pageable) {
+    return ResponseEntity.ok(userMapper.getUserFriends(pageable));
+  }
+
 
 }

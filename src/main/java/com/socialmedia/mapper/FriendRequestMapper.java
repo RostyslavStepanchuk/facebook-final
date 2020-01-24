@@ -3,6 +3,7 @@ package com.socialmedia.mapper;
 import com.socialmedia.dto.friend.request.FriendRequestDtoIn;
 import com.socialmedia.dto.friend.request.FriendRequestDtoOut;
 import com.socialmedia.dto.user.UserDtoOut;
+import com.socialmedia.dto.user.UserLabelDtoOut;
 import com.socialmedia.model.FriendRequest;
 import com.socialmedia.service.FriendRequestService;
 import org.modelmapper.ModelMapper;
@@ -36,8 +37,8 @@ public class FriendRequestMapper
     return userMapper.responseDtoOf(crudService.createRequest(responderUsername));
   }
 
-  public UserDtoOut confirmRequest(Long requestId) {
-    return userMapper.responseDtoOf(crudService.confirmRequest(requestId));
+  public UserLabelDtoOut confirmRequest(Long requestId) {
+    return userMapper.userLabelDtoOf(crudService.confirmRequest(requestId));
   }
 
   public UserDtoOut deleteRequest(Long requestId) {

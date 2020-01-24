@@ -19,7 +19,8 @@ const ProtectedRouter = ({ authFailed, emailIsConfirmed, user, loadUser }) => {
   } else {
     return (
       <Switch>
-        <Route exact path='/profile' component={ProfilePage} />
+        <Route exact path='/profile/:userId' component={ProfilePage} />
+        <Route exact path='/me' component={ProfilePage} />
         <Route exact path='/' component={HomePage} />
       </Switch>
     )

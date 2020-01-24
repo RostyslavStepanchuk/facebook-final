@@ -4,11 +4,11 @@ import useStyles from './tileStyles'
 import PropTypes from 'prop-types'
 
 const Tile = ({ imageSrc, title }) => {
-  const classes = useStyles()
+  const classes = useStyles({image: imageSrc})
 
   const content = (imageSrc, title) => {
     return <Grid item xs={4}>
-      <img src={imageSrc} className={classes.image} alt='UserImage' />
+      <div className={classes.image} />
       { title &&
         <p className={classes.title}>{title}</p>
       }
