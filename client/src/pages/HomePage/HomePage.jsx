@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 
 import { Container, Grid } from '@material-ui/core'
@@ -10,14 +10,21 @@ import { getPostsForHomePage } from '../../actions/post'
 import PropTypes from 'prop-types'
 import InfiniteScroll from '../../components/InfiniteScroll/InfiniteScroll'
 
+const POSTS_PAGE_SIZE = 10
+const FIRST_PAGE = 0
+
 const HomePage = ({ loadPostsHomePage, postsAreLoading, posts }) => {
   const classes = useStyles()
+  useEffect(() => {
+    loadPostsHomePage(FIRST_PAGE, POSTS_PAGE_SIZE, true)
+  }, [ loadPostsHomePage ])
 
   return (
     <InfiniteScroll
       contentArr={posts}
       loadContentHandler={loadPostsHomePage}
       contentIsLoading={postsAreLoading}
+      size={POSTS_PAGE_SIZE}
     >
       <Container className={classes.container} maxWidth='lg'>
         <Grid container spacing={2}>

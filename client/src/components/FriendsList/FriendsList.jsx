@@ -3,8 +3,9 @@ import { Grid, Typography } from '@material-ui/core'
 import PropTypes from 'prop-types'
 import useStyles from './friendsListStyles'
 import FriendsListItem from './FriendsListItem/FriendsListItem'
+import Preloader from '../Preloader/Preloader'
 
-const FriendsList = ({ friends, requests }) => {
+const FriendsList = ({ friends, requests, friendsAreLoading }) => {
   const classes = useStyles()
 
   const fieldComponents = components => {
@@ -16,6 +17,7 @@ const FriendsList = ({ friends, requests }) => {
   }
 
   const content = (friends) ? fieldComponents(friends) : fieldComponents(requests)
+  const loadedContent = friendsAreLoading ? <Preloader /> : content
 
   return (
     <div className={classes.container}>
@@ -26,7 +28,7 @@ const FriendsList = ({ friends, requests }) => {
         }
       </Typography>
       <Grid className={classes.gridContainer} container>
-        {content}
+        {loadedContent}
       </Grid>
     </div>
   )
@@ -34,7 +36,8 @@ const FriendsList = ({ friends, requests }) => {
 
 FriendsList.propTypes = {
   friends: PropTypes.array,
-  requests: PropTypes.array
+  requests: PropTypes.array,
+  friendsAreLoading: PropTypes.bool,
 }
 
 export default FriendsList
