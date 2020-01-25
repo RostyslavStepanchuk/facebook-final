@@ -1,6 +1,7 @@
 package com.socialmedia.controller;
 
 import com.socialmedia.dto.security.Token;
+import com.socialmedia.dto.user.FriendSuggestionDtoOut;
 import com.socialmedia.dto.user.UserDtoIn;
 import com.socialmedia.dto.user.UserDtoOut;
 import com.socialmedia.dto.user.UserLabelDtoOut;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
@@ -101,6 +103,12 @@ public class UserController {
   @GetMapping("/friends")
   public ResponseEntity<List<UserLabelDtoOut>> getUserFriends(Pageable pageable) {
     return ResponseEntity.ok(userMapper.getUserFriends(pageable));
+  }
+
+  @GetMapping("/friends/suggest")
+  public ResponseEntity<List<FriendSuggestionDtoOut>> getFriendSuggestions(
+      @RequestParam(required = false) Integer size) {
+    return ResponseEntity.ok(userMapper.getUserFriendSuggestions(size));
   }
 
 

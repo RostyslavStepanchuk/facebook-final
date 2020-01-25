@@ -16,11 +16,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.security.Principal;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.counting;
+import static java.util.stream.Collectors.groupingBy;
 
 
 @Service
@@ -144,9 +147,7 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
   }
 
   public ApplicationUser deleteFriend(String friendUsername) {
-    Principal principal = SecurityContextHolder.getContext().getAuthentication();
-
-    ApplicationUser user = getById(principal.getName());
+    ApplicationUser user = getById(currentUsername());
     cancelFriendship(user, friendUsername);
 
     ApplicationUser friend = getById(friendUsername);
@@ -165,7 +166,33 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
   }
 
   public Page<ApplicationUser> getUserFriends(Pageable pageable) {
-    Principal principal = SecurityContextHolder.getContext().getAuthentication();
-    return jpaRepository.getAllUserFriends(principal.getName(), pageable);
+    return jpaRepository.getAllUserFriends(currentUsername(), pageable);
+  }
+
+  public  Map<ApplicationUser, List<ApplicationUser>> getUserFriendSuggestions(Integer pageSize) {
+    if (pageSize == null) {
+      pageSize = 10;
+    }
+    ApplicationUser originalUser = getById(currentUsername());
+
+    return originalUser.getFriends().stream()
+        .flatMap(friend -> friend.getFriends().stream()
+            .filter(secondWaveFriend -> secondWaveFriend != originalUser
+                && !originalUser.getFriends().contains(secondWaveFriend)))
+        .collect(groupingBy(u -> u, counting()))
+        .entrySet().stream()
+        .sorted((o1, o2) -> (int) (o1.getValue() - o2.getValue()))
+        .limit(pageSize)
+        .collect(Collectors.toMap(Map.Entry::getKey, entry -> getCommonFriends(originalUser, entry.getKey())));
+  }
+
+  private List<ApplicationUser> getCommonFriends(ApplicationUser user1, ApplicationUser user2) {
+    return user1.getFriends().stream()
+        .filter(friend -> user2.getFriends().contains(friend))
+        .collect(Collectors.toList());
+  }
+
+  private String currentUsername() {
+    return SecurityContextHolder.getContext().getAuthentication().getName();
   }
 }

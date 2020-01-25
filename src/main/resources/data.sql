@@ -25,9 +25,49 @@ INSERT INTO users (username, password, email, first_name, last_name, birth_date,
 INSERT INTO users (username, password, email, first_name, last_name, birth_date, gender, fk_avatar_img_id, fk_cover_img_id, open_account, fk_tokens_data_id) values ('imaginaryUser', '$2a$10$X1s6c7Ypt/tjpcIdoDm1zuNbnwV.72ugUpWq.wpPuVd3HR5iYI6z2', 'emailAddress@test.com', 'Tony', 'Stark', 659996700000, 0, 2, 5, false, 2); /* password psw123321 */
 INSERT INTO users (username, password, email, first_name, last_name, birth_date, gender, fk_avatar_img_id, fk_cover_img_id, open_account, fk_tokens_data_id) values ('nonExistingUser', '$2a$10$YLk8kRbiYhDvOWImYSKHSuRNB0j6QhcuHwEZD8lWehcuCK/mVoJ6i', 'mailbox@test.com', 'Bill', 'Clinton', 659993200000, 2, 3, 6, true, 3); /* password 123456 */
 
+
+INSERT INTO users (username, password, email, first_name, last_name, birth_date, gender, fk_avatar_img_id, fk_cover_img_id, open_account, fk_tokens_data_id) values ('suggestFriend', '$2a$10$YLk8kRbiYhDvOWImYSKHSuRNB0j6QhcuHwEZD8lWehcuCK/mVoJ6i', 'suggestFriend@test.com', 'Harry', 'Potter', 659993200000, 1, null, null, true, null); /* password 123456 */
+INSERT INTO users (username, password, email, first_name, last_name, birth_date, gender, fk_avatar_img_id, fk_cover_img_id, open_account, fk_tokens_data_id) values ('suggestFriend1', '$2a$10$YLk8kRbiYhDvOWImYSKHSuRNB0j6QhcuHwEZD8lWehcuCK/mVoJ6i', 'suggestFriend1@test.com', 'Conan', 'Doyle', 659993200000, 1, null, null, true, null); /* password 123456 */
+INSERT INTO users (username, password, email, first_name, last_name, birth_date, gender, fk_avatar_img_id, fk_cover_img_id, open_account, fk_tokens_data_id) values ('suggestFriend2', '$2a$10$YLk8kRbiYhDvOWImYSKHSuRNB0j6QhcuHwEZD8lWehcuCK/mVoJ6i', 'suggestFriend2@test.com', 'Monika', 'Lewinsky', 659993200000, 2, null, null, true, null); /* password 123456 */
+INSERT INTO users (username, password, email, first_name, last_name, birth_date, gender, fk_avatar_img_id, fk_cover_img_id, open_account, fk_tokens_data_id) values ('suggestFriend3', '$2a$10$YLk8kRbiYhDvOWImYSKHSuRNB0j6QhcuHwEZD8lWehcuCK/mVoJ6i', 'suggestFriend3@test.com', 'Hillary', 'Clinton', 659993200000, 2, null, null, true, null); /* password 123456 */
+INSERT INTO users (username, password, email, first_name, last_name, birth_date, gender, fk_avatar_img_id, fk_cover_img_id, open_account, fk_tokens_data_id) values ('suggestFriend4', '$2a$10$YLk8kRbiYhDvOWImYSKHSuRNB0j6QhcuHwEZD8lWehcuCK/mVoJ6i', 'suggestFriend4@test.com', 'David', 'Beckham', 659993200000, 1, null, null, true, null); /* password 123456 */
+-- INSERT INTO users (username, password, email, first_name, last_name, birth_date, gender, fk_avatar_img_id, fk_cover_img_id, open_account, fk_tokens_data_id) values ('suggestFriend5', '$2a$10$YLk8kRbiYhDvOWImYSKHSuRNB0j6QhcuHwEZD8lWehcuCK/mVoJ6i', 'suggestFriend5@test.com', 'Harry', 'Potter', 659993200000, 1, null, null, true, null); /* password 123456 */
+-- INSERT INTO users (username, password, email, first_name, last_name, birth_date, gender, fk_avatar_img_id, fk_cover_img_id, open_account, fk_tokens_data_id) values ('suggestFriend6', '$2a$10$YLk8kRbiYhDvOWImYSKHSuRNB0j6QhcuHwEZD8lWehcuCK/mVoJ6i', 'suggestFriend6@test.com', 'Harry', 'Potter', 659993200000, 1, null, null, true, null); /* password 123456 */
+-- INSERT INTO users (username, password, email, first_name, last_name, birth_date, gender, fk_avatar_img_id, fk_cover_img_id, open_account, fk_tokens_data_id) values ('suggestFriend7', '$2a$10$YLk8kRbiYhDvOWImYSKHSuRNB0j6QhcuHwEZD8lWehcuCK/mVoJ6i', 'suggestFriend7@test.com', 'Harry', 'Potter', 659993200000, 1, null, null, true, null); /* password 123456 */
+-- INSERT INTO users (username, password, email, first_name, last_name, birth_date, gender, fk_avatar_img_id, fk_cover_img_id, open_account, fk_tokens_data_id) values ('suggestFriend8', '$2a$10$YLk8kRbiYhDvOWImYSKHSuRNB0j6QhcuHwEZD8lWehcuCK/mVoJ6i', 'suggestFriend8@test.com', 'Harry', 'Potter', 659993200000, 1, null, null, true, null); /* password 123456 */
+-- INSERT INTO users (username, password, email, first_name, last_name, birth_date, gender, fk_avatar_img_id, fk_cover_img_id, open_account, fk_tokens_data_id) values ('suggestFriend9', '$2a$10$YLk8kRbiYhDvOWImYSKHSuRNB0j6QhcuHwEZD8lWehcuCK/mVoJ6i', 'suggestFriend9@test.com', 'Harry', 'Potter', 659993200000, 1, null, null, true, null); /* password 123456 */
+-- INSERT INTO users (username, password, email, first_name, last_name, birth_date, gender, fk_avatar_img_id, fk_cover_img_id, open_account, fk_tokens_data_id) values ('suggestFriend10', '$2a$10$YLk8kRbiYhDvOWImYSKHSuRNB0j6QhcuHwEZD8lWehcuCK/mVoJ6i', 'suggestFriend10@test.com', 'Harry', 'Potter', 659993200000, 1, null, null, true, null); /* password 123456 */
+
+
 /* friends */
+/* Tyler - Tony */
 INSERT INTO friends (fk_username, fk_friend_username) values ('testUser', 'imaginaryUser');
 INSERT INTO friends (fk_username, fk_friend_username) values ('imaginaryUser', 'testUser');
+/* Harry - Tony */
+INSERT INTO friends (fk_username, fk_friend_username) values ('suggestFriend', 'imaginaryUser');
+INSERT INTO friends (fk_username, fk_friend_username) values ('imaginaryUser', 'suggestFriend');
+/* Conan - Tony */
+INSERT INTO friends (fk_username, fk_friend_username) values ('suggestFriend1', 'imaginaryUser');
+INSERT INTO friends (fk_username, fk_friend_username) values ('imaginaryUser', 'suggestFriend1');
+/* Conan - Bill */
+INSERT INTO friends (fk_username, fk_friend_username) values ('suggestFriend1', 'nonExistingUser');
+INSERT INTO friends (fk_username, fk_friend_username) values ('nonExistingUser', 'suggestFriend1');
+/* Bill - Tyler */
+INSERT INTO friends (fk_username, fk_friend_username) values ('testUser', 'nonExistingUser');
+INSERT INTO friends (fk_username, fk_friend_username) values ('nonExistingUser', 'testUser');
+/* Bill - Monika */
+INSERT INTO friends (fk_username, fk_friend_username) values ('suggestFriend2', 'nonExistingUser');
+INSERT INTO friends (fk_username, fk_friend_username) values ('nonExistingUser', 'suggestFriend2');
+/* Tyler - Monika */
+INSERT INTO friends (fk_username, fk_friend_username) values ('suggestFriend2', 'testUser');
+INSERT INTO friends (fk_username, fk_friend_username) values ('testUser', 'suggestFriend2');
+/* Bill - Hillary */
+INSERT INTO friends (fk_username, fk_friend_username) values ('suggestFriend3', 'nonExistingUser');
+INSERT INTO friends (fk_username, fk_friend_username) values ('nonExistingUser', 'suggestFriend3');
+/* David - Burden */
+INSERT INTO friends (fk_username, fk_friend_username) values ('suggestFriend4', 'testUserDouble');
+INSERT INTO friends (fk_username, fk_friend_username) values ('testUserDouble', 'suggestFriend4');
+
 
 /* posts */
 INSERT INTO posts (message, date, fk_image_id, show_everyone, fk_author_username, fk_owner_username) values ('this is a first post in this application', 1575390051359 , 7, true, 'testUser', 'testUser');
