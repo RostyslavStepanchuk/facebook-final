@@ -1,6 +1,7 @@
 package com.socialmedia.mapper;
 
 import com.socialmedia.dto.security.Token;
+import com.socialmedia.dto.user.FriendSuggestionDtoOut;
 import com.socialmedia.dto.user.UserDtoIn;
 import com.socialmedia.dto.user.UserDtoOut;
 import com.socialmedia.dto.user.UserLabelDtoOut;
@@ -87,6 +88,18 @@ public final class UserMapper extends
 
   public List<UserLabelDtoOut> getUserFriends(Pageable pageable) {
     return crudService.getUserFriends(pageable).stream().map(this::userLabelDtoOf).collect(Collectors.toList());
+  }
+
+  public List<FriendSuggestionDtoOut> getUserFriendSuggestions(Integer pageSize) {
+    return crudService.getUserFriendSuggestions(pageSize)
+        .entrySet().stream()
+        .map(entry -> FriendSuggestionDtoOut.builder()
+            .user(userLabelDtoOf(entry.getKey()))
+            .commonFriends(entry.getValue().stream()
+                .map(this::userLabelDtoOf)
+                .collect(Collectors.toList()))
+            .build())
+        .collect(Collectors.toList());
   }
 }
 
