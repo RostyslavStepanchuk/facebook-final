@@ -1,10 +1,12 @@
 import {
   FRIEND_DELETED,
+  FRIEND_SUGGESTIONS_RECEIVED,
   FRIENDS_RECEIVED,
   FRIENDS_STARTED_LOADING,
   FRIENDS_STOPPED_LOADING,
   REQUEST_CONFIRMED,
   REQUEST_DELETED,
+  RESET_FRIEND_SUGGESTIONS,
   RESET_FRIENDS
 } from '../utils/constants/actionsName'
 import apiRequest from '../utils/helpers/apiRequest'
@@ -22,7 +24,7 @@ export const loadUserFriends = (username, page, size, isInitialRequest) => async
   }
 
   try {
-    const friends = await apiRequest.get('/users/friends', { page, size })
+    const friends = await apiRequest.get('/users/friends', { params: { page, size } })
     dispatch({
       type: FRIENDS_RECEIVED,
       payload: friends
@@ -68,4 +70,24 @@ export const deleteRequest = (requestId) => async dispatch => {
   } catch (e) {
     Toastr.error('Something goes wrong! Please try again later')
   }
+}
+
+export const getFriendSuggestions = size => async dispatch => {
+  dispatch({
+    type: RESET_FRIEND_SUGGESTIONS
+  })
+
+  try {
+    const suggestions = await apiRequest.get('/users/friends/suggest', { params: { size } })
+    dispatch({
+      type: FRIEND_SUGGESTIONS_RECEIVED,
+      payload: suggestions
+    })
+  } catch (e) {
+    Toastr.error('Something goes wrong! Please try again later')
+  }
+}
+
+export const sendFriendRequest = responderId => {
+  return apiRequest.post(/requests/ + responderId)
 }
