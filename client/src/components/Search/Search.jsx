@@ -1,13 +1,15 @@
-import React, {Fragment, useEffect, useState} from 'react'
+import React, { Fragment, useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { isEmpty, get } from 'lodash'
 import { Link } from 'react-router-dom'
 import { TextField, CircularProgress, Avatar } from '@material-ui/core'
 import Autocomplete from '@material-ui/lab/Autocomplete'
+import SearchIcon from '@material-ui/icons/Search'
 
 import { getAvatarLink } from '../../utils/helpers/imageLinkHelpers'
 import { searchData } from '../../actions/search'
+import { throttlingWrapper } from '../../utils/helpers/throttle'
 
 import useStyles from './searchStyle'
 
@@ -28,9 +30,11 @@ const Search = ({loading, searchData, searchResults}) => {
     }
   }, [open])
 
+  const searchDataWithThrottle = useRef(throttlingWrapper(searchData, 500)).current
+
   const handleInputChange = (evt, inputValue) => {
     if (inputValue.length >= 2) {
-      searchData(inputValue)
+      searchDataWithThrottle(inputValue)
     } else {
       setOptions([])
     }
@@ -51,6 +55,7 @@ const Search = ({loading, searchData, searchResults}) => {
       className={classes.searchInput}
       size='small'
       open={open}
+      clearOnEscape
       onOpen={() => {
         setOpen(true)
       }}
@@ -58,28 +63,37 @@ const Search = ({loading, searchData, searchResults}) => {
         setOpen(false)
       }}
       getOptionSelected={(option, value) => option.name === value.name}
-      getOptionLabel={option => option.username}
+      getOptionLabel={() => ''}
       renderOption={renderOption}
       options={options}
       loading={loading}
       onInputChange={handleInputChange}
       noOptionsText='No results found'
       renderInput={params => (
-        <TextField
-          {...params}
-          placeholder='Search'
-          fullWidth
-          variant='outlined'
-          InputProps={{
-            ...params.InputProps,
-            endAdornment: (
-              <Fragment>
-                {loading ? <CircularProgress color='inherit' size={20} /> : null}
-                {params.InputProps.endAdornment}
-              </Fragment>
+        <div className={classes.search}>
+          <div className={classes.searchIcon}>
+            <SearchIcon />
+          </div>
+          <TextField
+            {...params}
+            placeholder='Search'
+            fullWidth
+            variant='outlined'
+            classes={{
+              root: classes.inputRoot
+            }}
+            InputProps={{
+              ...params.InputProps,
+              'aria-label': 'search',
+              endAdornment: (
+                <Fragment>
+                  {loading ? <CircularProgress color='inherit' size={20} /> : null}
+                  {params.InputProps.endAdornment}
+                </Fragment>
             )
-          }}
+            }}
         />
+        </div>
       )}
     />
   )
