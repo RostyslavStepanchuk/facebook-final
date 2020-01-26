@@ -1,11 +1,12 @@
 import React, { Fragment } from 'react'
 import { Grid, Typography } from '@material-ui/core'
 import PropTypes from 'prop-types'
-import { isEmpty } from 'lodash'
+import { isEmpty, get } from 'lodash'
 
 import Preloader from '../Preloader/Preloader'
 import Tile from '../Tile/Tile'
 import { getAvatarLink } from '../../utils/helpers/imageLinkHelpers'
+import { getFullName } from '../../utils/helpers/formatters'
 
 import useStyles from './profileFieldStyles'
 
@@ -17,9 +18,9 @@ const ProfileField = ({ friends, userPhotos, loadingPhotos }) => {
     const listForRender = components.slice(0, 9)
 
     if (friends) {
-      return listForRender.map(friend => <Tile imageSrc={getAvatarLink(friend.avatar)} title={friend.firstName + ' ' + friend.lastName} key={friend.avatar.id} />)
+      return listForRender.map(friend => <Tile imageSrc={getAvatarLink(friend.avatar)} title={getFullName(friend)} key={get(friend, 'avatar.id', '')} />)
     } else {
-      return listForRender.map(photo => <Tile imageSrc={photo.src} key={photo.id} />)
+      return listForRender.map(photo => <Tile imageSrc={get(photo, 'src')} key={get(photo, 'id', '')} />)
     }
   }
 
@@ -33,8 +34,8 @@ const ProfileField = ({ friends, userPhotos, loadingPhotos }) => {
       <div className={classes.container}>
         <Typography className={classes.header} variant='subtitle1' component='div'>
           { friends
-          ? <Fragment>Friends <span className={classes.count}>{friends.length}</span></Fragment>
-          : <Fragment>Photos <span className={classes.count}>{userPhotos.length}</span></Fragment>
+          ? <Fragment>Friends <span className={classes.count}>{get(friends, 'length', '—')}</span></Fragment>
+          : <Fragment>Photos <span className={classes.count}>{get(userPhotos, 'length', '—')}</span></Fragment>
         }
         </Typography>
         <Grid className={classes.gridContainer} container spacing={1}>
