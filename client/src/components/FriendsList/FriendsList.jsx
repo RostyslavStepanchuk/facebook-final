@@ -10,7 +10,7 @@ const FriendsList = ({ friends, requests, friendsAreLoading }) => {
 
   const fieldComponents = components => {
     if (friends) {
-      return components.map(friend => <FriendsListItem friend={friend} key={friend.avatar.id} />)
+      return components.map(friend => <FriendsListItem friend={friend} key={friend.id} />)
     } else {
       return components.map(request => <FriendsListItem request={request} key={request.id} />)
     }
@@ -37,7 +37,7 @@ const FriendsList = ({ friends, requests, friendsAreLoading }) => {
 FriendsList.propTypes = {
   friends: PropTypes.array,
   requests: PropTypes.array,
-  friendsAreLoading: PropTypes.bool,
+  friendsAreLoading: PropTypes.bool
 }
 
 export default FriendsList
