@@ -18,7 +18,12 @@ const ProfileField = ({ friends, userPhotos, loadingPhotos }) => {
     const listForRender = components.slice(0, 9)
 
     if (friends) {
-      return listForRender.map(friend => <Tile imageSrc={getAvatarLink(friend.avatar)} title={getFullName(friend)} key={get(friend, 'avatar.id', '')} />)
+      return listForRender.map(friend =>
+        (<Tile
+          imageSrc={getAvatarLink(friend.avatar)}
+          title={getFullName(friend)}
+          key={get(friend, 'avatar.id', '')} />
+        ))
     } else {
       return listForRender.map(photo => <Tile imageSrc={get(photo, 'src')} key={get(photo, 'id', '')} />)
     }
