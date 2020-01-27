@@ -13,10 +13,6 @@ const useStyles = makeStyles(() => ({
   container: {
     padding: '10px 0'
   },
-  leftSectionPlaceholder: {
-    height: '200px',
-    backgroundColor: 'yellow'
-  },
   mainSectionPlaceholder: {
     height: '1000px',
     backgroundColor: 'green'
