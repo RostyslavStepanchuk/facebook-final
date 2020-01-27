@@ -9,15 +9,19 @@ import PostFeed from '../../components/PostFeed/PostFeed'
 import { getPostsForHomePage } from '../../actions/post'
 import PropTypes from 'prop-types'
 import InfiniteScroll from '../../components/InfiniteScroll/InfiniteScroll'
+import FriendSuggestions from '../../components/FriendSuggestions/FriendSuggestions'
+import { getFriendSuggestions } from '../../actions/friends'
 
 const POSTS_PAGE_SIZE = 10
 const FIRST_PAGE = 0
+const FRIEND_SUGGESTIONS_SIZE = 5
 
-const HomePage = ({ loadPostsHomePage, postsAreLoading, posts }) => {
+const HomePage = ({ loadPostsHomePage, postsAreLoading, posts, friendSuggestions, getFriendSuggestions }) => {
   const classes = useStyles()
   useEffect(() => {
     loadPostsHomePage(FIRST_PAGE, POSTS_PAGE_SIZE, true)
-  }, [ loadPostsHomePage ])
+    getFriendSuggestions(FRIEND_SUGGESTIONS_SIZE)
+  }, [ loadPostsHomePage, getFriendSuggestions ])
 
   return (
     <InfiniteScroll
@@ -28,14 +32,14 @@ const HomePage = ({ loadPostsHomePage, postsAreLoading, posts }) => {
     >
       <Container className={classes.container} maxWidth='lg'>
         <Grid container spacing={2}>
-          <Grid item md={2}>
-            <div className={classes.leftSectionPlaceholder}>Menu section</div>
+          <Grid item md={3}>
+            <FriendSuggestions suggestions={friendSuggestions} />
           </Grid>
           <Grid item md={6}>
             <CreatePost />
             <PostFeed />
           </Grid>
-          <Grid item md={4}>
+          <Grid item md={3}>
             <div className={classes.rightSectionPlaceholder} />
           </Grid>
         </Grid>
@@ -47,17 +51,21 @@ const HomePage = ({ loadPostsHomePage, postsAreLoading, posts }) => {
 HomePage.propTypes = {
   postsAreLoading: PropTypes.bool.isRequired,
   posts: PropTypes.array.isRequired,
-  loadPostsHomePage: PropTypes.func.isRequired
+  loadPostsHomePage: PropTypes.func.isRequired,
+  getFriendSuggestions: PropTypes.func.isRequired,
+  friendSuggestions: PropTypes.array.isRequired
 }
 
 const mapStateToProps = state => ({
   postsAreLoading: state.posts.loading,
-  posts: state.posts.posts
+  posts: state.posts.posts,
+  friendSuggestions: state.friends.friendSuggestions
 })
 
 const mapDispatchToProps = dispatch => {
   return {
-    loadPostsHomePage: (page, size, isInitial) => dispatch(getPostsForHomePage(page, size, isInitial))
+    loadPostsHomePage: (page, size, isInitial) => dispatch(getPostsForHomePage(page, size, isInitial)),
+    getFriendSuggestions: page => dispatch(getFriendSuggestions(page))
   }
 }
 
