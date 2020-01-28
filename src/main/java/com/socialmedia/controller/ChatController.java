@@ -1,14 +1,13 @@
 package com.socialmedia.controller;
 
-import com.socialmedia.dto.chat.ChatDtoIn;
 import com.socialmedia.dto.chat.ChatDtoOut;
+import com.socialmedia.dto.chat.ChatDtoOutWithLastMessage;
 import com.socialmedia.mapper.ChatMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,8 +25,8 @@ public class ChatController {
   }
 
   @GetMapping
-  public ResponseEntity<List<ChatDtoOut>> getAllChats() {
-    return ResponseEntity.ok(chatMapper.getAllChats());
+  public ResponseEntity<List<ChatDtoOutWithLastMessage>> getAllChatsWithPrincipal() {
+    return ResponseEntity.ok(chatMapper.getAllChatsWithPrincipal());
   }
 
   @GetMapping("/{participantUsername}")

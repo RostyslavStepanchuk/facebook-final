@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ChatMessageService extends AbstractCrudService<ChatMessage, Long, ChatMessageRepository> {
 
@@ -19,5 +21,9 @@ public class ChatMessageService extends AbstractCrudService<ChatMessage, Long, C
 
   public Page<ChatMessage> getAllMessagesForChat(Long chatId, Pageable pageable) {
     return jpaRepository.getAllByChatId(chatId, pageable);
+  }
+
+  public ChatMessage findLastForChatIdList(Long chatId) {
+    return jpaRepository.findTopByChatIdOrderByDateDesc(chatId);
   }
 }
