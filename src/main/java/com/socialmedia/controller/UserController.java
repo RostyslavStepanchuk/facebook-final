@@ -7,6 +7,7 @@ import com.socialmedia.dto.user.UserDtoOut;
 import com.socialmedia.dto.user.UserLabelDtoOut;
 import com.socialmedia.dto.user.UserRegistrationDtoIn;
 import com.socialmedia.mapper.UserMapper;
+import com.socialmedia.model.FriendshipStatus;
 import com.socialmedia.util.CookieMgr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -111,5 +112,9 @@ public class UserController {
     return ResponseEntity.ok(userMapper.getUserFriendSuggestions(size));
   }
 
+  @GetMapping("/friends/status/{username}")
+  public ResponseEntity<FriendshipStatus> checkFriendshipStatus(@PathVariable String username) {
+    return ResponseEntity.ok(userMapper.checkFriendshipStatus(username));
+  }
 
 }

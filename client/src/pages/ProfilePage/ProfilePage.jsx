@@ -56,9 +56,7 @@ const ProfilePage = ({
     loadUserFriends(userId, FIRST_PAGE, FRIENDS_PAGE_SIZE, true)
   }, [ loadUserPhotos, loadUserProfile, loadUserFriends, getPostsForProfile, userId ])
   useEffect(() => { // separate useEffect cause this request doesn't depend on profile change, it's for user
-    if (isOwnProfile) {
-      getIncomingFriendRequests()
-    }
+    getIncomingFriendRequests()
   }, [getIncomingFriendRequests, isOwnProfile])
 
   const handleChangeTab = (event, newValue) => {

@@ -8,6 +8,7 @@ import com.socialmedia.dto.user.UserLabelDtoIn;
 import com.socialmedia.dto.user.UserLabelDtoOut;
 import com.socialmedia.dto.user.UserRegistrationDtoIn;
 import com.socialmedia.model.ApplicationUser;
+import com.socialmedia.model.FriendshipStatus;
 import com.socialmedia.model.TokensData;
 import com.socialmedia.service.UserService;
 import org.modelmapper.ModelMapper;
@@ -108,6 +109,10 @@ public final class UserMapper extends
                 .collect(Collectors.toList()))
             .build())
         .collect(Collectors.toList());
+  }
+
+  public FriendshipStatus checkFriendshipStatus(String username) {
+    return crudService.checkFriendshipStatus(username);
   }
 }
 

@@ -117,3 +117,7 @@ export const getIncomingFriendRequests = () => async dispatch => {
     Toastr.error('Something goes wrong! Please try again later')
   }
 }
+
+export const checkFriendshipStatus = targetUsername => {
+  return apiRequest.get('/users/friends/status/' + targetUsername)
+}
