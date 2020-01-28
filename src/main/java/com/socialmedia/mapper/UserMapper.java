@@ -88,6 +88,10 @@ public final class UserMapper extends
   public List<UserLabelDtoOut> getUserFriends(Pageable pageable) {
     return crudService.getUserFriends(pageable).stream().map(this::userLabelDtoOf).collect(Collectors.toList());
   }
+
+  public List<UserLabelDtoOut> getActiveFriends(Pageable pageable) {
+    return crudService.getActiveFriends(pageable).stream().map(this::userLabelDtoOf).collect(Collectors.toList());
+  }
 }
 
 

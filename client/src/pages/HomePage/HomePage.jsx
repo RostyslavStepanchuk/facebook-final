@@ -7,24 +7,34 @@ import useStyles from './homePageStyles'
 import CreatePost from '../../components/CreatePost/CreatePost'
 import PostFeed from '../../components/PostFeed/PostFeed'
 import { getPostsForHomePage } from '../../actions/post'
+import { loadActiveFriends } from '../../actions/friends'
 import PropTypes from 'prop-types'
 import InfiniteScroll from '../../components/InfiniteScroll/InfiniteScroll'
+import ActiveFriends from '../../components/ActiveFriends/ActiveFriends'
 
-const POSTS_PAGE_SIZE = 10
+const PAGE_SIZE = 10
 const FIRST_PAGE = 0
 
-const HomePage = ({ loadPostsHomePage, postsAreLoading, posts }) => {
+const HomePage = ({
+  loadPostsHomePage,
+  postsAreLoading,
+  posts,
+  activeFriends,
+  activeFriendsAreLoading,
+  loadActiveFriends
+}) => {
   const classes = useStyles()
   useEffect(() => {
-    loadPostsHomePage(FIRST_PAGE, POSTS_PAGE_SIZE, true)
-  }, [ loadPostsHomePage ])
+    loadPostsHomePage(FIRST_PAGE, PAGE_SIZE, true)
+    loadActiveFriends(FIRST_PAGE, PAGE_SIZE, true)
+  }, [ loadPostsHomePage, loadActiveFriends ])
 
   return (
     <InfiniteScroll
       contentArr={posts}
       loadContentHandler={loadPostsHomePage}
       contentIsLoading={postsAreLoading}
-      size={POSTS_PAGE_SIZE}
+      size={PAGE_SIZE}
     >
       <Container className={classes.container} maxWidth='lg'>
         <Grid container spacing={2}>
@@ -36,7 +46,7 @@ const HomePage = ({ loadPostsHomePage, postsAreLoading, posts }) => {
             <PostFeed />
           </Grid>
           <Grid item md={4}>
-            <div className={classes.rightSectionPlaceholder} />
+            <ActiveFriends activeFriends={activeFriends} activeFriendsAreLoading={activeFriendsAreLoading}/>
           </Grid>
         </Grid>
       </Container>
@@ -47,17 +57,23 @@ const HomePage = ({ loadPostsHomePage, postsAreLoading, posts }) => {
 HomePage.propTypes = {
   postsAreLoading: PropTypes.bool.isRequired,
   posts: PropTypes.array.isRequired,
-  loadPostsHomePage: PropTypes.func.isRequired
+  loadPostsHomePage: PropTypes.func.isRequired,
+  activeFriends: PropTypes.array.isRequired,
+  activeFriendsAreLoading: PropTypes.bool.isRequired,
+  loadActiveFriends: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = state => ({
   postsAreLoading: state.posts.loading,
-  posts: state.posts.posts
+  posts: state.posts.posts,
+  activeFriends: state.friends.activeFriends,
+  activeFriendsAreLoading: state.friends.loadingActiveFriends
 })
 
 const mapDispatchToProps = dispatch => {
   return {
-    loadPostsHomePage: (page, size, isInitial) => dispatch(getPostsForHomePage(page, size, isInitial))
+    loadPostsHomePage: (page, size, isInitial) => dispatch(getPostsForHomePage(page, size, isInitial)),
+    loadActiveFriends: (page, size, isInitial) => dispatch(loadActiveFriends(page, size, isInitial))
   }
 }
 
