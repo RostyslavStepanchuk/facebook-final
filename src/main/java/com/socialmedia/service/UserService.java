@@ -176,12 +176,11 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
     ApplicationUser originalUser = getById(currentUsername());
 
     return originalUser.getFriends().stream()
-        .flatMap(friend -> friend.getFriends().stream()
-            .filter(secondWaveFriend -> secondWaveFriend != originalUser
-                && !originalUser.getFriends().contains(secondWaveFriend)))
+        .flatMap(friend -> friend.getFriends().stream())
         .collect(groupingBy(u -> u, counting()))
         .entrySet().stream()
         .sorted((o1, o2) -> (int) (o1.getValue() - o2.getValue()))
+        .filter(entry -> isRelevantFriendSuggestion(entry.getKey(), originalUser))
         .limit(pageSize)
         .collect(Collectors.toMap(Map.Entry::getKey, entry -> getCommonFriends(originalUser, entry.getKey())));
   }
@@ -194,6 +193,15 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
     return user1.getFriends().stream()
         .filter(friend -> user2.getFriends().contains(friend))
         .collect(Collectors.toList());
+  }
+
+  private boolean isRelevantFriendSuggestion(ApplicationUser possibleFriend, ApplicationUser originalUser) {
+    return !possibleFriend.getUsername().equals(originalUser.getUsername())
+        && !originalUser.getFriends().contains(possibleFriend)
+        && originalUser.getIncomingFriendRequests().stream()
+        .noneMatch(req -> req.getRequester().getId().equals(originalUser.getId()))
+        && possibleFriend.getIncomingFriendRequests().stream()
+        .noneMatch(req -> req.getRequester().getId().equals(possibleFriend.getId()));
   }
 
   private String currentUsername() {
