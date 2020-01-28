@@ -7,7 +7,7 @@ import ProfilePage from '../../pages/ProfilePage/ProfilePage'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import { loadUser } from '../../actions/auth'
 import Preloader from '../Preloader/Preloader'
-import ChatList from '../Chat/Message/ChatList'
+import Chat from '../Chat/Chat'
 
 const ProtectedRouter = ({ authFailed, emailIsConfirmed, user, loadUser }) => {
   useEffect(() => loadUser(), [ loadUser ])
@@ -22,7 +22,7 @@ const ProtectedRouter = ({ authFailed, emailIsConfirmed, user, loadUser }) => {
       <Switch>
         <Route exact path='/profile/:userId' component={ProfilePage} />
         <Route exact path='/me' component={ProfilePage} />
-        <Route exact path='/chat/:chatId' component={ChatList} />
+        <Route exact path='/chat/:chatId' component={Chat} />
         <Route exact path='/' component={HomePage} />
       </Switch>
     )

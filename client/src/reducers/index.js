@@ -5,6 +5,7 @@ import posts from './posts'
 import search from './search'
 import images from './images'
 import friends from './friends'
+import chat from './chat'
 
 export default combineReducers({
   auth,
@@ -12,6 +13,7 @@ export default combineReducers({
   search,
   images,
   friends,
+  chat,
   toastr: toastrReducer
 
 })
