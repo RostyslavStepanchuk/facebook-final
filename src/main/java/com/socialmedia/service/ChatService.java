@@ -41,7 +41,7 @@ public final class ChatService extends AbstractCrudService<Chat, Long, ChatRepos
     return jpaRepository.save(chat);
   }
 
-  public List<Chat> getAllChats() {
+  public List<Chat> getAllChatsWithPrincipal() {
     Principal principal = SecurityContextHolder.getContext().getAuthentication();
     ApplicationUser user = userService.getById(principal.getName());
 
