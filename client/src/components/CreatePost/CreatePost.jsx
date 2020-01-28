@@ -1,5 +1,5 @@
 /* global URL */
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { createPost, uploadImages } from '../../actions/post'
@@ -17,23 +17,36 @@ import {
   Typography
 } from '@material-ui/core'
 import CropOriginalOutlinedIcon from '@material-ui/icons/CropOriginalOutlined'
-import AssignmentIndOutlinedIcon from '@material-ui/icons/AssignmentIndOutlined'
 import CloseOutlinedIcon from '@material-ui/icons/CloseOutlined'
 
 import useStyles from './CreatePostStyles'
 import { Toastr } from '../../utils/toastr/Toastr'
 import { getAvatarLink } from '../../utils/helpers/imageLinkHelpers'
+import TagFriendButton from './TagFriendButton/TagFriendButton'
+import { loadCurrentUserFriends } from '../../actions/friends'
 
-const CreatePost = ({ user }) => {
+const FRIENDS_INITIAL_SIZE = 10
+const STARTING_PAGE = 0
+
+const CreatePost = ({ user, currentUserFriends, loadCurrentUserFriends }) => {
   const classes = useStyles()
-  const { firstName, avatar } = user
+  const { firstName, avatar, username } = user
   const [uploadForm, setUploadForm] = useState({
     imagesToUpload: [],
-    textToUpload: ''
+    textToUpload: '',
+    taggedFriends: []
   })
 
+  useEffect(() => {
+    if (currentUserFriends.length === 0) {
+      loadCurrentUserFriends(username, STARTING_PAGE, FRIENDS_INITIAL_SIZE)
+    }
+  }, [ loadCurrentUserFriends, username, currentUserFriends ])
+
   const {
-    imagesToUpload
+    imagesToUpload,
+    textToUpload,
+    taggedFriends
   } = uploadForm
 
   const handleFileInputChange = (e) => {
@@ -53,10 +66,22 @@ const CreatePost = ({ user }) => {
     setUploadForm({...uploadForm, textToUpload: e.target.value})
   }
 
+  const handleFriendTag = userLabel => {
+    if (taggedFriends.some(u => u.username === userLabel.username)) {
+      setUploadForm({ ...uploadForm,
+        taggedFriends: taggedFriends.filter(u => u.username !== userLabel.username)
+      })
+    } else {
+      setUploadForm({ ...uploadForm,
+        taggedFriends: taggedFriends.concat(userLabel)
+      })
+    }
+  }
+
   const handleSubmit = e => {
     e.preventDefault()
     uploadImages(imagesToUpload).then(
-      imgLinks => createPost(uploadForm.textToUpload, imgLinks, true),
+      imgLinks => createPost(textToUpload, imgLinks, taggedFriends, true),
       images => {
         Toastr.error('One or more images weren\'t uploaded')
         setUploadForm({...uploadForm, imagesToUpload: images})
@@ -125,12 +150,11 @@ const CreatePost = ({ user }) => {
                   onChange={handleFileInputChange}
                 />
               </Button>
-              <Button color='primary' className={classes.button}>
-                <div className={classes.label}>
-                  <AssignmentIndOutlinedIcon className={classes.icon} />
-                  <div className={classes.labelText}> Tag a friend</div>
-                </div>
-              </Button>
+              <TagFriendButton
+                friends={currentUserFriends}
+                selected={taggedFriends}
+                handleFriendTag={handleFriendTag}
+              />
             </Grid>
             <Grid container item xs={2} justify='flex-end'>
               <Button
@@ -150,11 +174,18 @@ const CreatePost = ({ user }) => {
 }
 
 CreatePost.propTypes = {
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  currentUserFriends: PropTypes.array.isRequired,
+  loadCurrentUserFriends: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
-  user: state.auth.user
+  user: state.auth.user,
+  currentUserFriends: state.friends.currentUserFriends
 })
 
-export default connect(mapStateToProps, null)(CreatePost)
+const mapDispatchToProps = dispatch => ({
+  loadCurrentUserFriends: (username, page, size) => dispatch(loadCurrentUserFriends(username, page, size))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreatePost)
