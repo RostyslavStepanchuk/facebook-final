@@ -1,4 +1,5 @@
 import {
+  CURRENT_USER_FRIENDS_RECEIVED,
   FRIEND_DELETED,
   FRIEND_SUGGESTIONS_RECEIVED,
   FRIENDS_RECEIVED,
@@ -12,6 +13,7 @@ import { addPagedPayload } from '../utils/helpers/payloadAdapter'
 
 const initialState = {
   userFriends: [],
+  currentUserFriends: [],
   friendSuggestions: [],
   loading: false
 }
@@ -29,6 +31,11 @@ export default function (state = initialState, action) {
       return { ...state,
         userFriends: addPagedPayload(state.userFriends, payload, 'username'),
         loading: false }
+
+    case CURRENT_USER_FRIENDS_RECEIVED:
+      return { ...state,
+        currentUserFriends: addPagedPayload(state.userFriends, payload, 'username')
+      }
 
     case FRIEND_SUGGESTIONS_RECEIVED:
       return { ...state, friendSuggestions: payload }

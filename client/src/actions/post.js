@@ -36,11 +36,12 @@ export const uploadImages = images => {
     })
 }
 
-export const createPost = (message, images, isShownToEveryone) => {
+export const createPost = (message, images, taggedFriends, isShownToEveryone) => {
   const body = {
     message,
     image: images[0],
-    showEveryone: isShownToEveryone
+    showEveryone: isShownToEveryone,
+    taggedUsers: taggedFriends
   }
 
   return apiRequest.post('/posts/profile', body)
