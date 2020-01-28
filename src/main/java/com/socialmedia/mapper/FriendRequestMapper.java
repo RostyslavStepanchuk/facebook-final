@@ -10,6 +10,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class FriendRequestMapper
         extends AbstractControllerToCrudServiceMapper
@@ -41,9 +44,14 @@ public class FriendRequestMapper
     return userMapper.userLabelDtoOf(crudService.confirmRequest(requestId));
   }
 
-  public UserDtoOut deleteRequest(Long requestId) {
-    return userMapper.responseDtoOf(crudService.deleteRequest(requestId));
+  public FriendRequestDtoOut deleteRequest(Long requestId) {
+    return responseDtoOf(crudService.deleteRequest(requestId));
   }
 
 
+  public List<FriendRequestDtoOut> getAllRequests() {
+    return crudService.getAllRequests().stream()
+        .map(this::responseDtoOf)
+        .collect(Collectors.toList());
+  }
 }
