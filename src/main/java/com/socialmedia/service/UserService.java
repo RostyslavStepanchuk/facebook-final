@@ -3,6 +3,7 @@ package com.socialmedia.service;
 import com.socialmedia.dto.security.Token;
 import com.socialmedia.exception.NoDataFoundException;
 import com.socialmedia.model.ApplicationUser;
+import com.socialmedia.model.FriendshipStatus;
 import com.socialmedia.model.TokensData;
 import com.socialmedia.repository.UserRepository;
 import com.socialmedia.util.EmailHandler;
@@ -206,5 +207,20 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
 
   private String currentUsername() {
     return SecurityContextHolder.getContext().getAuthentication().getName();
+  }
+
+  public FriendshipStatus checkFriendshipStatus(String targetUsername) {
+    ApplicationUser currentUser = getById(currentUsername());
+    ApplicationUser targetUser = getById(targetUsername);
+    if (currentUser.getIncomingFriendRequests().stream()
+        .anyMatch(req -> req.getRequester().getUsername().equals(targetUsername))) {
+      return FriendshipStatus.NEEDS_APPROVAL;
+    } else if (targetUser.getIncomingFriendRequests().stream()
+        .anyMatch(req -> req.getRequester().getUsername().equals(currentUser.getUsername()))) {
+      return FriendshipStatus.WAITING_FOR_APPROVAL;
+    } else if (currentUser.getFriends().contains(targetUser)) {
+      return FriendshipStatus.FRIENDS;
+    }
+    return FriendshipStatus.NOT_FRIENDS;
   }
 }
