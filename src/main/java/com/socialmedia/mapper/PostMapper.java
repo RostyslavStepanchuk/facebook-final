@@ -15,6 +15,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,6 +44,8 @@ public class PostMapper extends AbstractControllerToCrudServiceMapper<Post,Long,
     Post post = modelMapper.map(dtoIn, Post.class);
     Principal principal = SecurityContextHolder.getContext().getAuthentication();
     ApplicationUser author = userMapper.entityOf(principal.getName());
+    HashSet<ApplicationUser> applicationUsers = new HashSet<>(userMapper.entityOf(dtoIn.getTaggedUsers()));
+    post.setTaggedFriends(applicationUsers);
     post.setOwner(author);
     post.setAuthor(author);
 
@@ -49,13 +53,9 @@ public class PostMapper extends AbstractControllerToCrudServiceMapper<Post,Long,
   }
 
   Post entityOf(PostDtoIn dtoIn, String ownerUsername) {
-    Post post = modelMapper.map(dtoIn, Post.class);
-    Principal principal = SecurityContextHolder.getContext().getAuthentication();
-    ApplicationUser author = userMapper.entityOf(principal.getName());
+    Post post = entityOf(dtoIn);
     ApplicationUser owner = userMapper.entityOf(ownerUsername);
-    post.setAuthor(author);
     post.setOwner(owner);
-
     return post;
   }
 
@@ -68,14 +68,6 @@ public class PostMapper extends AbstractControllerToCrudServiceMapper<Post,Long,
   public List<PostDtoOut> getAllPostsForFeed(Pageable pageable) {
 
     return crudService.getAllPostsForFeed(pageable)
-        .stream()
-        .map(this::responseDtoOf)
-        .collect(Collectors.toList());
-  }
-
-  public List<PostDtoOut> getAllUsersPosts(Pageable pageable) {
-
-    return crudService.findAllUsersPosts(pageable)
         .stream()
         .map(this::responseDtoOf)
         .collect(Collectors.toList());
@@ -106,5 +98,9 @@ public class PostMapper extends AbstractControllerToCrudServiceMapper<Post,Long,
     return crudService.getUserPhotosFromPosts(userId, pageable)
             .stream().map( image -> imageMapper.responseDtoOf(image))
             .collect(Collectors.toList());
+  }
+
+  public PostDtoOut tagFriends(Long postId, ArrayList<String> taggedUserNames) {
+    return responseDtoOf(crudService.tagFriends(postId, taggedUserNames));
   }
 }

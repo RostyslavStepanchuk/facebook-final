@@ -19,12 +19,14 @@ import PropTypes from 'prop-types'
 import { deletePost } from '../../../actions/post'
 import { getDate } from '../../../utils/date/getDate'
 import { getAvatarLink } from '../../../utils/helpers/imageLinkHelpers'
+import { Link } from 'react-router-dom'
+import TaggedFriendsSelect from './TaggedFriendsSelect/TaggedFriendsSelect'
 
 const Transition = React.forwardRef(function Transition (props, ref) {
   return <Slide direction='up' ref={ref} {...props} />
 })
 
-const PostAuthor = ({ postId, author, owner, date, user, deletePost }) => {
+const PostAuthor = ({ postId, author, owner, date, user, deletePost, taggedFriends }) => {
   const classes = useStyles()
 
   const [showDeleteBtn, setShowDeleteBtn] = useState(false)
@@ -44,12 +46,31 @@ const PostAuthor = ({ postId, author, owner, date, user, deletePost }) => {
     deletePost(postId)
   }
 
+  let nextToUsernameLine = null
+  let belowUsernameLine = null
+
+  if (author.username !== owner.username) {
+    nextToUsernameLine = <Fragment><ArrowRightIcon className={classes.arrowRight} /> <span> {owner.firstName} {owner.lastName}</span> </Fragment>
+  }
+  if (taggedFriends.length > 0) {
+    const firstTagged = <Link to={'/profile/' + taggedFriends[0].username} className={classes.tagLink}>{`${taggedFriends[0].firstName} ${taggedFriends[0].lastName}`}</Link>
+    const otherTaggedLine = taggedFriends.length > 1 ? <span>{'and '}<TaggedFriendsSelect taggedFriends={taggedFriends.slice(1)} /></span> : null
+    const taggedFriendsLine = <Fragment><span>&nbsp;{'with '}{firstTagged} </span>&nbsp;<span>{otherTaggedLine}</span></Fragment>
+    if (nextToUsernameLine === null) {
+      nextToUsernameLine = taggedFriendsLine
+    } else {
+      belowUsernameLine = <p className={classes.lineBelowUsername}>{taggedFriendsLine}</p>
+    }
+  }
   return (
     <Fragment>
       <div className={classes.user}>
-        <Avatar className={classes.userPhoto} src={getAvatarLink(author.avatar)} alt='User' />
+        <Link to={'/profile/' + author.username}>
+          <Avatar className={classes.userPhoto} src={getAvatarLink(author.avatar)} alt='User' />
+        </Link>
         <div className={classes.userName}>
-          <p className={classes.userFullName}>{author.firstName} {author.lastName} { author.username !== owner.username && <Fragment><ArrowRightIcon /> <span> {owner.firstName} {owner.lastName}</span> </Fragment>}</p>
+          <p className={classes.userFullName}>{author.firstName} {author.lastName} {nextToUsernameLine}</p>
+          {belowUsernameLine}
           <p className={classes.postDate}>{getDate(date)}</p>
         </div>
         { showDeleteBtn &&
@@ -89,7 +110,8 @@ PostAuthor.propTypes = {
   owner: PropTypes.object.isRequired,
   date: PropTypes.number.isRequired,
   user: PropTypes.object.isRequired,
-  deletePost: PropTypes.func.isRequired
+  deletePost: PropTypes.func.isRequired,
+  taggedFriends: PropTypes.array.isRequired
 }
 
 const mapStateToProps = state => ({
