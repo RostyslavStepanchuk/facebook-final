@@ -35,7 +35,7 @@ const ProfilePage = ({
   loadingPhotos,
   profileOwner,
   profileLoading,
-  getPostsForProfile, friends, friendsAreLoading, loadUserFriends
+  getPostsForProfile, friends, friendsAreLoading, loadUserFriends,
 }) => {
   const classes = useStyles()
   const userId = useParams().userId || user.username
@@ -137,7 +137,7 @@ ProfilePage.propTypes = {
   profileLoading: PropTypes.bool.isRequired,
   friends: PropTypes.array.isRequired,
   friendsAreLoading: PropTypes.bool.isRequired,
-  loadUserFriends: PropTypes.func.isRequired
+  loadUserFriends: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = state => ({
@@ -149,7 +149,8 @@ const mapStateToProps = state => ({
   profileOwner: state.search.userProfile,
   profileLoading: state.search.profileLoading,
   friends: state.friends.userFriends,
-  friendsAreLoading: state.friends.loading
+  friendsAreLoading: state.friends.loadingFriends,
+
 })
 
 const mapDispatchToProps = dispatch => ({

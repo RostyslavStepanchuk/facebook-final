@@ -5,7 +5,8 @@ import {
   FRIENDS_STOPPED_LOADING,
   REQUEST_CONFIRMED,
   REQUEST_DELETED,
-  RESET_FRIENDS
+  RESET_FRIENDS,
+  ACTIVE_FRIENDS_RECEIVED
 } from '../utils/constants/actionsName'
 import apiRequest from '../utils/helpers/apiRequest'
 import { Toastr } from '../utils/toastr/Toastr'
@@ -67,5 +68,29 @@ export const deleteRequest = (requestId) => async dispatch => {
     })
   } catch (e) {
     Toastr.error('Something goes wrong! Please try again later')
+  }
+}
+
+export const loadActiveFriends = (page, size, isInitialRequest) => async dispatch => {
+  // dispatch({
+  //   type: FRIENDS_STARTED_LOADING
+  // })
+  //
+  // if (isInitialRequest) {
+  //   dispatch({
+  //     type: RESET_FRIENDS
+  //   })
+  // }
+
+  try {
+    const activeFriends = await apiRequest.get('/users/friends/active', { page, size })
+    dispatch({
+      type: ACTIVE_FRIENDS_RECEIVED,
+      payload: activeFriends
+    })
+  } catch (e) {
+    // dispatch({
+    //   type: FRIENDS_STOPPED_LOADING
+    // })
   }
 }

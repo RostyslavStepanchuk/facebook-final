@@ -4,21 +4,31 @@ import com.amazonaws.auth.PropertiesFileCredentialsProvider;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.socialmedia.interceptors.RequestHandlerInterceptor;
+import com.socialmedia.service.UserService;
 import com.socialmedia.util.SmartCopyBeanUtilsBean;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import static org.modelmapper.config.Configuration.AccessLevel.PRIVATE;
 
 @Configuration
-public class ApplicationConfiguration {
+public class ApplicationConfiguration implements WebMvcConfigurer {
 
   @Value("${amazonProperties.credentials.path}")
   private String s3CredentialsPath;
+
+  @Override
+  public void addInterceptors(InterceptorRegistry registry) {
+    registry.addInterceptor(new RequestHandlerInterceptor());
+  }
 
   @Bean
   public BCryptPasswordEncoder bcryptPasswordEncoder() {

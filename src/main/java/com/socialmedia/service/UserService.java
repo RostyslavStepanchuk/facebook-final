@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -167,5 +168,11 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
   public Page<ApplicationUser> getUserFriends(Pageable pageable) {
     Principal principal = SecurityContextHolder.getContext().getAuthentication();
     return jpaRepository.getAllUserFriends(principal.getName(), pageable);
+  }
+
+  public Page<ApplicationUser> getActiveFriends(Pageable pageable) {
+    Principal principal = SecurityContextHolder.getContext().getAuthentication();
+    long activeTime = System.currentTimeMillis() - 3600000; // <- (hour);
+    return jpaRepository.getActiveFriends(principal.getName(), activeTime, pageable);
   }
 }
