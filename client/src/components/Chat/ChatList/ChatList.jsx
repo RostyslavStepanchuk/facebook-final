@@ -16,27 +16,19 @@ import ChatListItem from './ChatListItem'
 
 import useStyles from './ChatListStyles'
 
-const ChatList = props => {
-  const { className, ...rest } = props
-  const chats = [
-    { id: 1, anotherParticipant: {name: 'Bill Clinton'}, text: 'Hi', date: 1580157471760},
-    { id: 2, anotherParticipant: {name: 'Tyler Durden'}, text: 'Hello', date: 1575981606043},
-    { id: 3, anotherParticipant: {name: 'Tony Stark'}, text: 'Bye', date: 1675481606043},
-    { id: 4, anotherParticipant: {name: 'Taras Bas'}, text: 'Bis bald', date: 2575481606043}
-  ]
+const ChatList = ({ className, chats, chatMessages, messagesLoading }) => {
   const classes = useStyles()
-  const selectedChat = useParams().chatId
+  const selectedChat = +useParams().chatId
 
   return (
     <div
-      {...rest}
       className={classnames(classes.root, className)}
     >
       <Toolbar>
         <Input
           className={classes.searchInput}
           disableUnderline
-          placeholder='Search contacts'
+          placeholder='Search'
         />
         <Tooltip title='Search'>
           <IconButton edge='end'>
@@ -49,9 +41,11 @@ const ChatList = props => {
         {chats.map((chat, i) => (
           <ChatListItem
             active={chat.id === selectedChat}
+            lastMessage={chatMessages[0]}
             chat={chat}
-            divider={i < chat.length - 1}
+            divider={i < chats.length - 1}
             key={chat.id}
+            messagesLoading={messagesLoading}
           />
         ))}
       </List>
@@ -61,7 +55,8 @@ const ChatList = props => {
 
 ChatList.propTypes = {
   className: PropTypes.string,
-  conversations: PropTypes.array.isRequired
+  chats: PropTypes.array.isRequired,
+  chatMessages: PropTypes.array
 }
 
 export default ChatList

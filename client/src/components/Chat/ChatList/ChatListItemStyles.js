@@ -12,6 +12,7 @@ const useStyles = makeStyles(theme => ({
   },
   details: {
     marginLeft: theme.spacing(2),
+    marginTop: theme.spacing(3),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-end'

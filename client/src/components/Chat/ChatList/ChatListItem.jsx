@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link as RouterLink } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 
@@ -10,20 +10,21 @@ import {
   ListItemText,
   Avatar
 } from '@material-ui/core'
+
+import Preloader from '../../Preloader/Preloader'
 import { getAvatarLink } from '../../../utils/helpers/imageLinkHelpers'
 import { getDateForChat } from '../../../utils/date/getDate'
+import { getFullName } from '../../../utils/helpers/formatters'
 
 import useStyles from './ChatListItemStyles'
 
-const ChatListItem = props => {
-  const { active, chat, className, ...rest } = props
-
+const ChatListItem = ({ active, chat, lastMessage, className, messagesLoading }) => {
   const classes = useStyles()
-  // const lastMessage = chat.messages[conversation.messages.length - 1]
+  const chatCaption = chat.participants.length > 2
+  ? chat.name : getFullName(chat.participants[1])
 
-  return (
+  return messagesLoading ? <Preloader /> : (
     <ListItem
-      {...rest}
       button
       className={classnames(
         {
@@ -31,23 +32,23 @@ const ChatListItem = props => {
         },
         className
       )}
-      component={RouterLink}
-      // to={`/chat/${conversation.id}`}
+      component={Link}
+      to={`/chat/${chat.id}`}
     >
       <ListItemAvatar>
         <Avatar
-          alt='Person'
+          alt='User'
           className={classes.avatar}
-          src={getAvatarLink(chat)}
+          src={getAvatarLink(chat.participants[1].avatar)}
         />
       </ListItemAvatar>
       <ListItemText
-        primary={chat.anotherParticipant.name}
+        primary={chatCaption}
         primaryTypographyProps={{
           noWrap: true,
           variant: 'h6'
         }}
-        secondary={`lastMessage.senderName: lastMessage.text`}
+        secondary={`${getFullName(lastMessage.author)}: ${lastMessage.text}`}
         secondaryTypographyProps={{
           noWrap: true,
           variant: 'body1'
@@ -58,7 +59,7 @@ const ChatListItem = props => {
           noWrap
           variant='body2'
         >
-          {getDateForChat(chat.date)}
+          {getDateForChat(lastMessage.date)}
         </Typography>
       </div>
     </ListItem>
@@ -68,7 +69,8 @@ const ChatListItem = props => {
 ChatListItem.propTypes = {
   active: PropTypes.bool,
   className: PropTypes.string,
-  conversation: PropTypes.object.isRequired
+  chat: PropTypes.object.isRequired,
+  lastMessage: PropTypes.object
 }
 
 export default ChatListItem
