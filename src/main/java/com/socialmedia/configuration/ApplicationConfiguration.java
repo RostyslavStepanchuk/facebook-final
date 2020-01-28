@@ -20,15 +20,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import static org.modelmapper.config.Configuration.AccessLevel.PRIVATE;
 
 @Configuration
-public class ApplicationConfiguration implements WebMvcConfigurer {
+public class ApplicationConfiguration {
 
   @Value("${amazonProperties.credentials.path}")
   private String s3CredentialsPath;
-
-  @Override
-  public void addInterceptors(InterceptorRegistry registry) {
-    registry.addInterceptor(new RequestHandlerInterceptor());
-  }
 
   @Bean
   public BCryptPasswordEncoder bcryptPasswordEncoder() {
