@@ -5,6 +5,7 @@ import {
   FRIENDS_RECEIVED,
   FRIENDS_STARTED_LOADING,
   FRIENDS_STOPPED_LOADING,
+  INCOMING_FRIEND_REQUESTS_RECEIVED,
   REQUEST_CONFIRMED,
   REQUEST_DELETED,
   RESET_FRIEND_SUGGESTIONS,
@@ -103,4 +104,16 @@ export const getFriendSuggestions = size => async dispatch => {
 
 export const sendFriendRequest = responderId => {
   return apiRequest.post(/requests/ + responderId)
+}
+
+export const getIncomingFriendRequests = () => async dispatch => {
+  try {
+    const requests = await apiRequest.get('/requests')
+    dispatch({
+      type: INCOMING_FRIEND_REQUESTS_RECEIVED,
+      payload: requests
+    })
+  } catch (e) {
+    Toastr.error('Something goes wrong! Please try again later')
+  }
 }
