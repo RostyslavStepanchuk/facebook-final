@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -52,4 +53,10 @@ public class Post implements DbEntity<Long> {
       joinColumns = @JoinColumn(name = "fk_post_id"),
       inverseJoinColumns = @JoinColumn(name = "fk_provider_username"))
   private List<ApplicationUser> likes;
+
+  @ManyToMany
+  @JoinTable(name = "tagged_friends",
+      joinColumns = @JoinColumn(name = "fk_post_id"),
+      inverseJoinColumns = @JoinColumn(name = "fk_tagged_username"))
+  private Set<ApplicationUser> taggedFriends;
 }

@@ -165,8 +165,8 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
     jpaRepository.save(user);
   }
 
-  public Page<ApplicationUser> getUserFriends(Pageable pageable) {
-    return jpaRepository.getAllUserFriends(currentUsername(), pageable);
+  public Page<ApplicationUser> getUserFriends(Pageable pageable, String username) {
+    return jpaRepository.getAllUserFriends(username, pageable);
   }
 
   public  Map<ApplicationUser, List<ApplicationUser>> getUserFriendSuggestions(Integer pageSize) {
@@ -183,6 +183,10 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
         .filter(entry -> isRelevantFriendSuggestion(entry.getKey(), originalUser))
         .limit(pageSize)
         .collect(Collectors.toMap(Map.Entry::getKey, entry -> getCommonFriends(originalUser, entry.getKey())));
+  }
+
+  public List<ApplicationUser> getAllUsersFromList(List<String> users) {
+    return jpaRepository.getAllUsersFromList(users);
   }
 
   private List<ApplicationUser> getCommonFriends(ApplicationUser user1, ApplicationUser user2) {

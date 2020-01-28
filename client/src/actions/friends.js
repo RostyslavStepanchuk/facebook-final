@@ -1,4 +1,5 @@
 import {
+  CURRENT_USER_FRIENDS_RECEIVED,
   FRIEND_DELETED,
   FRIEND_SUGGESTIONS_RECEIVED,
   FRIENDS_RECEIVED,
@@ -24,7 +25,7 @@ export const loadUserFriends = (username, page, size, isInitialRequest) => async
   }
 
   try {
-    const friends = await apiRequest.get('/users/friends', { params: { page, size } })
+    const friends = await apiRequest.get('/users/friends/' + username, { params: { page, size } })
     dispatch({
       type: FRIENDS_RECEIVED,
       payload: friends
@@ -33,6 +34,18 @@ export const loadUserFriends = (username, page, size, isInitialRequest) => async
     dispatch({
       type: FRIENDS_STOPPED_LOADING
     })
+  }
+}
+
+export const loadCurrentUserFriends = (username, page, size) => async dispatch => {
+  try {
+    const friends = await apiRequest.get('/users/friends/' + username, { params: { page, size } })
+    dispatch({
+      type: CURRENT_USER_FRIENDS_RECEIVED,
+      payload: friends
+    })
+  } catch (e) {
+    Toastr.error('Something goes wrong! Please try again later')
   }
 }
 

@@ -100,9 +100,9 @@ public class UserController {
     return ResponseEntity.ok(userMapper.deleteFriend(friendUsername));
   }
 
-  @GetMapping("/friends")
-  public ResponseEntity<List<UserLabelDtoOut>> getUserFriends(Pageable pageable) {
-    return ResponseEntity.ok(userMapper.getUserFriends(pageable));
+  @GetMapping("/friends/{username}")
+  public ResponseEntity<List<UserLabelDtoOut>> getUserFriends(@PathVariable String username, Pageable pageable) {
+    return ResponseEntity.ok(userMapper.getUserFriends(pageable, username));
   }
 
   @GetMapping("/friends/suggest")
