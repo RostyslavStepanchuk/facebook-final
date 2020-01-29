@@ -200,9 +200,9 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
     return !possibleFriend.getUsername().equals(originalUser.getUsername())
         && !originalUser.getFriends().contains(possibleFriend)
         && originalUser.getIncomingFriendRequests().stream()
-        .noneMatch(req -> req.getRequester().getId().equals(originalUser.getId()))
+        .noneMatch(req -> req.getRequester().getId().equals(possibleFriend.getId()))
         && possibleFriend.getIncomingFriendRequests().stream()
-        .noneMatch(req -> req.getRequester().getId().equals(possibleFriend.getId()));
+        .noneMatch(req -> req.getRequester().getId().equals(originalUser.getId()));
   }
 
   private String currentUsername() {
