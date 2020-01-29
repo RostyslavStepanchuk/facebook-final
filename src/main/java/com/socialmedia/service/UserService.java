@@ -172,7 +172,8 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
 
   public Page<ApplicationUser> getActiveFriends(Pageable pageable) {
     Principal principal = SecurityContextHolder.getContext().getAuthentication();
-    long activeTime = System.currentTimeMillis() - 3600000; // <- (hour);
-    return jpaRepository.getActiveFriends(principal.getName(), activeTime, pageable);
+    ApplicationUser user = getById(principal.getName());
+    long activeTime = System.currentTimeMillis() - 300000;
+    return jpaRepository.getActiveFriends(user, activeTime, pageable);
   }
 }
