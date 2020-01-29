@@ -7,8 +7,6 @@ import {
   PASSWORD_RESET,
   REGISTER_FAIL,
   REGISTER_SUCCESS,
-  REQUEST_CONFIRMED,
-  REQUEST_DELETED,
   START_LOADING,
   STOP_LOADING,
   USER_LOADED
@@ -23,7 +21,7 @@ const initialState = {
   emailIsConfirmed: false
 }
 
-export default function(state = initialState, action) {
+export default function (state = initialState, action) {
   const { type, payload } = action
 
   switch (type) {
@@ -59,18 +57,6 @@ export default function(state = initialState, action) {
 
     case STOP_LOADING:
       return { ...state, loading: false }
-
-      // this should move from user to friends eventually
-
-    case REQUEST_DELETED:
-      return { ...state, user: payload }
-
-    case REQUEST_CONFIRMED:
-      return { ...state,
-        user: { ...state.user,
-          incomingFriendRequests: state.user.incomingFriendRequests.filter(item => item.requester.username !== payload.username)
-        }
-      }
 
     default:
       return { ...state }

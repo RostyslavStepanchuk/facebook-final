@@ -5,7 +5,7 @@ import classNames from 'classnames'
 import useStyles from './preloaderStyles'
 import PropTypes from 'prop-types'
 
-export default function Preloader({ color = 'primary', fullScreen = false, size = '40px' }) {
+export default function Preloader ({ color = 'primary', fullScreen = false, size = '40px' }) {
   const classes = useStyles({ fullScreen })
 
   return (

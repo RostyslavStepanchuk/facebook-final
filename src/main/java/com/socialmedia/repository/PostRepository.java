@@ -1,5 +1,6 @@
 package com.socialmedia.repository;
 
+import com.socialmedia.model.ApplicationUser;
 import com.socialmedia.model.Post;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,11 +12,12 @@ import java.util.List;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
 
-  List<Post> findAllByAuthor_Username(String id);
+  List<Post> findAllByAuthorUsername(String id);
 
-  List<Post> findAllByOwner_Username(String id);
+  List<Post> findAllByOwnerUsername(String id);
 
-  Page<Post> findAllByOwner_Username(String id, Pageable pageable);
+  @Query("SELECT p from Post p WHERE p.owner = :user or :user member p.taggedFriends")
+  Page<Post> findAllByOwnerOrTag(ApplicationUser user, Pageable pageable);
 
   Page<Post> findAllByOwnerUsernameAndImageNotNull(String id, Pageable pageable);
 

@@ -22,7 +22,7 @@ import { getAvatarLink } from '../../../utils/helpers/imageLinkHelpers'
 import Tile from '../../Tile/Tile'
 import { connect } from 'react-redux'
 
-const Transition = React.forwardRef(function Transition(props, ref) {
+const Transition = React.forwardRef(function Transition (props, ref) {
   return <Slide direction='up' ref={ref} {...props} />
 })
 

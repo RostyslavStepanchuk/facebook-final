@@ -1,11 +1,14 @@
 package com.socialmedia.mapper;
 
 import com.socialmedia.dto.security.Token;
+import com.socialmedia.dto.user.FriendSuggestionDtoOut;
 import com.socialmedia.dto.user.UserDtoIn;
 import com.socialmedia.dto.user.UserDtoOut;
+import com.socialmedia.dto.user.UserLabelDtoIn;
 import com.socialmedia.dto.user.UserLabelDtoOut;
 import com.socialmedia.dto.user.UserRegistrationDtoIn;
 import com.socialmedia.model.ApplicationUser;
+import com.socialmedia.model.FriendshipStatus;
 import com.socialmedia.model.TokensData;
 import com.socialmedia.service.UserService;
 import org.modelmapper.ModelMapper;
@@ -54,6 +57,13 @@ public final class UserMapper extends
     return crudService.getById(userId);
   }
 
+  public List<ApplicationUser> entityOf(List<UserLabelDtoIn> userLabels) {
+    List<String> userIds = userLabels.stream()
+        .map(UserLabelDtoIn::getUsername)
+        .collect(Collectors.toList());
+    return crudService.getAllUsersFromList(userIds);
+  }
+
   public List<UserDtoOut> usersSearch(String query) {
     return crudService.getUsersByQuery(query)
         .stream()
@@ -85,8 +95,24 @@ public final class UserMapper extends
     return responseDtoOf(crudService.deleteFriend(friendUsername));
   }
 
-  public List<UserLabelDtoOut> getUserFriends(Pageable pageable) {
-    return crudService.getUserFriends(pageable).stream().map(this::userLabelDtoOf).collect(Collectors.toList());
+  public List<UserLabelDtoOut> getUserFriends(Pageable pageable, String username) {
+    return crudService.getUserFriends(pageable, username).stream().map(this::userLabelDtoOf).collect(Collectors.toList());
+  }
+
+  public List<FriendSuggestionDtoOut> getUserFriendSuggestions(Integer pageSize) {
+    return crudService.getUserFriendSuggestions(pageSize)
+        .entrySet().stream()
+        .map(entry -> FriendSuggestionDtoOut.builder()
+            .user(userLabelDtoOf(entry.getKey()))
+            .commonFriends(entry.getValue().stream()
+                .map(this::userLabelDtoOf)
+                .collect(Collectors.toList()))
+            .build())
+        .collect(Collectors.toList());
+  }
+
+  public FriendshipStatus checkFriendshipStatus(String username) {
+    return crudService.checkFriendshipStatus(username);
   }
 
   public List<UserLabelDtoOut> getActiveFriends(Pageable pageable) {

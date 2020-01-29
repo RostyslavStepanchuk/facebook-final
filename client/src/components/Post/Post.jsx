@@ -10,7 +10,7 @@ import PostComments from './PostComments/PostComments'
 const Post = ({ post }) => {
   const classes = useStyles()
 
-  const { id, author, owner, date, message, image, likes, comments } = post
+  const { id, author, owner, date, message, image, likes, comments, taggedFriends } = post
 
   const inputRef = useRef(null)
   const focusForCreatingComment = () => {
@@ -19,7 +19,7 @@ const Post = ({ post }) => {
 
   return (
     <Paper key={id} className={classes.post}>
-      <PostAuthor postId={id} author={author} owner={owner} date={date} />
+      <PostAuthor postId={id} author={author} owner={owner} date={date} taggedFriends={taggedFriends} />
       {image && <img src={image.src} className={classes.postImg} alt='Post' />}
       <p>{message}</p>
       <PostLikePanel postId={id} likes={likes} comments={comments} focusForCreatingComment={focusForCreatingComment} />
