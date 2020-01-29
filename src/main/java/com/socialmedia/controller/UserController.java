@@ -11,6 +11,8 @@ import com.socialmedia.model.FriendshipStatus;
 import com.socialmedia.util.CookieMgr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -118,10 +120,9 @@ public class UserController {
   }
 
   @GetMapping("/friends/active")
-  public ResponseEntity<List<UserLabelDtoOut>> getActiveFriends(Pageable pageable) {
+  public ResponseEntity<List<UserLabelDtoOut>> getActiveFriends(
+          @PageableDefault(sort = { "lastActivityTime" }, direction = Sort.Direction.DESC) Pageable pageable) {
     return ResponseEntity.ok(userMapper.getActiveFriends(pageable));
   }
-
-
 
 }

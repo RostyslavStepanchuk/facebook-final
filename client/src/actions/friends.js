@@ -53,10 +53,10 @@ export const loadCurrentUserFriends = (username, page, size) => async dispatch =
 
 export const deleteFriend = friendUsername => async dispatch => {
   try {
-    const user = await apiRequest.delete('/users/friends/' + friendUsername)
+    const deletedUser = await apiRequest.delete('/users/friends/' + friendUsername)
     dispatch({
       type: FRIEND_DELETED,
-      payload: user
+      payload: deletedUser
     })
   } catch (e) {
     Toastr.error('Something goes wrong! Please try again later')

@@ -6,6 +6,7 @@ import Preloader from '../Preloader/Preloader'
 import { getAvatarLink } from '../../utils/helpers/imageLinkHelpers'
 import { getActiveTime } from '../../utils/date/getDate'
 import MailOutlineIcon from '@material-ui/icons/MailOutline'
+import { Link } from 'react-router-dom'
 
 const ActiveFriends = ({ activeFriends, activeFriendsAreLoading }) => {
   const classes = useStyles()
@@ -17,9 +18,13 @@ const ActiveFriends = ({ activeFriends, activeFriendsAreLoading }) => {
       return activeFriends.map(friend => (
         <div className={classes.container} key={friend.lastActivityTime}>
           <div className={classes.user}>
-            <Avatar className={classes.userPhoto} src={getAvatarLink(friend.avatar)} alt='User' />
+            <Link to={'/profile/' + friend.username}>
+              <Avatar className={classes.userPhoto} src={getAvatarLink(friend.avatar)} alt='User' />
+            </Link>
             <div className={classes.userName}>
-              <p className={classes.userFullName}>{friend.firstName} {friend.lastName} </p>
+              <Link to={'/profile/' + friend.username} className={classes.userLink}>
+                <p className={classes.userFullName}>{friend.firstName} {friend.lastName} </p>
+              </Link>
               <p className={classes.activeTime}>{getActiveTime(friend.lastActivityTime)}</p>
             </div>
           </div>
