@@ -37,6 +37,10 @@ const useStyles = makeStyles(() => ({
   userName: {
     margin: 'auto 0'
   },
+  userLink: {
+    textDecoration: 'none',
+    color: 'black'
+  },
   userFullName: {
     display: 'flex',
     fontWeight: 600,

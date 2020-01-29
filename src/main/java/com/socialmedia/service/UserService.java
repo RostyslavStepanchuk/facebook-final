@@ -3,6 +3,7 @@ package com.socialmedia.service;
 import com.socialmedia.dto.security.Token;
 import com.socialmedia.exception.NoDataFoundException;
 import com.socialmedia.model.ApplicationUser;
+import com.socialmedia.model.FriendshipStatus;
 import com.socialmedia.model.TokensData;
 import com.socialmedia.repository.UserRepository;
 import com.socialmedia.util.EmailHandler;
@@ -17,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -155,7 +155,7 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
     ApplicationUser friend = getById(friendUsername);
     cancelFriendship(friend, user.getUsername());
 
-    return user;
+    return friend;
   }
 
   private void cancelFriendship(ApplicationUser user, String friendUsername) {
