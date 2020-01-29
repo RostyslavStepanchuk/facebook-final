@@ -146,11 +146,9 @@ export const confirmEmail = token => dispatch => {
 
 export const updateProfile = dataForm => dispatch => {
   return apiRequest.put('/users', dataForm)
-    .then(data => {
-      console.log('userUpdateResponded')
-      dispatch({
-        type: USER_LOADED,
-        payload: data
-      })
+    .then(data => dispatch({
+      type: USER_LOADED,
+      payload: data
     })
+    )
 }

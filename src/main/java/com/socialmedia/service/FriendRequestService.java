@@ -1,5 +1,6 @@
 package com.socialmedia.service;
 
+import com.amazonaws.services.kinesis.model.InvalidArgumentException;
 import com.socialmedia.model.ApplicationUser;
 import com.socialmedia.model.FriendRequest;
 import com.socialmedia.repository.FriendRequestRepository;
@@ -44,7 +45,6 @@ public class FriendRequestService extends AbstractCrudService<FriendRequest, Lon
     friendRequest.setResponder(responder);
 
     jpaRepository.save(friendRequest);
-
     return user;
   }
 
@@ -63,20 +63,34 @@ public class FriendRequestService extends AbstractCrudService<FriendRequest, Lon
     user.setFriends(userFriends);
 
     deleteRequestFromIncoming(user, requestId);
+    userService.update(requester);
+    userService.update(user);
     return requester;
   }
 
-  public ApplicationUser deleteRequest(Long requestId) {
+  public FriendRequest deleteRequest(Long requestId) {
     Principal principal = SecurityContextHolder.getContext().getAuthentication();
     ApplicationUser user = userService.getById(principal.getName());
 
-    deleteRequestFromIncoming(user, requestId);
-    return user;
+    FriendRequest deletedRequest = deleteRequestFromIncoming(user, requestId);
+    userService.update(user);
+    return deletedRequest;
   }
 
-  private void deleteRequestFromIncoming(ApplicationUser user, Long requestId) {
+  private FriendRequest deleteRequestFromIncoming(ApplicationUser user, Long requestId) {
     List<FriendRequest> requests = user.getIncomingFriendRequests();
+    FriendRequest deletedRequest = requests.stream()
+        .filter(req -> req.getId() == requestId)
+        .findFirst()
+        .orElseThrow(() ->
+            new InvalidArgumentException(String.format("Request %d was not found for current user", requestId)));
     requests.stream().filter(request -> request.getId().equals(requestId)).findAny().ifPresent(requests::remove);
     user.setIncomingFriendRequests(requests);
+    return deletedRequest;
+  }
+
+  public List<FriendRequest> getAllRequests() {
+    String currentUserName = SecurityContextHolder.getContext().getAuthentication().getName();
+    return jpaRepository.getAllByResponderUsername(currentUserName);
   }
 }

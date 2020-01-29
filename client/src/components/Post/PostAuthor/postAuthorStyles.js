@@ -12,16 +12,34 @@ const useStyles = makeStyles(() => ({
     margin: '5px 15px 5px 10px'
   },
   userName: {
-    margin: 'auto 0'
+    margin: '5px 0 0'
+  },
+  arrowRight: {
+    size: '5px',
+    width: 20,
+    height: 20
+  },
+  lineBelowUsername: {
+    display: 'flex',
+    margin: '0 0 3px',
+    fontWeight: 600
   },
   userFullName: {
     display: 'flex',
     fontWeight: 600,
+    alignItems: 'center',
     margin: 0,
     textAlign: 'left'
   },
+  tagLink: {
+    color: '#4154B3',
+    textDecoration: 'none',
+    '&:visited': {
+      color: '#4154B3'
+    }
+  },
   postDate: {
-    margin: 0,
+    margin: '0 0 3px',
     textAlign: 'left',
     lineHeight: '16px'
   },

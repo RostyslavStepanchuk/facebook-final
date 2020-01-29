@@ -6,6 +6,7 @@ import PropTypes from 'prop-types'
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined'
 import UpdateProfile from '../UpdateProfile/UpdateProfile'
 import { getAvatarLink, getProfileCoverLink } from '../../utils/helpers/imageLinkHelpers'
+import ManageFriendshipButton from '../ManageFriendshipButton/ManageFriendshipButton'
 
 const ProfileCover = ({ profileOwner, isOwnProfile, profileTab, handleChangeTab }) => {
   const { avatar, firstName, lastName, profileCover } = profileOwner
@@ -22,7 +23,7 @@ const ProfileCover = ({ profileOwner, isOwnProfile, profileTab, handleChangeTab 
       <div className={classes.avatarBg}>
         <Avatar className={classes.avatarImg} src={getAvatarLink(avatar)} />
         <p className={classes.avatarName}>{firstName} {lastName}</p>
-        {isOwnProfile ? (<Button
+        {isOwnProfile && (<Button
           variant='contained'
           onClick={handleModal}
           className={classes.editProfileBtn}
@@ -31,7 +32,8 @@ const ProfileCover = ({ profileOwner, isOwnProfile, profileTab, handleChangeTab 
             <EditOutlinedIcon className={classes.icon} />
             <div className={classes.labelText}> Edit profile</div>
           </div>
-        </Button>) : null}
+        </Button>)}
+        {!isOwnProfile && <ManageFriendshipButton profileOwner={profileOwner} />}
         <Modal
           disableAutoFocus
           open={modalOpen}

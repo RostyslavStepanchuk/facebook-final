@@ -16,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,6 +43,7 @@ public final class PostService extends AbstractCrudService<Post, Long, PostRepos
       entity.setImage(postImage);
     }
     entity.setDate(System.currentTimeMillis());
+    addFriendTags(entity, entity.getAuthor().getUsername(), new ArrayList<>(entity.getTaggedFriends()));
     return super.create(entity);
   }
 
@@ -66,22 +68,16 @@ public final class PostService extends AbstractCrudService<Post, Long, PostRepos
   }
 
   public List<Post> findAllPostsAuthoredBy(String username) {
-    return jpaRepository.findAllByAuthor_Username(username);
+    return jpaRepository.findAllByAuthorUsername(username);
   }
 
   public List<Post> findAllUsersPosts(String username) {
-    return jpaRepository.findAllByOwner_Username(username);
-  }
-
-  public Page<Post> findAllUsersPosts(Pageable pageable) {
-
-    Principal principal = SecurityContextHolder.getContext().getAuthentication();
-    return jpaRepository.findAllByOwner_Username(principal.getName(), pageable);
+    return jpaRepository.findAllByOwnerUsername(username);
   }
 
   public Page<Post> findAllUsersPosts(String feedOwner, Pageable pageable) {
-
-    return jpaRepository.findAllByOwner_Username(feedOwner, pageable);
+    ApplicationUser owner = userService.getById(feedOwner);
+    return jpaRepository.findAllByOwnerOrTag(owner, pageable);
   }
 
   public Page<Post> getAllPostsForFeed(Pageable pageable) {
@@ -105,12 +101,12 @@ public final class PostService extends AbstractCrudService<Post, Long, PostRepos
     List<ApplicationUser> likes = post.getLikes();
 
     boolean isPresent = likes.stream()
-            .anyMatch(like -> like.getUsername().equals(author.getUsername()));
+        .anyMatch(like -> like.getUsername().equals(author.getUsername()));
 
     if (isPresent) {
       List<ApplicationUser> collect = post.getLikes()
-              .stream().filter(like -> !like.getUsername().equals(author.getUsername()))
-              .collect(Collectors.toList());
+          .stream().filter(like -> !like.getUsername().equals(author.getUsername()))
+          .collect(Collectors.toList());
       post.setLikes(collect);
     } else {
       likes.add(author);
@@ -140,11 +136,11 @@ public final class PostService extends AbstractCrudService<Post, Long, PostRepos
     Comment comment = comments.stream()
         .filter(item -> item.getId().equals(commentId))
         .findFirst()
-        .orElseThrow(()-> new NoDataFoundException(String.format("Comment with id %d wasn't found", commentId)));
+        .orElseThrow(() -> new NoDataFoundException(String.format("Comment with id %d wasn't found", commentId)));
 
     final boolean hasCredentialsToDelete = principal.getName().equals(post.getAuthor().getUsername())
-            || principal.getName().equals(post.getOwner().getUsername())
-            || principal.getName().equals(comment.getAuthor().getUsername());
+        || principal.getName().equals(post.getOwner().getUsername())
+        || principal.getName().equals(comment.getAuthor().getUsername());
 
     if (hasCredentialsToDelete) {
       comments.stream().filter(item -> item.getId().equals(commentId)).findAny().ifPresent(comments::remove);
@@ -164,9 +160,31 @@ public final class PostService extends AbstractCrudService<Post, Long, PostRepos
       user = userId;
     }
     Page<Post> allPostsByOwner = jpaRepository.findAllByOwnerUsernameAndImageNotNull(user, pageable);
-    List<Image> collect = allPostsByOwner.stream()
+    return allPostsByOwner.stream()
         .map(Post::getImage)
         .collect(Collectors.toList());
-    return collect;
   }
+
+  public Post tagFriends(Long postId, ArrayList<String> taggedUserNames) {
+    Post post = getById(postId);
+    List<ApplicationUser> friendsToTag = userService.getAllUsersFromList(taggedUserNames);
+    Principal principal = SecurityContextHolder.getContext().getAuthentication();
+    return jpaRepository.save(addFriendTags(post, principal.getName(), friendsToTag));
+  }
+
+  private Post addFriendTags(Post post, String currentUsername, List<ApplicationUser> friendsToTag) {
+    if (currentUsername.equals(post.getAuthor().getUsername())) {
+      friendsToTag.forEach(friend -> {
+        if (friend.getFriends().stream()
+            .noneMatch(f -> f.getId().equals(currentUsername))) {
+          throw new IllegalArgumentException(String.format("User %s can't be tagged by current user", friend.getUsername()));
+        }
+      });
+      post.getTaggedFriends().addAll(friendsToTag);
+      return post;
+    } else {
+      throw new BadCredentialsException("You can only delete your own comments");
+    }
+  }
+
 }

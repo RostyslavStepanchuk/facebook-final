@@ -11,15 +11,20 @@ import { loadActiveFriends } from '../../actions/friends'
 import PropTypes from 'prop-types'
 import InfiniteScroll from '../../components/InfiniteScroll/InfiniteScroll'
 import ActiveFriends from '../../components/ActiveFriends/ActiveFriends'
+import FriendSuggestions from '../../components/FriendSuggestions/FriendSuggestions'
+import { getFriendSuggestions } from '../../actions/friends'
 
 const POSTS_PAGE_SIZE = 10
 const FIRST_PAGE = 0
+const FRIEND_SUGGESTIONS_SIZE = 5
 const ACTIVE_FRIENDS_PAGE_SIZE = 10
 
 const HomePage = ({
   loadPostsHomePage,
   postsAreLoading,
   posts,
+  friendSuggestions,
+  getFriendSuggestions,
   activeFriends,
   activeFriendsAreLoading,
   loadActiveFriends
@@ -27,8 +32,9 @@ const HomePage = ({
   const classes = useStyles()
   useEffect(() => {
     loadPostsHomePage(FIRST_PAGE, POSTS_PAGE_SIZE, true)
+    getFriendSuggestions(FRIEND_SUGGESTIONS_SIZE)
     loadActiveFriends(FIRST_PAGE, ACTIVE_FRIENDS_PAGE_SIZE)
-  }, [ loadPostsHomePage, loadActiveFriends ])
+  }, [ loadPostsHomePage, getFriendSuggestions, loadActiveFriends ])
 
   return (
     <InfiniteScroll
@@ -39,14 +45,14 @@ const HomePage = ({
     >
       <Container className={classes.container} maxWidth='lg'>
         <Grid container spacing={2}>
-          <Grid item md={2}>
-            <div className={classes.leftSectionPlaceholder}>Menu section</div>
+          <Grid item md={3}>
+            <FriendSuggestions suggestions={friendSuggestions} />
           </Grid>
           <Grid item md={6}>
             <CreatePost />
             <PostFeed />
           </Grid>
-          <Grid item md={4}>
+          <Grid item md={3}>
             <ActiveFriends
               activeFriends={activeFriends}
               activeFriendsAreLoading={activeFriendsAreLoading} />
@@ -61,6 +67,8 @@ HomePage.propTypes = {
   postsAreLoading: PropTypes.bool.isRequired,
   posts: PropTypes.array.isRequired,
   loadPostsHomePage: PropTypes.func.isRequired,
+  getFriendSuggestions: PropTypes.func.isRequired,
+  friendSuggestions: PropTypes.array.isRequired,
   activeFriends: PropTypes.array.isRequired,
   activeFriendsAreLoading: PropTypes.bool.isRequired,
   loadActiveFriends: PropTypes.func.isRequired
@@ -69,13 +77,15 @@ HomePage.propTypes = {
 const mapStateToProps = state => ({
   postsAreLoading: state.posts.loading,
   posts: state.posts.posts,
+  friendSuggestions: state.friends.friendSuggestions,
   activeFriends: state.friends.activeFriends,
-  activeFriendsAreLoading: state.friends.loadingActiveFriends
+  activeFriendsAreLoading: state.friends.loading
 })
 
 const mapDispatchToProps = dispatch => {
   return {
     loadPostsHomePage: (page, size, isInitial) => dispatch(getPostsForHomePage(page, size, isInitial)),
+    getFriendSuggestions: page => dispatch(getFriendSuggestions(page)),
     loadActiveFriends: (page, size) => dispatch(loadActiveFriends(page, size))
   }
 }

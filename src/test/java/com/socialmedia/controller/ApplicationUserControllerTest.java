@@ -33,8 +33,6 @@ import static com.socialmedia.controller.util.TestConstants.USER_LAST_NAME;
 import static com.socialmedia.controller.util.TestConstants.USER_OPEN_ACCOUNT;
 import static com.socialmedia.controller.util.TestConstants.USER_PROFILE_COVER_URL;
 import static com.socialmedia.controller.util.TestConstants.USER_USERNAME;
-import static org.hamcrest.Matchers.comparesEqualTo;
-import static org.hamcrest.collection.IsIterableWithSize.iterableWithSize;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -83,8 +81,7 @@ public class ApplicationUserControllerTest {
             .andExpect(jsonPath("$.avatar.src").value(USER_AVATAR_URL))
             .andExpect(jsonPath("$.profileCover.src").value(USER_PROFILE_COVER_URL))
             .andExpect(jsonPath("$.gender").value(USER_GENDER))
-            .andExpect(jsonPath("$.openAccount").value(USER_OPEN_ACCOUNT))
-            .andExpect(jsonPath("$.incomingFriendRequests", iterableWithSize(comparesEqualTo(1))));
+            .andExpect(jsonPath("$.openAccount").value(USER_OPEN_ACCOUNT));
 
     }
 

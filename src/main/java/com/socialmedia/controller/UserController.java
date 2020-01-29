@@ -1,11 +1,13 @@
 package com.socialmedia.controller;
 
 import com.socialmedia.dto.security.Token;
+import com.socialmedia.dto.user.FriendSuggestionDtoOut;
 import com.socialmedia.dto.user.UserDtoIn;
 import com.socialmedia.dto.user.UserDtoOut;
 import com.socialmedia.dto.user.UserLabelDtoOut;
 import com.socialmedia.dto.user.UserRegistrationDtoIn;
 import com.socialmedia.mapper.UserMapper;
+import com.socialmedia.model.FriendshipStatus;
 import com.socialmedia.util.CookieMgr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -98,15 +101,27 @@ public class UserController {
     return ResponseEntity.ok(userMapper.deleteFriend(friendUsername));
   }
 
-  @GetMapping("/friends")
-  public ResponseEntity<List<UserLabelDtoOut>> getUserFriends(Pageable pageable) {
-    return ResponseEntity.ok(userMapper.getUserFriends(pageable));
+  @GetMapping("/friends/{username}")
+  public ResponseEntity<List<UserLabelDtoOut>> getUserFriends(@PathVariable String username, Pageable pageable) {
+    return ResponseEntity.ok(userMapper.getUserFriends(pageable, username));
+  }
+
+  @GetMapping("/friends/suggest")
+  public ResponseEntity<List<FriendSuggestionDtoOut>> getFriendSuggestions(
+      @RequestParam(required = false) Integer size) {
+    return ResponseEntity.ok(userMapper.getUserFriendSuggestions(size));
+  }
+
+  @GetMapping("/friends/status/{username}")
+  public ResponseEntity<FriendshipStatus> checkFriendshipStatus(@PathVariable String username) {
+    return ResponseEntity.ok(userMapper.checkFriendshipStatus(username));
   }
 
   @GetMapping("/friends/active")
   public ResponseEntity<List<UserLabelDtoOut>> getActiveFriends(Pageable pageable) {
     return ResponseEntity.ok(userMapper.getActiveFriends(pageable));
   }
+
 
 
 }
