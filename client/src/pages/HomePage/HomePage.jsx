@@ -12,8 +12,9 @@ import PropTypes from 'prop-types'
 import InfiniteScroll from '../../components/InfiniteScroll/InfiniteScroll'
 import ActiveFriends from '../../components/ActiveFriends/ActiveFriends'
 
-const PAGE_SIZE = 10
+const POSTS_PAGE_SIZE = 10
 const FIRST_PAGE = 0
+const ACTIVE_FRIENDS_PAGE_SIZE = 10
 
 const HomePage = ({
   loadPostsHomePage,
@@ -25,8 +26,8 @@ const HomePage = ({
 }) => {
   const classes = useStyles()
   useEffect(() => {
-    loadPostsHomePage(FIRST_PAGE, PAGE_SIZE, true)
-    loadActiveFriends(FIRST_PAGE, PAGE_SIZE, true)
+    loadPostsHomePage(FIRST_PAGE, POSTS_PAGE_SIZE, true)
+    loadActiveFriends(FIRST_PAGE, ACTIVE_FRIENDS_PAGE_SIZE)
   }, [ loadPostsHomePage, loadActiveFriends ])
 
   return (
@@ -34,7 +35,7 @@ const HomePage = ({
       contentArr={posts}
       loadContentHandler={loadPostsHomePage}
       contentIsLoading={postsAreLoading}
-      size={PAGE_SIZE}
+      size={POSTS_PAGE_SIZE}
     >
       <Container className={classes.container} maxWidth='lg'>
         <Grid container spacing={2}>
@@ -46,7 +47,9 @@ const HomePage = ({
             <PostFeed />
           </Grid>
           <Grid item md={4}>
-            <ActiveFriends activeFriends={activeFriends} activeFriendsAreLoading={activeFriendsAreLoading}/>
+            <ActiveFriends
+              activeFriends={activeFriends}
+              activeFriendsAreLoading={activeFriendsAreLoading} />
           </Grid>
         </Grid>
       </Container>
@@ -60,7 +63,7 @@ HomePage.propTypes = {
   loadPostsHomePage: PropTypes.func.isRequired,
   activeFriends: PropTypes.array.isRequired,
   activeFriendsAreLoading: PropTypes.bool.isRequired,
-  loadActiveFriends: PropTypes.func.isRequired,
+  loadActiveFriends: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -73,7 +76,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => {
   return {
     loadPostsHomePage: (page, size, isInitial) => dispatch(getPostsForHomePage(page, size, isInitial)),
-    loadActiveFriends: (page, size, isInitial) => dispatch(loadActiveFriends(page, size, isInitial))
+    loadActiveFriends: (page, size) => dispatch(loadActiveFriends(page, size))
   }
 }
 

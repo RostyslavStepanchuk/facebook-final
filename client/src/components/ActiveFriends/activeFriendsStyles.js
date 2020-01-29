@@ -14,10 +14,19 @@ const useStyles = makeStyles(() => ({
     color: '#90949c',
     fontWeight: 500
   },
-  user: {
+  container: {
     display: 'flex',
+    justifyContent: 'space-between',
     margin: 'auto 0',
-    borderBottom: '1px solid #e6e6e6'
+    borderBottom: '1px solid #e6e6e6',
+    paddingRight: 10
+  },
+  notification: {
+    textAlign: 'center',
+    paddingBottom: 16
+  },
+  user: {
+    display: 'flex'
   },
   userPhoto: {
     borderRadius: '50%',
@@ -26,7 +35,7 @@ const useStyles = makeStyles(() => ({
     margin: '5px 15px 5px 10px'
   },
   userName: {
-    margin: 'auto 0',
+    margin: 'auto 0'
   },
   userFullName: {
     display: 'flex',
@@ -38,7 +47,7 @@ const useStyles = makeStyles(() => ({
     margin: 0,
     textAlign: 'left',
     lineHeight: '16px'
-  },
+  }
 
 }))
 

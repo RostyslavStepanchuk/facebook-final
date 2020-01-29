@@ -37,7 +37,7 @@ const FriendsList = ({ friends, requests, friendsAreLoading }) => {
 FriendsList.propTypes = {
   friends: PropTypes.array,
   requests: PropTypes.array,
-  friendsAreLoading: PropTypes.bool,
+  friendsAreLoading: PropTypes.bool
 }
 
 export default FriendsList

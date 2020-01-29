@@ -9,15 +9,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebMvcConfiguration implements WebMvcConfigurer {
 
-    private RequestHandlerInterceptor requestHandlerInterceptor;
+  private RequestHandlerInterceptor requestHandlerInterceptor;
 
-    @Autowired
-    public WebMvcConfiguration(RequestHandlerInterceptor requestHandlerInterceptor) {
-        this.requestHandlerInterceptor = requestHandlerInterceptor;
-    }
+  @Autowired
+  public WebMvcConfiguration(RequestHandlerInterceptor requestHandlerInterceptor) {
+    this.requestHandlerInterceptor = requestHandlerInterceptor;
+  }
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(requestHandlerInterceptor);
-    }
+  @Override
+  public void addInterceptors(InterceptorRegistry registry) {
+    registry.addInterceptor(requestHandlerInterceptor);
+  }
 }

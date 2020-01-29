@@ -71,16 +71,10 @@ export const deleteRequest = (requestId) => async dispatch => {
   }
 }
 
-export const loadActiveFriends = (page, size, isInitialRequest) => async dispatch => {
-  // dispatch({
-  //   type: FRIENDS_STARTED_LOADING
-  // })
-  //
-  // if (isInitialRequest) {
-  //   dispatch({
-  //     type: RESET_FRIENDS
-  //   })
-  // }
+export const loadActiveFriends = (page, size) => async dispatch => {
+  dispatch({
+    type: FRIENDS_STARTED_LOADING
+  })
 
   try {
     const activeFriends = await apiRequest.get('/users/friends/active', { page, size })
@@ -89,8 +83,8 @@ export const loadActiveFriends = (page, size, isInitialRequest) => async dispatc
       payload: activeFriends
     })
   } catch (e) {
-    // dispatch({
-    //   type: FRIENDS_STOPPED_LOADING
-    // })
+    dispatch({
+      type: FRIENDS_STOPPED_LOADING
+    })
   }
 }

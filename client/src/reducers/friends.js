@@ -20,10 +20,10 @@ export default function(state = initialState, action) {
   const { type, payload } = action
   switch (type) {
     case FRIENDS_STARTED_LOADING:
-      return { ...state, loadingFriends: true }
+      return { ...state, loadingFriends: true, loadingActiveFriends: true }
 
     case FRIENDS_STOPPED_LOADING:
-      return { ...state, loadingFriends: false }
+      return { ...state, loadingFriends: false, loadingActiveFriends: false  }
 
     case FRIENDS_RECEIVED:
       return { ...state,
@@ -31,7 +31,10 @@ export default function(state = initialState, action) {
         loadingFriends: false }
 
     case ACTIVE_FRIENDS_RECEIVED:
-      return { ...state, activeFriends: payload }
+      return { ...state,
+        activeFriends: addPagedPayload(state.activeFriends, payload, 'username'),
+        loadingActiveFriends: false
+      }
 
     case REQUEST_CONFIRMED:
       return { ...state,
