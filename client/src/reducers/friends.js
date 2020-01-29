@@ -8,6 +8,8 @@ import {
   INCOMING_FRIEND_REQUESTS_RECEIVED,
   REQUEST_CONFIRMED,
   ACTIVE_FRIENDS_RECEIVED,
+  ACTIVE_FRIENDS_STARTED_LOADING,
+  ACTIVE_FRIENDS_STOPPED_LOADING,
   REQUEST_DELETED,
   RESET_FRIEND_SUGGESTIONS,
   RESET_FRIENDS
@@ -20,6 +22,7 @@ const initialState = {
   incomingFriendRequests: [],
   friendSuggestions: [],
   activeFriends: [],
+  loadingActiveFriends: false,
   loading: false
 }
 
@@ -37,11 +40,17 @@ export default function(state = initialState, action) {
         userFriends: addPagedPayload(state.userFriends, payload, 'username'),
         loading: false }
 
+    case ACTIVE_FRIENDS_STARTED_LOADING:
+      return { ...state, loadingActiveFriends: true }
+
     case ACTIVE_FRIENDS_RECEIVED:
       return { ...state,
         activeFriends: addPagedPayload(state.activeFriends, payload, 'username'),
-        loading: false
+        loadingActiveFriends: false
       }
+
+    case ACTIVE_FRIENDS_STOPPED_LOADING:
+      return { ...state, loadingActiveFriends: false }
 
     case CURRENT_USER_FRIENDS_RECEIVED:
       return { ...state,

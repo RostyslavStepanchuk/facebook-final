@@ -10,7 +10,9 @@ import {
   REQUEST_DELETED,
   RESET_FRIEND_SUGGESTIONS,
   RESET_FRIENDS,
-  ACTIVE_FRIENDS_RECEIVED
+  ACTIVE_FRIENDS_RECEIVED,
+  ACTIVE_FRIENDS_STARTED_LOADING,
+  ACTIVE_FRIENDS_STOPPED_LOADING
 } from '../utils/constants/actionsName'
 import apiRequest from '../utils/helpers/apiRequest'
 import { Toastr } from '../utils/toastr/Toastr'
@@ -125,7 +127,7 @@ export const checkFriendshipStatus = targetUsername => {
 
 export const loadActiveFriends = (page, size) => async dispatch => {
   dispatch({
-    type: FRIENDS_STARTED_LOADING
+    type: ACTIVE_FRIENDS_STARTED_LOADING
   })
 
   try {
@@ -136,7 +138,7 @@ export const loadActiveFriends = (page, size) => async dispatch => {
     })
   } catch (e) {
     dispatch({
-      type: FRIENDS_STOPPED_LOADING
+      type: ACTIVE_FRIENDS_STOPPED_LOADING
     })
   }
 }
