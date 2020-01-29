@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static com.socialmedia.util.Constants.LAST_THRESHOLD_OF_ONLINE_ACTIVITY;
 import static java.util.stream.Collectors.counting;
 import static java.util.stream.Collectors.groupingBy;
 
@@ -228,7 +229,7 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
   public Page<ApplicationUser> getActiveFriends(Pageable pageable) {
     Principal principal = SecurityContextHolder.getContext().getAuthentication();
     ApplicationUser user = getById(principal.getName());
-    long activeTime = System.currentTimeMillis() - 300000;
-    return jpaRepository.getActiveFriends(user, activeTime, pageable);
+    long activityTime = System.currentTimeMillis() - LAST_THRESHOLD_OF_ONLINE_ACTIVITY;
+    return jpaRepository.getActiveFriends(user, activityTime, pageable);
   }
 }

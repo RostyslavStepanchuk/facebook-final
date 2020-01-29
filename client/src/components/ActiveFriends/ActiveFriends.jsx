@@ -16,7 +16,7 @@ const ActiveFriends = ({ activeFriends, activeFriendsAreLoading }) => {
       return <p className={classes.notification}>You have no active friends.</p>
     } else {
       return activeFriends.map(friend => (
-        <div className={classes.container} key={friend.lastActivityTime}>
+        <div className={classes.container} key={friend.username}>
           <div className={classes.user}>
             <Link to={'/profile/' + friend.username}>
               <Avatar className={classes.userPhoto} src={getAvatarLink(friend.avatar)} alt='User' />

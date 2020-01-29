@@ -48,7 +48,7 @@ public class ApplicationUser implements DbEntity<String> {
   @MayAcceptNull
   @Column(name = "gender")
   private Gender gender;
-  @MayAcceptNull
+
   @Column(name = "last_activity_time")
   private Long lastActivityTime;
 

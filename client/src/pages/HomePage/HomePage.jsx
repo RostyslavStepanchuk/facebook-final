@@ -76,7 +76,7 @@ const mapStateToProps = state => ({
   posts: state.posts.posts,
   friendSuggestions: state.friends.friendSuggestions,
   activeFriends: state.friends.activeFriends,
-  activeFriendsAreLoading: state.friends.loading
+  activeFriendsAreLoading: state.friends.loadingActiveFriends
 })
 
 const mapDispatchToProps = dispatch => {
