@@ -12,7 +12,8 @@ import {
   ACTIVE_FRIENDS_STOPPED_LOADING,
   REQUEST_DELETED,
   RESET_FRIEND_SUGGESTIONS,
-  RESET_FRIENDS
+  RESET_FRIENDS,
+  RESET_ACTIVE_FRIENDS
 } from '../utils/constants/actionsName'
 import { addPagedPayload } from '../utils/helpers/payloadAdapter'
 
@@ -51,6 +52,9 @@ export default function(state = initialState, action) {
 
     case ACTIVE_FRIENDS_STOPPED_LOADING:
       return { ...state, loadingActiveFriends: false }
+
+    case RESET_ACTIVE_FRIENDS:
+      return { ...state,  activeFriends: [] }
 
     case CURRENT_USER_FRIENDS_RECEIVED:
       return { ...state,

@@ -13,7 +13,6 @@ const InfiniteScroll = ({
   const handleInfiniteScroll = () => {
     const element = InfiniteScroll.scrollDiv
     const scrolledDown = element.scrollHeight - element.offsetHeight - element.scrollTop < 100
-
     if (scrolledDown && !furtherDownloadIsBlocked && !contentIsLoading) {
       setFurtherDownloadBlocked(true)
       loadContentHandler(page, size, false)

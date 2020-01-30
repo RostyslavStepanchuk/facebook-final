@@ -16,7 +16,7 @@ const Tile = ({ imageSrc, title, username }) => {
     setOpenDialog(!openDialog)
   }
 
-  const content = (imageSrc, title) => {
+  const content = (imageSrc, title, username) => {
     return <Grid item xs={4}>
       { title
         ? (
@@ -46,7 +46,7 @@ const Tile = ({ imageSrc, title, username }) => {
 
   return (
     <Fragment>
-      {content(imageSrc, title)}
+      {content(imageSrc, title, username)}
     </Fragment>
   )
 }

@@ -30,7 +30,7 @@ const HomePage = ({
   useEffect(() => {
     loadPostsHomePage(FIRST_PAGE, POSTS_PAGE_SIZE, true)
     getFriendSuggestions(FRIEND_SUGGESTIONS_SIZE)
-    loadActiveFriends(FIRST_PAGE, ACTIVE_FRIENDS_PAGE_SIZE)
+    loadActiveFriends(FIRST_PAGE, ACTIVE_FRIENDS_PAGE_SIZE, true)
   }, [ loadPostsHomePage, getFriendSuggestions, loadActiveFriends ])
 
   return (
@@ -52,7 +52,8 @@ const HomePage = ({
           <Grid item md={3}>
             <ActiveFriends
               activeFriends={activeFriends}
-              activeFriendsAreLoading={activeFriendsAreLoading} />
+              activeFriendsAreLoading={activeFriendsAreLoading}
+            />
           </Grid>
         </Grid>
       </Container>
@@ -83,7 +84,7 @@ const mapDispatchToProps = dispatch => {
   return {
     loadPostsHomePage: (page, size, isInitial) => dispatch(getPostsForHomePage(page, size, isInitial)),
     getFriendSuggestions: page => dispatch(getFriendSuggestions(page)),
-    loadActiveFriends: (page, size) => dispatch(loadActiveFriends(page, size))
+    loadActiveFriends: (page, size, isInitial) => dispatch(loadActiveFriends(page, size, isInitial))
   }
 }
 

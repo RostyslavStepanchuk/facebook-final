@@ -12,7 +12,8 @@ import {
   RESET_FRIENDS,
   ACTIVE_FRIENDS_RECEIVED,
   ACTIVE_FRIENDS_STARTED_LOADING,
-  ACTIVE_FRIENDS_STOPPED_LOADING
+  ACTIVE_FRIENDS_STOPPED_LOADING,
+  RESET_ACTIVE_FRIENDS
 } from '../utils/constants/actionsName'
 import apiRequest from '../utils/helpers/apiRequest'
 import { Toastr } from '../utils/toastr/Toastr'
@@ -125,13 +126,21 @@ export const checkFriendshipStatus = targetUsername => {
   return apiRequest.get('/users/friends/status/' + targetUsername)
 }
 
-export const loadActiveFriends = (page, size) => async dispatch => {
+export const loadActiveFriends = (page, size, isInitialRequest) => async dispatch => {
+  let pageable = {page, size}
+
   dispatch({
     type: ACTIVE_FRIENDS_STARTED_LOADING
   })
 
+  if (isInitialRequest) {
+    dispatch({
+      type: RESET_ACTIVE_FRIENDS
+    })
+  }
+
   try {
-    const activeFriends = await apiRequest.get('/users/friends/active', { page, size })
+    const activeFriends = await apiRequest.get('/users/friends/active', pageable)
     dispatch({
       type: ACTIVE_FRIENDS_RECEIVED,
       payload: activeFriends
