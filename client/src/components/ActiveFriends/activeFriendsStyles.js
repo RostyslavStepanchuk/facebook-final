@@ -14,6 +14,11 @@ const useStyles = makeStyles(() => ({
     color: '#90949c',
     fontWeight: 500
   },
+  scrollContainer: {
+    maxHeight: 459,
+    position: 'relative',
+    overflow: 'auto'
+  },
   container: {
     display: 'flex',
     justifyContent: 'space-between',

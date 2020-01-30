@@ -16,24 +16,24 @@ const ActiveFriends = ({ activeFriends, activeFriendsAreLoading }) => {
       return <p className={classes.notification}>You have no active friends.</p>
     } else {
       return activeFriends.map(friend => (
-        <div className={classes.container} key={friend.username}>
-          <div className={classes.user}>
-            <Link to={'/profile/' + friend.username}>
-              <Avatar className={classes.userPhoto} src={getAvatarLink(friend.avatar)} alt='User' />
-            </Link>
-            <div className={classes.userName}>
-              <Link to={'/profile/' + friend.username} className={classes.userLink}>
-                <p className={classes.userFullName}>{friend.firstName} {friend.lastName} </p>
+          <div className={classes.container} key={friend.username}>
+            <div className={classes.user}>
+              <Link to={'/profile/' + friend.username}>
+                <Avatar className={classes.userPhoto} src={getAvatarLink(friend.avatar)} alt='User' />
               </Link>
-              <p className={classes.activeTime}>{getActiveTime(friend.lastActivityTime)}</p>
+              <div className={classes.userName}>
+                <Link to={'/profile/' + friend.username} className={classes.userLink}>
+                  <p className={classes.userFullName}>{friend.firstName} {friend.lastName} </p>
+                </Link>
+                <p className={classes.activeTime}>{getActiveTime(friend.lastActivityTime)}</p>
+              </div>
             </div>
+            <Tooltip title='Send message'>
+              <IconButton color='primary' aria-label='Send message'>
+                <MailOutlineIcon />
+              </IconButton>
+            </Tooltip>
           </div>
-          <Tooltip title='Send message'>
-            <IconButton color='primary' aria-label='Send message'>
-              <MailOutlineIcon />
-            </IconButton>
-          </Tooltip>
-        </div>
         )
       )
     }
