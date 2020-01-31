@@ -27,7 +27,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 })
 
 const FriendsListItem = ({ friend, deleteFriend, request, confirmRequest, deleteRequest }) => {
-  const classes = useStyles()
+  let avatarSrc = friend ? getAvatarLink(friend.avatar) : getAvatarLink(request.requester.avatar)
+  const classes = useStyles({avatar: avatarSrc})
   const [openDialog, setOpenDialog] = useState(false)
 
   const handleModal = () => {
@@ -48,7 +49,7 @@ const FriendsListItem = ({ friend, deleteFriend, request, confirmRequest, delete
     <Fragment>
       { friend &&
       <Grid item sm={5} className={classes.gridItem}>
-        <Tile imageSrc={getAvatarLink(friend.avatar)} />
+        <div className={classes.avatar}/>
         <div className={classes.friendInfo}>
           <p className={classes.userName}>{friend.firstName} {friend.lastName}</p>
           <div>
@@ -89,7 +90,7 @@ const FriendsListItem = ({ friend, deleteFriend, request, confirmRequest, delete
     }
       { request &&
       <Grid item sm={5} className={classes.gridItem}>
-        <Tile imageSrc={getAvatarLink(request.requester.avatar)} />
+        <div className={classes.avatar}/>
         <div className={classes.friendInfo}>
           <div>
             <p className={classes.userName}>{request.requester.firstName} {request.requester.lastName}</p>
