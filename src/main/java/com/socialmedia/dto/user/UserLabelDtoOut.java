@@ -9,5 +9,6 @@ public class UserLabelDtoOut {
   private String username;
   private String firstName;
   private String lastName;
+  private Long lastActivityTime;
   private ImageDtoOut avatar;
 }

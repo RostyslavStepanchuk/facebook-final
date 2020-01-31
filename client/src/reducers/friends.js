@@ -7,9 +7,13 @@ import {
   FRIENDS_STOPPED_LOADING,
   INCOMING_FRIEND_REQUESTS_RECEIVED,
   REQUEST_CONFIRMED,
+  ACTIVE_FRIENDS_RECEIVED,
+  ACTIVE_FRIENDS_STARTED_LOADING,
+  ACTIVE_FRIENDS_STOPPED_LOADING,
   REQUEST_DELETED,
   RESET_FRIEND_SUGGESTIONS,
-  RESET_FRIENDS
+  RESET_FRIENDS,
+  RESET_ACTIVE_FRIENDS
 } from '../utils/constants/actionsName'
 import { addPagedPayload } from '../utils/helpers/payloadAdapter'
 
@@ -18,10 +22,12 @@ const initialState = {
   currentUserFriends: [],
   incomingFriendRequests: [],
   friendSuggestions: [],
+  activeFriends: [],
+  loadingActiveFriends: false,
   loading: false
 }
 
-export default function (state = initialState, action) {
+export default function(state = initialState, action) {
   const { type, payload } = action
   switch (type) {
     case FRIENDS_STARTED_LOADING:
@@ -34,6 +40,21 @@ export default function (state = initialState, action) {
       return { ...state,
         userFriends: addPagedPayload(state.userFriends, payload, 'username'),
         loading: false }
+
+    case ACTIVE_FRIENDS_STARTED_LOADING:
+      return { ...state, loadingActiveFriends: true }
+
+    case ACTIVE_FRIENDS_RECEIVED:
+      return { ...state,
+        activeFriends: addPagedPayload(state.activeFriends, payload, 'username'),
+        loadingActiveFriends: false
+      }
+
+    case ACTIVE_FRIENDS_STOPPED_LOADING:
+      return { ...state, loadingActiveFriends: false }
+
+    case RESET_ACTIVE_FRIENDS:
+      return { ...state,  activeFriends: [] }
 
     case CURRENT_USER_FRIENDS_RECEIVED:
       return { ...state,

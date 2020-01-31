@@ -4,7 +4,24 @@ const useStyles = makeStyles(() => ({
   panel: {
     borderTop: '1px solid #e6e6e6',
     borderBottom: '1px solid #e6e6e6'
-  }
+  },
+  container: {
+    display: 'flex',
+  },
+  userPhoto: {
+    borderRadius: '50%',
+    width: 30,
+    height: 30,
+    margin: '3px 7px 3px 3px'
+  },
+  userContainer: {
+    margin: 'auto 0'
+  },
+  text: {
+    display: 'flex',
+    margin: 0,
+    textAlign: 'left'
+  },
 
 }))
 
