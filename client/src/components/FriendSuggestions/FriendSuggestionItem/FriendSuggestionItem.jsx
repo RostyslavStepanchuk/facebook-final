@@ -14,7 +14,7 @@ import { getAvatarLink } from '../../../utils/helpers/imageLinkHelpers'
 const COMMON_F_AVATARS_TO_SHOW = 4
 
 const FriendSuggestions = ({ person, commonFriends }) => {
-  const classes = useStyles({ avatar: getAvatarLink(person.avatar) })
+  const classes = useStyles({ avatar: getAvatarLink(person) })
   const [ requestSent, setRequestSent ] = useState(false)
 
   const createFriendRequest = responderId => {

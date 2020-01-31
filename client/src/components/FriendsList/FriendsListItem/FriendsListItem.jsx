@@ -48,7 +48,7 @@ const FriendsListItem = ({ friend, deleteFriend, request, confirmRequest, delete
     <Fragment>
       { friend &&
       <Grid item sm={5} className={classes.gridItem}>
-        <Tile imageSrc={getAvatarLink(friend.avatar)} />
+        <Tile imageSrc={getAvatarLink(friend)} />
         <div className={classes.friendInfo}>
           <p className={classes.userName}>{friend.firstName} {friend.lastName}</p>
           <div>
@@ -89,7 +89,7 @@ const FriendsListItem = ({ friend, deleteFriend, request, confirmRequest, delete
     }
       { request &&
       <Grid item sm={5} className={classes.gridItem}>
-        <Tile imageSrc={getAvatarLink(request.requester.avatar)} />
+        <Tile imageSrc={getAvatarLink(request.requester)} />
         <div className={classes.friendInfo}>
           <div>
             <p className={classes.userName}>{request.requester.firstName} {request.requester.lastName}</p>
