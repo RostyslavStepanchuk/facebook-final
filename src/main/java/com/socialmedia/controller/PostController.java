@@ -11,15 +11,16 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -37,12 +38,6 @@ public class PostController {
   public ResponseEntity<List<PostDtoOut>> getAllPostsForFeed(
       @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable) {
     return ResponseEntity.ok(postMapper.getAllPostsForFeed(pageable));
-  }
-
-  @GetMapping("/profile")
-  public ResponseEntity<List<PostDtoOut>> getAllOwnPosts(
-      @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable) {
-    return ResponseEntity.ok(postMapper.getAllUsersPosts(pageable));
   }
 
   @GetMapping("/profile/{feedOwner}")
@@ -105,5 +100,10 @@ public class PostController {
   public ResponseEntity<List<ImageDtoOut>> getUserPhotosFromPosts(@PathVariable(required = false) String userId,
       @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable) {
     return ResponseEntity.ok(postMapper.getUserPhotosFromPosts(userId, pageable));
+  }
+
+  @PostMapping("/{postId}/tag_friends")
+  public ResponseEntity<PostDtoOut> tagFriends(@PathVariable Long postId, @RequestBody ArrayList<String> taggedUserNames) {
+    return ResponseEntity.ok(postMapper.tagFriends(postId, taggedUserNames));
   }
 }

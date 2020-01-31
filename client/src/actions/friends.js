@@ -1,13 +1,19 @@
 import {
+  CURRENT_USER_FRIENDS_RECEIVED,
   FRIEND_DELETED,
   FRIEND_SUGGESTIONS_RECEIVED,
   FRIENDS_RECEIVED,
   FRIENDS_STARTED_LOADING,
   FRIENDS_STOPPED_LOADING,
+  INCOMING_FRIEND_REQUESTS_RECEIVED,
   REQUEST_CONFIRMED,
   REQUEST_DELETED,
   RESET_FRIEND_SUGGESTIONS,
-  RESET_FRIENDS
+  RESET_FRIENDS,
+  ACTIVE_FRIENDS_RECEIVED,
+  ACTIVE_FRIENDS_STARTED_LOADING,
+  ACTIVE_FRIENDS_STOPPED_LOADING,
+  RESET_ACTIVE_FRIENDS
 } from '../utils/constants/actionsName'
 import apiRequest from '../utils/helpers/apiRequest'
 import { Toastr } from '../utils/toastr/Toastr'
@@ -24,7 +30,7 @@ export const loadUserFriends = (username, page, size, isInitialRequest) => async
   }
 
   try {
-    const friends = await apiRequest.get('/users/friends', { params: { page, size } })
+    const friends = await apiRequest.get('/users/friends/' + username, { params: { page, size } })
     dispatch({
       type: FRIENDS_RECEIVED,
       payload: friends
@@ -36,12 +42,24 @@ export const loadUserFriends = (username, page, size, isInitialRequest) => async
   }
 }
 
+export const loadCurrentUserFriends = (username, page, size) => async dispatch => {
+  try {
+    const friends = await apiRequest.get('/users/friends/' + username, { params: { page, size } })
+    dispatch({
+      type: CURRENT_USER_FRIENDS_RECEIVED,
+      payload: friends
+    })
+  } catch (e) {
+    Toastr.error('Something goes wrong! Please try again later')
+  }
+}
+
 export const deleteFriend = friendUsername => async dispatch => {
   try {
-    const user = await apiRequest.delete('/users/friends/' + friendUsername)
+    const deletedUser = await apiRequest.delete('/users/friends/' + friendUsername)
     dispatch({
       type: FRIEND_DELETED,
-      payload: user
+      payload: deletedUser
     })
   } catch (e) {
     Toastr.error('Something goes wrong! Please try again later')
@@ -90,4 +108,46 @@ export const getFriendSuggestions = size => async dispatch => {
 
 export const sendFriendRequest = responderId => {
   return apiRequest.post(/requests/ + responderId)
+}
+
+export const getIncomingFriendRequests = () => async dispatch => {
+  try {
+    const requests = await apiRequest.get('/requests')
+    dispatch({
+      type: INCOMING_FRIEND_REQUESTS_RECEIVED,
+      payload: requests
+    })
+  } catch (e) {
+    Toastr.error('Something goes wrong! Please try again later')
+  }
+}
+
+export const checkFriendshipStatus = targetUsername => {
+  return apiRequest.get('/users/friends/status/' + targetUsername)
+}
+
+export const loadActiveFriends = (page, size, isInitialRequest) => async dispatch => {
+  let pageable = {page, size}
+
+  dispatch({
+    type: ACTIVE_FRIENDS_STARTED_LOADING
+  })
+
+  if (isInitialRequest) {
+    dispatch({
+      type: RESET_ACTIVE_FRIENDS
+    })
+  }
+
+  try {
+    const activeFriends = await apiRequest.get('/users/friends/active', pageable)
+    dispatch({
+      type: ACTIVE_FRIENDS_RECEIVED,
+      payload: activeFriends
+    })
+  } catch (e) {
+    dispatch({
+      type: ACTIVE_FRIENDS_STOPPED_LOADING
+    })
+  }
 }

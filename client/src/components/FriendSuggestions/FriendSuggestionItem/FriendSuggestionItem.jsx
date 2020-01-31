@@ -14,7 +14,9 @@ import { getAvatarLink } from '../../../utils/helpers/imageLinkHelpers'
 const COMMON_F_AVATARS_TO_SHOW = 4
 
 const FriendSuggestions = ({ person, commonFriends }) => {
-  const classes = useStyles({ avatar: getAvatarLink(person) })
+  const { username, firstName, lastName, avatar } = person
+
+  const classes = useStyles({ avatar: getAvatarLink(avatar) })
   const [ requestSent, setRequestSent ] = useState(false)
 
   const createFriendRequest = responderId => {
@@ -35,20 +37,20 @@ const FriendSuggestions = ({ person, commonFriends }) => {
       <Grid container justify='space-between' alignContent='center'>
         <Grid item container xs={9}>
           <Grid item >
-            <Link to={'profile/' + person.username} >
+            <Link to={'profile/' + username} >
               <div className={classes.image} />
             </Link>
           </Grid>
           <Grid item >
             <Typography variant='subtitle1' component='div' className={classes.name}>
-              {person.firstName} {person.lastName}
+              {firstName} {lastName}
             </Typography>
 
           </Grid>
         </Grid>
         <Grid item xs={3}>
           { !requestSent ? (<Tooltip title='Send friend request' className={classes.sendRequestBtn}>
-            <IconButton color='primary' onClick={() => createFriendRequest(person.username)} aria-label='Send friend request'>
+            <IconButton color='primary' onClick={() => createFriendRequest(username)} aria-label='Send friend request'>
               <PanToolOutlinedIcon />
             </IconButton>
           </Tooltip>) : (<CallMadeOutlinedIcon className={classes.requestSentIcon} />)
