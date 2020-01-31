@@ -19,15 +19,15 @@ import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline'
 import { confirmRequest, deleteFriend, deleteRequest } from '../../../actions/friends'
 import { getDateWithoutTime } from '../../../utils/date/getDate'
 import { getAvatarLink } from '../../../utils/helpers/imageLinkHelpers'
-import Tile from '../../Tile/Tile'
 import { connect } from 'react-redux'
 
-const Transition = React.forwardRef(function Transition (props, ref) {
+const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction='up' ref={ref} {...props} />
 })
 
 const FriendsListItem = ({ friend, deleteFriend, request, confirmRequest, deleteRequest }) => {
-  const classes = useStyles()
+  let avatarSrc = friend ? getAvatarLink(friend.avatar) : getAvatarLink(request.requester.avatar)
+  const classes = useStyles({avatar: avatarSrc})
   const [openDialog, setOpenDialog] = useState(false)
 
   const handleModal = () => {
@@ -48,7 +48,7 @@ const FriendsListItem = ({ friend, deleteFriend, request, confirmRequest, delete
     <Fragment>
       { friend &&
       <Grid item sm={5} className={classes.gridItem}>
-        <Tile imageSrc={getAvatarLink(friend.avatar)} />
+        <div className={classes.avatar}/>
         <div className={classes.friendInfo}>
           <p className={classes.userName}>{friend.firstName} {friend.lastName}</p>
           <div>
@@ -89,7 +89,7 @@ const FriendsListItem = ({ friend, deleteFriend, request, confirmRequest, delete
     }
       { request &&
       <Grid item sm={5} className={classes.gridItem}>
-        <Tile imageSrc={getAvatarLink(request.requester.avatar)} />
+        <div className={classes.avatar}/>
         <div className={classes.friendInfo}>
           <div>
             <p className={classes.userName}>{request.requester.firstName} {request.requester.lastName}</p>

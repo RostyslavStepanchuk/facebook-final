@@ -114,6 +114,10 @@ public final class UserMapper extends
   public FriendshipStatus checkFriendshipStatus(String username) {
     return crudService.checkFriendshipStatus(username);
   }
+
+  public List<UserLabelDtoOut> getActiveFriends(Pageable pageable) {
+    return crudService.getActiveFriends(pageable).stream().map(this::userLabelDtoOf).collect(Collectors.toList());
+  }
 }
 
 

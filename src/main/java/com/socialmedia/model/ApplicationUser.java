@@ -49,6 +49,9 @@ public class ApplicationUser implements DbEntity<String> {
   @Column(name = "gender")
   private Gender gender;
 
+  @Column(name = "last_activity_time")
+  private Long lastActivityTime;
+
   @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
   @JoinColumn(name = "fk_avatar_img_id")
   private Image avatar;

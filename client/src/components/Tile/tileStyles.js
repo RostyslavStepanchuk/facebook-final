@@ -9,9 +9,16 @@ const useStyles = makeStyles(() => ({
     backgroundPosition: '50% 50%',
     position: 'relative'
   }),
+  userLink: {
+    textDecoration: 'none',
+    color: 'black'
+  },
   title: {
     margin: 0,
     wordBreak: 'break-word'
+  },
+  imageModal: {
+    width: '100%',
   }
 }))
 
