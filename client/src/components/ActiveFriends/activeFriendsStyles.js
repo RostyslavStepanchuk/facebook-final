@@ -24,7 +24,7 @@ const useStyles = makeStyles(() => ({
     justifyContent: 'space-between',
     margin: 'auto 0',
     borderBottom: '1px solid #e6e6e6',
-    paddingRight: 10
+    padding: '5px 10px'
   },
   notification: {
     textAlign: 'center',
@@ -35,9 +35,9 @@ const useStyles = makeStyles(() => ({
   },
   userPhoto: {
     borderRadius: '50%',
-    width: 40,
-    height: 40,
-    margin: '5px 15px 5px 10px'
+    width: 48,
+    height: 48,
+    marginRight: 15
   },
   userName: {
     margin: 'auto 0'

@@ -24,6 +24,8 @@ import { Toastr } from '../../utils/toastr/Toastr'
 import { getAvatarLink } from '../../utils/helpers/imageLinkHelpers'
 import TagFriendButton from './TagFriendButton/TagFriendButton'
 import { loadCurrentUserFriends } from '../../actions/friends'
+import { Link } from 'react-router-dom'
+import { get } from 'lodash'
 
 const FRIENDS_INITIAL_SIZE = 10
 const STARTING_PAGE = 0
@@ -116,7 +118,9 @@ const CreatePost = ({ user, currentUserFriends, loadCurrentUserFriends }) => {
         <form className={classes.form}>
           <Grid container className={classes.textContainer}>
             <Grid container item xs={2} lg={1} justify='center' alignItems='flex-start'>
-              <Avatar className={classes.avatar} src={getAvatarLink(avatar)} />
+              <Link to={`/profile/${get(user, 'username')}`}>
+                <Avatar className={classes.avatar} src={getAvatarLink(avatar)} />
+              </Link>
             </Grid>
             <Grid item xs={10} lg={11} >
               <TextField

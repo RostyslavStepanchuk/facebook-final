@@ -18,7 +18,7 @@ const useStyles = makeStyles(() => ({
     wordBreak: 'break-word'
   },
   imageModal: {
-    width: '100%',
+    width: '100%'
   }
 }))
 

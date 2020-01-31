@@ -4,15 +4,16 @@ import PropTypes from 'prop-types'
 import useStyles from './friendsListStyles'
 import FriendsListItem from './FriendsListItem/FriendsListItem'
 import Preloader from '../Preloader/Preloader'
+import { get } from 'lodash'
 
 const FriendsList = ({ friends, requests, friendsAreLoading }) => {
   const classes = useStyles()
 
   const fieldComponents = components => {
     if (friends) {
-      return components.map(friend => <FriendsListItem friend={friend} key={friend.id} />)
+      return components.map(friend => <FriendsListItem friend={friend} key={get(friend, 'username')} />)
     } else {
-      return components.map(request => <FriendsListItem request={request} key={request.id} />)
+      return components.map(request => <FriendsListItem request={request} key={get(request.requester, 'username')} />)
     }
   }
 
@@ -23,8 +24,8 @@ const FriendsList = ({ friends, requests, friendsAreLoading }) => {
     <div className={classes.container}>
       <Typography className={classes.header} variant='subtitle1' component='div'>
         { friends
-          ? <Fragment>Friends <span className={classes.count}>{friends.length}</span></Fragment>
-          : <Fragment>Friend requests <span className={classes.count}>{requests.length}</span></Fragment>
+          ? <Fragment>Friends <span className={classes.count}>{get(friends, 'length', '—')}</span></Fragment>
+          : <Fragment>Friend requests <span className={classes.count}>{get(requests, 'length', '—')}</span></Fragment>
         }
       </Typography>
       <Grid className={classes.gridContainer} container>

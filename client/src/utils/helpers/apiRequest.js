@@ -43,31 +43,31 @@ const handleRequestError = error => {
 }
 
 class ApiRequest {
-  constructor() {
+  constructor () {
     this.pendingTokenRequest = null
   }
 
-  get(url, config, isAuthRequired = true) {
+  get (url, config, isAuthRequired = true) {
     return this.makeRequest(url, METHOD_GET, null, config, isAuthRequired)
   }
 
-  post(url, body, config, isAuthRequired = true) {
+  post (url, body, config, isAuthRequired = true) {
     return this.makeRequest(url, METHOD_POST, body, config, isAuthRequired)
   }
 
-  put(url, body, config, isAuthRequired = true) {
+  put (url, body, config, isAuthRequired = true) {
     return this.makeRequest(url, METHOD_PUT, body, config, isAuthRequired)
   }
 
-  delete(url, config, isAuthRequired = true) {
+  delete (url, config, isAuthRequired = true) {
     return this.makeRequest(url, METHOD_DELETE, null, config, isAuthRequired)
   }
 
-  rememberUser(accessToken) {
+  rememberUser (accessToken) {
     localStorage.setItem('accessToken', accessToken)
   }
 
-  forgetUser() {
+  forgetUser () {
     this.post('/auth/logout/' + getCurrentUserName())
       .then(() => {
         localStorage.removeItem('accessToken')
@@ -79,7 +79,7 @@ class ApiRequest {
       })
   }
 
-  makeRequest(url, method = METHOD_GET, body = null, config = {}, isAuthRequired = true) {
+  makeRequest (url, method = METHOD_GET, body = null, config = {}, isAuthRequired = true) {
     const reqUrl = API_BASE_URL + url
     const reqParams = {
       ...config,
@@ -101,13 +101,13 @@ class ApiRequest {
     return this.sendBasicRequest(reqUrl, reqParams)
   }
 
-  sendBasicRequest(url, reqParams) {
+  sendBasicRequest (url, reqParams) {
     return axios(url, reqParams)
       .then(res => res.data,
         err => Promise.reject(handleRequestError(err)))
   }
 
-  sendAuthenticatedRequest(url, reqParams) {
+  sendAuthenticatedRequest (url, reqParams) {
     if (localStorage.accessToken) {
       setAuthToken(localStorage.accessToken)
     } else return Promise.reject(new Error('Authentication is required')) // If there is no token authenticated request is not sent
@@ -120,7 +120,7 @@ class ApiRequest {
     }
   }
 
-  getNewAccessTokenFromServer() {
+  getNewAccessTokenFromServer () {
     setAuthToken(null)
     const req = axios.post(API_BASE_URL + '/auth/reissue-tokens/' + getCurrentUserName())
       .then(response => {
