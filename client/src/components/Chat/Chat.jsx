@@ -10,7 +10,7 @@ import { getAllChats, getMessagesForChat } from '../../actions/chat'
 
 import useStyles from './chatStyles'
 
-const Chat = ({ authUser, chats, getAllChats, chatMessages, getMessagesForChat, messagesLoading }) => {
+const Chat = ({ authUser, chats, getAllChats, chatMessages, getMessagesForChat, messagesLoading, keyForRender }) => {
   const classes = useStyles()
   const selectedChatId = +useParams().chatId
 
@@ -34,7 +34,7 @@ const Chat = ({ authUser, chats, getAllChats, chatMessages, getMessagesForChat, 
       <ChatList
         className={classes.chatList}
         chats={chats}
-        chatMessages={chatMessages}
+        chatMessages={chatMessages.reverse()}
         messagesLoading={messagesLoading}
       />
       {selectedChat ? (
@@ -57,14 +57,16 @@ Chat.propTypes = {
   getAllChats: PropTypes.func.isRequired,
   chatMessages: PropTypes.array,
   getMessagesForChat: PropTypes.func.isRequired,
-  messagesLoading: PropTypes.bool
+  messagesLoading: PropTypes.bool,
+  keyForRender: PropTypes.number
 }
 
 const mapStateToProps = state => ({
-  authUser: state.auth.user,
+  authUser: state.auth.user.username,
   chats: state.chat.chats,
   chatMessages: state.chat.chatMessages,
-  messagesLoading: state.chat.messagesLoading
+  messagesLoading: state.chat.messagesLoading,
+  keyForRender: state.chat.keyForRender
 })
 
 export default connect(mapStateToProps, { getAllChats, getMessagesForChat })(Chat)

@@ -4,14 +4,16 @@ import {
   CHATS_RECEIVED,
   START_LOADING_MESSAGES,
   MESSAGES_RECEIVED,
-  STOP_LOADING_MESSAGES
+  STOP_LOADING_MESSAGES,
+  SEND_MESSAGE
 } from '../utils/constants/actionsName'
 
 const initialState = {
   chats: [],
   chatsLoading: false,
   chatMessages: [],
-  messagesLoading: false
+  messagesLoading: false,
+  keyForRender: 0
 }
 
 export default function (state = initialState, action) {
@@ -35,6 +37,14 @@ export default function (state = initialState, action) {
 
     case MESSAGES_RECEIVED:
       return { ...state, chatMessages: payload, messagesLoading: false }
+
+    case SEND_MESSAGE:
+      /* eslint-disable */
+      const newKey = ++state.keyForRender
+      const newChatMessages = state.chatMessages
+      newChatMessages.push(payload)
+      /* eslint-enable */
+      return { ...state, chatMessages: newChatMessages, keyForRender: newKey }
 
     default:
       return {...state}

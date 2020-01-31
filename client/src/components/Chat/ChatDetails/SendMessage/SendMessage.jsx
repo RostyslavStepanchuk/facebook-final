@@ -1,4 +1,5 @@
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import {
   Avatar,
@@ -9,12 +10,12 @@ import {
 } from '@material-ui/core'
 import SendIcon from '@material-ui/icons/Send'
 
-import useStyles from './sendMessageStyles'
 import { getAvatarLink } from '../../../../utils/helpers/imageLinkHelpers'
-import { createPost, uploadImages } from '../../../../actions/post'
-import { Toastr } from '../../../../utils/toastr/Toastr'
+import { sendMessage } from '../../../../actions/chat'
 
-const SendMessage = ({ authUser }) => {
+import useStyles from './sendMessageStyles'
+
+const SendMessage = ({ authUser, sendMessage, chatId }) => {
   const classes = useStyles()
   const [value, setValue] = useState('')
 
@@ -22,16 +23,17 @@ const SendMessage = ({ authUser }) => {
     setValue(event.target.value)
   }
   const handleSubmit = e => {
-    console.log(e)
-    console.log(value)
-    // e.preventDefault()
-    // uploadImages(imagesToUpload).then(
-    //   imgLinks => createPost(uploadForm.textToUpload, imgLinks, true),
-    //   images => {
-    //     Toastr.error('One or more images weren\'t uploaded')
-    //     setUploadForm({...uploadForm, imagesToUpload: images})
-    //   })
+    sendMessage({ chatId, text: value })
+    setValue('')
   }
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      sendMessage({ chatId, text: value })
+      setValue('')
+    }
+  }
+
   return (
     <div className={classes.root}>
       <Avatar
@@ -44,6 +46,7 @@ const SendMessage = ({ authUser }) => {
           multiline
           fullWidth
           onChange={handleChange}
+          onKeyPress={handleKeyPress}
           placeholder='Send a message'
         />
       </Paper>
@@ -59,7 +62,12 @@ const SendMessage = ({ authUser }) => {
 }
 
 SendMessage.propTypes = {
-  authUser: PropTypes.object.isRequired
+  authUser: PropTypes.object.isRequired,
+  chatId: PropTypes.number.isRequired,
+  sendMessage: PropTypes.func.isRequired
 }
 
-export default SendMessage
+const mapStateToProps = state => ({
+  authUser: state.auth.user
+})
+export default connect(mapStateToProps, {sendMessage})(SendMessage)
