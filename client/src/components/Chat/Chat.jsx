@@ -28,13 +28,11 @@ const Chat = ({ authUser, chats, getAllChats, chatMessages, getMessagesForChat, 
   }
 
   return (
-    <div
-      className={classes.root}
-    >
+    <div className={classes.root}>
       <ChatList
         className={classes.chatList}
         chats={chats}
-        chatMessages={chatMessages.reverse()}
+        chatMessages={chatMessages}
         messagesLoading={messagesLoading}
       />
       {selectedChat ? (

@@ -22,13 +22,20 @@ const SendMessage = ({ authUser, sendMessage, chatId }) => {
   const handleChange = event => {
     setValue(event.target.value)
   }
-  const handleSubmit = e => {
-    sendMessage({ chatId, text: value })
-    setValue('')
+  const handleSubmit = () => {
+    if (value) {
+      sendMessage({ chatId, text: value })
+      setValue('')
+    }
   }
 
   const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
+    if (!value && e.key === 'Enter') {
+      e.preventDefault()
+    }
+
+    if (e.key === 'Enter' && value) {
+      e.preventDefault()
       sendMessage({ chatId, text: value })
       setValue('')
     }
@@ -45,6 +52,7 @@ const SendMessage = ({ authUser, sendMessage, chatId }) => {
           disableUnderline
           multiline
           fullWidth
+          value={value}
           onChange={handleChange}
           onKeyPress={handleKeyPress}
           placeholder='Send a message'
