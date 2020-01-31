@@ -67,8 +67,8 @@ public class UserController {
   }
 
   @GetMapping("/users_search/{query}")
-  ResponseEntity<List<UserDtoOut>> usersSearch(@PathVariable String query) {
-    return ResponseEntity.ok(userMapper.usersSearch(query));
+  ResponseEntity<List<UserDtoOut>> usersSearch(@PathVariable String query, @PageableDefault Pageable pageable){
+    return ResponseEntity.ok(userMapper.usersSearch(query, pageable));
   }
 
   @PutMapping
