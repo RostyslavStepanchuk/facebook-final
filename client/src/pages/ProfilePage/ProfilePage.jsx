@@ -17,7 +17,7 @@ import Preloader from '../../components/Preloader/Preloader'
 import { getUserPhotosFromPosts } from '../../actions/image'
 import { getPostsForProfile } from '../../actions/post'
 import { getUserProfile } from '../../actions/search'
-import { loadUserFriends } from '../../actions/friends'
+import { getIncomingFriendRequests, loadUserFriends } from '../../actions/friends'
 
 import useStyles from './profilePageStyles'
 
@@ -26,22 +26,26 @@ const POSTS_PAGE_SIZE = 10
 const FIRST_PAGE = 0
 
 const ProfilePage = ({
-  loadUserProfile,
-  posts,
-  postsAreLoading,
-  user,
-  loadUserPhotos,
-  userPhotos,
-  loadingPhotos,
-  profileOwner,
-  profileLoading,
-  getPostsForProfile, friends, friendsAreLoading, loadUserFriends
-}) => {
+     loadUserProfile,
+     posts,
+     postsAreLoading,
+     user,
+     loadUserPhotos,
+     userPhotos,
+     loadingPhotos,
+     profileOwner,
+     profileLoading,
+     getPostsForProfile,
+     friends,
+     friendsAreLoading,
+     loadUserFriends,
+     incomingFriendRequests,
+     getIncomingFriendRequests
+   }) => {
   const classes = useStyles()
   const userId = useParams().userId || user.username
   const isOwnProfile = userId === user.username
   const [profileTab, setProfileTab] = useState('your story')
-  const { incomingFriendRequests } = profileOwner // we don't have this in user data anymore
 
   const loadUserPosts = getPostsForProfile.bind(null, userId)
 
@@ -51,6 +55,9 @@ const ProfilePage = ({
     getPostsForProfile(userId, FIRST_PAGE, POSTS_PAGE_SIZE, true)
     loadUserFriends(userId, FIRST_PAGE, FRIENDS_PAGE_SIZE, true)
   }, [ loadUserPhotos, loadUserProfile, loadUserFriends, getPostsForProfile, userId ])
+  useEffect(() => { // separate useEffect cause this request doesn't depend on profile change, it's for user
+    getIncomingFriendRequests()
+  }, [getIncomingFriendRequests, isOwnProfile])
 
   const handleChangeTab = (event, newValue) => {
     setProfileTab(newValue)
@@ -137,7 +144,10 @@ ProfilePage.propTypes = {
   profileLoading: PropTypes.bool.isRequired,
   friends: PropTypes.array.isRequired,
   friendsAreLoading: PropTypes.bool.isRequired,
-  loadUserFriends: PropTypes.func.isRequired
+  loadUserFriends: PropTypes.func.isRequired,
+  incomingFriendRequests: PropTypes.array.isRequired,
+  getIncomingFriendRequests: PropTypes.func.isRequired
+
 }
 
 const mapStateToProps = state => ({
@@ -149,14 +159,16 @@ const mapStateToProps = state => ({
   profileOwner: state.search.userProfile,
   profileLoading: state.search.profileLoading,
   friends: state.friends.userFriends,
-  friendsAreLoading: state.friends.loading
+  friendsAreLoading: state.friends.loading,
+  incomingFriendRequests: state.friends.incomingFriendRequests
 })
 
 const mapDispatchToProps = dispatch => ({
   loadUserPhotos: (userId) => dispatch(getUserPhotosFromPosts(userId)),
   getPostsForProfile: (userId, page, size, isInitial) => dispatch(getPostsForProfile(userId, page, size, isInitial)),
   loadUserProfile: (userId) => dispatch(getUserProfile(userId)),
-  loadUserFriends: (username, page, size, isInitial) => dispatch(loadUserFriends(username, page, size, isInitial))
+  loadUserFriends: (username, page, size, isInitial) => dispatch(loadUserFriends(username, page, size, isInitial)),
+  getIncomingFriendRequests: () => dispatch(getIncomingFriendRequests())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage)

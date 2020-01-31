@@ -3,6 +3,7 @@ package com.socialmedia.service;
 import com.socialmedia.dto.security.Token;
 import com.socialmedia.exception.NoDataFoundException;
 import com.socialmedia.model.ApplicationUser;
+import com.socialmedia.model.FriendshipStatus;
 import com.socialmedia.model.TokensData;
 import com.socialmedia.repository.UserRepository;
 import com.socialmedia.util.EmailHandler;
@@ -16,12 +17,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static com.socialmedia.util.Constants.LAST_THRESHOLD_OF_ONLINE_ACTIVITY;
 import static java.util.stream.Collectors.counting;
 import static java.util.stream.Collectors.groupingBy;
 
@@ -153,7 +156,7 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
     ApplicationUser friend = getById(friendUsername);
     cancelFriendship(friend, user.getUsername());
 
-    return user;
+    return friend;
   }
 
   private void cancelFriendship(ApplicationUser user, String friendUsername) {
@@ -165,8 +168,8 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
     jpaRepository.save(user);
   }
 
-  public Page<ApplicationUser> getUserFriends(Pageable pageable) {
-    return jpaRepository.getAllUserFriends(currentUsername(), pageable);
+  public Page<ApplicationUser> getUserFriends(Pageable pageable, String username) {
+    return jpaRepository.getAllUserFriends(username, pageable);
   }
 
   public  Map<ApplicationUser, List<ApplicationUser>> getUserFriendSuggestions(Integer pageSize) {
@@ -176,14 +179,17 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
     ApplicationUser originalUser = getById(currentUsername());
 
     return originalUser.getFriends().stream()
-        .flatMap(friend -> friend.getFriends().stream()
-            .filter(secondWaveFriend -> secondWaveFriend != originalUser
-                && !originalUser.getFriends().contains(secondWaveFriend)))
+        .flatMap(friend -> friend.getFriends().stream())
         .collect(groupingBy(u -> u, counting()))
         .entrySet().stream()
         .sorted((o1, o2) -> (int) (o1.getValue() - o2.getValue()))
+        .filter(entry -> isRelevantFriendSuggestion(entry.getKey(), originalUser))
         .limit(pageSize)
         .collect(Collectors.toMap(Map.Entry::getKey, entry -> getCommonFriends(originalUser, entry.getKey())));
+  }
+
+  public List<ApplicationUser> getAllUsersFromList(List<String> users) {
+    return jpaRepository.getAllUsersFromList(users);
   }
 
   private List<ApplicationUser> getCommonFriends(ApplicationUser user1, ApplicationUser user2) {
@@ -192,7 +198,38 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
         .collect(Collectors.toList());
   }
 
+  private boolean isRelevantFriendSuggestion(ApplicationUser possibleFriend, ApplicationUser originalUser) {
+    return !possibleFriend.getUsername().equals(originalUser.getUsername())
+        && !originalUser.getFriends().contains(possibleFriend)
+        && originalUser.getIncomingFriendRequests().stream()
+        .noneMatch(req -> req.getRequester().getId().equals(possibleFriend.getId()))
+        && possibleFriend.getIncomingFriendRequests().stream()
+        .noneMatch(req -> req.getRequester().getId().equals(originalUser.getId()));
+  }
+
   private String currentUsername() {
     return SecurityContextHolder.getContext().getAuthentication().getName();
+  }
+
+  public FriendshipStatus checkFriendshipStatus(String targetUsername) {
+    ApplicationUser currentUser = getById(currentUsername());
+    ApplicationUser targetUser = getById(targetUsername);
+    if (currentUser.getIncomingFriendRequests().stream()
+        .anyMatch(req -> req.getRequester().getUsername().equals(targetUsername))) {
+      return FriendshipStatus.NEEDS_APPROVAL;
+    } else if (targetUser.getIncomingFriendRequests().stream()
+        .anyMatch(req -> req.getRequester().getUsername().equals(currentUser.getUsername()))) {
+      return FriendshipStatus.WAITING_FOR_APPROVAL;
+    } else if (currentUser.getFriends().contains(targetUser)) {
+      return FriendshipStatus.FRIENDS;
+    }
+    return FriendshipStatus.NOT_FRIENDS;
+  }
+
+  public Page<ApplicationUser> getActiveFriends(Pageable pageable) {
+    Principal principal = SecurityContextHolder.getContext().getAuthentication();
+    ApplicationUser user = getById(principal.getName());
+    long activityTime = System.currentTimeMillis() - LAST_THRESHOLD_OF_ONLINE_ACTIVITY;
+    return jpaRepository.getActiveFriends(user, activityTime, pageable);
   }
 }

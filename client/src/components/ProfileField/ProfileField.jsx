@@ -1,7 +1,10 @@
 import React, { Fragment } from 'react'
-import { Grid, Typography } from '@material-ui/core'
+import {
+  Grid,
+  Typography
+} from '@material-ui/core'
 import PropTypes from 'prop-types'
-import { isEmpty, get } from 'lodash'
+import { get, isEmpty } from 'lodash'
 
 import Preloader from '../Preloader/Preloader'
 import Tile from '../Tile/Tile'
@@ -19,11 +22,12 @@ const ProfileField = ({ friends, userPhotos, loadingPhotos }) => {
 
     if (friends) {
       return listForRender.map(friend =>
-        (<Tile
-          imageSrc={getAvatarLink(friend)}
+        <Tile
+          imageSrc={getAvatarLink(friend.avatar)}
           title={getFullName(friend)}
-          key={get(friend, 'avatar.id', '')} />
-        ))
+          username={friend.username}
+          key={friend.username} />
+      )
     } else {
       return listForRender.map(photo => <Tile imageSrc={get(photo, 'src')} key={get(photo, 'id', '')} />)
     }
@@ -47,7 +51,7 @@ const ProfileField = ({ friends, userPhotos, loadingPhotos }) => {
           {content}
         </Grid>
       </div>
-  )
+    )
 }
 
 ProfileField.propTypes = {

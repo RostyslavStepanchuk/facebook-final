@@ -19,5 +19,6 @@ public class PostDtoOut {
   private UserLabelDtoOut owner;
   private List<CommentDtoOut> comments;
   private List<UserLabelDtoOut> likes;
+  private List<UserLabelDtoOut> taggedFriends;
 
 }
