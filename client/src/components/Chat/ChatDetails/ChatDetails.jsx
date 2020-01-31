@@ -20,7 +20,7 @@ const ChatDetails = ({ authUser, chat, messages, className }) => {
       <Divider />
       <ChatMessages messages={messages} authUser={authUser} />
       <Divider />
-      <SendMessage authUser={authUser} />
+      <SendMessage chatId={chat.id} />
     </div>
   )
 }

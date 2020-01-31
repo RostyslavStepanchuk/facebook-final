@@ -4,13 +4,12 @@ import classnames from 'classnames'
 
 import useStyles from './statusIconStyles'
 
-const StatusIcon = ({ className, size, color }) => {
+const StatusIcon = ({ className, color }) => {
   const classes = useStyles()
 
   const rootClassName = classnames(
     classes.root,
     {
-      [classes[size]]: size,
       [classes[color]]: color
     },
     className

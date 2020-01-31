@@ -69,7 +69,8 @@ const ChatListItem = ({ active, chat, className, messagesLoading }) => {
 ChatListItem.propTypes = {
   active: PropTypes.bool,
   className: PropTypes.string,
-  chat: PropTypes.object.isRequired
+  chat: PropTypes.object.isRequired,
+  messagesLoading: PropTypes.bool,
 }
 
 export default ChatListItem

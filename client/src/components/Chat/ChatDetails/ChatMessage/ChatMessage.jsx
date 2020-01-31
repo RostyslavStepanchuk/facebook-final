@@ -14,7 +14,7 @@ import useStyles from './chatMessageStyles'
 const ChatMessage = ({ message, authUser }) => {
   const classes = useStyles()
   const messageAuthorUsername = get(message, 'author.username')
-  const isOwnMessage = get(authUser, 'username') === messageAuthorUsername
+  const isOwnMessage = authUser === messageAuthorUsername
 
   return (
     <div
@@ -67,7 +67,7 @@ const ChatMessage = ({ message, authUser }) => {
 }
 
 ChatMessage.propTypes = {
-  authUser: PropTypes.object.isRequired,
+  authUser: PropTypes.string.isRequired,
   message: PropTypes.object.isRequired
 }
 

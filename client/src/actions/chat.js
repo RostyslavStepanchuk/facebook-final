@@ -4,7 +4,8 @@ import {
   CHATS_RECEIVED,
   START_LOADING_MESSAGES,
   MESSAGES_RECEIVED,
-  STOP_LOADING_MESSAGES
+  STOP_LOADING_MESSAGES,
+  SEND_MESSAGE
 } from '../utils/constants/actionsName'
 import apiRequest from '../utils/helpers/apiRequest'
 
@@ -44,20 +45,13 @@ export const getMessagesForChat = chatId => async dispatch => {
     }))
 }
 
-export const sendMessage = chatId => async dispatch => {
-  dispatch({
-    type: START_LOADING_MESSAGES
-  })
-
-  apiRequest.get(`/messages/${chatId}`, null, true)
+export const sendMessage = ({ chatId, text }) => async dispatch => {
+  apiRequest.post('/messages/add', {chatId, text})
     .then(res => {
-        dispatch({
-          type: MESSAGES_RECEIVED,
-          payload: res
-        })
-      }
+      dispatch({
+        type: SEND_MESSAGE,
+        payload: res
+      })
+    }
     )
-    .catch(() => dispatch({
-      type: STOP_LOADING_MESSAGES
-    }))
 }

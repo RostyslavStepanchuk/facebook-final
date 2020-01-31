@@ -4,6 +4,7 @@ import com.socialmedia.dto.chat.ChatDtoIn;
 import com.socialmedia.dto.chat.ChatDtoOut;
 import com.socialmedia.dto.chat.ChatDtoOutWithLastMessage;
 import com.socialmedia.dto.chat.message.ChatMessageDtoOut;
+import com.socialmedia.model.ApplicationUser;
 import com.socialmedia.model.Chat;
 import com.socialmedia.model.ChatMessage;
 import com.socialmedia.service.ChatMessageService;
@@ -37,6 +38,10 @@ public final class ChatMapper
   @Override
   Chat entityOf(ChatDtoIn dtoIn) {
     return modelMapper.map(dtoIn, Chat.class);
+  }
+
+  public Chat entityOf(Long chatId) {
+    return crudService.getById(chatId);
   }
 
   public List<ChatDtoOutWithLastMessage> getAllChatsWithPrincipal() {
