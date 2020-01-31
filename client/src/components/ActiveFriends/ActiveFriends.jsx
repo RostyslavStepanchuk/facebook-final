@@ -19,7 +19,7 @@ const ActiveFriends = ({ activeFriends, activeFriendsAreLoading }) => {
           <div className={classes.container} key={friend.username}>
             <div className={classes.user}>
               <Link to={'/profile/' + friend.username}>
-                <Avatar className={classes.userPhoto} src={getAvatarLink(friend.avatar)} alt='User' />
+                <Avatar className={classes.userPhoto} src={getAvatarLink(friend)} alt='User' />
               </Link>
               <div className={classes.userName}>
                 <Link to={'/profile/' + friend.username} className={classes.userLink}>

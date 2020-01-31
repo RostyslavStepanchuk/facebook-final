@@ -6,17 +6,18 @@ import { Grid, IconButton, Paper, Tooltip, Typography } from '@material-ui/core'
 import PanToolOutlinedIcon from '@material-ui/icons/PanToolOutlined'
 import CallMadeOutlinedIcon from '@material-ui/icons/CallMadeOutlined'
 
-import useStyles from './friendSuggestionItemStyles'
-
 import { sendFriendRequest } from '../../../actions/friends'
 import { getAvatarLink } from '../../../utils/helpers/imageLinkHelpers'
+import { getFullName } from '../../../utils/helpers/formatters'
+
+import useStyles from './friendSuggestionItemStyles'
 
 const COMMON_F_AVATARS_TO_SHOW = 4
 
 const FriendSuggestions = ({ person, commonFriends }) => {
-  const { username, firstName, lastName, avatar } = person
+  const { username } = person
 
-  const classes = useStyles({ avatar: getAvatarLink(avatar) })
+  const classes = useStyles({ avatar: getAvatarLink(person) })
   const [ requestSent, setRequestSent ] = useState(false)
 
   const createFriendRequest = responderId => {
@@ -43,7 +44,7 @@ const FriendSuggestions = ({ person, commonFriends }) => {
           </Grid>
           <Grid item >
             <Typography variant='subtitle1' component='div' className={classes.name}>
-              {firstName} {lastName}
+              {getFullName(person)}
             </Typography>
 
           </Grid>

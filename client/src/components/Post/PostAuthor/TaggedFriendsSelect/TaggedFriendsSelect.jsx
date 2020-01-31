@@ -1,12 +1,12 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-
 import { ClickAwayListener, Grow, MenuItem, MenuList, Paper, Popper } from '@material-ui/core'
 
-import useStyles from './taggedFriendsSelectStyles'
-
 import { getAvatarLink } from '../../../../utils/helpers/imageLinkHelpers'
+import { getFullName } from '../../../../utils/helpers/formatters'
+
+import useStyles from './taggedFriendsSelectStyles'
 
 const TaggedFriendsSelect = ({ taggedFriends }) => {
   const classes = useStyles()
@@ -25,7 +25,7 @@ const TaggedFriendsSelect = ({ taggedFriends }) => {
     setOpen(false)
   }
 
-  function handleListKeyDown(event) {
+  function handleListKeyDown (event) {
     if (event.key === 'Tab') {
       event.preventDefault()
       setOpen(false)
@@ -33,7 +33,7 @@ const TaggedFriendsSelect = ({ taggedFriends }) => {
   }
 
   const links = taggedFriends.map(friend => <Link to={'/profile/' + friend.username} className={classes.menuLink} key={friend.username}>
-    <MenuItem><img src={getAvatarLink(friend.avatar)} alt={friend.username} className={classes.userPic} /><p className={classes.selectFullName}>{friend.firstName} {friend.lastName}</p></MenuItem>
+    <MenuItem><img src={getAvatarLink(friend)} alt={friend.username} className={classes.userPic} /><p className={classes.selectFullName}>{getFullName(friend)}</p></MenuItem>
   </Link>)
 
   return (

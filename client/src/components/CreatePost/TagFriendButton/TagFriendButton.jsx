@@ -54,7 +54,7 @@ const TagFriendButton = ({ friends, selected, handleFriendTag }) => {
       <span>
         {friend.isSelected && <BeenhereOutlinedIcon className={classes.checkedIcon} />}
       </span>&nbsp;
-      <img src={getAvatarLink(friend.userLabel.avatar)} alt={friend.userLabel.username} className={classes.userPic} />
+      <img src={getAvatarLink(friend.userLabel)} alt={friend.userLabel.username} className={classes.userPic} />
       <span>{friend.userLabel.firstName} {friend.userLabel.lastName}</span>
     </MenuItem>))
 
