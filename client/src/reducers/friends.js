@@ -27,7 +27,7 @@ const initialState = {
   loading: false
 }
 
-export default function(state = initialState, action) {
+export default function (state = initialState, action) {
   const { type, payload } = action
   switch (type) {
     case FRIENDS_STARTED_LOADING:
@@ -54,7 +54,7 @@ export default function(state = initialState, action) {
       return { ...state, loadingActiveFriends: false }
 
     case RESET_ACTIVE_FRIENDS:
-      return { ...state,  activeFriends: [] }
+      return { ...state, activeFriends: [] }
 
     case CURRENT_USER_FRIENDS_RECEIVED:
       return { ...state,
