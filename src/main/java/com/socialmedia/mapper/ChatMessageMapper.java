@@ -18,14 +18,15 @@ import java.util.stream.Collectors;
 
 @Component
 public class ChatMessageMapper
-        extends AbstractControllerToCrudServiceMapper
-        <ChatMessage, Long, ChatMessageDtoIn, ChatMessageDtoOut, ChatMessageService> {
+    extends AbstractControllerToCrudServiceMapper
+    <ChatMessage, Long, ChatMessageDtoIn, ChatMessageDtoOut, ChatMessageService> {
 
   private ChatMapper chatMapper;
   private UserMapper userMapper;
 
   @Autowired
-  public ChatMessageMapper(ModelMapper modelMapper, ChatMessageService crudService, UserMapper userMapper, ChatMapper chatMapper) {
+  public ChatMessageMapper(ModelMapper modelMapper, ChatMessageService crudService, UserMapper userMapper,
+                           ChatMapper chatMapper) {
     super(modelMapper, crudService);
     this.userMapper = userMapper;
     this.chatMapper = chatMapper;
@@ -51,9 +52,9 @@ public class ChatMessageMapper
   public List<ChatMessageDtoOut> getAllMessagesForChat(Long chatId, Pageable pageable) {
 
     return crudService.getAllMessagesForChat(chatId, pageable)
-            .stream()
-            .map(this::responseDtoOf)
-            .collect(Collectors.toList());
+        .stream()
+        .map(this::responseDtoOf)
+        .collect(Collectors.toList());
   }
 
 
