@@ -20,7 +20,7 @@ import CropOriginalOutlinedIcon from '@material-ui/icons/CropOriginalOutlined'
 import AssignmentIndOutlinedIcon from '@material-ui/icons/AssignmentIndOutlined'
 import CloseOutlinedIcon from '@material-ui/icons/CloseOutlined'
 
-import useStyles from './CreatePostStyles'
+import useStyles from './createPostStyles'
 import { Toastr } from '../../utils/toastr/Toastr'
 import { getAvatarLink } from '../../utils/helpers/imageLinkHelpers'
 
@@ -83,7 +83,7 @@ const CreatePost = ({ user }) => {
   ))
 
   return (
-    <Paper elevation={1} className={classes.paper}>
+    <Paper className={classes.paper}>
       <div >
         <Typography variant='subtitle1' component='div' className={classes.header}>
           Create post

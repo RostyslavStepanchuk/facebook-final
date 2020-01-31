@@ -43,3 +43,21 @@ export const getMessagesForChat = chatId => async dispatch => {
       type: STOP_LOADING_MESSAGES
     }))
 }
+
+export const sendMessage = chatId => async dispatch => {
+  dispatch({
+    type: START_LOADING_MESSAGES
+  })
+
+  apiRequest.get(`/messages/${chatId}`, null, true)
+    .then(res => {
+        dispatch({
+          type: MESSAGES_RECEIVED,
+          payload: res
+        })
+      }
+    )
+    .catch(() => dispatch({
+      type: STOP_LOADING_MESSAGES
+    }))
+}

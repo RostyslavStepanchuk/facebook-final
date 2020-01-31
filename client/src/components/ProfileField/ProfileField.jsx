@@ -20,7 +20,7 @@ const ProfileField = ({ friends, userPhotos, loadingPhotos }) => {
     if (friends) {
       return listForRender.map(friend =>
         (<Tile
-          imageSrc={getAvatarLink(friend.avatar)}
+          imageSrc={getAvatarLink(friend)}
           title={getFullName(friend)}
           key={get(friend, 'avatar.id', '')} />
         ))

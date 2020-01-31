@@ -2,7 +2,6 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-
 import {
   Typography,
   ListItem,
@@ -18,10 +17,11 @@ import { getFullName } from '../../../utils/helpers/formatters'
 
 import useStyles from './ChatListItemStyles'
 
-const ChatListItem = ({ active, chat, lastMessage, className, messagesLoading }) => {
+const ChatListItem = ({ active, chat, className, messagesLoading }) => {
+  const { participants, lastMessage, id } = chat
   const classes = useStyles()
-  const chatCaption = chat.participants.length > 2
-  ? chat.name : getFullName(chat.participants[1])
+  const chatCaption = participants.length > 2
+  ? chat.name : getFullName(participants[1])
 
   return messagesLoading ? <Preloader /> : (
     <ListItem
@@ -33,13 +33,13 @@ const ChatListItem = ({ active, chat, lastMessage, className, messagesLoading })
         className
       )}
       component={Link}
-      to={`/chat/${chat.id}`}
+      to={`/chat/${id}`}
     >
       <ListItemAvatar>
         <Avatar
           alt='User'
           className={classes.avatar}
-          src={getAvatarLink(chat.participants[1].avatar)}
+          src={getAvatarLink(participants[1])}
         />
       </ListItemAvatar>
       <ListItemText
@@ -69,8 +69,7 @@ const ChatListItem = ({ active, chat, lastMessage, className, messagesLoading })
 ChatListItem.propTypes = {
   active: PropTypes.bool,
   className: PropTypes.string,
-  chat: PropTypes.object.isRequired,
-  lastMessage: PropTypes.object
+  chat: PropTypes.object.isRequired
 }
 
 export default ChatListItem
