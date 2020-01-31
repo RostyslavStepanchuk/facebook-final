@@ -26,7 +26,7 @@ const Transition = React.forwardRef(function Transition (props, ref) {
 })
 
 const FriendsListItem = ({ friend, deleteFriend, request, confirmRequest, deleteRequest }) => {
-  let avatarSrc = friend ? getAvatarLink(friend.avatar) : getAvatarLink(request.requester.avatar)
+  let avatarSrc = friend ? getAvatarLink(friend) : getAvatarLink(request.requester)
   const classes = useStyles({avatar: avatarSrc})
   const [openDialog, setOpenDialog] = useState(false)
 

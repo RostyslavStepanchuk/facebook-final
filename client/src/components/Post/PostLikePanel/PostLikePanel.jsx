@@ -1,15 +1,18 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import useStyles from './postLikeStyles'
+import { isEmpty } from 'lodash'
+import withStyles from '@material-ui/core/styles/withStyles'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline'
 import { IconButton, Tooltip, Avatar } from '@material-ui/core'
+
 import { updateLikes } from '../../../actions/post'
-import { isEmpty } from 'lodash'
 import { getAvatarLink } from '../../../utils/helpers/imageLinkHelpers'
-import withStyles from '@material-ui/core/styles/withStyles'
+import { getFullName } from '../../../utils/helpers/formatters'
+
+import useStyles from './postLikeStyles'
 
 const PostLikePanel = ({ postId, likes, comments, user, updateLikes, focusForCreatingComment }) => {
   const classes = useStyles()
@@ -26,8 +29,8 @@ const PostLikePanel = ({ postId, likes, comments, user, updateLikes, focusForCre
       backgroundColor: '#f5f5f9',
       color: 'rgba(0, 0, 0, 0.87)',
       fontSize: theme.typography.pxToRem(13),
-      border: '1px solid #9ca6ae',
-    },
+      border: '1px solid #9ca6ae'
+    }
   }))(Tooltip)
 
   const likedList = components => {
@@ -36,9 +39,9 @@ const PostLikePanel = ({ postId, likes, comments, user, updateLikes, focusForCre
 
     return listForRender.map(friend =>
       <div className={classes.container} key={friend.username}>
-        <Avatar className={classes.userPhoto} src={getAvatarLink(friend.avatar)} alt='User' />
+        <Avatar className={classes.userPhoto} src={getAvatarLink(friend)} alt='User' />
         <div className={classes.userContainer}>
-          <p className={classes.text}>{friend.firstName} {friend.lastName}</p>
+          <p className={classes.text}>{getFullName(friend)}</p>
         </div>
       </div>
     )
@@ -49,7 +52,7 @@ const PostLikePanel = ({ postId, likes, comments, user, updateLikes, focusForCre
       <div className={classes.panel}>
         <LikePanelTooltip
           title={likedList(likes)}
-          placement="left"
+          placement='left'
         >
           <IconButton onClick={() => updateLikes(postId)} aria-label='like' >
             { postIsLiked ? <FavoriteIcon color='secondary' /> : <FavoriteBorderIcon /> }
@@ -57,7 +60,7 @@ const PostLikePanel = ({ postId, likes, comments, user, updateLikes, focusForCre
         </LikePanelTooltip>
         {likes.length}
 
-        <LikePanelTooltip title="Create a comment?" placement="right">
+        <LikePanelTooltip title='Create a comment?' placement='right'>
           <IconButton onClick={focusForCreatingComment} aria-label='comments' >
             <ChatBubbleOutlineIcon />
           </IconButton>
