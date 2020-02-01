@@ -74,6 +74,11 @@ const PostMenu = ({ postId, author, owner, user, taggedUsers, deletePost, delete
     setOpen(false)
   }
 
+  const deleteTag = () => {
+    deleteCurrentUserTagFromPost(postId, userUsername)
+    setOpen(!open)
+  }
+
   function handleListKeyDown (event) {
     if (event.key === 'Tab') {
       event.preventDefault()
@@ -138,7 +143,7 @@ const PostMenu = ({ postId, author, owner, user, taggedUsers, deletePost, delete
                 <MenuList autoFocusItem={open} id='menu-list-grow' onKeyDown={handleListKeyDown}>
                   {deleteMenuItem && <MenuItem onClick={handleModal}> <DeleteIcon className={classes.menuItemIcon} /> Delete post </MenuItem>}
                   {editMenuItem && <MenuItem> <BrushIcon className={classes.menuItemIcon} /> Edit post </MenuItem>}
-                  {removeTagMenuItem && <MenuItem onClick={() => deleteCurrentUserTagFromPost(postId)}> <LabelOffIcon className={classes.menuItemIcon} /> Remove yourself from post</MenuItem>}
+                  {removeTagMenuItem && <MenuItem onClick={deleteTag}> <LabelOffIcon className={classes.menuItemIcon} /> Remove yourself from post</MenuItem>}
                 </MenuList>
               </ClickAwayListener>
             </Paper>
@@ -162,7 +167,7 @@ PostMenu.propTypes = {
 
 const mapDispatchToProps = dispatch => ({
   deletePost: postId => dispatch(deletePost(postId)),
-  deleteCurrentUserTagFromPost: postId => dispatch(deleteCurrentUserTagFromPost(postId))
+  deleteCurrentUserTagFromPost: (postId, userUsername) => dispatch(deleteCurrentUserTagFromPost(postId, userUsername))
 })
 
 export default connect(null, mapDispatchToProps)(PostMenu)

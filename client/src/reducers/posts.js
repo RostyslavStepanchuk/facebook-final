@@ -65,7 +65,15 @@ export default function (state = initialState, action) {
     }
 
     case TAG_REMOVED: {
-      let result = [...state.posts].filter(post => post.id !== payload.postId)
+      let flag = true
+      let result = [...state.posts].map(post => {
+        if (post.id === payload.postId && post.owner.username === payload.tagOwnerUsername) {
+          flag = false
+          return payload.post
+        } else return post
+      })
+      if (flag) result = result.filter(post => post.id !== payload.postId)
+
       return { ...state, posts: result, loading: false }
     }
 

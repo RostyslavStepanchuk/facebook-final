@@ -133,12 +133,12 @@ export const deleteComment = (postId, commentId) => async dispatch => {
   }
 }
 
-export const deleteCurrentUserTagFromPost  = (postId) => async dispatch => {
+export const deleteCurrentUserTagFromPost  = (postId, tagOwnerUsername) => async dispatch => {
   try {
     const post = await apiRequest.delete('/posts/' + postId + '/tag_friends' )
     dispatch({
       type: TAG_REMOVED,
-      payload: { postId, post }
+      payload: { postId, post, tagOwnerUsername }
     })
   } catch (e) {
     Toastr.error('Something goes wrong! Please try again later')
