@@ -22,8 +22,16 @@ const PostAuthor = ({ postId, author, owner, date, user, taggedFriends }) => {
   let belowUsernameLine = null
 
   if (author.username !== owner.username) {
-    nextToUsernameLine = <Fragment><ArrowRightIcon className={classes.arrowRight} /> <span>{getFullName(owner)}</span> </Fragment>
+    nextToUsernameLine = <Fragment>
+      <ArrowRightIcon className={classes.arrowRight} />
+      <span>
+        <Link to={`/profile/${get(owner, 'username')}`} className={classes.authorLink}>
+          {getFullName(owner)}
+        </Link>
+      </span>
+    </Fragment>
   }
+
   if (taggedFriends.length > 0) {
     const firstTagged = <Link to={'/profile/' + taggedFriends[0].username} className={classes.tagLink}>{`${taggedFriends[0].firstName} ${taggedFriends[0].lastName}`}</Link>
     const otherTaggedLine = taggedFriends.length > 1 ? <span>{'and '}<TaggedFriendsSelect taggedFriends={taggedFriends.slice(1)} /></span> : null
@@ -34,6 +42,7 @@ const PostAuthor = ({ postId, author, owner, date, user, taggedFriends }) => {
       belowUsernameLine = <p className={classes.lineBelowUsername}>{taggedFriendsLine}</p>
     }
   }
+
   return (
     <Grid container justify='space-between' >
       <Grid item className={classes.user}>

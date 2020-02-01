@@ -24,14 +24,14 @@ import LabelOffIcon from '@material-ui/icons/LabelOff'
 import MenuItem from '@material-ui/core/MenuItem'
 
 import useStyles from './postMenuStyles'
-import { deletePost } from '../../../../actions/post'
+import { deletePost, deleteCurrentUserTagFromPost } from '../../../../actions/post'
 import { get } from 'lodash'
 
 const Transition = React.forwardRef(function Transition (props, ref) {
   return <Slide direction='up' ref={ref} {...props} />
 })
 
-const PostMenu = ({ postId, author, owner, user, taggedUsers }) => {
+const PostMenu = ({ postId, author, owner, user, taggedUsers, deletePost, deleteCurrentUserTagFromPost }) => {
   const classes = useStyles()
 
   const authorUsername = get(author, 'username')
@@ -138,7 +138,7 @@ const PostMenu = ({ postId, author, owner, user, taggedUsers }) => {
                 <MenuList autoFocusItem={open} id='menu-list-grow' onKeyDown={handleListKeyDown}>
                   {deleteMenuItem && <MenuItem onClick={handleModal}> <DeleteIcon className={classes.menuItemIcon} /> Delete post </MenuItem>}
                   {editMenuItem && <MenuItem> <BrushIcon className={classes.menuItemIcon} /> Edit post </MenuItem>}
-                  {removeTagMenuItem && <MenuItem> <LabelOffIcon className={classes.menuItemIcon} /> Remove yourself from post</MenuItem>}
+                  {removeTagMenuItem && <MenuItem onClick={() => deleteCurrentUserTagFromPost(postId)}> <LabelOffIcon className={classes.menuItemIcon} /> Remove yourself from post</MenuItem>}
                 </MenuList>
               </ClickAwayListener>
             </Paper>
@@ -156,11 +156,13 @@ PostMenu.propTypes = {
   owner: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   deletePost: PropTypes.func.isRequired,
-  taggedUsers: PropTypes.array.isRequired
+  taggedUsers: PropTypes.array.isRequired,
+  deleteCurrentUserTagFromPost: PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({
-  deletePost: postId => dispatch(deletePost(postId))
+  deletePost: postId => dispatch(deletePost(postId)),
+  deleteCurrentUserTagFromPost: postId => dispatch(deleteCurrentUserTagFromPost(postId))
 })
 
 export default connect(null, mapDispatchToProps)(PostMenu)

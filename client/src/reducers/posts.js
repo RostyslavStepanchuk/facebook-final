@@ -6,7 +6,8 @@ import {
   POSTS_END_LOADING,
   POSTS_RECEIVED,
   POSTS_START_LOADING,
-  RESET_RECEIVED_POSTS
+  RESET_RECEIVED_POSTS,
+  TAG_REMOVED
 } from '../utils/constants/actionsName'
 import { addPagedPayload } from '../utils/helpers/payloadAdapter'
 
@@ -60,6 +61,11 @@ export default function (state = initialState, action) {
         if (post.id === payload.postId) return payload.post
         return post
       })
+      return { ...state, posts: result, loading: false }
+    }
+
+    case TAG_REMOVED: {
+      let result = [...state.posts].filter(post => post.id !== payload.postId)
       return { ...state, posts: result, loading: false }
     }
 
