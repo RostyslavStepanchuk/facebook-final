@@ -34,8 +34,6 @@ public class AmazonService extends AbstractCrudService<Image, Long, ImageReposit
     this.s3client = s3client;
   }
 
-  @Value("${amazonProperties.endpointUrl}")
-  private String endpointUrl;
   @Value("${amazonProperties.bucketName}")
   private String bucketName;
 
