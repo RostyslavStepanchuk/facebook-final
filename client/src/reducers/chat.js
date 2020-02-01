@@ -39,12 +39,9 @@ export default function (state = initialState, action) {
       return { ...state, chatMessages: payload, messagesLoading: false }
 
     case SEND_MESSAGE:
-      /* eslint-disable */
-      const newKey = ++state.keyForRender
-      const newChatMessages = state.chatMessages
-      newChatMessages.push(payload)
-      /* eslint-enable */
-      return { ...state, chatMessages: newChatMessages, keyForRender: newKey }
+      return { ...state,
+        chatMessages: state.chatMessages.concat(payload),
+        keyForRender: state.keyForRender + 1 }
 
     default:
       return {...state}
