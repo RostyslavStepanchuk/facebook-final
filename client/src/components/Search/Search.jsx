@@ -45,7 +45,7 @@ const Search = ({loading, searchData, searchResults}) => {
     <Link to={`/profile/${get(option, 'username')}`} className={classes.link}>
       <div className={classes.optionWrapper}>
         <Avatar className={classes.userPhoto}
-          src={getAvatarLink(option.avatar)}
+          src={getAvatarLink(option)}
           alt='User Avatar' />
         {`${get(option, 'firstName')} ${get(option, 'lastName')}`}
       </div>

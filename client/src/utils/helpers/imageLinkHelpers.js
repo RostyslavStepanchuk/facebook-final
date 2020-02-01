@@ -1,16 +1,16 @@
 const DEFAULT_AVATAR_LINK = '/images/no-avatar.png'
 const DEFAULT_PROFILE_COVER_LINK = '/images/profile-cover-placeholder.jpg'
 
-export const getAvatarLink = imageObj => {
-  if (!imageObj) {
+export const getAvatarLink = user => {
+  if (!user.avatar) {
     return DEFAULT_AVATAR_LINK
   }
-  return imageObj.src
+  return user.avatar.src
 }
 
-export const getProfileCoverLink = imageObj => {
-  if (!imageObj) {
+export const getProfileCoverLink = user => {
+  if (!user.profileCover) {
     return DEFAULT_PROFILE_COVER_LINK
   }
-  return imageObj.src
+  return user.profileCover.src
 }

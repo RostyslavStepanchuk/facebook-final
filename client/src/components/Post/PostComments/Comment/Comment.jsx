@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import useStyles from './commentStyles'
 import PropTypes from 'prop-types'
-
-import IconButton from '@material-ui/core/IconButton'
+import { Link } from 'react-router-dom'
+import { get } from 'lodash'
 import DeleteIcon from '@material-ui/icons/Delete'
+import { Avatar, Box, IconButton } from '@material-ui/core'
 
 import { deleteComment } from '../../../../actions/post'
 import { getDate } from '../../../../utils/date/getDate'
 import { getFullName } from '../../../../utils/helpers/formatters'
-import { get } from 'lodash'
-import { Avatar } from '@material-ui/core'
 import { getAvatarLink } from '../../../../utils/helpers/imageLinkHelpers'
-import { Link } from 'react-router-dom'
-import Box from '@material-ui/core/Box'
+
+import useStyles from './commentStyles'
 
 const Comment = ({ postId, postOwner, comment, user, deleteComment }) => {
   const classes = useStyles()
@@ -30,7 +28,7 @@ const Comment = ({ postId, postOwner, comment, user, deleteComment }) => {
     <div className={classes.panel}>
       <Box display='flex'>
         <Link to={`/profile/${get(author, 'username')}`}>
-          <Avatar src={getAvatarLink(author.avatar)} alt='User' />
+          <Avatar src={getAvatarLink(author)} alt='User' />
         </Link>
         <div className={classes.comment}>
           <p className={classes.commentText}>

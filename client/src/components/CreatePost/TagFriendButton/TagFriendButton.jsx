@@ -1,12 +1,12 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
-
 import { Button, ClickAwayListener, Grow, MenuItem, MenuList, Paper, Popper } from '@material-ui/core'
 import BeenhereOutlinedIcon from '@material-ui/icons/BeenhereOutlined'
 import AssignmentIndOutlinedIcon from '@material-ui/icons/AssignmentIndOutlined'
 
-import useStyles from './tagFriendButtonStyles'
 import { getAvatarLink } from '../../../utils/helpers/imageLinkHelpers'
+
+import useStyles from './tagFriendButtonStyles'
 
 const sortSelectedFirst = (a, b) => {
   if (a.isSelected === true && b.isSelected === false) {
@@ -54,7 +54,7 @@ const TagFriendButton = ({ friends, selected, handleFriendTag }) => {
       <span>
         {friend.isSelected && <BeenhereOutlinedIcon className={classes.checkedIcon} />}
       </span>&nbsp;
-      <img src={getAvatarLink(friend.userLabel.avatar)} alt={friend.userLabel.username} className={classes.userPic} />
+      <img src={getAvatarLink(friend.userLabel)} alt={friend.userLabel.username} className={classes.userPic} />
       <span>{friend.userLabel.firstName} {friend.userLabel.lastName}</span>
     </MenuItem>))
 

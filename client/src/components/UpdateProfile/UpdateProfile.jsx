@@ -30,11 +30,11 @@ const UpdateProfile = ({ user, handleClose, updateProfile }) => {
   const [ formData, setFormData ] = useState({
     avatar: {
       file: null,
-      url: getAvatarLink(avatar)
+      url: getAvatarLink(user)
     },
     profileCover: {
       file: null,
-      url: getProfileCoverLink(profileCover)
+      url: getProfileCoverLink(user)
     },
     firstName,
     lastName,

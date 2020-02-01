@@ -1,11 +1,9 @@
 package com.socialmedia.dto.chat.message;
 
-import com.socialmedia.dto.user.UserLabelDtoIn;
+import lombok.Data;
 
+@Data
 public class ChatMessageDtoIn {
-  private Long id;
+  private Long chatId;
   private String text;
-  private Long date;
-  private UserLabelDtoIn author;
-
 }
