@@ -2,8 +2,7 @@ server:
   port: 8080
 
 amazonProperties:
-  endpointUrl: https://s3.us-west-2.amazonaws.com
-  bucketName: fs-8
+  bucketName: fs-8-final
   credentials:
     path: src/main/resources/awsKeys/keys-for-s3.properties
 
