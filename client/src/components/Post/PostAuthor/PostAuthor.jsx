@@ -1,53 +1,22 @@
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { get } from 'lodash'
-import {
-  Avatar,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  IconButton,
-  Slide
-} from '@material-ui/core'
-import ArrowRightIcon from '@material-ui/icons/ArrowRight'
-import DeleteIcon from '@material-ui/icons/Delete'
 
+import { Avatar } from '@material-ui/core'
+import ArrowRightIcon from '@material-ui/icons/ArrowRight'
 import TaggedFriendsSelect from './TaggedFriendsSelect/TaggedFriendsSelect'
-import { deletePost } from '../../../actions/post'
-import { getDate } from '../../../utils/date/getDate'
-import { getAvatarLink } from '../../../utils/helpers/imageLinkHelpers'
-import { getFullName } from '../../../utils/helpers/formatters'
+import PostMenu from './PostMenu/PostMenu'
+import Grid from '@material-ui/core/Grid'
 
 import useStyles from './postAuthorStyles'
+import { getAvatarLink } from '../../../utils/helpers/imageLinkHelpers'
+import { getFullName } from '../../../utils/helpers/formatters'
+import { getDate } from '../../../utils/date/getDate'
+import { get } from 'lodash'
 
-const Transition = React.forwardRef(function Transition (props, ref) {
-  return <Slide direction='up' ref={ref} {...props} />
-})
-
-const PostAuthor = ({ postId, author, owner, date, user, deletePost, taggedFriends }) => {
+const PostAuthor = ({ postId, author, owner, date, user, taggedFriends }) => {
   const classes = useStyles()
-
-  const [showDeleteBtn, setShowDeleteBtn] = useState(false)
-  const [openDialog, setOpenDialog] = useState(false)
-
-  useEffect(
-    () => setShowDeleteBtn(author.username === user.username || owner.username === user.username),
-    [author.username, owner.username, user.username]
-  )
-
-  const handleModal = () => {
-    setOpenDialog(!openDialog)
-  }
-
-  const handleModalDelete = () => {
-    handleModal()
-    deletePost(postId)
-  }
 
   let nextToUsernameLine = null
   let belowUsernameLine = null
@@ -66,8 +35,8 @@ const PostAuthor = ({ postId, author, owner, date, user, deletePost, taggedFrien
     }
   }
   return (
-    <Fragment>
-      <div className={classes.user}>
+    <Grid container justify='space-between' >
+      <Grid item className={classes.user}>
         <Link to={`/profile/${get(author, 'username')}`}>
           <Avatar className={classes.userPhoto} src={getAvatarLink(author)} alt='User' />
         </Link>
@@ -81,34 +50,17 @@ const PostAuthor = ({ postId, author, owner, date, user, deletePost, taggedFrien
           {belowUsernameLine}
           <p className={classes.postDate}>{getDate(date)}</p>
         </div>
-        { showDeleteBtn &&
-          <IconButton className={classes.btnDelete} onClick={handleModal} aria-label='delete' >
-            <DeleteIcon />
-          </IconButton>
-        }
-        <Dialog
-          open={openDialog}
-          TransitionComponent={Transition}
-          keepMounted
-          onClose={handleModal}
-        >
-          <DialogTitle id='alert'>Delete Post?</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              Are you sure you want to permanently remove this post from DanBook?
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button variant='contained' color='primary' onClick={handleModal}>
-              Cancel
-            </Button>
-            <Button variant='contained' color='secondary' onClick={handleModalDelete}>
-              Delete
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
-    </Fragment>
+      </Grid>
+      <Grid>
+        <PostMenu
+          postId={postId}
+          author={author}
+          owner={owner}
+          user={user}
+          taggedUsers={taggedFriends}
+        />
+      </Grid>
+    </Grid>
   )
 }
 
@@ -118,7 +70,6 @@ PostAuthor.propTypes = {
   owner: PropTypes.object.isRequired,
   date: PropTypes.number.isRequired,
   user: PropTypes.object.isRequired,
-  deletePost: PropTypes.func.isRequired,
   taggedFriends: PropTypes.array.isRequired
 }
 
@@ -126,4 +77,4 @@ const mapStateToProps = state => ({
   user: state.auth.user
 })
 
-export default connect(mapStateToProps, { deletePost })(PostAuthor)
+export default connect(mapStateToProps, null)(PostAuthor)
