@@ -1,27 +1,29 @@
 import React from 'react'
-import { Avatar, IconButton, Paper, Tooltip, Typography } from '@material-ui/core'
 import PropTypes from 'prop-types'
-import useStyles from './activeFriendsStyles'
+import { Link } from 'react-router-dom'
+import { get, isEmpty } from 'lodash'
+import { Avatar, IconButton, Paper, Tooltip, Typography } from '@material-ui/core'
+import MailOutlineIcon from '@material-ui/icons/MailOutline'
+
 import Preloader from '../Preloader/Preloader'
 import { getAvatarLink } from '../../utils/helpers/imageLinkHelpers'
 import { getActiveTime } from '../../utils/date/getDate'
-import MailOutlineIcon from '@material-ui/icons/MailOutline'
-import { Link } from 'react-router-dom'
 import { getFullName } from '../../utils/helpers/formatters'
-import { get } from 'lodash'
+
+import useStyles from './activeFriendsStyles'
 
 const ActiveFriends = ({ activeFriends, activeFriendsAreLoading }) => {
   const classes = useStyles()
 
   const friendsList = () => {
-    if (activeFriends.length === 0) {
+    if (isEmpty(activeFriends)) {
       return <p className={classes.notification}>You have no active friends.</p>
     } else {
       return activeFriends.map(friend => (
         <div className={classes.container} key={get(friend, 'username')}>
           <div className={classes.user}>
             <Link to={`/profile/${get(friend, 'username')}`}>
-              <Avatar className={classes.userPhoto} src={getAvatarLink(friend.avatar)} alt='User' />
+              <Avatar className={classes.userPhoto} src={getAvatarLink(friend)} alt='User' />
             </Link>
             <div className={classes.userName}>
               <Link to={`/profile/${get(friend, 'username')}`} className={classes.userLink}>
