@@ -7,7 +7,8 @@ import {
   POSTS_END_LOADING,
   POSTS_RECEIVED,
   POSTS_START_LOADING,
-  RESET_RECEIVED_POSTS
+  RESET_RECEIVED_POSTS,
+  TAG_REMOVED
 } from '../utils/constants/actionsName'
 import { Toastr } from '../utils/toastr/Toastr'
 import apiRequest from '../utils/helpers/apiRequest'
@@ -36,7 +37,7 @@ export const uploadImages = images => {
     })
 }
 
-export const createPost = (message, images, taggedFriends, isShownToEveryone) => {
+export const createPost = (profileOwnerUsername, message, images, taggedFriends, isShownToEveryone) => {
   const body = {
     message,
     image: images[0],
@@ -44,7 +45,7 @@ export const createPost = (message, images, taggedFriends, isShownToEveryone) =>
     taggedUsers: taggedFriends
   }
 
-  return apiRequest.post('/posts/profile', body)
+  return apiRequest.post('/posts/' + profileOwnerUsername, body)
     .then(() => window.location.reload())
 }
 
@@ -125,6 +126,18 @@ export const deleteComment = (postId, commentId) => async dispatch => {
     const post = await apiRequest.delete('/posts/' + postId + '/comment/' + commentId)
     dispatch({
       type: COMMENT_REMOVED,
+      payload: { postId, post }
+    })
+  } catch (e) {
+    Toastr.error('Something goes wrong! Please try again later')
+  }
+}
+
+export const deleteCurrentUserTagFromPost  = (postId) => async dispatch => {
+  try {
+    const post = await apiRequest.delete('/posts/' + postId + '/tag_friends' )
+    dispatch({
+      type: TAG_REMOVED,
       payload: { postId, post }
     })
   } catch (e) {

@@ -106,4 +106,9 @@ public class PostController {
   public ResponseEntity<PostDtoOut> tagFriends(@PathVariable Long postId, @RequestBody ArrayList<String> taggedUserNames) {
     return ResponseEntity.ok(postMapper.tagFriends(postId, taggedUserNames));
   }
+
+  @DeleteMapping("/{postId}/tag_friends")
+  public ResponseEntity<PostDtoOut> deletePrincipalTagFromPost(@PathVariable Long postId) {
+    return ResponseEntity.ok(postMapper.deletePrincipalTagFromPost(postId));
+  }
 }

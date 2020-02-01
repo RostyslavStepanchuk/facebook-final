@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -187,4 +188,16 @@ public final class PostService extends AbstractCrudService<Post, Long, PostRepos
     }
   }
 
+  public Post deletePrincipalTagFromPost(Long postId) {
+    Principal principal = SecurityContextHolder.getContext().getAuthentication();
+    Post post = getById(postId);
+    Set<ApplicationUser> taggedFriends = post.getTaggedFriends();
+
+    taggedFriends.stream().filter(taggedFriend -> taggedFriend.getUsername().equals(principal.getName()))
+            .findAny().ifPresent(taggedFriends::remove);
+
+    post.setTaggedFriends(taggedFriends);
+
+    return jpaRepository.save(post);
+  }
 }

@@ -30,9 +30,11 @@ import useStyles from './createPostStyles'
 const FRIENDS_INITIAL_SIZE = 10
 const STARTING_PAGE = 0
 
-const CreatePost = ({ user, currentUserFriends, loadCurrentUserFriends }) => {
+const CreatePost = ({ profileOwner, currentUser, currentUserFriends, loadCurrentUserFriends }) => {
   const classes = useStyles()
-  const { firstName, username } = user
+  const { firstName, username } = currentUser
+  const profileOwnerUsername = profileOwner.username
+
   const [uploadForm, setUploadForm] = useState({
     imagesToUpload: [],
     textToUpload: '',
@@ -83,7 +85,7 @@ const CreatePost = ({ user, currentUserFriends, loadCurrentUserFriends }) => {
   const handleSubmit = e => {
     e.preventDefault()
     uploadImages(imagesToUpload).then(
-      imgLinks => createPost(textToUpload, imgLinks, taggedFriends, true),
+      imgLinks => createPost(profileOwnerUsername, textToUpload, imgLinks, taggedFriends, true),
       images => {
         Toastr.error('One or more images weren\'t uploaded')
         setUploadForm({...uploadForm, imagesToUpload: images})
@@ -118,8 +120,8 @@ const CreatePost = ({ user, currentUserFriends, loadCurrentUserFriends }) => {
         <form className={classes.form}>
           <Grid container className={classes.textContainer}>
             <Grid container item xs={2} lg={1} justify='center' alignItems='flex-start'>
-              <Link to={`/profile/${get(user, 'username')}`}>
-                <Avatar className={classes.avatar} src={getAvatarLink(user)} />
+              <Link to={`/profile/${get(currentUser, 'username')}`}>
+                <Avatar className={classes.avatar} src={getAvatarLink(currentUser)} />
               </Link>
             </Grid>
             <Grid item xs={10} lg={11} >
@@ -178,13 +180,14 @@ const CreatePost = ({ user, currentUserFriends, loadCurrentUserFriends }) => {
 }
 
 CreatePost.propTypes = {
-  user: PropTypes.object.isRequired,
+  profileOwner: PropTypes.object.isRequired,
+  currentUser: PropTypes.object.isRequired,
   currentUserFriends: PropTypes.array.isRequired,
   loadCurrentUserFriends: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
-  user: state.auth.user,
+  currentUser: state.auth.user,
   currentUserFriends: state.friends.currentUserFriends
 })
 
