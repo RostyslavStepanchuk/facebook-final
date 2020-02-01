@@ -29,7 +29,7 @@ public class ApplicationConfiguration {
   public AmazonS3Client amazonS3Client() {
     return (AmazonS3Client) AmazonS3ClientBuilder
             .standard()
-            .withRegion(Regions.US_WEST_2)
+            .withRegion(Regions.US_EAST_2)
             .withCredentials(new PropertiesFileCredentialsProvider(s3CredentialsPath))
             .build();
   }
