@@ -17,7 +17,7 @@ import Box from '@material-ui/core/Box'
 const COMMON_F_AVATARS_TO_SHOW = 4
 
 const FriendSuggestions = ({ person, commonFriends }) => {
-  const { username, avatar } = person
+  const { username } = person
 
   const classes = useStyles()
   const [ requestSent, setRequestSent ] = useState(false)
@@ -43,7 +43,7 @@ const FriendSuggestions = ({ person, commonFriends }) => {
         <Grid item container xs={10}>
           <Grid item >
             <Link to={`/profile/${get(person, 'username')}`} >
-              <Avatar className={classes.image} src={getAvatarLink(avatar)} alt='User' />
+              <Avatar className={classes.image} src={getAvatarLink(person)} alt='User' />
             </Link>
           </Grid>
           <Grid item >

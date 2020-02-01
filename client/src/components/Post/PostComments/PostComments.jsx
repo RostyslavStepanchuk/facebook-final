@@ -11,7 +11,6 @@ import { get } from 'lodash'
 const PostComments = ({ postId, comments, postOwner, user, createComment, inputRef }) => {
   const classes = useStyles()
   const [value, setValue] = useState('')
-
   const handleTextFieldChange = (e) => {
     setValue(e.target.value)
   }

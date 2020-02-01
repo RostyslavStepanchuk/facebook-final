@@ -1,4 +1,8 @@
 import React, { Fragment, useState } from 'react'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
+import { get } from 'lodash'
 import {
   Button,
   Dialog,
@@ -11,25 +15,23 @@ import {
   Slide,
   Tooltip
 } from '@material-ui/core'
-import PropTypes from 'prop-types'
-import useStyles from './friendsListItemStyles'
 import HighlightOffIcon from '@material-ui/icons/HighlightOff'
 import MailOutlineIcon from '@material-ui/icons/MailOutline'
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline'
+
 import { confirmRequest, deleteFriend, deleteRequest } from '../../../actions/friends'
 import { getDateWithoutTime } from '../../../utils/date/getDate'
 import { getAvatarLink } from '../../../utils/helpers/imageLinkHelpers'
-import { connect } from 'react-redux'
 import { getFullName } from '../../../utils/helpers/formatters'
-import { Link } from 'react-router-dom'
-import { get } from 'lodash'
+
+import useStyles from './friendsListItemStyles'
 
 const Transition = React.forwardRef(function Transition (props, ref) {
   return <Slide direction='up' ref={ref} {...props} />
 })
 
 const FriendsListItem = ({ friend, deleteFriend, request, confirmRequest, deleteRequest }) => {
-  let avatarSrc = friend ? getAvatarLink(friend.avatar) : getAvatarLink(request.requester.avatar)
+  let avatarSrc = friend ? getAvatarLink(friend) : getAvatarLink(request.requester)
   const classes = useStyles({avatar: avatarSrc})
   const [openDialog, setOpenDialog] = useState(false)
 

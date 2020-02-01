@@ -1,5 +1,8 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
+import { get } from 'lodash'
 import {
   Avatar,
   Button,
@@ -13,16 +16,14 @@ import {
 } from '@material-ui/core'
 import ArrowRightIcon from '@material-ui/icons/ArrowRight'
 import DeleteIcon from '@material-ui/icons/Delete'
-import useStyles from './postAuthorStyles'
-import PropTypes from 'prop-types'
 
+import TaggedFriendsSelect from './TaggedFriendsSelect/TaggedFriendsSelect'
 import { deletePost } from '../../../actions/post'
 import { getDate } from '../../../utils/date/getDate'
 import { getAvatarLink } from '../../../utils/helpers/imageLinkHelpers'
-import { Link } from 'react-router-dom'
-import TaggedFriendsSelect from './TaggedFriendsSelect/TaggedFriendsSelect'
 import { getFullName } from '../../../utils/helpers/formatters'
-import { get } from 'lodash'
+
+import useStyles from './postAuthorStyles'
 
 const Transition = React.forwardRef(function Transition (props, ref) {
   return <Slide direction='up' ref={ref} {...props} />
@@ -68,7 +69,7 @@ const PostAuthor = ({ postId, author, owner, date, user, deletePost, taggedFrien
     <Fragment>
       <div className={classes.user}>
         <Link to={`/profile/${get(author, 'username')}`}>
-          <Avatar className={classes.userPhoto} src={getAvatarLink(author.avatar)} alt='User' />
+          <Avatar className={classes.userPhoto} src={getAvatarLink(author)} alt='User' />
         </Link>
         <div className={classes.userName}>
           <p className={classes.userFullName}>

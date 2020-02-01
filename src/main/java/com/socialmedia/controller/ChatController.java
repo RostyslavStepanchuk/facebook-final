@@ -1,6 +1,7 @@
 package com.socialmedia.controller;
 
 import com.socialmedia.dto.chat.ChatDtoOut;
+import com.socialmedia.dto.chat.ChatDtoOutWithLastMessage;
 import com.socialmedia.mapper.ChatMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,8 +25,8 @@ public class ChatController {
   }
 
   @GetMapping
-  public ResponseEntity<List<ChatDtoOut>> getAllChats() {
-    return ResponseEntity.ok(chatMapper.getAllChats());
+  public ResponseEntity<List<ChatDtoOutWithLastMessage>> getAllChatsWithPrincipal() {
+    return ResponseEntity.ok(chatMapper.getAllChatsWithPrincipal());
   }
 
   @GetMapping("/{participantUsername}")
