@@ -1,18 +1,16 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { isEmpty } from 'lodash'
-import withStyles from '@material-ui/core/styles/withStyles'
+import useStyles from './postLikeStyles'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline'
 import { IconButton, Tooltip, Avatar } from '@material-ui/core'
-
 import { updateLikes } from '../../../actions/post'
+import { get, isEmpty } from 'lodash'
 import { getAvatarLink } from '../../../utils/helpers/imageLinkHelpers'
+import withStyles from '@material-ui/core/styles/withStyles'
 import { getFullName } from '../../../utils/helpers/formatters'
-
-import useStyles from './postLikeStyles'
 
 const PostLikePanel = ({ postId, likes, comments, user, updateLikes, focusForCreatingComment }) => {
   const classes = useStyles()
@@ -38,8 +36,8 @@ const PostLikePanel = ({ postId, likes, comments, user, updateLikes, focusForCre
     const listForRender = components.slice(0, 10)
 
     return listForRender.map(friend =>
-      <div className={classes.container} key={friend.username}>
-        <Avatar className={classes.userPhoto} src={getAvatarLink(friend)} alt='User' />
+      <div className={classes.container} key={get(friend, 'username')}>
+        <Avatar className={classes.userPhoto} src={getAvatarLink(friend.avatar)} alt='User' />
         <div className={classes.userContainer}>
           <p className={classes.text}>{getFullName(friend)}</p>
         </div>
@@ -58,14 +56,15 @@ const PostLikePanel = ({ postId, likes, comments, user, updateLikes, focusForCre
             { postIsLiked ? <FavoriteIcon color='secondary' /> : <FavoriteBorderIcon /> }
           </IconButton>
         </LikePanelTooltip>
-        {likes.length}
+        {get(likes, 'length', '—')}
 
         <LikePanelTooltip title='Create a comment?' placement='right'>
           <IconButton onClick={focusForCreatingComment} aria-label='comments' >
             <ChatBubbleOutlineIcon />
           </IconButton>
         </LikePanelTooltip>
-        {comments.length}
+        {get(comments, 'length', '—')}
+
       </div>
     </Fragment>
   )

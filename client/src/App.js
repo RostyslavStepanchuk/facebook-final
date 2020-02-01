@@ -14,7 +14,7 @@ import ProtectedRouter from './components/ProtectedRouter/ProtectedRouter'
 import Background from './components/Background/Background'
 import NewPassword from './pages/NewPassword/NewPassword'
 
-function App() {
+function App () {
   return (
     <Provider store={store}>
       <Toastr />

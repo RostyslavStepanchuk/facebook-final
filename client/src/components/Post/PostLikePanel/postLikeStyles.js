@@ -6,7 +6,7 @@ const useStyles = makeStyles(() => ({
     borderBottom: '1px solid #e6e6e6'
   },
   container: {
-    display: 'flex',
+    display: 'flex'
   },
   userPhoto: {
     borderRadius: '50%',
@@ -21,7 +21,7 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     margin: 0,
     textAlign: 'left'
-  },
+  }
 
 }))
 

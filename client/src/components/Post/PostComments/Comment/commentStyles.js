@@ -7,8 +7,13 @@ const useStyles = makeStyles(() => ({
     padding: '5px 10px',
     borderBottom: '1px solid #e6e6e6'
   },
+  link: {
+    textDecoration: 'none',
+    color: 'black'
+  },
   comment: {
-    textAlign: 'left'
+    textAlign: 'left',
+    paddingLeft: 10
   },
   commentText: {
     margin: 0,

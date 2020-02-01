@@ -20,6 +20,9 @@ import { confirmRequest, deleteFriend, deleteRequest } from '../../../actions/fr
 import { getDateWithoutTime } from '../../../utils/date/getDate'
 import { getAvatarLink } from '../../../utils/helpers/imageLinkHelpers'
 import { connect } from 'react-redux'
+import { getFullName } from '../../../utils/helpers/formatters'
+import { Link } from 'react-router-dom'
+import { get } from 'lodash'
 
 const Transition = React.forwardRef(function Transition (props, ref) {
   return <Slide direction='up' ref={ref} {...props} />
@@ -48,9 +51,13 @@ const FriendsListItem = ({ friend, deleteFriend, request, confirmRequest, delete
     <Fragment>
       { friend &&
       <Grid item sm={5} className={classes.gridItem}>
-        <div className={classes.avatar}/>
+        <Link to={`/profile/${get(friend, 'username')}`}>
+          <div className={classes.avatar} />
+        </Link>
         <div className={classes.friendInfo}>
-          <p className={classes.userName}>{friend.firstName} {friend.lastName}</p>
+          <Link to={`/profile/${get(friend, 'username')}`} className={classes.link}>
+            <p className={classes.userName}>{getFullName(friend)}</p>
+          </Link>
           <div>
             <Tooltip title='Send message'>
               <IconButton color='primary' aria-label='Send message'>
@@ -89,10 +96,14 @@ const FriendsListItem = ({ friend, deleteFriend, request, confirmRequest, delete
     }
       { request &&
       <Grid item sm={5} className={classes.gridItem}>
-        <div className={classes.avatar}/>
+        <Link to={`/profile/${get(request.requester, 'username')}`}>
+          <div className={classes.avatar} />
+        </Link>
         <div className={classes.friendInfo}>
           <div>
-            <p className={classes.userName}>{request.requester.firstName} {request.requester.lastName}</p>
+            <Link to={`/profile/${get(request.requester, 'username')}`} className={classes.link}>
+              <p className={classes.userName}>{getFullName(request.requester)}</p>
+            </Link>
             <p className={classes.requestDate}>{getDateWithoutTime(request.date)}</p>
           </div>
           <div>

@@ -7,6 +7,8 @@ import { getAvatarLink } from '../../utils/helpers/imageLinkHelpers'
 import { getActiveTime } from '../../utils/date/getDate'
 import MailOutlineIcon from '@material-ui/icons/MailOutline'
 import { Link } from 'react-router-dom'
+import { getFullName } from '../../utils/helpers/formatters'
+import { get } from 'lodash'
 
 const ActiveFriends = ({ activeFriends, activeFriendsAreLoading }) => {
   const classes = useStyles()
@@ -16,24 +18,24 @@ const ActiveFriends = ({ activeFriends, activeFriendsAreLoading }) => {
       return <p className={classes.notification}>You have no active friends.</p>
     } else {
       return activeFriends.map(friend => (
-          <div className={classes.container} key={friend.username}>
-            <div className={classes.user}>
-              <Link to={'/profile/' + friend.username}>
-                <Avatar className={classes.userPhoto} src={getAvatarLink(friend)} alt='User' />
+        <div className={classes.container} key={get(friend, 'username')}>
+          <div className={classes.user}>
+            <Link to={`/profile/${get(friend, 'username')}`}>
+              <Avatar className={classes.userPhoto} src={getAvatarLink(friend.avatar)} alt='User' />
+            </Link>
+            <div className={classes.userName}>
+              <Link to={`/profile/${get(friend, 'username')}`} className={classes.userLink}>
+                <p className={classes.userFullName}>{getFullName(friend)}</p>
               </Link>
-              <div className={classes.userName}>
-                <Link to={'/profile/' + friend.username} className={classes.userLink}>
-                  <p className={classes.userFullName}>{friend.firstName} {friend.lastName} </p>
-                </Link>
-                <p className={classes.activeTime}>{getActiveTime(friend.lastActivityTime)}</p>
-              </div>
+              <p className={classes.activeTime}>{getActiveTime(friend.lastActivityTime)}</p>
             </div>
-            <Tooltip title='Send message'>
-              <IconButton color='primary' aria-label='Send message'>
-                <MailOutlineIcon />
-              </IconButton>
-            </Tooltip>
           </div>
+          <Tooltip title='Send message'>
+            <IconButton color='primary' aria-label='Send message'>
+              <MailOutlineIcon />
+            </IconButton>
+          </Tooltip>
+        </div>
         )
       )
     }
@@ -44,7 +46,7 @@ const ActiveFriends = ({ activeFriends, activeFriendsAreLoading }) => {
   return (
     <Paper className={classes.paper}>
       <Typography className={classes.header} variant='subtitle1' component='div'>
-        Active Friends <span className={classes.count}>{activeFriends.length}</span>
+        Active Friends <span className={classes.count}>{get(activeFriends, 'length', '—')}</span>
       </Typography>
       {loadedContent}
     </Paper>

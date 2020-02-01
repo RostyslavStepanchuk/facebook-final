@@ -25,11 +25,12 @@ const ProfileField = ({ friends, userPhotos, loadingPhotos }) => {
         <Tile
           imageSrc={getAvatarLink(friend)}
           title={getFullName(friend)}
-          username={friend.username}
-          key={friend.username} />
+          username={get(friend, 'username')}
+          key={get(friend, 'username')} />
       )
     } else {
-      return listForRender.map(photo => <Tile imageSrc={get(photo, 'src')} key={get(photo, 'id', '')} />)
+      return listForRender.map(photo => <Tile imageSrc={get(photo, 'src')}
+        key={get(photo, 'id', '')} />)
     }
   }
 
