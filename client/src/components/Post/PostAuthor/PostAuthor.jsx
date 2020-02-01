@@ -1,5 +1,8 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
+import { get } from 'lodash'
 import {
   Avatar,
   Button,
@@ -13,14 +16,14 @@ import {
 } from '@material-ui/core'
 import ArrowRightIcon from '@material-ui/icons/ArrowRight'
 import DeleteIcon from '@material-ui/icons/Delete'
-import useStyles from './postAuthorStyles'
-import PropTypes from 'prop-types'
 
+import TaggedFriendsSelect from './TaggedFriendsSelect/TaggedFriendsSelect'
 import { deletePost } from '../../../actions/post'
 import { getDate } from '../../../utils/date/getDate'
 import { getAvatarLink } from '../../../utils/helpers/imageLinkHelpers'
-import { Link } from 'react-router-dom'
-import TaggedFriendsSelect from './TaggedFriendsSelect/TaggedFriendsSelect'
+import { getFullName } from '../../../utils/helpers/formatters'
+
+import useStyles from './postAuthorStyles'
 
 const Transition = React.forwardRef(function Transition (props, ref) {
   return <Slide direction='up' ref={ref} {...props} />
@@ -50,7 +53,7 @@ const PostAuthor = ({ postId, author, owner, date, user, deletePost, taggedFrien
   let belowUsernameLine = null
 
   if (author.username !== owner.username) {
-    nextToUsernameLine = <Fragment><ArrowRightIcon className={classes.arrowRight} /> <span> {owner.firstName} {owner.lastName}</span> </Fragment>
+    nextToUsernameLine = <Fragment><ArrowRightIcon className={classes.arrowRight} /> <span>{getFullName(owner)}</span> </Fragment>
   }
   if (taggedFriends.length > 0) {
     const firstTagged = <Link to={'/profile/' + taggedFriends[0].username} className={classes.tagLink}>{`${taggedFriends[0].firstName} ${taggedFriends[0].lastName}`}</Link>
@@ -65,11 +68,16 @@ const PostAuthor = ({ postId, author, owner, date, user, deletePost, taggedFrien
   return (
     <Fragment>
       <div className={classes.user}>
-        <Link to={'/profile/' + author.username}>
-          <Avatar className={classes.userPhoto} src={getAvatarLink(author.avatar)} alt='User' />
+        <Link to={`/profile/${get(author, 'username')}`}>
+          <Avatar className={classes.userPhoto} src={getAvatarLink(author)} alt='User' />
         </Link>
         <div className={classes.userName}>
-          <p className={classes.userFullName}>{author.firstName} {author.lastName} {nextToUsernameLine}</p>
+          <p className={classes.userFullName}>
+            <Link to={`/profile/${get(author, 'username')}`} className={classes.authorLink}>
+              {getFullName(author)}
+            </Link>
+            {nextToUsernameLine}
+          </p>
           {belowUsernameLine}
           <p className={classes.postDate}>{getDate(date)}</p>
         </div>

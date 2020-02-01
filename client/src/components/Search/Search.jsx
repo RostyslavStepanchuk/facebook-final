@@ -10,8 +10,10 @@ import SearchIcon from '@material-ui/icons/Search'
 import { getAvatarLink } from '../../utils/helpers/imageLinkHelpers'
 import { searchData } from '../../actions/search'
 import { throttlingWrapper } from '../../utils/helpers/throttle'
-
 import useStyles from './searchStyle'
+
+const FIRST_PAGE = 0
+const SEARCH_PAGE_SIZE = 10
 
 const Search = ({loading, searchData, searchResults}) => {
   const classes = useStyles()
@@ -34,7 +36,7 @@ const Search = ({loading, searchData, searchResults}) => {
 
   const handleInputChange = (evt, inputValue) => {
     if (inputValue.length >= 2) {
-      searchDataWithThrottle(inputValue)
+      searchDataWithThrottle(inputValue, FIRST_PAGE, SEARCH_PAGE_SIZE)
     } else {
       setOptions([])
     }
@@ -43,7 +45,7 @@ const Search = ({loading, searchData, searchResults}) => {
     <Link to={`/profile/${get(option, 'username')}`} className={classes.link}>
       <div className={classes.optionWrapper}>
         <Avatar className={classes.userPhoto}
-          src={getAvatarLink(option.avatar)}
+          src={getAvatarLink(option)}
           alt='User Avatar' />
         {`${get(option, 'firstName')} ${get(option, 'lastName')}`}
       </div>

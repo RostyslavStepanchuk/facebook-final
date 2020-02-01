@@ -1,6 +1,15 @@
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(() => ({
+  avatar: props => ({
+    paddingTop: 100,
+    width: 100,
+    backgroundImage: `url(${props.avatar})`,
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover',
+    backgroundPosition: '50% 50%',
+    position: 'relative'
+  }),
   gridItem: {
     display: 'flex',
     border: '1px solid #e9ebee',
@@ -19,6 +28,10 @@ const useStyles = makeStyles(() => ({
     fontWeight: 600,
     margin: 0,
     wordBreak: 'break-word'
+  },
+  link: {
+    textDecoration: 'none',
+    color: 'black'
   },
   requestDate: {
     margin: 0,

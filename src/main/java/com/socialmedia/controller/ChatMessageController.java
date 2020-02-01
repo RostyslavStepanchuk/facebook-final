@@ -1,5 +1,6 @@
 package com.socialmedia.controller;
 
+import com.socialmedia.dto.chat.message.ChatMessageDtoIn;
 import com.socialmedia.dto.chat.message.ChatMessageDtoOut;
 import com.socialmedia.mapper.ChatMessageMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,8 +31,12 @@ public class ChatMessageController {
   @GetMapping("/{chatId}")
   public ResponseEntity<List<ChatMessageDtoOut>> getAllMessagesForChat(
             @PathVariable Long chatId,
-            @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable) {
+            @PageableDefault(sort = { "id" }, direction = Sort.Direction.ASC) Pageable pageable) {
     return ResponseEntity.ok(chatMessageMapper.getAllMessagesForChat(chatId, pageable));
   }
-}
 
+  @PostMapping("/add")
+  public ResponseEntity<ChatMessageDtoOut> sendMessage(@RequestBody ChatMessageDtoIn message) {
+    return ResponseEntity.ok(chatMessageMapper.create(message));
+  }
+}

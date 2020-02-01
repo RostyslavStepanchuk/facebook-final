@@ -1,13 +1,18 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import useStyles from './postLikeStyles'
+import { get, isEmpty } from 'lodash'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline'
-import IconButton from '@material-ui/core/IconButton'
+import { IconButton, Tooltip, Avatar } from '@material-ui/core'
+import withStyles from '@material-ui/core/styles/withStyles'
 
 import { updateLikes } from '../../../actions/post'
+import { getAvatarLink } from '../../../utils/helpers/imageLinkHelpers'
+import { getFullName } from '../../../utils/helpers/formatters'
+
+import useStyles from './postLikeStyles'
 
 const PostLikePanel = ({ postId, likes, comments, user, updateLikes, focusForCreatingComment }) => {
   const classes = useStyles()
@@ -19,17 +24,49 @@ const PostLikePanel = ({ postId, likes, comments, user, updateLikes, focusForCre
     [likes, user.username]
   )
 
+  const LikePanelTooltip = withStyles(theme => ({
+    tooltip: {
+      backgroundColor: '#f5f5f9',
+      color: 'rgba(0, 0, 0, 0.87)',
+      fontSize: theme.typography.pxToRem(13),
+      border: '1px solid #9ca6ae'
+    }
+  }))(Tooltip)
+
+  const likedList = components => {
+    if (isEmpty(components)) return <p className={classes.text}>Post has no likes</p>
+    const listForRender = components.slice(0, 10)
+
+    return listForRender.map(friend =>
+      <div className={classes.container} key={get(friend, 'username')}>
+        <Avatar className={classes.userPhoto} src={getAvatarLink(friend)} alt='User' />
+        <div className={classes.userContainer}>
+          <p className={classes.text}>{getFullName(friend)}</p>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <Fragment>
       <div className={classes.panel}>
-        <IconButton onClick={() => updateLikes(postId)} aria-label='like' >
-          { postIsLiked ? <FavoriteIcon color='secondary' /> : <FavoriteBorderIcon /> }
-        </IconButton>
-        {likes.length}
-        <IconButton onClick={focusForCreatingComment} aria-label='comments' >
-          <ChatBubbleOutlineIcon />
-        </IconButton>
-        {comments.length}
+        <LikePanelTooltip
+          title={likedList(likes)}
+          placement='left'
+        >
+          <IconButton onClick={() => updateLikes(postId)} aria-label='like' >
+            { postIsLiked ? <FavoriteIcon color='secondary' /> : <FavoriteBorderIcon /> }
+          </IconButton>
+        </LikePanelTooltip>
+        {get(likes, 'length', '—')}
+
+        <LikePanelTooltip title='Create a comment?' placement='right'>
+          <IconButton onClick={focusForCreatingComment} aria-label='comments' >
+            <ChatBubbleOutlineIcon />
+          </IconButton>
+        </LikePanelTooltip>
+        {get(comments, 'length', '—')}
+
       </div>
     </Fragment>
   )

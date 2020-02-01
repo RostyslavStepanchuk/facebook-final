@@ -9,7 +9,11 @@ import {
   REQUEST_CONFIRMED,
   REQUEST_DELETED,
   RESET_FRIEND_SUGGESTIONS,
-  RESET_FRIENDS
+  RESET_FRIENDS,
+  ACTIVE_FRIENDS_RECEIVED,
+  ACTIVE_FRIENDS_STARTED_LOADING,
+  ACTIVE_FRIENDS_STOPPED_LOADING,
+  RESET_ACTIVE_FRIENDS
 } from '../utils/constants/actionsName'
 import apiRequest from '../utils/helpers/apiRequest'
 import { Toastr } from '../utils/toastr/Toastr'
@@ -52,10 +56,10 @@ export const loadCurrentUserFriends = (username, page, size) => async dispatch =
 
 export const deleteFriend = friendUsername => async dispatch => {
   try {
-    const user = await apiRequest.delete('/users/friends/' + friendUsername)
+    const deletedUser = await apiRequest.delete('/users/friends/' + friendUsername)
     dispatch({
       type: FRIEND_DELETED,
-      payload: user
+      payload: deletedUser
     })
   } catch (e) {
     Toastr.error('Something goes wrong! Please try again later')
@@ -120,4 +124,30 @@ export const getIncomingFriendRequests = () => async dispatch => {
 
 export const checkFriendshipStatus = targetUsername => {
   return apiRequest.get('/users/friends/status/' + targetUsername)
+}
+
+export const loadActiveFriends = (page, size, isInitialRequest) => async dispatch => {
+  let pageable = {page, size}
+
+  dispatch({
+    type: ACTIVE_FRIENDS_STARTED_LOADING
+  })
+
+  if (isInitialRequest) {
+    dispatch({
+      type: RESET_ACTIVE_FRIENDS
+    })
+  }
+
+  try {
+    const activeFriends = await apiRequest.get('/users/friends/active', pageable)
+    dispatch({
+      type: ACTIVE_FRIENDS_RECEIVED,
+      payload: activeFriends
+    })
+  } catch (e) {
+    dispatch({
+      type: ACTIVE_FRIENDS_STOPPED_LOADING
+    })
+  }
 }

@@ -17,12 +17,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static com.socialmedia.util.Constants.LAST_THRESHOLD_OF_ONLINE_ACTIVITY;
 import static java.util.stream.Collectors.counting;
 import static java.util.stream.Collectors.groupingBy;
 
@@ -143,8 +145,8 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
     jpaRepository.save(user);
   }
 
-  public List<ApplicationUser> getUsersByQuery(String query) {
-    return jpaRepository.findAllByFirstOrLastName(query.toLowerCase());
+  public Page<ApplicationUser> getUsersByQuery(String query, Pageable pageable) {
+    return jpaRepository.findAllByFirstOrLastName(query.toLowerCase(), pageable);
   }
 
   public ApplicationUser deleteFriend(String friendUsername) {
@@ -154,7 +156,7 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
     ApplicationUser friend = getById(friendUsername);
     cancelFriendship(friend, user.getUsername());
 
-    return user;
+    return friend;
   }
 
   private void cancelFriendship(ApplicationUser user, String friendUsername) {
@@ -222,5 +224,12 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
       return FriendshipStatus.FRIENDS;
     }
     return FriendshipStatus.NOT_FRIENDS;
+  }
+
+  public Page<ApplicationUser> getActiveFriends(Pageable pageable) {
+    Principal principal = SecurityContextHolder.getContext().getAuthentication();
+    ApplicationUser user = getById(principal.getName());
+    long activityTime = System.currentTimeMillis() - LAST_THRESHOLD_OF_ONLINE_ACTIVITY;
+    return jpaRepository.getActiveFriends(user, activityTime, pageable);
   }
 }

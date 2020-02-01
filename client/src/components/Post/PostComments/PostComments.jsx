@@ -6,11 +6,11 @@ import Comment from './Comment/Comment'
 import { connect } from 'react-redux'
 import { createComment } from '../../../actions/post'
 import { Avatar, Grid, TextField } from '@material-ui/core'
+import { get } from 'lodash'
 
 const PostComments = ({ postId, comments, postOwner, user, createComment, inputRef }) => {
   const classes = useStyles()
   const [value, setValue] = useState('')
-
   const handleTextFieldChange = (e) => {
     setValue(e.target.value)
   }
@@ -25,7 +25,7 @@ const PostComments = ({ postId, comments, postOwner, user, createComment, inputR
     }
   }
 
-  const commentList = comments.map(comment => <Comment postId={postId} postOwner={postOwner} comment={comment} key={comment.id} />)
+  const commentList = comments.map(comment => <Comment postId={postId} postOwner={postOwner} comment={comment} key={get(comment, 'id')} />)
 
   return (
     <Fragment>
@@ -34,7 +34,7 @@ const PostComments = ({ postId, comments, postOwner, user, createComment, inputR
       </div>
       <Grid container className={classes.createPanel}>
         <Grid container item xs={2} lg={1} justify='center' alignItems='flex-start'>
-          <Avatar className={classes.avatar} src={user.avatar.src} />
+          <Avatar className={classes.avatar} src={get(user.avatar, 'src')} />
         </Grid>
         <Grid item xs={10} lg={11} >
           <TextField

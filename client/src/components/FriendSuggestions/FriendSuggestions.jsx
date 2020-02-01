@@ -12,7 +12,7 @@ const FriendSuggestions = ({ suggestions }) => {
   const content = suggestions.map(s => <FriendSuggestionItem person={s.user} commonFriends={s.commonFriends} key={s.user.username} />)
 
   return (
-    <Paper elevation={1} className={classes.paper}>
+    <Paper className={classes.paper}>
       <Typography variant='subtitle1' component='div' className={classes.header}>
         People you may know
       </Typography>

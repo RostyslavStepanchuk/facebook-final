@@ -23,8 +23,13 @@ public interface UserRepository extends JpaRepository<ApplicationUser, String> {
 
   @Query("select u from ApplicationUser u where lower(u.firstName) like %:queryStr% "
       + "or lower(u.lastName) like %:queryStr%  ")
-  List<ApplicationUser> findAllByFirstOrLastName(String queryStr);
+  Page<ApplicationUser> findAllByFirstOrLastName(String queryStr, Pageable pageable);
 
   @Query("SELECT u from ApplicationUser u where u.username in (:ids)")
   List<ApplicationUser> getAllUsersFromList(@Param("ids")List<String> ids);
+
+  @Query("SELECT u FROM ApplicationUser u WHERE u.lastActivityTime >= :activeTime AND :user member u.friends")
+  Page<ApplicationUser> getActiveFriends(ApplicationUser user, Long activeTime, Pageable pageable);
+
+
 }
