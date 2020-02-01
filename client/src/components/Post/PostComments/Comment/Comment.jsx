@@ -8,6 +8,12 @@ import DeleteIcon from '@material-ui/icons/Delete'
 
 import { deleteComment } from '../../../../actions/post'
 import { getDate } from '../../../../utils/date/getDate'
+import { getFullName } from '../../../../utils/helpers/formatters'
+import { get } from 'lodash'
+import { Avatar } from '@material-ui/core'
+import { getAvatarLink } from '../../../../utils/helpers/imageLinkHelpers'
+import { Link } from 'react-router-dom'
+import Box from '@material-ui/core/Box'
 
 const Comment = ({ postId, postOwner, comment, user, deleteComment }) => {
   const classes = useStyles()
@@ -22,10 +28,22 @@ const Comment = ({ postId, postOwner, comment, user, deleteComment }) => {
 
   return (
     <div className={classes.panel}>
-      <div className={classes.comment}>
-        <p className={classes.commentText}><span className={classes.commentAuthor}>{author.firstName} {author.lastName}</span>{message}</p>
-        <p className={classes.commentDate}>{getDate(date)}</p>
-      </div>
+      <Box display='flex'>
+        <Link to={`/profile/${get(author, 'username')}`}>
+          <Avatar src={getAvatarLink(author.avatar)} alt='User' />
+        </Link>
+        <div className={classes.comment}>
+          <p className={classes.commentText}>
+            <Link to={`/profile/${get(author, 'username')}`} className={classes.link}>
+              <span className={classes.commentAuthor}>
+                {getFullName(author)}
+              </span>
+            </Link>
+            {message}
+          </p>
+          <p className={classes.commentDate}>{getDate(date)}</p>
+        </div>
+      </Box>
       { showDeleteBtn &&
         <IconButton onClick={() => deleteComment(postId, id)} aria-label='delete'>
           <DeleteIcon fontSize='small' />
