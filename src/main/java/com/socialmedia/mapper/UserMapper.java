@@ -64,8 +64,8 @@ public final class UserMapper extends
     return crudService.getAllUsersFromList(userIds);
   }
 
-  public List<UserDtoOut> usersSearch(String query) {
-    return crudService.getUsersByQuery(query)
+  public List<UserDtoOut> usersSearch(String query, Pageable pageable) {
+    return crudService.getUsersByQuery(query, pageable)
         .stream()
         .map(this::responseDtoOf)
         .collect(Collectors.toList());

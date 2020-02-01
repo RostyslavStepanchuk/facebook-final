@@ -31,6 +31,10 @@ const useStyles = makeStyles(() => ({
     margin: 0,
     textAlign: 'left'
   },
+  authorLink: {
+    textDecoration: 'none',
+    color: 'black'
+  },
   tagLink: {
     color: '#4154B3',
     textDecoration: 'none',

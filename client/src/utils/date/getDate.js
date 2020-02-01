@@ -19,4 +19,3 @@ export const getActiveTime = (dateMilliseconds) => {
     return minuteDifference + ' minutes ago'
   }
 }
-

@@ -145,8 +145,8 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
     jpaRepository.save(user);
   }
 
-  public List<ApplicationUser> getUsersByQuery(String query) {
-    return jpaRepository.findAllByFirstOrLastName(query.toLowerCase());
+  public Page<ApplicationUser> getUsersByQuery(String query, Pageable pageable) {
+    return jpaRepository.findAllByFirstOrLastName(query.toLowerCase(), pageable);
   }
 
   public ApplicationUser deleteFriend(String friendUsername) {

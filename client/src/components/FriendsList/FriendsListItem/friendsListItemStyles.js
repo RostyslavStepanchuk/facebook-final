@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 const useStyles = makeStyles(() => ({
   avatar: props => ({
     paddingTop: 100,
-    width: 145,
+    width: 100,
     backgroundImage: `url(${props.avatar})`,
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
@@ -28,6 +28,10 @@ const useStyles = makeStyles(() => ({
     fontWeight: 600,
     margin: 0,
     wordBreak: 'break-word'
+  },
+  link: {
+    textDecoration: 'none',
+    color: 'black'
   },
   requestDate: {
     margin: 0,
