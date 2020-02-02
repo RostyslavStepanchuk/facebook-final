@@ -6,19 +6,42 @@ const InfiniteScroll = ({
   loadContentHandler,
   contentIsLoading,
   size = 10,
-  children }) => {
+  children,
+  isReverseDirection = false,
+  throttleDelay = 3000,
+  scrollContainerStyles
+}) => {
   const [ furtherDownloadIsBlocked, setFurtherDownloadBlocked ] = useState(false)
   const page = Math.floor(contentArr.length / size)
+  let prev = 0
 
+  let scrollDirection = null
   const handleInfiniteScroll = () => {
     const element = InfiniteScroll.scrollDiv
-    const scrolledDown = element.scrollHeight - element.offsetHeight - element.scrollTop < 100
-    if (scrolledDown && !furtherDownloadIsBlocked && !contentIsLoading) {
+    if (prev > element.scrollTop) {
+      scrollDirection = 'UP'
+    } else {
+      scrollDirection = 'DOWN'
+    }
+
+    prev = element.scrollTop
+    const scrolled = isReverseDirection
+      ? element.scrollTop < 50
+      : element.scrollHeight - element.offsetHeight - element.scrollTop < 100
+
+    const isRightDirection = isReverseDirection
+      ? scrollDirection === 'UP'
+      : true
+
+    if (scrolled &&
+    !furtherDownloadIsBlocked &&
+    !contentIsLoading &&
+    isRightDirection) {
       setFurtherDownloadBlocked(true)
       loadContentHandler(page, size, false)
       setTimeout(() => {
         setFurtherDownloadBlocked(false)
-      }, 3000)
+      }, throttleDelay)
     }
   }
 
@@ -28,15 +51,7 @@ const InfiniteScroll = ({
         InfiniteScroll.scrollDiv = input
       }}
       onScroll={handleInfiniteScroll}
-      style={{
-        position: 'absolute',
-        top: 0,
-        bottom: 0,
-        left: 0,
-        right: 0,
-        overflowX: 'hidden',
-        overflowY: 'scroll'
-      }}
+      style={scrollContainerStyles}
     >
       {children}
     </div>
@@ -50,7 +65,10 @@ InfiniteScroll.propTypes = {
   children: PropTypes.object,
   isOwnProfileViewMode: PropTypes.bool,
   userId: PropTypes.string,
-  size: PropTypes.number
+  size: PropTypes.number,
+  isReverseDirection: PropTypes.bool,
+  throttleDelay: PropTypes.number,
+  scrollContainerStyles: PropTypes.object.isRequired
 }
 
 export default InfiniteScroll

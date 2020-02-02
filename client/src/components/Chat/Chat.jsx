@@ -10,14 +10,25 @@ import { getAllChats, getMessagesForChat } from '../../actions/chat'
 
 import useStyles from './chatStyles'
 
-const Chat = ({ authUser, chats, getAllChats, chatMessages, getMessagesForChat, messagesLoading, keyForRender }) => {
+const Chat = ({ authUser,
+  chats,
+  getAllChats,
+  chatMessages,
+  getMessagesForChat,
+  messagesLoading,
+  ownMessageSend,
+  chatsLoading}) => {
   const classes = useStyles()
   const selectedChatId = +useParams().chatId
+  const loadContentHandler = getMessagesForChat.bind(null, selectedChatId)
+
+  useEffect(() => {
+    getMessagesForChat(selectedChatId, 0, 7, true)
+  }, [getMessagesForChat, selectedChatId])
 
   useEffect(() => {
     getAllChats()
-    getMessagesForChat(selectedChatId)
-  }, [getAllChats, getMessagesForChat, selectedChatId])
+  }, [getAllChats])
 
   let selectedChat
 
@@ -33,7 +44,7 @@ const Chat = ({ authUser, chats, getAllChats, chatMessages, getMessagesForChat, 
         className={classes.chatList}
         chats={chats}
         chatMessages={chatMessages}
-        messagesLoading={messagesLoading}
+        chatsLoading={chatsLoading}
       />
       {selectedChat ? (
         <ChatDetails
@@ -41,6 +52,9 @@ const Chat = ({ authUser, chats, getAllChats, chatMessages, getMessagesForChat, 
           className={classes.chatDetails}
           chat={selectedChat}
           messages={chatMessages}
+          messagesLoading={messagesLoading}
+          loadContentHandler={loadContentHandler}
+          ownMessageSend={ownMessageSend}
         />
       ) : (
         <ChatPlaceholder className={classes.chatPlaceholder} />
@@ -56,15 +70,17 @@ Chat.propTypes = {
   chatMessages: PropTypes.array,
   getMessagesForChat: PropTypes.func.isRequired,
   messagesLoading: PropTypes.bool,
-  keyForRender: PropTypes.number
+  ownMessageSend: PropTypes.bool,
+  chatsLoading: PropTypes.bool
 }
 
 const mapStateToProps = state => ({
   authUser: state.auth.user.username,
   chats: state.chat.chats,
+  chatsLoading: state.chat.chatsLoading,
   chatMessages: state.chat.chatMessages,
   messagesLoading: state.chat.messagesLoading,
-  keyForRender: state.chat.keyForRender
+  ownMessageSend: state.chat.ownMessageSend
 })
 
 export default connect(mapStateToProps, { getAllChats, getMessagesForChat })(Chat)
