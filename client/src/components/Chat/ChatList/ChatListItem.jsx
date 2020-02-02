@@ -2,13 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import {
-  Typography,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-  Avatar
-} from '@material-ui/core'
+import { Avatar, ListItem, ListItemAvatar, ListItemText, Typography } from '@material-ui/core'
 
 import Preloader from '../../Preloader/Preloader'
 import { getAvatarLink } from '../../../utils/helpers/imageLinkHelpers'
