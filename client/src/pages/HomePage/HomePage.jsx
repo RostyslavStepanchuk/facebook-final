@@ -39,6 +39,16 @@ const HomePage = ({
       loadContentHandler={loadPostsHomePage}
       contentIsLoading={postsAreLoading}
       size={POSTS_PAGE_SIZE}
+      scrollContainerStyles={{
+        height: '80vh',
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        overflowX: 'hidden',
+        overflowY: 'scroll'
+      }}
     >
       <Container className={classes.container} maxWidth='lg'>
         <Grid container spacing={2}>

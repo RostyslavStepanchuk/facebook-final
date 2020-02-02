@@ -31,7 +31,7 @@ public class ChatMessageController {
   @GetMapping("/{chatId}")
   public ResponseEntity<List<ChatMessageDtoOut>> getAllMessagesForChat(
             @PathVariable Long chatId,
-            @PageableDefault(sort = { "id" }, direction = Sort.Direction.ASC) Pageable pageable) {
+            @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable) {
     return ResponseEntity.ok(chatMessageMapper.getAllMessagesForChat(chatId, pageable));
   }
 
