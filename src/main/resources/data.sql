@@ -148,23 +148,21 @@ INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('Doin
 INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('Did you make a step project?', 1575481606043, 'testUser', 3);
 INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('No', 1575489606043, 'imaginaryUser', 3);
 INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('I have 10 more days for the project', 1575490206043, 'imaginaryUser', 3);
-INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('I have 10 more days for the project', 1575490206043, 'imaginaryUser', 3);
-INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('I have 10 more days for the project', 1575490206043, 'imaginaryUser', 3);
-INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('I have 10 more days for the project', 1575490206043, 'imaginaryUser', 3);
-INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('I have 10 more days for the project', 1575490206043, 'imaginaryUser', 3);
-INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('I have 10 more days for the project', 1575490206043, 'imaginaryUser', 3);
-INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('I have 10 more days for the project', 1575490206043, 'imaginaryUser', 3);
-INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('I have 10 more days for the project', 1575490206043, 'imaginaryUser', 3);
-INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('I have 10 more days for the project', 1575490206043, 'imaginaryUser', 3);
-INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('I have 10 more days for the project', 1575490206043, 'imaginaryUser', 3);
-INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('I have 10 more days for the project', 1575490206043, 'imaginaryUser', 3);
-INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('I have 10 more days for the project', 1575490206043, 'imaginaryUser', 3);
-INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('I have 10 more days for the project', 1575490206043, 'imaginaryUser', 3);
-INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('I have 10 more days for the project', 1575490206043, 'imaginaryUser', 3);
-INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('I have 10 more days for the project', 1575490206043, 'imaginaryUser', 3);
-INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('I have 10 more days for the project', 1575490206043, 'imaginaryUser', 3);
-INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('I have 10 more days for the project', 1575490206043, 'imaginaryUser', 3);
-INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('I have 10 more days for the project', 1575490206043, 'imaginaryUser', 3);
+INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('And what do you plan to do?', 1575490206043, 'testUser', 3);
+INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('Dont know yet', 1575490206043, 'imaginaryUser', 3);
+INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('Maybe watch couple of java tutorials', 1575490206043, 'imaginaryUser', 3);
+INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('Or read some articles on Medium', 1575490206043, 'imaginaryUser', 3);
+INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('Or do nothing and see what will happen', 1575490206043, 'imaginaryUser', 3);
+INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('Sounds like a plan, lol', 1575490206043, 'testUser', 3);
+INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('Yeah, Im kidding', 1575490206043, 'imaginaryUser', 3);
+INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('I know :) ', 1575490206043, 'testUser', 3);
+INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('You always were such a bookworm', 1575490206043, 'testUser', 3);
+INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('I dont believe something will change now', 1575490206043, 'testUser', 3);
+INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('Especially when you are starting new career', 1575490206043, 'testUser', 3);
+INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('And do thing you love', 1575490206043, 'testUser', 3);
+INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('Oh come on', 1575490206043, 'imaginaryUser', 3);
+INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('Stop this whining', 1575490206043, 'imaginaryUser', 3);
+
 
 /* tagged friends */
 INSERT INTO tagged_friends (fk_post_id, fk_tagged_username) values (1, 'imaginaryUser');
