@@ -35,7 +35,7 @@ const InfiniteScroll = ({
     !contentIsLoading &&
     !isLastPage) {
       setFurtherDownloadBlocked(true)
-        scrolledFromBottom.current = element.scrollHeight
+      scrolledFromBottom.current = element.scrollHeight
       loadContentHandler(page, size, false)
       setTimeout(() => {
         setFurtherDownloadBlocked(false)
