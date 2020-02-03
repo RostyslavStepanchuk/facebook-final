@@ -78,7 +78,7 @@ Chat.propTypes = {
   messagesLoading: PropTypes.bool,
   ownMessageSend: PropTypes.bool,
   chatsLoading: PropTypes.bool,
-  isLastPageInChat: PropTypes.bool,
+  isLastPageInChat: PropTypes.bool
 }
 
 const mapStateToProps = state => ({
