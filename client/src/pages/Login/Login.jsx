@@ -10,6 +10,8 @@ import Preloader from '../../components/Preloader/Preloader'
 import usestyles from './loginStyles'
 import Paper from '@material-ui/core/Paper'
 
+const googleLogo = '/google-icon.svg'
+
 const Login = ({ isAuthenticated, login, loading }) => {
   const classes = usestyles()
 
@@ -45,6 +47,10 @@ const Login = ({ isAuthenticated, login, loading }) => {
     setFormData({ ...formData, ...errors })
 
     return isError
+  }
+
+  const proceedToGoogleOauth = () => {
+    window.location.replace('http://localhost:8080/login/oauth2/code/google')
   }
 
   const onSubmit = async e => {
@@ -111,6 +117,15 @@ const Login = ({ isAuthenticated, login, loading }) => {
           />
           <Button type='submit' fullWidth variant='contained' color='primary' className={classes.submit}>
             Sign In
+          </Button>
+          <Button
+            fullWidth
+            variant='contained'
+            color='default'
+            className={classes.googleBtn}
+            onClick={proceedToGoogleOauth}
+          >
+            <img src={googleLogo} alt='google logo' className={classes.googleIcon} /> Sign in with Google
           </Button>
           <Grid container>
             <Grid item xs>
