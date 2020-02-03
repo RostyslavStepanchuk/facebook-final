@@ -7,7 +7,14 @@ import InfiniteScroll from '../../../InfiniteScroll/InfiniteScroll'
 
 import useStyles from './chatMessagesStyles'
 
-const ChatMessages = ({ authUser, messages, className, messagesLoading, loadContentHandler, ownMessageSend }) => {
+const ChatMessages = ({
+  authUser,
+  messages,
+  className,
+  messagesLoading,
+  loadContentHandler,
+  ownMessageSend,
+  isLastPageInChat }) => {
   const classes = useStyles()
   let isInitialScroll = useRef(true)
   const scrollToBottom = () => {
@@ -30,6 +37,7 @@ const ChatMessages = ({ authUser, messages, className, messagesLoading, loadCont
       loadContentHandler={loadContentHandler}
       size={7}
       throttleDelay={1000}
+      isLastPage={isLastPageInChat}
       scrollContainerStyles={{
         height: '80vh',
         overflowX: 'hidden',
@@ -71,7 +79,8 @@ ChatMessages.propTypes = {
   messages: PropTypes.array.isRequired,
   messagesLoading: PropTypes.bool,
   loadContentHandler: PropTypes.func.isRequired,
-  ownMessageSend: PropTypes.bool
+  ownMessageSend: PropTypes.bool,
+  isLastPageInChat: PropTypes.bool
 }
 
 export default ChatMessages

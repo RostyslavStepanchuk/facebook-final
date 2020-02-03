@@ -4,6 +4,7 @@ import com.socialmedia.dto.chat.message.ChatMessageDtoIn;
 import com.socialmedia.dto.chat.message.ChatMessageDtoOut;
 import com.socialmedia.mapper.ChatMessageMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -29,7 +30,7 @@ public class ChatMessageController {
   }
 
   @GetMapping("/{chatId}")
-  public ResponseEntity<List<ChatMessageDtoOut>> getAllMessagesForChat(
+  public ResponseEntity<Page<ChatMessageDtoOut>> getAllMessagesForChat(
             @PathVariable Long chatId,
             @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable) {
     return ResponseEntity.ok(chatMessageMapper.getAllMessagesForChat(chatId, pageable));

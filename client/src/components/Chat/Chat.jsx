@@ -17,7 +17,9 @@ const Chat = ({ authUser,
   getMessagesForChat,
   messagesLoading,
   ownMessageSend,
-  chatsLoading}) => {
+  chatsLoading,
+  isLastPageInChat
+}) => {
   const classes = useStyles()
   const selectedChatId = +useParams().chatId
   const loadContentHandler = getMessagesForChat.bind(null, selectedChatId)
@@ -55,6 +57,7 @@ const Chat = ({ authUser,
           messagesLoading={messagesLoading}
           loadContentHandler={loadContentHandler}
           ownMessageSend={ownMessageSend}
+          isLastPageInChat={isLastPageInChat}
         />
       ) : (
         <ChatPlaceholder className={classes.chatPlaceholder} />
@@ -71,7 +74,8 @@ Chat.propTypes = {
   getMessagesForChat: PropTypes.func.isRequired,
   messagesLoading: PropTypes.bool,
   ownMessageSend: PropTypes.bool,
-  chatsLoading: PropTypes.bool
+  chatsLoading: PropTypes.bool,
+  isLastPageInChat: PropTypes.bool,
 }
 
 const mapStateToProps = state => ({
@@ -80,7 +84,8 @@ const mapStateToProps = state => ({
   chatsLoading: state.chat.chatsLoading,
   chatMessages: state.chat.chatMessages,
   messagesLoading: state.chat.messagesLoading,
-  ownMessageSend: state.chat.ownMessageSend
+  ownMessageSend: state.chat.ownMessageSend,
+  isLastPageInChat: state.chat.isLastPageInChat
 })
 
 export default connect(mapStateToProps, { getAllChats, getMessagesForChat })(Chat)
