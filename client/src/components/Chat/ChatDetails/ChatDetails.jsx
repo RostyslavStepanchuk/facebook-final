@@ -9,7 +9,16 @@ import SendMessage from './SendMessage/SendMessage'
 
 import useStyles from './chatDetailsStyles'
 
-const ChatDetails = ({ authUser, chat, messages, className, messagesLoading, loadContentHandler, ownMessageSend }) => {
+const ChatDetails = ({
+  authUser,
+  chat,
+  messages,
+  className,
+  messagesLoading,
+  loadContentHandler,
+  ownMessageSend,
+  isLastPageInChat
+}) => {
   const classes = useStyles()
 
   return (
@@ -24,6 +33,7 @@ const ChatDetails = ({ authUser, chat, messages, className, messagesLoading, loa
         messagesLoading={messagesLoading}
         loadContentHandler={loadContentHandler}
         ownMessageSend={ownMessageSend}
+        isLastPageInChat={isLastPageInChat}
       />
       <Divider />
       <SendMessage chatId={chat.id} />
@@ -38,7 +48,8 @@ ChatDetails.propTypes = {
   authUser: PropTypes.string.isRequired,
   messagesLoading: PropTypes.bool,
   loadContentHandler: PropTypes.func.isRequired,
-  ownMessageSend: PropTypes.bool
+  ownMessageSend: PropTypes.bool,
+  isLastPageInChat: PropTypes.bool
 }
 
 export default ChatDetails

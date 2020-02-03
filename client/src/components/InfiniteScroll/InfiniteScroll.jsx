@@ -9,7 +9,8 @@ const InfiniteScroll = ({
   children,
   isReverseDirection = false,
   throttleDelay = 3000,
-  scrollContainerStyles
+  scrollContainerStyles,
+  isLastPage = false
 }) => {
   const [ furtherDownloadIsBlocked, setFurtherDownloadBlocked ] = useState(false)
   const page = Math.floor(contentArr.length / size)
@@ -36,7 +37,8 @@ const InfiniteScroll = ({
     if (scrolled &&
     !furtherDownloadIsBlocked &&
     !contentIsLoading &&
-    isRightDirection) {
+    isRightDirection &&
+    !isLastPage) {
       setFurtherDownloadBlocked(true)
       loadContentHandler(page, size, false)
       setTimeout(() => {
@@ -68,7 +70,8 @@ InfiniteScroll.propTypes = {
   size: PropTypes.number,
   isReverseDirection: PropTypes.bool,
   throttleDelay: PropTypes.number,
-  scrollContainerStyles: PropTypes.object.isRequired
+  scrollContainerStyles: PropTypes.object.isRequired,
+  isLastPage: PropTypes.bool
 }
 
 export default InfiniteScroll

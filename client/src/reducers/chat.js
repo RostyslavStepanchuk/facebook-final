@@ -15,7 +15,8 @@ const initialState = {
   chatsLoading: false,
   chatMessages: [],
   messagesLoading: false,
-  ownMessageSend: false
+  ownMessageSend: false,
+  isLastPageInChat: false
 }
 
 export default function (state = initialState, action) {
@@ -39,9 +40,10 @@ export default function (state = initialState, action) {
 
     case MESSAGES_RECEIVED:
       return { ...state,
-        chatMessages: addPagedPayload(state.chatMessages, payload, 'id'),
+        chatMessages: addPagedPayload(state.chatMessages, payload.content, 'id'),
         messagesLoading: false,
-        ownMessageSend: false
+        ownMessageSend: false,
+        isLastPageInChat: payload.last
       }
 
     case RESET_RECEIVED_MESSAGES:
