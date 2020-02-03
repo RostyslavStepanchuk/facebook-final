@@ -27,14 +27,16 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
   private UserDetailsService userDetailsService;
   private BCryptPasswordEncoder bcryptPasswordEncoder;
   private JwtAuthenticationFilter jwtAuthenticationFilter;
+  private OauthSuccessHandler oauthSuccessHandler;
 
   @Autowired
-  public WebSecurity(@Qualifier("UserDetailsServiceImpl")UserDetailsService userDetailsService,
+  public WebSecurity(@Qualifier("UserDetailsServiceImpl") UserDetailsService userDetailsService,
                      BCryptPasswordEncoder bcryptPasswordEncoder,
-                     @Lazy JwtAuthenticationFilter jwtAuthenticationFilter) {
+                     @Lazy JwtAuthenticationFilter jwtAuthenticationFilter, OauthSuccessHandler oauthSuccessHandler) {
     this.userDetailsService = userDetailsService;
     this.bcryptPasswordEncoder = bcryptPasswordEncoder;
     this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+    this.oauthSuccessHandler = oauthSuccessHandler;
   }
 
   @Override
@@ -48,6 +50,9 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         .antMatchers(HttpMethod.GET, CONFIRM_EMAIL_URL).permitAll()
         .antMatchers(HttpMethod.GET, "/**/*swagger*/**", "/v2/api-docs").permitAll()
         .anyRequest().authenticated()
+        .and()
+        .oauth2Login()
+        .successHandler(oauthSuccessHandler)
         .and()
         .addFilter(jwtAuthenticationFilter)
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
