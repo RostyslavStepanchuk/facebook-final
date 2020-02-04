@@ -35,12 +35,11 @@ const HomePage = ({
 
   return (
     <InfiniteScroll
-      contentArr={posts}
+      contentArrLength={posts.length}
       loadContentHandler={loadPostsHomePage}
       contentIsLoading={postsAreLoading}
       size={POSTS_PAGE_SIZE}
       scrollContainerStyles={{
-        height: '80vh',
         position: 'absolute',
         top: 0,
         bottom: 0,

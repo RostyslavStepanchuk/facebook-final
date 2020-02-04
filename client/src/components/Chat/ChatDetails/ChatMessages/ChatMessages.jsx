@@ -7,21 +7,24 @@ import InfiniteScroll from '../../../InfiniteScroll/InfiniteScroll'
 
 import useStyles from './chatMessagesStyles'
 
+const MESSAGES_PAGE_SIZE = 7
+
 const ChatMessages = ({
   authUser,
   messages,
   className,
   messagesLoading,
   loadContentHandler,
-  ownMessageSend,
-  isLastPageInChat }) => {
+  ownMessageSent,
+  isLastPageInChat
+}) => {
   const classes = useStyles()
   let isInitialScroll = useRef(true)
   const scrollToBottom = () => {
     ChatMessages.messagesEnd.scrollIntoView({ behavior: 'smooth' })
   }
   useEffect(() => {
-    if (isInitialScroll.current || ownMessageSend) {
+    if (isInitialScroll.current || ownMessageSent) {
       scrollToBottom()
     } else {
       setTimeout(() => { ChatMessages.messagesStart.scrollIntoView({ behavior: 'smooth' }) }, 500)
@@ -33,9 +36,9 @@ const ChatMessages = ({
     <InfiniteScroll
       isReverseDirection
       contentIsLoading={messagesLoading}
-      contentArr={messages}
+      contentArrLength={messages.length}
       loadContentHandler={loadContentHandler}
-      size={7}
+      pageSize={MESSAGES_PAGE_SIZE}
       throttleDelay={1000}
       isLastPage={isLastPageInChat}
       scrollContainerStyles={{
@@ -79,7 +82,7 @@ ChatMessages.propTypes = {
   messages: PropTypes.array.isRequired,
   messagesLoading: PropTypes.bool,
   loadContentHandler: PropTypes.func.isRequired,
-  ownMessageSend: PropTypes.bool,
+  ownMessageSent: PropTypes.bool,
   isLastPageInChat: PropTypes.bool
 }
 
