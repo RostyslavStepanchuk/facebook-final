@@ -19,12 +19,13 @@ public class AuthenticationMapper {
 
   public Token getAccessToken(UserCredentials credentials) {
 
-    return authenticationService.getAccessToken(credentials);
+    return new Token(authenticationService.getAccessToken(credentials));
   }
 
   public Token getAccessTokenByRefreshToken(String refreshToken, String username) {
 
-    return authenticationService.getAccessTokenByRefreshToken(refreshToken, username);
+    String token = authenticationService.getAccessTokenByRefreshToken(refreshToken, username);
+    return new Token(token);
   }
 
   public String generateRefreshToken(String username) {

@@ -1,6 +1,5 @@
 package com.socialmedia.service;
 
-import com.socialmedia.dto.security.Token;
 import com.socialmedia.exception.NoDataFoundException;
 import com.socialmedia.model.ApplicationUser;
 import com.socialmedia.model.FriendshipStatus;
@@ -73,7 +72,7 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
     return jpaRepository.findAll();
   }
 
-  public Token signUp(ApplicationUser user) {
+  public String signUp(ApplicationUser user) {
 
     if (jpaRepository.findById(user.getUsername()).isPresent()) {
       throw new BadCredentialsException(String.format("User with username %s already exists", user.getUsername()));
@@ -231,5 +230,10 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
     ApplicationUser user = getById(principal.getName());
     long activityTime = System.currentTimeMillis() - LAST_THRESHOLD_OF_ONLINE_ACTIVITY;
     return jpaRepository.getActiveFriends(user, activityTime, pageable);
+  }
+
+  public ApplicationUser getUserByEmail(String email) {
+    return jpaRepository.findByEmail(email)
+        .orElseThrow(() -> new BadCredentialsException("Provided google account has no registered users"));
   }
 }
