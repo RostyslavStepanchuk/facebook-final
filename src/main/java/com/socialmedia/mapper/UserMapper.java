@@ -31,7 +31,7 @@ public final class UserMapper extends
 
   public Token signUp(UserRegistrationDtoIn registrationData) {
 
-    return crudService.signUp(entityOf(registrationData));
+    return new Token(crudService.signUp(entityOf(registrationData)));
   }
 
   @Override

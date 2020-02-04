@@ -27,14 +27,20 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
   private UserDetailsService userDetailsService;
   private BCryptPasswordEncoder bcryptPasswordEncoder;
   private JwtAuthenticationFilter jwtAuthenticationFilter;
+  private OauthSuccessHandler oauthSuccessHandler;
+  private OauthRedirectBlocker oauthRedirectBlocker;
 
   @Autowired
-  public WebSecurity(@Qualifier("UserDetailsServiceImpl")UserDetailsService userDetailsService,
+  public WebSecurity(@Qualifier("UserDetailsServiceImpl") UserDetailsService userDetailsService,
                      BCryptPasswordEncoder bcryptPasswordEncoder,
-                     @Lazy JwtAuthenticationFilter jwtAuthenticationFilter) {
+                     @Lazy JwtAuthenticationFilter jwtAuthenticationFilter,
+                     OauthSuccessHandler oauthSuccessHandler,
+                     OauthRedirectBlocker oauthRedirectBlocker) {
     this.userDetailsService = userDetailsService;
     this.bcryptPasswordEncoder = bcryptPasswordEncoder;
     this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+    this.oauthSuccessHandler = oauthSuccessHandler;
+    this.oauthRedirectBlocker = oauthRedirectBlocker;
   }
 
   @Override
@@ -49,7 +55,12 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         .antMatchers(HttpMethod.GET, "/**/*swagger*/**", "/v2/api-docs").permitAll()
         .anyRequest().authenticated()
         .and()
+        .oauth2Login()
+        .successHandler(oauthSuccessHandler)
+        .and()
         .addFilter(jwtAuthenticationFilter)
+        .exceptionHandling().authenticationEntryPoint(oauthRedirectBlocker)
+        .and()
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
   }
 
@@ -63,5 +74,4 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
   public AuthenticationManager authenticationManagerBean() throws Exception {
     return super.authenticationManagerBean();
   }
-
 }
