@@ -10,13 +10,16 @@ import { getAllChats, getMessagesForChat } from '../../actions/chat'
 
 import useStyles from './chatStyles'
 
+const MESSAGES_PAGE_SIZE = 7
+const FIRST_PAGE = 0
+
 const Chat = ({ authUser,
   chats,
   getAllChats,
   chatMessages,
   getMessagesForChat,
   messagesLoading,
-  ownMessageSend,
+  ownMessageSent,
   chatsLoading,
   isLastPageInChat
 }) => {
@@ -25,7 +28,7 @@ const Chat = ({ authUser,
   const loadContentHandler = getMessagesForChat.bind(null, selectedChatId)
 
   useEffect(() => {
-    getMessagesForChat(selectedChatId, 0, 7, true)
+    getMessagesForChat(selectedChatId, FIRST_PAGE, MESSAGES_PAGE_SIZE, true)
   }, [getMessagesForChat, selectedChatId])
 
   useEffect(() => {
@@ -56,7 +59,7 @@ const Chat = ({ authUser,
           messages={chatMessages}
           messagesLoading={messagesLoading}
           loadContentHandler={loadContentHandler}
-          ownMessageSend={ownMessageSend}
+          ownMessageSent={ownMessageSent}
           isLastPageInChat={isLastPageInChat}
         />
       ) : (
@@ -73,7 +76,7 @@ Chat.propTypes = {
   chatMessages: PropTypes.array,
   getMessagesForChat: PropTypes.func.isRequired,
   messagesLoading: PropTypes.bool,
-  ownMessageSend: PropTypes.bool,
+  ownMessageSent: PropTypes.bool,
   chatsLoading: PropTypes.bool,
   isLastPageInChat: PropTypes.bool,
 }
@@ -84,7 +87,7 @@ const mapStateToProps = state => ({
   chatsLoading: state.chat.chatsLoading,
   chatMessages: state.chat.chatMessages,
   messagesLoading: state.chat.messagesLoading,
-  ownMessageSend: state.chat.ownMessageSend,
+  ownMessageSent: state.chat.ownMessageSent,
   isLastPageInChat: state.chat.isLastPageInChat
 })
 

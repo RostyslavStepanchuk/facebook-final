@@ -15,7 +15,7 @@ const initialState = {
   chatsLoading: false,
   chatMessages: [],
   messagesLoading: false,
-  ownMessageSend: false,
+  ownMessageSent: false,
   isLastPageInChat: false
 }
 
@@ -42,7 +42,7 @@ export default function (state = initialState, action) {
       return { ...state,
         chatMessages: addPagedPayload(state.chatMessages, payload.content, 'id'),
         messagesLoading: false,
-        ownMessageSend: false,
+        ownMessageSent: false,
         isLastPageInChat: payload.last
       }
 
@@ -52,7 +52,7 @@ export default function (state = initialState, action) {
     case SEND_MESSAGE:
       return { ...state,
         chatMessages: [payload, ...state.chatMessages.reverse()],
-        ownMessageSend: true
+        ownMessageSent: true
       }
 
     default:
