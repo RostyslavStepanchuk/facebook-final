@@ -6,7 +6,9 @@ import {
   POSTS_END_LOADING,
   POSTS_RECEIVED,
   POSTS_START_LOADING,
-  RESET_RECEIVED_POSTS
+  RESET_RECEIVED_POSTS,
+  TAG_REMOVED,
+  POST_UPDATED
 } from '../utils/constants/actionsName'
 import { addPagedPayload } from '../utils/helpers/payloadAdapter'
 
@@ -42,6 +44,14 @@ export default function (state = initialState, action) {
       return { ...state, posts: result, loading: false }
     }
 
+    case POST_UPDATED: {
+      let result = [...state.posts].map(post => {
+        if (post.id === payload.postId) return payload.post
+        return post
+      })
+      return { ...state, posts: result, loading: false }
+    }
+
     case POST_DELETED: {
       let result = [...state.posts].filter(post => post.id !== payload.postId)
       return { ...state, posts: result, loading: false }
@@ -60,6 +70,19 @@ export default function (state = initialState, action) {
         if (post.id === payload.postId) return payload.post
         return post
       })
+      return { ...state, posts: result, loading: false }
+    }
+
+    case TAG_REMOVED: {
+      let flag = true
+      let result = [...state.posts].map(post => {
+        if (post.id === payload.postId && post.owner.username === payload.tagOwnerUsername) {
+          flag = false
+          return payload.post
+        } else return post
+      })
+      if (flag) result = result.filter(post => post.id !== payload.postId)
+
       return { ...state, posts: result, loading: false }
     }
 

@@ -65,7 +65,7 @@ public class PostController {
     return ResponseEntity.ok(postDtoOut);
   }
 
-
+  @Transactional
   @PutMapping("/{id}")
   public ResponseEntity<PostDtoOut> update(@PathVariable Long id, @RequestBody PostDtoIn post) {
     PostDtoOut postDtoOut = postMapper.update(id, post);
@@ -105,5 +105,10 @@ public class PostController {
   @PostMapping("/{postId}/tag_friends")
   public ResponseEntity<PostDtoOut> tagFriends(@PathVariable Long postId, @RequestBody ArrayList<String> taggedUserNames) {
     return ResponseEntity.ok(postMapper.tagFriends(postId, taggedUserNames));
+  }
+
+  @DeleteMapping("/{postId}/tag_friends")
+  public ResponseEntity<PostDtoOut> deletePrincipalTagFromPost(@PathVariable Long postId) {
+    return ResponseEntity.ok(postMapper.deletePrincipalTagFromPost(postId));
   }
 }

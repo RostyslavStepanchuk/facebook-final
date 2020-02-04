@@ -15,15 +15,23 @@ import { getFullName } from '../../../utils/helpers/formatters'
 import { getDate } from '../../../utils/date/getDate'
 import { get } from 'lodash'
 
-const PostAuthor = ({ postId, author, owner, date, user, taggedFriends }) => {
+const PostAuthor = ({ postId, author, owner, date, user, taggedFriends, updateRef, openUpdateWindow, handleToggleUpdate }) => {
   const classes = useStyles()
 
   let nextToUsernameLine = null
   let belowUsernameLine = null
 
   if (author.username !== owner.username) {
-    nextToUsernameLine = <Fragment><ArrowRightIcon className={classes.arrowRight} /> <span>{getFullName(owner)}</span> </Fragment>
+    nextToUsernameLine = <Fragment>
+      <ArrowRightIcon className={classes.arrowRight} />
+      <span>
+        <Link to={`/profile/${get(owner, 'username')}`} className={classes.authorLink}>
+          {getFullName(owner)}
+        </Link>
+      </span>
+    </Fragment>
   }
+
   if (taggedFriends.length > 0) {
     const firstTagged = <Link to={'/profile/' + taggedFriends[0].username} className={classes.tagLink}>{`${taggedFriends[0].firstName} ${taggedFriends[0].lastName}`}</Link>
     const otherTaggedLine = taggedFriends.length > 1 ? <span>{'and '}<TaggedFriendsSelect taggedFriends={taggedFriends.slice(1)} /></span> : null
@@ -34,6 +42,7 @@ const PostAuthor = ({ postId, author, owner, date, user, taggedFriends }) => {
       belowUsernameLine = <p className={classes.lineBelowUsername}>{taggedFriendsLine}</p>
     }
   }
+
   return (
     <Grid container justify='space-between' >
       <Grid item className={classes.user}>
@@ -58,6 +67,9 @@ const PostAuthor = ({ postId, author, owner, date, user, taggedFriends }) => {
           owner={owner}
           user={user}
           taggedUsers={taggedFriends}
+          updateRef={updateRef}
+          openUpdateWindow={openUpdateWindow}
+          handleToggleUpdate={handleToggleUpdate}
         />
       </Grid>
     </Grid>
@@ -70,7 +82,10 @@ PostAuthor.propTypes = {
   owner: PropTypes.object.isRequired,
   date: PropTypes.number.isRequired,
   user: PropTypes.object.isRequired,
-  taggedFriends: PropTypes.array.isRequired
+  taggedFriends: PropTypes.array.isRequired,
+  updateRef: PropTypes.object.isRequired,
+  openUpdateWindow: PropTypes.bool.isRequired,
+  handleToggleUpdate: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
