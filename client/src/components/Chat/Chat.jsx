@@ -19,7 +19,7 @@ const Chat = ({ authUser,
   chatMessages,
   getMessagesForChat,
   messagesLoading,
-  ownMessageSend,
+  ownMessageSent,
   chatsLoading,
   isLastPageInChat
 }) => {
@@ -59,7 +59,7 @@ const Chat = ({ authUser,
           messages={chatMessages}
           messagesLoading={messagesLoading}
           loadContentHandler={loadContentHandler}
-          ownMessageSend={ownMessageSend}
+          ownMessageSent={ownMessageSent}
           isLastPageInChat={isLastPageInChat}
         />
       ) : (
@@ -76,7 +76,7 @@ Chat.propTypes = {
   chatMessages: PropTypes.array,
   getMessagesForChat: PropTypes.func.isRequired,
   messagesLoading: PropTypes.bool,
-  ownMessageSend: PropTypes.bool,
+  ownMessageSent: PropTypes.bool,
   chatsLoading: PropTypes.bool,
   isLastPageInChat: PropTypes.bool
 }
@@ -87,7 +87,7 @@ const mapStateToProps = state => ({
   chatsLoading: state.chat.chatsLoading,
   chatMessages: state.chat.chatMessages,
   messagesLoading: state.chat.messagesLoading,
-  ownMessageSend: state.chat.ownMessageSend,
+  ownMessageSent: state.chat.ownMessageSent,
   isLastPageInChat: state.chat.isLastPageInChat
 })
 

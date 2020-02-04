@@ -2,10 +2,10 @@ import React, { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 
 const InfiniteScroll = ({
-  contentArr,
+  contentArrLength,
   loadContentHandler,
   contentIsLoading,
-  size = 10,
+  pageSize = 10,
   children,
   isReverseDirection = false,
   throttleDelay = 3000,
@@ -13,7 +13,7 @@ const InfiniteScroll = ({
   isLastPage = false
 }) => {
   const [ furtherDownloadIsBlocked, setFurtherDownloadBlocked ] = useState(false)
-  const page = Math.floor(contentArr.length / size)
+  const page = Math.floor(contentArrLength / size)
   let scrolledFromBottom = useRef(0)
 
   useEffect(() => {
@@ -36,7 +36,7 @@ const InfiniteScroll = ({
     !isLastPage) {
       setFurtherDownloadBlocked(true)
       scrolledFromBottom.current = element.scrollHeight
-      loadContentHandler(page, size, false)
+      loadContentHandler(page, pageSize, false)
       setTimeout(() => {
         setFurtherDownloadBlocked(false)
       }, throttleDelay)
@@ -57,13 +57,13 @@ const InfiniteScroll = ({
 }
 
 InfiniteScroll.propTypes = {
-  contentArr: PropTypes.array.isRequired,
+  contentArrLength: PropTypes.number.isRequired,
   loadContentHandler: PropTypes.func.isRequired,
   contentIsLoading: PropTypes.bool.isRequired,
   children: PropTypes.object,
   isOwnProfileViewMode: PropTypes.bool,
   userId: PropTypes.string,
-  size: PropTypes.number,
+  pageSize: PropTypes.number,
   isReverseDirection: PropTypes.bool,
   throttleDelay: PropTypes.number,
   scrollContainerStyles: PropTypes.object.isRequired,
