@@ -15,7 +15,7 @@ import { getFullName } from '../../../utils/helpers/formatters'
 import { getDate } from '../../../utils/date/getDate'
 import { get } from 'lodash'
 
-const PostAuthor = ({ postId, author, owner, date, user, taggedFriends }) => {
+const PostAuthor = ({ postId, author, owner, date, user, taggedFriends, updateRef, openUpdateWindow, handleToggleUpdate }) => {
   const classes = useStyles()
 
   let nextToUsernameLine = null
@@ -67,6 +67,9 @@ const PostAuthor = ({ postId, author, owner, date, user, taggedFriends }) => {
           owner={owner}
           user={user}
           taggedUsers={taggedFriends}
+          updateRef={updateRef}
+          openUpdateWindow={openUpdateWindow}
+          handleToggleUpdate={handleToggleUpdate}
         />
       </Grid>
     </Grid>
@@ -79,7 +82,10 @@ PostAuthor.propTypes = {
   owner: PropTypes.object.isRequired,
   date: PropTypes.number.isRequired,
   user: PropTypes.object.isRequired,
-  taggedFriends: PropTypes.array.isRequired
+  taggedFriends: PropTypes.array.isRequired,
+  updateRef: PropTypes.object.isRequired,
+  openUpdateWindow: PropTypes.bool.isRequired,
+  handleToggleUpdate: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({

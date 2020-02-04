@@ -7,7 +7,8 @@ import {
   POSTS_RECEIVED,
   POSTS_START_LOADING,
   RESET_RECEIVED_POSTS,
-  TAG_REMOVED
+  TAG_REMOVED,
+  POST_UPDATED
 } from '../utils/constants/actionsName'
 import { addPagedPayload } from '../utils/helpers/payloadAdapter'
 
@@ -36,6 +37,16 @@ export default function (state = initialState, action) {
       }
 
     case LIKES_UPDATED: {
+      let result = [...state.posts].map(post => {
+        if (post.id === payload.postId) return payload.post
+        return post
+      })
+      return { ...state, posts: result, loading: false }
+    }
+
+    case POST_UPDATED: {
+      console.log(payload.postId)
+      console.log(payload.post)
       let result = [...state.posts].map(post => {
         if (post.id === payload.postId) return payload.post
         return post

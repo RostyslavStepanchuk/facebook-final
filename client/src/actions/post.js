@@ -8,7 +8,8 @@ import {
   POSTS_RECEIVED,
   POSTS_START_LOADING,
   RESET_RECEIVED_POSTS,
-  TAG_REMOVED
+  TAG_REMOVED,
+  POST_UPDATED
 } from '../utils/constants/actionsName'
 import { Toastr } from '../utils/toastr/Toastr'
 import apiRequest from '../utils/helpers/apiRequest'
@@ -47,6 +48,25 @@ export const createPost = (profileOwnerUsername, message, images, taggedFriends,
 
   return apiRequest.post('/posts/' + profileOwnerUsername, body)
     .then(() => window.location.reload())
+}
+
+export const updatePost = (postId, message, images, taggedFriends, isShownToEveryone) => async dispatch => {
+  const body = {
+    message,
+    image: images[0],
+    showEveryone: isShownToEveryone,
+    taggedUsers: taggedFriends
+  }
+
+  try {
+    const post = await apiRequest.put('/posts/' + postId, body)
+    dispatch({
+      type: POST_UPDATED,
+      payload: { postId, post }
+    })
+  } catch (e) {
+    Toastr.error('Something goes wrong! Please try again later')
+  }
 }
 
 const getPosts = async (dispatch, url, params, isInitialRequest) => {
@@ -133,9 +153,9 @@ export const deleteComment = (postId, commentId) => async dispatch => {
   }
 }
 
-export const deleteCurrentUserTagFromPost  = (postId, tagOwnerUsername) => async dispatch => {
+export const deleteCurrentUserTagFromPost = (postId, tagOwnerUsername) => async dispatch => {
   try {
-    const post = await apiRequest.delete('/posts/' + postId + '/tag_friends' )
+    const post = await apiRequest.delete('/posts/' + postId + '/tag_friends')
     dispatch({
       type: TAG_REMOVED,
       payload: { postId, post, tagOwnerUsername }
