@@ -103,4 +103,8 @@ public class PostMapper extends AbstractControllerToCrudServiceMapper<Post,Long,
   public PostDtoOut tagFriends(Long postId, ArrayList<String> taggedUserNames) {
     return responseDtoOf(crudService.tagFriends(postId, taggedUserNames));
   }
+
+  public PostDtoOut deletePrincipalTagFromPost(Long postId) {
+    return responseDtoOf(crudService.deletePrincipalTagFromPost(postId));
+  }
 }

@@ -102,7 +102,7 @@ const ProfilePage = ({
             </Paper>
           </Grid>
           <Grid item xs={9} sm={5} className={classes.feedColumn}>
-            <CreatePost />
+            <CreatePost profileOwner={profileOwner} />
             <PostFeed />
           </Grid>
         </Fragment>
