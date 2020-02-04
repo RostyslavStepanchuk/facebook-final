@@ -13,7 +13,7 @@ const InfiniteScroll = ({
   isLastPage = false
 }) => {
   const [ furtherDownloadIsBlocked, setFurtherDownloadBlocked ] = useState(false)
-  const page = Math.floor(contentArrLength / size)
+  const page = Math.floor(contentArrLength / pageSize)
   let scrolledFromBottom = useRef(0)
 
   useEffect(() => {
