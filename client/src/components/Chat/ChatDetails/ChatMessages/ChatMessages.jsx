@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 
@@ -19,17 +19,13 @@ const ChatMessages = ({
   isLastPageInChat
 }) => {
   const classes = useStyles()
-  let isInitialScroll = useRef(true)
   const scrollToBottom = () => {
     ChatMessages.messagesEnd.scrollIntoView({ behavior: 'smooth' })
   }
   useEffect(() => {
-    if (isInitialScroll.current || ownMessageSent) {
+    if (ownMessageSent) {
       scrollToBottom()
-    } else {
-      setTimeout(() => { ChatMessages.messagesStart.scrollIntoView({ behavior: 'smooth' }) }, 500)
     }
-    setTimeout(() => { isInitialScroll.current = false }, 500)
   })
 
   return (
@@ -54,7 +50,6 @@ const ChatMessages = ({
             .map((message, index) => {
               return index === 1 ? (
                 <div
-                  ref={(el) => { ChatMessages.messagesStart = el }}
                   key={message.id}>
                   <ChatMessage
                     message={message}
