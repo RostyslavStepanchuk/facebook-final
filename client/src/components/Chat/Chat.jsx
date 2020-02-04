@@ -10,8 +10,8 @@ import { getAllChats, getMessagesForChat } from '../../actions/chat'
 
 import useStyles from './chatStyles'
 
-const MESSAGES_PAGE_SIZE = 7
 const FIRST_PAGE = 0
+const PAGE_SIZE = 12
 
 const Chat = ({ authUser,
   chats,
@@ -28,7 +28,7 @@ const Chat = ({ authUser,
   const loadContentHandler = getMessagesForChat.bind(null, selectedChatId)
 
   useEffect(() => {
-    getMessagesForChat(selectedChatId, FIRST_PAGE, MESSAGES_PAGE_SIZE, true)
+    getMessagesForChat(selectedChatId, FIRST_PAGE, PAGE_SIZE, true)
   }, [getMessagesForChat, selectedChatId])
 
   useEffect(() => {
@@ -78,7 +78,7 @@ Chat.propTypes = {
   messagesLoading: PropTypes.bool,
   ownMessageSent: PropTypes.bool,
   chatsLoading: PropTypes.bool,
-  isLastPageInChat: PropTypes.bool,
+  isLastPageInChat: PropTypes.bool
 }
 
 const mapStateToProps = state => ({
