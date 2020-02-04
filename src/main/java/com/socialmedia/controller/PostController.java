@@ -65,7 +65,7 @@ public class PostController {
     return ResponseEntity.ok(postDtoOut);
   }
 
-
+  @Transactional
   @PutMapping("/{id}")
   public ResponseEntity<PostDtoOut> update(@PathVariable Long id, @RequestBody PostDtoIn post) {
     PostDtoOut postDtoOut = postMapper.update(id, post);

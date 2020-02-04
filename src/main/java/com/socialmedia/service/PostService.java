@@ -65,6 +65,13 @@ public final class PostService extends AbstractCrudService<Post, Long, PostRepos
 
   @Override
   public Post update(Post existingEntity, Post incomingEntity) {
+    incomingEntity.setDate(System.currentTimeMillis());
+    if (incomingEntity.getImage() != null) {
+      Image postImage = imageService.getById(incomingEntity.getImage().getId());
+      incomingEntity.setImage(postImage);
+    } else {
+      existingEntity.setImage(null);
+    }
     return super.update(existingEntity, incomingEntity);
   }
 
