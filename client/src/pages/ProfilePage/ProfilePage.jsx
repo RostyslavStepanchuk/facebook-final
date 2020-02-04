@@ -65,9 +65,18 @@ const ProfilePage = ({
 
   return profileLoading ? <Preloader /> : (
     <InfiniteScroll
-      contentArr={posts}
+      contentArrLength={posts.length}
       loadContentHandler={loadUserPosts}
       contentIsLoading={postsAreLoading}
+      scrollContainerStyles={{
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        overflowX: 'hidden',
+        overflowY: 'scroll'
+      }}
     >
       <Grid container className={classes.gridContainer}>
         <Grid item xs={9}>

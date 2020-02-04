@@ -16,7 +16,7 @@ const ChatDetails = ({
   className,
   messagesLoading,
   loadContentHandler,
-  ownMessageSend,
+  ownMessageSent,
   isLastPageInChat
 }) => {
   const classes = useStyles()
@@ -32,7 +32,7 @@ const ChatDetails = ({
         authUser={authUser}
         messagesLoading={messagesLoading}
         loadContentHandler={loadContentHandler}
-        ownMessageSend={ownMessageSend}
+        ownMessageSent={ownMessageSent}
         isLastPageInChat={isLastPageInChat}
       />
       <Divider />
@@ -48,7 +48,7 @@ ChatDetails.propTypes = {
   authUser: PropTypes.string.isRequired,
   messagesLoading: PropTypes.bool,
   loadContentHandler: PropTypes.func.isRequired,
-  ownMessageSend: PropTypes.bool,
+  ownMessageSent: PropTypes.bool,
   isLastPageInChat: PropTypes.bool
 }
 
