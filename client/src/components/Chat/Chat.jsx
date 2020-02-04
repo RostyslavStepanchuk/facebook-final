@@ -10,14 +10,30 @@ import { getAllChats, getMessagesForChat } from '../../actions/chat'
 
 import useStyles from './chatStyles'
 
-const Chat = ({ authUser, chats, getAllChats, chatMessages, getMessagesForChat, messagesLoading, keyForRender }) => {
+const MESSAGES_PAGE_SIZE = 7
+const FIRST_PAGE = 0
+
+const Chat = ({ authUser,
+  chats,
+  getAllChats,
+  chatMessages,
+  getMessagesForChat,
+  messagesLoading,
+  ownMessageSent,
+  chatsLoading,
+  isLastPageInChat
+}) => {
   const classes = useStyles()
   const selectedChatId = +useParams().chatId
+  const loadContentHandler = getMessagesForChat.bind(null, selectedChatId)
+
+  useEffect(() => {
+    getMessagesForChat(selectedChatId, FIRST_PAGE, MESSAGES_PAGE_SIZE, true)
+  }, [getMessagesForChat, selectedChatId])
 
   useEffect(() => {
     getAllChats()
-    getMessagesForChat(selectedChatId)
-  }, [getAllChats, getMessagesForChat, selectedChatId])
+  }, [getAllChats])
 
   let selectedChat
 
@@ -33,7 +49,7 @@ const Chat = ({ authUser, chats, getAllChats, chatMessages, getMessagesForChat, 
         className={classes.chatList}
         chats={chats}
         chatMessages={chatMessages}
-        messagesLoading={messagesLoading}
+        chatsLoading={chatsLoading}
       />
       {selectedChat ? (
         <ChatDetails
@@ -41,6 +57,10 @@ const Chat = ({ authUser, chats, getAllChats, chatMessages, getMessagesForChat, 
           className={classes.chatDetails}
           chat={selectedChat}
           messages={chatMessages}
+          messagesLoading={messagesLoading}
+          loadContentHandler={loadContentHandler}
+          ownMessageSent={ownMessageSent}
+          isLastPageInChat={isLastPageInChat}
         />
       ) : (
         <ChatPlaceholder className={classes.chatPlaceholder} />
@@ -56,15 +76,19 @@ Chat.propTypes = {
   chatMessages: PropTypes.array,
   getMessagesForChat: PropTypes.func.isRequired,
   messagesLoading: PropTypes.bool,
-  keyForRender: PropTypes.number
+  ownMessageSent: PropTypes.bool,
+  chatsLoading: PropTypes.bool,
+  isLastPageInChat: PropTypes.bool,
 }
 
 const mapStateToProps = state => ({
   authUser: state.auth.user.username,
   chats: state.chat.chats,
+  chatsLoading: state.chat.chatsLoading,
   chatMessages: state.chat.chatMessages,
   messagesLoading: state.chat.messagesLoading,
-  keyForRender: state.chat.keyForRender
+  ownMessageSent: state.chat.ownMessageSent,
+  isLastPageInChat: state.chat.isLastPageInChat
 })
 
 export default connect(mapStateToProps, { getAllChats, getMessagesForChat })(Chat)
