@@ -12,8 +12,14 @@ spring:
     active: dev
 
   security:
-      jwt-secret:
-        ${random.uuid}
+    jwt-secret:
+      ${random.uuid}
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 594844764495-7mu88r8mju2vlbqgasi4fb9f76seeern.apps.googleusercontent.com
+            client-secret: A8xUVoRh5M2cDqTTfKK-2zOL
 
   mail:
     host: smtp.gmail.com

@@ -1,6 +1,5 @@
 package com.socialmedia.service;
 
-import com.socialmedia.dto.security.Token;
 import com.socialmedia.dto.security.UserCredentials;
 import com.socialmedia.model.ApplicationUser;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -11,17 +10,20 @@ import javax.servlet.http.HttpServletRequest;
 @Service
 public interface AuthenticationService {
 
-  Token getAccessToken(UserCredentials credentials);
+  String getAccessToken(UserCredentials credentials);
 
-  Token getAccessToken(String username, String password);
+  String getAccessToken(String username, String password);
 
   UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest req);
 
-  Token getAccessTokenByRefreshToken(String refreshToken, String user);
+  String getAccessTokenByRefreshToken(String refreshToken, String user);
 
   String generateRefreshToken(String username);
 
   void logOut(String username);
 
   String generateForgotPasswordToken(ApplicationUser user);
+
+  String generateTokenForOauthUser(String email);
+
 }
