@@ -8,13 +8,12 @@ import com.socialmedia.model.ChatMessage;
 import com.socialmedia.service.ChatMessageService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.security.Principal;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class ChatMessageMapper
@@ -49,12 +48,9 @@ public class ChatMessageMapper
     return chatMessage;
   }
 
-  public List<ChatMessageDtoOut> getAllMessagesForChat(Long chatId, Pageable pageable) {
+  public Page<ChatMessageDtoOut> getAllMessagesForChat(Long chatId, Pageable pageable) {
 
-    return crudService.getAllMessagesForChat(chatId, pageable)
-        .stream()
-        .map(this::responseDtoOf)
-        .collect(Collectors.toList());
+    return crudService.getAllMessagesForChat(chatId, pageable).map(this::responseDtoOf);
   }
 
 

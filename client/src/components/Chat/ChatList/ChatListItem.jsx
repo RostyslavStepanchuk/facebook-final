@@ -11,13 +11,13 @@ import { getFullName } from '../../../utils/helpers/formatters'
 
 import useStyles from './ChatListItemStyles'
 
-const ChatListItem = ({ active, chat, className, messagesLoading }) => {
+const ChatListItem = ({ active, chat, className, chatsLoading }) => {
   const { participants, lastMessage, id } = chat
   const classes = useStyles()
   const chatCaption = participants.length > 2
   ? chat.name : getFullName(participants[1])
 
-  return messagesLoading ? <Preloader /> : (
+  return chatsLoading ? <Preloader /> : (
     <ListItem
       button
       className={classnames(
@@ -64,7 +64,7 @@ ChatListItem.propTypes = {
   active: PropTypes.bool,
   className: PropTypes.string,
   chat: PropTypes.object.isRequired,
-  messagesLoading: PropTypes.bool
+  chatsLoading: PropTypes.bool
 }
 
 export default ChatListItem

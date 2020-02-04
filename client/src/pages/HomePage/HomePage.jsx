@@ -36,10 +36,19 @@ const HomePage = ({
 
   return (
     <InfiniteScroll
-      contentArr={posts}
+      contentArrLength={posts.length}
       loadContentHandler={loadPostsHomePage}
       contentIsLoading={postsAreLoading}
       size={POSTS_PAGE_SIZE}
+      scrollContainerStyles={{
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        overflowX: 'hidden',
+        overflowY: 'scroll'
+      }}
     >
       <Container className={classes.container} maxWidth='lg'>
         <Grid container spacing={2}>
