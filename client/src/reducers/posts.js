@@ -45,8 +45,6 @@ export default function (state = initialState, action) {
     }
 
     case POST_UPDATED: {
-      console.log(payload.postId)
-      console.log(payload.post)
       let result = [...state.posts].map(post => {
         if (post.id === payload.postId) return payload.post
         return post
