@@ -113,8 +113,8 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout }) => {
   )
 
   return (
-    <div className={classes.root}>
-      <AppBar position='static'>
+    <div className={classes.root} >
+      <AppBar position='static' >
         <Toolbar>
           <Link to='/' className={classes.link}>
             <IconButton edge='start' className={classes.menuButton} color='inherit' aria-label='menu'>

@@ -5,15 +5,18 @@ import {
   START_LOADING_MESSAGES,
   MESSAGES_RECEIVED,
   STOP_LOADING_MESSAGES,
-  SEND_MESSAGE
+  SEND_MESSAGE,
+  RESET_RECEIVED_MESSAGES
 } from '../utils/constants/actionsName'
+import { addPagedPayload } from '../utils/helpers/payloadAdapter'
 
 const initialState = {
   chats: [],
   chatsLoading: false,
   chatMessages: [],
   messagesLoading: false,
-  keyForRender: 0
+  ownMessageSent: false,
+  isLastPageInChat: false
 }
 
 export default function (state = initialState, action) {
@@ -36,12 +39,21 @@ export default function (state = initialState, action) {
       return { ...state, chats: payload, chatsLoading: false }
 
     case MESSAGES_RECEIVED:
-      return { ...state, chatMessages: payload, messagesLoading: false }
+      return { ...state,
+        chatMessages: addPagedPayload(state.chatMessages, payload.content, 'id'),
+        messagesLoading: false,
+        ownMessageSent: false,
+        isLastPageInChat: payload.last
+      }
+
+    case RESET_RECEIVED_MESSAGES:
+      return {...state, chatMessages: []}
 
     case SEND_MESSAGE:
       return { ...state,
-        chatMessages: state.chatMessages.concat(payload),
-        keyForRender: state.keyForRender + 1 }
+        chatMessages: [payload, ...state.chatMessages.reverse()],
+        ownMessageSent: true
+      }
 
     default:
       return {...state}
