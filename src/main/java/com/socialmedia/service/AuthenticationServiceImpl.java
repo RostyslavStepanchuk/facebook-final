@@ -1,7 +1,6 @@
 package com.socialmedia.service;
 
 
-import com.socialmedia.dto.security.Token;
 import com.socialmedia.dto.security.UserCredentials;
 import com.socialmedia.model.ApplicationUser;
 import com.socialmedia.model.TokensData;
@@ -38,19 +37,19 @@ public class AuthenticationServiceImpl implements AuthenticationService {
   private UserService userService;
 
   @Autowired
-  public AuthenticationServiceImpl(AuthenticationManager authenticationManager, @Lazy UserService userService) {
+  public AuthenticationServiceImpl(@Lazy AuthenticationManager authenticationManager, @Lazy UserService userService) {
     this.authenticationManager = authenticationManager;
     this.userService = userService;
   }
 
   @Override
-  public Token getAccessToken(UserCredentials credentials) {
+  public String getAccessToken(UserCredentials credentials) {
 
     return getAccessToken(credentials.getUsername(), credentials.getPassword());
   }
 
   @Override
-  public Token getAccessToken(String username, String password) {
+  public String getAccessToken(String username, String password) {
 
     Authentication authResult = authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(
@@ -81,7 +80,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
   }
 
   @Override
-  public Token getAccessTokenByRefreshToken(String refreshToken, String username) {
+  public String getAccessTokenByRefreshToken(String refreshToken, String username) {
 
     ApplicationUser user = userService.getById(username);
     String userRefreshToken = user.getTokensData().getRefreshToken();
@@ -125,18 +124,23 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     return user.getTokensData().getForgotPasswordToken();
   }
 
-  private Token generateAccessToken(String subject) {
+  @Override
+  public String generateTokenForOauthUser(String email) {
+    ApplicationUser user = userService.getUserByEmail(email);
+    return generateAccessToken(user.getUsername());
+  }
+
+  private String generateAccessToken(String subject) {
 
     Calendar expirationTime = Calendar.getInstance();
     expirationTime.setTimeInMillis(System.currentTimeMillis() + ACCESS_TOKEN_MAX_AGE);
 
-    String token = Jwts.builder()
+    return Jwts.builder()
         .setIssuedAt(Calendar.getInstance().getTime())
         .setExpiration(expirationTime.getTime())
         .setSubject(subject)
         .addClaims(Collections.emptyMap())
         .signWith(SignatureAlgorithm.HS512, secret)
         .compact();
-    return new Token(token);
   }
 }
