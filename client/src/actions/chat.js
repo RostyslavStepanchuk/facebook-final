@@ -5,7 +5,8 @@ import {
   START_LOADING_MESSAGES,
   MESSAGES_RECEIVED,
   STOP_LOADING_MESSAGES,
-  SEND_MESSAGE
+  SEND_MESSAGE,
+  RESET_RECEIVED_MESSAGES
 } from '../utils/constants/actionsName'
 import apiRequest from '../utils/helpers/apiRequest'
 
@@ -27,12 +28,18 @@ export const getAllChats = () => async dispatch => {
     }))
 }
 
-export const getMessagesForChat = chatId => async dispatch => {
+export const getMessagesForChat = (chatId, page, size, isInitialRequest) => async dispatch => {
   dispatch({
     type: START_LOADING_MESSAGES
   })
 
-  apiRequest.get(`/messages/${chatId}`, null, true)
+  if (isInitialRequest) {
+    dispatch({
+      type: RESET_RECEIVED_MESSAGES
+    })
+  }
+
+  apiRequest.get(`/messages/${chatId}`, { params: { page, size } })
     .then(res => {
       dispatch({
         type: MESSAGES_RECEIVED,
