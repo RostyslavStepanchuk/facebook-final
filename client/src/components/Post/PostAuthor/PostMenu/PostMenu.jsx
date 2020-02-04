@@ -24,14 +24,25 @@ import LabelOffIcon from '@material-ui/icons/LabelOff'
 import MenuItem from '@material-ui/core/MenuItem'
 
 import useStyles from './postMenuStyles'
-import { deletePost } from '../../../../actions/post'
+import { deletePost, deleteCurrentUserTagFromPost } from '../../../../actions/post'
 import { get } from 'lodash'
 
 const Transition = React.forwardRef(function Transition (props, ref) {
   return <Slide direction='up' ref={ref} {...props} />
 })
 
-const PostMenu = ({ postId, author, owner, user, taggedUsers }) => {
+const PostMenu = ({
+  postId,
+  author,
+  owner,
+  user,
+  taggedUsers,
+  deletePost,
+  deleteCurrentUserTagFromPost,
+  updateRef,
+  openUpdateWindow,
+  handleToggleUpdate
+}) => {
   const classes = useStyles()
 
   const authorUsername = get(author, 'username')
@@ -72,6 +83,11 @@ const PostMenu = ({ postId, author, owner, user, taggedUsers }) => {
       return
     }
     setOpen(false)
+  }
+
+  const deleteTag = () => {
+    deleteCurrentUserTagFromPost(postId, userUsername)
+    setOpen(!open)
   }
 
   function handleListKeyDown (event) {
@@ -136,9 +152,26 @@ const PostMenu = ({ postId, author, owner, user, taggedUsers }) => {
             <Paper>
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList autoFocusItem={open} id='menu-list-grow' onKeyDown={handleListKeyDown}>
-                  {deleteMenuItem && <MenuItem onClick={handleModal}> <DeleteIcon className={classes.menuItemIcon} /> Delete post </MenuItem>}
-                  {editMenuItem && <MenuItem> <BrushIcon className={classes.menuItemIcon} /> Edit post </MenuItem>}
-                  {removeTagMenuItem && <MenuItem> <LabelOffIcon className={classes.menuItemIcon} /> Remove yourself from post</MenuItem>}
+                  {deleteMenuItem &&
+                    <MenuItem onClick={handleModal}>
+                      <DeleteIcon className={classes.menuItemIcon} />
+                        Delete post
+                    </MenuItem>}
+                  {editMenuItem &&
+                    <MenuItem
+                      ref={updateRef}
+                      aria-controls={openUpdateWindow ? 'updating-post' : undefined}
+                      aria-haspopup='true'
+                      onClick={handleToggleUpdate}
+                    >
+                      <BrushIcon className={classes.menuItemIcon} />
+                        Edit post
+                    </MenuItem>}
+                  {removeTagMenuItem &&
+                    <MenuItem onClick={deleteTag}>
+                      <LabelOffIcon className={classes.menuItemIcon} />
+                      Remove yourself from post
+                    </MenuItem>}
                 </MenuList>
               </ClickAwayListener>
             </Paper>
@@ -156,11 +189,16 @@ PostMenu.propTypes = {
   owner: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   deletePost: PropTypes.func.isRequired,
-  taggedUsers: PropTypes.array.isRequired
+  taggedUsers: PropTypes.array.isRequired,
+  deleteCurrentUserTagFromPost: PropTypes.func.isRequired,
+  updateRef: PropTypes.object.isRequired,
+  openUpdateWindow: PropTypes.bool.isRequired,
+  handleToggleUpdate: PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({
-  deletePost: postId => dispatch(deletePost(postId))
+  deletePost: postId => dispatch(deletePost(postId)),
+  deleteCurrentUserTagFromPost: (postId, userUsername) => dispatch(deleteCurrentUserTagFromPost(postId, userUsername))
 })
 
 export default connect(null, mapDispatchToProps)(PostMenu)

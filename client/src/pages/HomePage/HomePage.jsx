@@ -17,6 +17,7 @@ const FRIEND_SUGGESTIONS_SIZE = 5
 const ACTIVE_FRIENDS_PAGE_SIZE = 10
 
 const HomePage = ({
+  user,
   loadPostsHomePage,
   postsAreLoading,
   posts,
@@ -55,7 +56,7 @@ const HomePage = ({
             <FriendSuggestions suggestions={friendSuggestions} />
           </Grid>
           <Grid item md={6}>
-            <CreatePost />
+            <CreatePost profileOwner={user} />
             <PostFeed />
           </Grid>
           <Grid item md={3}>
@@ -71,6 +72,7 @@ const HomePage = ({
 }
 
 HomePage.propTypes = {
+  user: PropTypes.object.isRequired,
   postsAreLoading: PropTypes.bool.isRequired,
   posts: PropTypes.array.isRequired,
   loadPostsHomePage: PropTypes.func.isRequired,
@@ -82,6 +84,7 @@ HomePage.propTypes = {
 }
 
 const mapStateToProps = state => ({
+  user: state.auth.user,
   postsAreLoading: state.posts.loading,
   posts: state.posts.posts,
   friendSuggestions: state.friends.friendSuggestions,
