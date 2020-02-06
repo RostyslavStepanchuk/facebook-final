@@ -53,7 +53,8 @@ const ChatList = ({ className, chats, chatsLoading, selectedChatId }) => {
 ChatList.propTypes = {
   className: PropTypes.string,
   chats: PropTypes.array.isRequired,
-  chatsLoading: PropTypes.bool
+  chatsLoading: PropTypes.bool,
+  selectedChatId: PropTypes.number
 }
 
 export default ChatList

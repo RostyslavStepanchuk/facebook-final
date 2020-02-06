@@ -16,7 +16,8 @@ const ChatMessages = ({
   messagesLoading,
   loadContentHandler,
   ownMessageSent,
-  isLastPageInChat
+  isLastPageInChat,
+  containerHeight = 80
 }) => {
   const classes = useStyles()
   const scrollToBottom = () => {
@@ -38,7 +39,7 @@ const ChatMessages = ({
       throttleDelay={1000}
       isLastPage={isLastPageInChat}
       scrollContainerStyles={{
-        height: '80vh',
+        height: `${containerHeight}vh`,
         overflowX: 'hidden',
         overflowY: 'scroll'
       }}
@@ -69,7 +70,8 @@ ChatMessages.propTypes = {
   messagesLoading: PropTypes.bool,
   loadContentHandler: PropTypes.func.isRequired,
   ownMessageSent: PropTypes.bool,
-  isLastPageInChat: PropTypes.bool
+  isLastPageInChat: PropTypes.bool,
+  containerHeight: PropTypes.number
 }
 
 export default ChatMessages
