@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { useParams } from 'react-router-dom'
+import { isEmpty } from 'lodash'
 
 import ChatList from './ChatList/ChatList'
 import ChatDetails from './ChatDetails/ChatDetails'
@@ -13,7 +14,8 @@ import useStyles from './chatStyles'
 const FIRST_PAGE = 0
 const PAGE_SIZE = 12
 
-const Chat = ({ authUser,
+const Chat = ({
+  authUser,
   chats,
   getAllChats,
   chatMessages,
@@ -21,27 +23,29 @@ const Chat = ({ authUser,
   messagesLoading,
   ownMessageSent,
   chatsLoading,
-  isLastPageInChat
+  isLastPageInChat,
+  propsForRerender
 }) => {
   const classes = useStyles()
-  const selectedChatId = +useParams().chatId
-  const loadContentHandler = getMessagesForChat.bind(null, selectedChatId)
+  let selectedChat, selectedChatId, loadContentHandler
+  const chatId = +useParams().chatId
 
+  if (!isEmpty(chats)) {
+    selectedChat = chatId
+      ? chats.find(chat => chat.id === chatId)
+      : chats[0]
+    selectedChatId = selectedChat.id
+    loadContentHandler = getMessagesForChat.bind(null, selectedChatId)
+  }
   useEffect(() => {
-    getMessagesForChat(selectedChatId, FIRST_PAGE, PAGE_SIZE, true)
+    if (!isEmpty(chats)) {
+      getMessagesForChat(selectedChatId, FIRST_PAGE, PAGE_SIZE, true)
+    }
   }, [getMessagesForChat, selectedChatId])
 
   useEffect(() => {
     getAllChats()
-  }, [getAllChats])
-
-  let selectedChat
-
-  if (selectedChatId) {
-    selectedChat = chats.find(
-      chat => chat.id === selectedChatId
-    )
-  }
+  }, [getAllChats, propsForRerender])
 
   return (
     <div className={classes.root}>
@@ -50,6 +54,7 @@ const Chat = ({ authUser,
         chats={chats}
         chatMessages={chatMessages}
         chatsLoading={chatsLoading}
+        selectedChatId={selectedChatId}
       />
       {selectedChat ? (
         <ChatDetails
@@ -88,7 +93,8 @@ const mapStateToProps = state => ({
   chatMessages: state.chat.chatMessages,
   messagesLoading: state.chat.messagesLoading,
   ownMessageSent: state.chat.ownMessageSent,
-  isLastPageInChat: state.chat.isLastPageInChat
+  isLastPageInChat: state.chat.isLastPageInChat,
+  propsForRerender: state.chat.propsForRerender
 })
 
 export default connect(mapStateToProps, { getAllChats, getMessagesForChat })(Chat)
