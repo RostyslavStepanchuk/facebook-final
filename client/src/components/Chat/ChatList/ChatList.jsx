@@ -1,7 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
 import PropTypes from 'prop-types'
-import { useParams } from 'react-router-dom'
 import {
   Toolbar,
   Input,
@@ -16,9 +15,8 @@ import ChatListItem from './ChatListItem'
 
 import useStyles from './ChatListStyles'
 
-const ChatList = ({ className, chats, chatsLoading }) => {
+const ChatList = ({ className, chats, chatsLoading, selectedChatId }) => {
   const classes = useStyles()
-  const selectedChat = +useParams().chatId
 
   return (
     <div
@@ -40,7 +38,7 @@ const ChatList = ({ className, chats, chatsLoading }) => {
       <List disablePadding>
         {chats.map((chat, i) => (
           <ChatListItem
-            active={chat.id === selectedChat}
+            active={chat.id === selectedChatId}
             chat={chat}
             divider={i < chats.length - 1}
             key={chat.id}

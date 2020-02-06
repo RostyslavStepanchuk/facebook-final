@@ -7,7 +7,7 @@ import InfiniteScroll from '../../../InfiniteScroll/InfiniteScroll'
 
 import useStyles from './chatMessagesStyles'
 
-const MESSAGES_PAGE_SIZE = 7
+const MESSAGES_PAGE_SIZE = 12
 
 const ChatMessages = ({
   authUser,
@@ -47,22 +47,13 @@ const ChatMessages = ({
         className={classnames(classes.root, className)}>
         <div className={classes.inner}>
           {messages.reverse()
-            .map((message, index) => {
-              return index === 1 ? (
-                <div
-                  key={message.id}>
-                  <ChatMessage
-                    message={message}
-                    authUser={authUser}
-                  />
-                </div>) : (
-                  <ChatMessage
-                    key={message.id}
-                    message={message}
-                    authUser={authUser}
+            .map(message =>
+              <ChatMessage
+                key={message.id}
+                message={message}
+                authUser={authUser}
                 />
-              )
-            })}
+            )}
         </div>
         <div style={{ float: 'left', clear: 'both' }}
           ref={(el) => { ChatMessages.messagesEnd = el }} />
