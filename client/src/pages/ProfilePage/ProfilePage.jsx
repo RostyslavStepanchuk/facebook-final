@@ -65,6 +65,7 @@ const ProfilePage = ({
 
   return profileLoading ? <Preloader /> : (
     <InfiniteScroll
+      isDisable={profileTab === 'messages'}
       contentArrLength={posts.length}
       loadContentHandler={loadUserPosts}
       contentIsLoading={postsAreLoading}
@@ -131,7 +132,7 @@ const ProfilePage = ({
         {profileTab === 'messages' &&
         <Grid item sm={9}>
           <Paper className={classes.paper}>
-            <MessagesList />
+            <MessagesList userId={userId} />
           </Paper>
         </Grid>
         }

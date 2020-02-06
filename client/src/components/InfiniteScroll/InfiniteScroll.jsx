@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 
 const InfiniteScroll = ({
+  isDisable,
   contentArrLength,
   loadContentHandler,
   contentIsLoading,
@@ -48,7 +49,7 @@ const InfiniteScroll = ({
       ref={input => {
         InfiniteScroll.scrollDiv = input
       }}
-      onScroll={handleInfiniteScroll}
+      onScroll={isDisable ? null : handleInfiniteScroll}
       style={scrollContainerStyles}
     >
       {children}
@@ -67,7 +68,8 @@ InfiniteScroll.propTypes = {
   isReverseDirection: PropTypes.bool,
   throttleDelay: PropTypes.number,
   scrollContainerStyles: PropTypes.object.isRequired,
-  isLastPage: PropTypes.bool
+  isLastPage: PropTypes.bool,
+  isDisable: PropTypes.bool
 }
 
 export default InfiniteScroll

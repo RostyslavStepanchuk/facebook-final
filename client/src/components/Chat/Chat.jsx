@@ -15,6 +15,9 @@ const FIRST_PAGE = 0
 const PAGE_SIZE = 12
 
 const Chat = ({
+  chatIdProps,
+  withoutSidepanel,
+  containerHeight,
   authUser,
   chats,
   getAllChats,
@@ -28,7 +31,8 @@ const Chat = ({
 }) => {
   const classes = useStyles()
   let selectedChat, selectedChatId, loadContentHandler
-  const chatId = +useParams().chatId
+  const chatIdParams = +useParams().chatId
+  const chatId = chatIdProps || chatIdParams
 
   if (!isEmpty(chats)) {
     selectedChat = chatId
@@ -49,13 +53,13 @@ const Chat = ({
 
   return (
     <div className={classes.root}>
-      <ChatList
+      {!withoutSidepanel && <ChatList
         className={classes.chatList}
         chats={chats}
         chatMessages={chatMessages}
         chatsLoading={chatsLoading}
         selectedChatId={selectedChatId}
-      />
+      />}
       {selectedChat ? (
         <ChatDetails
           authUser={authUser}
@@ -66,6 +70,7 @@ const Chat = ({
           loadContentHandler={loadContentHandler}
           ownMessageSent={ownMessageSent}
           isLastPageInChat={isLastPageInChat}
+          containerHeight={containerHeight}
         />
       ) : (
         <ChatPlaceholder className={classes.chatPlaceholder} />
@@ -75,6 +80,9 @@ const Chat = ({
 }
 
 Chat.propTypes = {
+  chatIdProps: PropTypes.number,
+  withoutSidepanel: PropTypes.bool,
+  containerHeight: PropTypes.number,
   authUser: PropTypes.string.isRequired,
   chats: PropTypes.array,
   getAllChats: PropTypes.func.isRequired,
@@ -83,7 +91,8 @@ Chat.propTypes = {
   messagesLoading: PropTypes.bool,
   ownMessageSent: PropTypes.bool,
   chatsLoading: PropTypes.bool,
-  isLastPageInChat: PropTypes.bool
+  isLastPageInChat: PropTypes.bool,
+  propsForRerender: PropTypes.bool
 }
 
 const mapStateToProps = state => ({
