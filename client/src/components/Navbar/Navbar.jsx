@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { logout } from '../../actions/auth'
 import useStyles from './navbarStyles'
-import { AppBar, Badge, IconButton, Menu, MenuItem, Toolbar, Typography } from '@material-ui/core'
+import { AppBar, Badge, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography } from '@material-ui/core'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import MailIcon from '@material-ui/icons/Mail'
 import NotificationsIcon from '@material-ui/icons/Notifications'
@@ -14,6 +14,7 @@ import HomeIcon from '@material-ui/icons/Home'
 import Search from '../Search/Search'
 import { selectFriendRequestTab, resetTab } from '../../actions/profileTab'
 import { get } from 'lodash'
+import { getFullName } from '../../utils/helpers/formatters'
 
 const Navbar = ({ auth: { isAuthenticated, user }, incomingFriendRequests, selectFriendRequestTab, logout }) => {
   const classes = useStyles()
@@ -124,13 +125,15 @@ const Navbar = ({ auth: { isAuthenticated, user }, incomingFriendRequests, selec
       <AppBar position='static' className={classes.container} >
         <Toolbar>
           <Link to='/' className={classes.link}>
-            <IconButton
-              className={classes.navbarButton}
-              edge='start'
-              color='inherit'
-              aria-label='menu'>
-              <HomeIcon />
-            </IconButton>
+            <Tooltip title='Home Page'>
+              <IconButton
+                className={classes.navbarButton}
+                edge='start'
+                color='inherit'
+                aria-label='menu'>
+                <HomeIcon />
+              </IconButton>
+            </Tooltip>
           </Link>
           <Typography variant='h6' className={classes.title}>
             <Link to='/' className={classes.link}>
@@ -145,32 +148,38 @@ const Navbar = ({ auth: { isAuthenticated, user }, incomingFriendRequests, selec
           <Fragment>
             <div className={classes.root} />
             <div className={classes.sectionDesktop}>
-              <IconButton
-                className={classes.navbarButton}
-                color='inherit'>
-                <Badge badgeContent={4} color='secondary'>
-                  <MailIcon />
-                </Badge>
-              </IconButton>
-              <IconButton
-                className={classes.navbarButton}
-                onClick={openFriendRequestInProfile}
-                color='inherit'>
-                <Badge badgeContent={get(incomingFriendRequests, 'length', '0')} color='secondary'>
-                  <SupervisedUserCircleIcon />
-                </Badge>
-              </IconButton>
-              <IconButton
-                className={classes.navbarButton}
-                edge='end'
-                aria-label='account of current user'
-                aria-controls={menuId}
-                aria-haspopup='true'
-                onClick={handleProfileMenuOpen}
-                color='inherit'
-            >
-                <AccountCircle />
-              </IconButton>
+              <Tooltip title='Messages'>
+                <IconButton
+                  className={classes.navbarButton}
+                  color='inherit'>
+                  <Badge badgeContent={4} color='secondary'>
+                    <MailIcon />
+                  </Badge>
+                </IconButton>
+              </Tooltip>
+              <Tooltip title='Friend requests'>
+                <IconButton
+                  className={classes.navbarButton}
+                  onClick={openFriendRequestInProfile}
+                  color='inherit'>
+                  <Badge badgeContent={get(incomingFriendRequests, 'length', '0')} color='secondary'>
+                    <SupervisedUserCircleIcon />
+                  </Badge>
+                </IconButton>
+              </Tooltip>
+              <Tooltip title='Menu'>
+                <IconButton
+                  className={classes.navbarButton}
+                  edge='end'
+                  aria-label='account of current user'
+                  aria-controls={menuId}
+                  aria-haspopup='true'
+                  onClick={handleProfileMenuOpen}
+                  color='inherit'
+                >
+                  <AccountCircle />
+                </IconButton>
+              </Tooltip>
             </div>
             <div className={classes.sectionMobile}>
               <IconButton
