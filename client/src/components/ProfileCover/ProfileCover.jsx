@@ -11,10 +11,6 @@ import { getFullName } from '../../utils/helpers/formatters'
 import useStyles from './profileCoverStyles'
 import { changeTab } from '../../actions/profileTab'
 import { connect } from 'react-redux'
-import { getUserPhotosFromPosts } from '../../actions/image'
-import { getPostsForProfile } from '../../actions/post'
-import { getUserProfile } from '../../actions/search'
-import { getIncomingFriendRequests, loadUserFriends } from '../../actions/friends'
 
 const ProfileCover = ({ profileOwner, isOwnProfile, selectedTab, changeTab }) => {
   const classes = useStyles({profileCover: getProfileCoverLink(profileOwner)})
@@ -83,8 +79,7 @@ const ProfileCover = ({ profileOwner, isOwnProfile, selectedTab, changeTab }) =>
 
 ProfileCover.propTypes = {
   profileOwner: PropTypes.object.isRequired,
-  profileTab: PropTypes.string.isRequired,
-  handleChangeTab: PropTypes.func.isRequired,
+  selectedTab: PropTypes.string.isRequired,
   isOwnProfile: PropTypes.bool.isRequired,
   changeTab: PropTypes.func.isRequired
 }

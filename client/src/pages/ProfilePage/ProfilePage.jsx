@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
@@ -48,7 +48,7 @@ const ProfilePage = ({
   const classes = useStyles()
   const userId = useParams().userId || user.username
   const isOwnProfile = userId === user.username
-
+  const currentUser = user.username
   const loadUserPosts = getPostsForProfile.bind(null, userId)
 
   useEffect(() => {
@@ -56,8 +56,8 @@ const ProfilePage = ({
     loadUserPhotos(userId)
     getPostsForProfile(userId, FIRST_PAGE, POSTS_PAGE_SIZE, true)
     loadUserFriends(userId, FIRST_PAGE, FRIENDS_PAGE_SIZE, true)
-    if (user.username !== userId) resetTab()
-  }, [ loadUserPhotos, loadUserProfile, loadUserFriends, getPostsForProfile, userId, resetTab ])
+    if (currentUser !== userId) resetTab()
+  }, [ loadUserPhotos, loadUserProfile, loadUserFriends, getPostsForProfile, userId, resetTab, currentUser ])
 
   useEffect(() => { // separate useEffect cause this request doesn't depend on profile change, it's for user
     getIncomingFriendRequests()
@@ -155,7 +155,8 @@ ProfilePage.propTypes = {
   loadUserFriends: PropTypes.func.isRequired,
   incomingFriendRequests: PropTypes.array.isRequired,
   getIncomingFriendRequests: PropTypes.func.isRequired,
-  resetTab: PropTypes.func.isRequired
+  resetTab: PropTypes.func.isRequired,
+  selectedTab: PropTypes.string.isRequired
 }
 
 const mapStateToProps = state => ({

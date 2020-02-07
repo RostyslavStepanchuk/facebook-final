@@ -16,7 +16,7 @@ export const selectFriendRequestTab = () => dispatch => {
   })
 }
 
-export const changeTab = (value) => dispatch => {
+export const changeTab = value => dispatch => {
   dispatch({
     type: TAB_CHANGED,
     payload: value

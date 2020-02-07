@@ -83,7 +83,8 @@ HomePage.propTypes = {
   friendSuggestions: PropTypes.array.isRequired,
   activeFriends: PropTypes.array.isRequired,
   activeFriendsAreLoading: PropTypes.bool.isRequired,
-  loadActiveFriends: PropTypes.func.isRequired
+  loadActiveFriends: PropTypes.func.isRequired,
+  getIncomingFriendRequests: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
