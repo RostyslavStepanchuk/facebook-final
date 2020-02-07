@@ -1,12 +1,12 @@
 import {
-  START_LOADING_CHATS,
-  STOP_LOADING_CHATS,
   CHATS_RECEIVED,
-  START_LOADING_MESSAGES,
   MESSAGES_RECEIVED,
-  STOP_LOADING_MESSAGES,
+  RESET_RECEIVED_MESSAGES,
   SEND_MESSAGE,
-  RESET_RECEIVED_MESSAGES
+  START_LOADING_CHATS,
+  START_LOADING_MESSAGES,
+  STOP_LOADING_CHATS,
+  STOP_LOADING_MESSAGES
 } from '../utils/constants/actionsName'
 import apiRequest from '../utils/helpers/apiRequest'
 
@@ -53,7 +53,7 @@ export const getMessagesForChat = (chatId, page, size, isInitialRequest) => asyn
 }
 
 export const sendMessage = ({ chatId, text }) => async dispatch => {
-  apiRequest.post('/messages/add', {chatId, text})
+  apiRequest.post(`/messages/add/${chatId}`, {chatId, text})
     .then(res => {
       dispatch({
         type: SEND_MESSAGE,
