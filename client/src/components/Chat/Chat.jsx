@@ -49,7 +49,7 @@ const Chat = ({
 
   useEffect(() => {
     getAllChats()
-  }, [getAllChats, propsForRerender])
+  }, [getAllChats])
 
   return (
     <div className={classes.root}>

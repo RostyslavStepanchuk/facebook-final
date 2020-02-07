@@ -8,7 +8,9 @@ import Chat from '../Chat/Chat'
 import Preloader from '../../components/Preloader/Preloader'
 
 const MessagesList = ({userId, getChat, chat}) => {
+
   useEffect(() => {
+    console.log(userId)
     getChat(userId)
   }, [userId])
 
