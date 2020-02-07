@@ -14,6 +14,7 @@ import {
 import apiRequest from '../utils/helpers/apiRequest'
 
 export const getAllChats = () => async dispatch => {
+  console.log('getAllChats')
   dispatch({
     type: START_LOADING_CHATS
   })

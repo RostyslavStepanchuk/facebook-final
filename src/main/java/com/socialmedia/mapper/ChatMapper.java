@@ -49,8 +49,11 @@ public final class ChatMapper
     return crudService.getAllChatsWithPrincipal()
         .stream()
         .map(chat -> modelMapper.map(chat, ChatDtoOutWithLastMessage.class))
-        .peek(chatDto -> chatDto.setLastMessage(modelMapper.map(chatMessageService
-            .findLastForChatIdList(chatDto.getId()), ChatMessageDtoOut.class)))
+        .peek(chatDto -> {
+          ChatMessage lastChatMessage = chatMessageService.findLastForChatIdList(chatDto.getId());
+          ChatMessage chatMessage = lastChatMessage == null ? new ChatMessage() : lastChatMessage;
+          chatDto.setLastMessage(modelMapper.map(chatMessage, ChatMessageDtoOut.class));
+        })
         .collect(Collectors.toList());
   }
 
