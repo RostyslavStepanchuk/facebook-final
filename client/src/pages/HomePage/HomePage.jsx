@@ -9,7 +9,7 @@ import InfiniteScroll from '../../components/InfiniteScroll/InfiniteScroll'
 import ActiveFriends from '../../components/ActiveFriends/ActiveFriends'
 import FriendSuggestions from '../../components/FriendSuggestions/FriendSuggestions'
 import { getPostsForHomePage } from '../../actions/post'
-import { getFriendSuggestions, loadActiveFriends } from '../../actions/friends'
+import { getFriendSuggestions, getIncomingFriendRequests, loadActiveFriends } from '../../actions/friends'
 
 const POSTS_PAGE_SIZE = 10
 const FIRST_PAGE = 0
@@ -25,14 +25,17 @@ const HomePage = ({
   getFriendSuggestions,
   activeFriends,
   activeFriendsAreLoading,
-  loadActiveFriends
+  loadActiveFriends,
+  getIncomingFriendRequests,
 }) => {
   const classes = useStyles()
+
   useEffect(() => {
     loadPostsHomePage(FIRST_PAGE, POSTS_PAGE_SIZE, true)
     getFriendSuggestions(FRIEND_SUGGESTIONS_SIZE)
     loadActiveFriends(FIRST_PAGE, ACTIVE_FRIENDS_PAGE_SIZE, true)
-  }, [ loadPostsHomePage, getFriendSuggestions, loadActiveFriends ])
+    getIncomingFriendRequests()
+  }, [ loadPostsHomePage, getFriendSuggestions, loadActiveFriends, getIncomingFriendRequests ])
 
   return (
     <InfiniteScroll
@@ -89,14 +92,16 @@ const mapStateToProps = state => ({
   posts: state.posts.posts,
   friendSuggestions: state.friends.friendSuggestions,
   activeFriends: state.friends.activeFriends,
-  activeFriendsAreLoading: state.friends.loadingActiveFriends
+  activeFriendsAreLoading: state.friends.loadingActiveFriends,
+  getIncomingFriendRequests: PropTypes.func.isRequired,
 })
 
 const mapDispatchToProps = dispatch => {
   return {
     loadPostsHomePage: (page, size, isInitial) => dispatch(getPostsForHomePage(page, size, isInitial)),
     getFriendSuggestions: page => dispatch(getFriendSuggestions(page)),
-    loadActiveFriends: (page, size, isInitial) => dispatch(loadActiveFriends(page, size, isInitial))
+    loadActiveFriends: (page, size, isInitial) => dispatch(loadActiveFriends(page, size, isInitial)),
+    getIncomingFriendRequests: () => dispatch(getIncomingFriendRequests()),
   }
 }
 

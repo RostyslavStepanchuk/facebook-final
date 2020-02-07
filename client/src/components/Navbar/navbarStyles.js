@@ -1,18 +1,22 @@
 
 import { fade, makeStyles } from '@material-ui/core/styles'
 
+
 const useStyles = makeStyles(theme => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
   },
-  menuButton: {
-    marginRight: theme.spacing(2)
+  container: {
+    //background: '#4e4f54',
+    //background: 'linear-gradient(rgb(110,112,120), rgb(81,81,86)) rgb(110,112,120)',
+    background: 'linear-gradient(rgb(126,126,134), rgb(70,71,76)) rgb(126,126,134)',
+    boxShadow: '0 1px rgba(255,255,255,.2) inset,  0 3px 5px rgba(0,1,6,.5),  0 0 1px 1px rgba(0,1,6,.2)',
   },
   title: {
     display: 'none',
     [theme.breakpoints.up('sm')]: {
-      display: 'block'
-    }
+      display: 'block',
+    },
   },
   link: {
     textDecoration: 'none',
@@ -48,7 +52,29 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up('md')]: {
       display: 'none'
     }
-  }
+  },
+  navbarButton: {
+    margin: theme.spacing(1),
+    position: 'relative',
+    display: 'inline-block',
+    color: 'rgb(209,209,217)',
+    textShadow: '0 -1px 2px rgba(0,0,0,.2)',
+    padding: 7,
+    height: 'min-content',
+    outline: 'none',
+    background: 'linear-gradient(rgb(110,112,120), rgb(81,81,86)) rgb(110,112,120)',
+    boxShadow: '0 1px rgba(255,255,255,.2) inset,  0 3px 5px rgba(0,1,6,.5),  0 0 1px 1px rgba(0,1,6,.2)',
+    transition: '.2s ease-in-out',
+    '&:hover:not(:active)': {
+      background: 'linear-gradient(rgb(126,126,134), rgb(70,71,76)) rgb(126,126,134)'
+    },
+    '&:active': {
+      top: 1,
+      background: 'linear-gradient(rgb(76,77,82), rgb(56,57,62)) rgb(76,77,82)',
+      boxShadow: '0 0 1px rgba(0,0,0,.5) inset,  0 2px 3px rgba(0,0,0,.5) inset,  0 1px 1px rgba(255,255,255,.1)',
+    },
+  },
+
 }))
 
 export default useStyles

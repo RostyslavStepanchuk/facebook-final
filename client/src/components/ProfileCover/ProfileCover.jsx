@@ -9,14 +9,24 @@ import { getAvatarLink, getProfileCoverLink } from '../../utils/helpers/imageLin
 import { getFullName } from '../../utils/helpers/formatters'
 
 import useStyles from './profileCoverStyles'
+import { changeTab } from '../../actions/profileTab'
+import { connect } from 'react-redux'
+import { getUserPhotosFromPosts } from '../../actions/image'
+import { getPostsForProfile } from '../../actions/post'
+import { getUserProfile } from '../../actions/search'
+import { getIncomingFriendRequests, loadUserFriends } from '../../actions/friends'
 
-const ProfileCover = ({ profileOwner, isOwnProfile, profileTab, handleChangeTab }) => {
+const ProfileCover = ({ profileOwner, isOwnProfile, selectedTab, changeTab }) => {
   const classes = useStyles({profileCover: getProfileCoverLink(profileOwner)})
 
   const [ modalOpen, setModalOpen ] = useState(false)
 
   const handleModal = () => {
     setModalOpen(!modalOpen)
+  }
+
+  const handleChangeTab = (event, value) => {
+    changeTab(value)
   }
 
   return (
@@ -45,15 +55,15 @@ const ProfileCover = ({ profileOwner, isOwnProfile, profileTab, handleChangeTab 
           </Container>
         </Modal>
       </div>
-      <Tabs value={profileTab}
+      <Tabs value={selectedTab}
         onChange={handleChangeTab}
         indicatorColor='primary'
         textColor='primary'
         aria-label='icon label tabs'
         className={classes.submenu}>
         <Tab className={classes.submenuItem}
-          label='Your story '
-          value='your story' />
+          label='Timeline'
+          value='timeline' />
         <Tab className={classes.submenuItem}
           label={'Friend requests'}
           value='friend requests' />
@@ -75,7 +85,12 @@ ProfileCover.propTypes = {
   profileOwner: PropTypes.object.isRequired,
   profileTab: PropTypes.string.isRequired,
   handleChangeTab: PropTypes.func.isRequired,
-  isOwnProfile: PropTypes.bool.isRequired
+  isOwnProfile: PropTypes.bool.isRequired,
+  changeTab: PropTypes.func.isRequired
 }
 
-export default ProfileCover
+const mapDispatchToProps = dispatch => ({
+  changeTab: (value) => dispatch(changeTab(value))
+})
+
+export default connect(null, mapDispatchToProps)(ProfileCover)
