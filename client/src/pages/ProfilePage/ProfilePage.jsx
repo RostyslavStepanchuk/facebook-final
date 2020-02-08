@@ -65,7 +65,7 @@ const ProfilePage = ({
 
   return profileLoading ? <Preloader /> : (
     <InfiniteScroll
-      isDisable={profileTab === 'messages'}
+      isDisable={selectedTab === 'messages'}
       contentArrLength={posts.length}
       loadContentHandler={loadUserPosts}
       contentIsLoading={postsAreLoading}

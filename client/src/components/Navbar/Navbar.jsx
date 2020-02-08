@@ -154,6 +154,7 @@ const Navbar = ({ auth: { isAuthenticated, user }, incomingFriendRequests, selec
               <Tooltip title='Messages'>
                 <IconButton
                   className={classes.navbarButton}
+                  onClick={openChat}
                   color='inherit'>
                   <Badge badgeContent={4} color='secondary'>
                     <MailIcon />
