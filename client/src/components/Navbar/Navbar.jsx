@@ -58,6 +58,11 @@ const Navbar = ({ auth: { isAuthenticated, user }, incomingFriendRequests, selec
     history.push('/me')
   }
 
+  const openChat = () => {
+    handleMenuClose()
+    history.push('/chat')
+  }
+
   const handleMobileMenuOpen = event => {
     setMobileMoreAnchorEl(event.currentTarget)
   }
@@ -74,6 +79,7 @@ const Navbar = ({ auth: { isAuthenticated, user }, incomingFriendRequests, selec
       onClose={handleMenuClose}
     >
       <MenuItem onClick={openProfile}>Profile</MenuItem>
+      <MenuItem onClick={openChat}>Chat</MenuItem>
       <MenuItem onClick={handleChange}>Logout</MenuItem>
     </Menu>
   )
