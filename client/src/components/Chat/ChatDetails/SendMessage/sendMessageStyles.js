@@ -5,6 +5,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.white,
     display: 'flex',
     alignItems: 'center',
+    marginTop: theme.spacing(2),
     padding: theme.spacing(1, 2)
   },
   paper: {
