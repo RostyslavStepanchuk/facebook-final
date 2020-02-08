@@ -8,14 +8,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ChatMessageService extends AbstractCrudService<ChatMessage, Long, ChatMessageRepository> {
 
   @Autowired
   public ChatMessageService(ChatMessageRepository jpaRepository,
-                              SmartCopyBeanUtilsBean beanUtilsBean) {
+                            SmartCopyBeanUtilsBean beanUtilsBean) {
     super(jpaRepository, beanUtilsBean);
   }
 
@@ -24,6 +24,8 @@ public class ChatMessageService extends AbstractCrudService<ChatMessage, Long, C
   }
 
   public ChatMessage findLastForChatIdList(Long chatId) {
-    return jpaRepository.findTopByChatIdOrderByDateDesc(chatId);
+    Optional<ChatMessage> chatMessage = Optional.of(jpaRepository.findTopByChatIdOrderByDateDesc(chatId)
+        .orElse(new ChatMessage()));
+    return resolvedOptional(chatMessage, chatId);
   }
 }

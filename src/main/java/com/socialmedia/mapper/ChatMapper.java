@@ -51,8 +51,7 @@ public final class ChatMapper
         .map(chat -> modelMapper.map(chat, ChatDtoOutWithLastMessage.class))
         .peek(chatDto -> {
           ChatMessage lastChatMessage = chatMessageService.findLastForChatIdList(chatDto.getId());
-          ChatMessage chatMessage = lastChatMessage == null ? new ChatMessage() : lastChatMessage;
-          chatDto.setLastMessage(modelMapper.map(chatMessage, ChatMessageDtoOut.class));
+          chatDto.setLastMessage(modelMapper.map(lastChatMessage, ChatMessageDtoOut.class));
         })
         .collect(Collectors.toList());
   }
