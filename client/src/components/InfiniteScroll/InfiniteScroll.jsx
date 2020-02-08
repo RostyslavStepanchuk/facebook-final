@@ -9,6 +9,7 @@ const InfiniteScroll = ({
   pageSize = 10,
   children,
   isReverseDirection = false,
+  isContentUpdated,
   throttleDelay = 3000,
   scrollContainerStyles,
   isLastPage = false
@@ -24,6 +25,12 @@ const InfiniteScroll = ({
     }
   })
 
+  useEffect(() => {
+    if (isContentUpdated) {
+      scrolledFromBottom.current = 0
+    }
+  }, [isContentUpdated])
+
   const handleInfiniteScroll = () => {
     const element = InfiniteScroll.scrollDiv
 
@@ -38,6 +45,7 @@ const InfiniteScroll = ({
       setFurtherDownloadBlocked(true)
       scrolledFromBottom.current = element.scrollHeight
       loadContentHandler(page, pageSize, false)
+
       setTimeout(() => {
         setFurtherDownloadBlocked(false)
       }, throttleDelay)
@@ -69,7 +77,8 @@ InfiniteScroll.propTypes = {
   throttleDelay: PropTypes.number,
   scrollContainerStyles: PropTypes.object.isRequired,
   isLastPage: PropTypes.bool,
-  isDisable: PropTypes.bool
+  isDisable: PropTypes.bool,
+  isContentUpdated: PropTypes.bool
 }
 
 export default InfiniteScroll

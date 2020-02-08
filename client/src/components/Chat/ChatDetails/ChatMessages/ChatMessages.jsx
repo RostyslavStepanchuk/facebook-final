@@ -38,6 +38,7 @@ const ChatMessages = ({
       pageSize={MESSAGES_PAGE_SIZE}
       throttleDelay={1000}
       isLastPage={isLastPageInChat}
+      isContentUpdated={ownMessageSent}
       scrollContainerStyles={{
         height: `${containerHeight}vh`,
         overflowX: 'hidden',
