@@ -17,7 +17,7 @@ const ChatMessages = ({
   loadContentHandler,
   ownMessageSent,
   isLastPageInChat,
-  containerHeight = 80
+  containerHeight = 75
 }) => {
   const classes = useStyles()
   const scrollToBottom = () => {
