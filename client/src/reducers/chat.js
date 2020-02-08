@@ -20,7 +20,6 @@ const initialState = {
   messagesLoading: false,
   ownMessageSent: false,
   isLastPageInChat: false,
-  propsForRerender: false,
   chatLoading: false,
   chat: {}
 }
@@ -59,7 +58,6 @@ export default function (state = initialState, action) {
       return { ...state,
         chatMessages: [payload, ...state.chatMessages.reverse()],
         ownMessageSent: true,
-        propsForRerender: !state.propsForRerender
       }
 
     case START_LOADING_CHAT:

@@ -8,13 +8,11 @@ import Chat from '../Chat/Chat'
 import Preloader from '../../components/Preloader/Preloader'
 
 const MessagesList = ({userId, getChat, chat}) => {
-
   useEffect(() => {
-    console.log(userId)
     getChat(userId)
-  }, [userId])
+  }, [userId, getChat])
 
-  return isEmpty(chat) ? <Preloader /> : <Chat chatIdProps={chat.id} withoutSidepanel containerHeight={42} />
+  return isEmpty(chat) ? <Preloader /> : <Chat chat={chat} withoutSidepanel containerHeight={42} />
 }
 
 MessagesList.propTypes = {
