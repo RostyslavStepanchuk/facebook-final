@@ -14,6 +14,7 @@ import useStyles from './ChatListItemStyles'
 const ChatListItem = ({ active, chat, className, chatsLoading }) => {
   const { participants, lastMessage, id } = chat
   const classes = useStyles()
+
   const chatCaption = participants.length > 2
   ? chat.name : getFullName(participants[1])
 
@@ -42,7 +43,7 @@ const ChatListItem = ({ active, chat, className, chatsLoading }) => {
           noWrap: true,
           variant: 'h6'
         }}
-        secondary={`${getFullName(lastMessage.author)}: ${lastMessage.text}`}
+        secondary={lastMessage.author ? `${getFullName(lastMessage.author)}: ${lastMessage.text}` : ''}
         secondaryTypographyProps={{
           noWrap: true,
           variant: 'body1'
@@ -53,7 +54,7 @@ const ChatListItem = ({ active, chat, className, chatsLoading }) => {
           noWrap
           variant='body2'
         >
-          {getDateForChat(lastMessage.date)}
+          {lastMessage.date && getDateForChat(lastMessage.date)}
         </Typography>
       </div>
     </ListItem>
