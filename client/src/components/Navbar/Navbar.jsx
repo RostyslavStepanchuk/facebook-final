@@ -120,7 +120,7 @@ const Navbar = ({ auth: { isAuthenticated, user }, incomingFriendRequests, selec
   )
 
   return (
-    <div className={classes.root} >
+    <div className={classes.root}  >
       <AppBar position='static' className={classes.container} >
         <Toolbar>
           <Link to='/' className={classes.link}>

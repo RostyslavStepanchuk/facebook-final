@@ -1,16 +1,12 @@
-
 import { fade, makeStyles } from '@material-ui/core/styles'
-
+import { PRIMARY_COLOR } from '../../utils/constants/styleConstants'
 
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
   },
   container: {
-    //background: '#4e4f54',
-    //background: 'linear-gradient(rgb(110,112,120), rgb(81,81,86)) rgb(110,112,120)',
-    background: 'linear-gradient(rgb(49,104,121), rgb(5,73,87)) rgb(49,104,121)',
-    boxShadow: '0 1px rgba(255,255,255,.2) inset,  0 3px 5px rgba(0,1,6,.5),  0 0 1px 1px rgba(0,1,6,.2)',
+    background: PRIMARY_COLOR,
   },
   title: {
     display: 'none',
@@ -57,12 +53,12 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(1),
     position: 'relative',
     display: 'inline-block',
-    color: '#ced7d8',
+    color: 'rgb(48, 213, 200)',
     textShadow: '0 -1px 2px rgba(0,0,0,.2)',
     padding: 7,
     height: 'min-content',
     outline: 'none',
-    background: 'linear-gradient(rgb(49,104,121), rgb(5,73,87)) rgb(49,104,121)',
+    background: PRIMARY_COLOR,
     boxShadow: '0 1px rgba(255,255,255,.2) inset,  0 3px 5px rgba(0,1,6,.5),  0 0 1px 1px rgba(0,1,6,.2)',
     transition: '.2s ease-in-out',
     '&:hover:not(:active)': {
