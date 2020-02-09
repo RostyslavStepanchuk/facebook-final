@@ -7,7 +7,7 @@ import InfiniteScroll from '../../../InfiniteScroll/InfiniteScroll'
 
 import useStyles from './chatMessagesStyles'
 
-const MESSAGES_PAGE_SIZE = 7
+const MESSAGES_PAGE_SIZE = 12
 
 const ChatMessages = ({
   authUser,
@@ -16,7 +16,8 @@ const ChatMessages = ({
   messagesLoading,
   loadContentHandler,
   ownMessageSent,
-  isLastPageInChat
+  isLastPageInChat,
+  containerHeight = 75
 }) => {
   const classes = useStyles()
   const scrollToBottom = () => {
@@ -37,8 +38,9 @@ const ChatMessages = ({
       pageSize={MESSAGES_PAGE_SIZE}
       throttleDelay={1000}
       isLastPage={isLastPageInChat}
+      isContentUpdated={ownMessageSent}
       scrollContainerStyles={{
-        height: '80vh',
+        height: `${containerHeight}vh`,
         overflowX: 'hidden',
         overflowY: 'scroll'
       }}
@@ -47,22 +49,13 @@ const ChatMessages = ({
         className={classnames(classes.root, className)}>
         <div className={classes.inner}>
           {messages.reverse()
-            .map((message, index) => {
-              return index === 1 ? (
-                <div
-                  key={message.id}>
-                  <ChatMessage
-                    message={message}
-                    authUser={authUser}
-                  />
-                </div>) : (
-                  <ChatMessage
-                    key={message.id}
-                    message={message}
-                    authUser={authUser}
+            .map(message =>
+              <ChatMessage
+                key={message.id}
+                message={message}
+                authUser={authUser}
                 />
-              )
-            })}
+            )}
         </div>
         <div style={{ float: 'left', clear: 'both' }}
           ref={(el) => { ChatMessages.messagesEnd = el }} />
@@ -78,7 +71,8 @@ ChatMessages.propTypes = {
   messagesLoading: PropTypes.bool,
   loadContentHandler: PropTypes.func.isRequired,
   ownMessageSent: PropTypes.bool,
-  isLastPageInChat: PropTypes.bool
+  isLastPageInChat: PropTypes.bool,
+  containerHeight: PropTypes.number
 }
 
 export default ChatMessages

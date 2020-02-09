@@ -21,7 +21,8 @@ const ChatDetails = ({
   messagesLoading,
   loadContentHandler,
   ownMessageSent,
-  isLastPageInChat
+  isLastPageInChat,
+  containerHeight
 }) => {
   const classes = useStyles()
 
@@ -46,6 +47,7 @@ const ChatDetails = ({
         loadContentHandler={loadContentHandler}
         ownMessageSent={ownMessageSent}
         isLastPageInChat={isLastPageInChat}
+        containerHeight={containerHeight}
       />
       <Divider />
       <SendMessage chatId={chat.id} />
@@ -61,7 +63,8 @@ ChatDetails.propTypes = {
   messagesLoading: PropTypes.bool,
   loadContentHandler: PropTypes.func.isRequired,
   ownMessageSent: PropTypes.bool,
-  isLastPageInChat: PropTypes.bool
+  isLastPageInChat: PropTypes.bool,
+  containerHeight: PropTypes.number
 }
 
 export default ChatDetails
