@@ -56,7 +56,7 @@ export const getMessagesForChat = (chatId, page, size, isInitialRequest) => asyn
 }
 
 export const sendMessage = ({ chatId, text }) => async dispatch => {
-  apiRequest.post('/messages/add', {chatId, text})
+  apiRequest.post(`/messages/add/${chatId}`, {chatId, text})
     .then(res => {
       dispatch({
         type: SEND_MESSAGE,
