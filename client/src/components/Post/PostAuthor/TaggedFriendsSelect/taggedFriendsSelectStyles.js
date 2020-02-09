@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core'
+import { BTN_PRIMARY_TEXT_COLOR } from '../../../../utils/constants/styleConstants'
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -8,7 +9,7 @@ const useStyles = makeStyles(theme => ({
   },
   tagLink: {
     fontWeight: 600,
-    color: 'rgba(48,213,200,0.78)',
+    color: BTN_PRIMARY_TEXT_COLOR,
     textDecoration: 'none',
   },
   menuLink: {

@@ -1,7 +1,8 @@
 import { makeStyles } from '@material-ui/core/styles'
 import {
+  CONTAINER_COUNT_COLOR,
   CONTAINER_HEADER_BG_COLOR,
-  CONTAINER_HEADER_TEXT_COLOR
+  CONTAINER_HEADER_TEXT_COLOR,
 } from '../../utils/constants/styleConstants'
 
 const useStyles = makeStyles(() => ({
@@ -18,7 +19,7 @@ const useStyles = makeStyles(() => ({
     background: CONTAINER_HEADER_BG_COLOR
   },
   count: {
-    color: '#a8acb4',
+    color: CONTAINER_COUNT_COLOR,
     fontWeight: 500
   },
   gridContainer: {

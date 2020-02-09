@@ -12,6 +12,7 @@ export const CONTAINER_HEADER_BG_COLOR = 'linear-gradient(rgb(110,112,120), rgb(
 export const CONTAINER_HEADER_TEXT_COLOR = 'rgb(225,225,227)'
 export const CONTAINER_TEXT_COLOR = 'rgb(80,80,81)'
 export const CONTAINER_BG_COLOR = 'rgb(231,231,233)'
+export const CONTAINER_COUNT_COLOR = 'rgb(168, 172, 180)'
 
 
 export const AVATAR_SIZE_MID = '40px'

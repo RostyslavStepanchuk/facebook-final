@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles'
+import { CONTAINER_TEXT_COLOR } from '../../utils/constants/styleConstants'
 
 const useStyles = makeStyles(() => ({
   image: props => ({
@@ -12,7 +13,7 @@ const useStyles = makeStyles(() => ({
   }),
   userLink: {
     textDecoration: 'none',
-    color:  'rgb(80,80,81)',
+    color:  CONTAINER_TEXT_COLOR,
     textAlign: 'center'
   },
   title: {

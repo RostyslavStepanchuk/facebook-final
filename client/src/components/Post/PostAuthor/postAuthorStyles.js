@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles'
-import { CONTAINER_TEXT_COLOR } from '../../../utils/constants/styleConstants'
+import { BTN_PRIMARY_TEXT_COLOR, CONTAINER_TEXT_COLOR } from '../../../utils/constants/styleConstants'
 
 const useStyles = makeStyles(() => ({
   user: {
@@ -38,7 +38,7 @@ const useStyles = makeStyles(() => ({
   },
   tagLink: {
     fontWeight: 600,
-    color: 'rgba(48,213,200,0.78)',
+    color: BTN_PRIMARY_TEXT_COLOR,
     textDecoration: 'none',
   },
   postDate: {
