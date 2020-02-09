@@ -32,6 +32,7 @@ const Tile = ({ imageSrc, title, username }) => {
           <Fragment>
             <div className={classes.image} onClick={handleModal} />
             <Dialog
+              maxWidth='md'
               open={openDialog}
               TransitionComponent={Transition}
               keepMounted

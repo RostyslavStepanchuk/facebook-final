@@ -4,16 +4,18 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { logout } from '../../actions/auth'
 import useStyles from './navbarStyles'
-import { AppBar, Badge, IconButton, Menu, MenuItem, Toolbar, Typography } from '@material-ui/core'
+import { AppBar, Badge, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography } from '@material-ui/core'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import MailIcon from '@material-ui/icons/Mail'
 import NotificationsIcon from '@material-ui/icons/Notifications'
+import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
 import MoreIcon from '@material-ui/icons/MoreVert'
-import MenuIcon from '@material-ui/icons/Menu'
-
+import HomeIcon from '@material-ui/icons/Home'
 import Search from '../Search/Search'
+import { selectFriendRequestTab } from '../../actions/profileTab'
+import { get } from 'lodash'
 
-const Navbar = ({ auth: { isAuthenticated, user }, logout }) => {
+const Navbar = ({ auth: { isAuthenticated, user }, incomingFriendRequests, selectFriendRequestTab, logout }) => {
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = useState(null)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null)
@@ -50,6 +52,12 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout }) => {
     history.push('/me')
   }
 
+  const openFriendRequestInProfile = () => {
+    handleMenuClose()
+    selectFriendRequestTab()
+    history.push('/me')
+  }
+
   const openChat = () => {
     handleMenuClose()
     history.push('/chat')
@@ -72,7 +80,6 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout }) => {
     >
       <MenuItem onClick={openProfile}>Profile</MenuItem>
       <MenuItem onClick={openChat}>Chat</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Find Friends</MenuItem>
       <MenuItem onClick={handleChange}>Logout</MenuItem>
     </Menu>
   )
@@ -119,16 +126,22 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout }) => {
   )
 
   return (
-    <div className={classes.root} >
-      <AppBar position='static' >
+    <div className={classes.root}  >
+      <AppBar position='static' className={classes.container} >
         <Toolbar>
           <Link to='/' className={classes.link}>
-            <IconButton edge='start' className={classes.menuButton} color='inherit' aria-label='menu'>
-              <MenuIcon />
+            <IconButton
+              className={classes.navbarButton}
+              edge='start'
+              color='inherit'
+              aria-label='menu'>
+              <HomeIcon />
             </IconButton>
           </Link>
           <Typography variant='h6' className={classes.title}>
-            DANBook
+            <Link to='/' className={classes.link}>
+              DANBook
+            </Link>
           </Typography>
           <div className={classes.searchContainer}>
             <Search />
@@ -138,24 +151,35 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout }) => {
           <Fragment>
             <div className={classes.root} />
             <div className={classes.sectionDesktop}>
-              <IconButton aria-label='show 4 new mails' color='inherit'>
-                <Badge badgeContent={4} color='secondary'>
-                  <MailIcon />
-                </Badge>
-              </IconButton>
-              <IconButton aria-label='show 17 new notifications' color='inherit'>
-                <Badge badgeContent={17} color='secondary'>
-                  <NotificationsIcon />
-                </Badge>
-              </IconButton>
+              <Tooltip title='Messages'>
+                <IconButton
+                  className={classes.navbarButton}
+                  onClick={openChat}
+                  color='inherit'>
+                  <Badge badgeContent={4} color='secondary'>
+                    <MailIcon />
+                  </Badge>
+                </IconButton>
+              </Tooltip>
+              <Tooltip title='Friend requests'>
+                <IconButton
+                  className={classes.navbarButton}
+                  onClick={openFriendRequestInProfile}
+                  color='inherit'>
+                  <Badge badgeContent={get(incomingFriendRequests, 'length', '0')} color='secondary'>
+                    <SupervisedUserCircleIcon />
+                  </Badge>
+                </IconButton>
+              </Tooltip>
               <IconButton
+                className={classes.navbarButton}
                 edge='end'
                 aria-label='account of current user'
                 aria-controls={menuId}
                 aria-haspopup='true'
                 onClick={handleProfileMenuOpen}
                 color='inherit'
-            >
+              >
                 <AccountCircle />
               </IconButton>
             </div>
@@ -182,11 +206,19 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout }) => {
 
 Navbar.propTypes = {
   logout: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
+  selectFriendRequestTab: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  incomingFriendRequests: PropTypes.array.isRequired
 }
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  incomingFriendRequests: state.friends.incomingFriendRequests
 })
 
-export default connect(mapStateToProps, { logout })(Navbar)
+const mapDispatchToProps = dispatch => ({
+  selectFriendRequestTab: () => dispatch(selectFriendRequestTab()),
+  logout: () => dispatch(logout())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar)

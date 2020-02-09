@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
@@ -20,6 +20,7 @@ import { getUserProfile } from '../../actions/search'
 import { getIncomingFriendRequests, loadUserFriends } from '../../actions/friends'
 
 import useStyles from './profilePageStyles'
+import { resetTab } from '../../actions/profileTab'
 
 const FRIENDS_PAGE_SIZE = 20
 const POSTS_PAGE_SIZE = 10
@@ -40,13 +41,14 @@ const ProfilePage = ({
      friendsAreLoading,
      loadUserFriends,
      incomingFriendRequests,
-     getIncomingFriendRequests
+     getIncomingFriendRequests,
+     resetTab,
+     selectedTab
    }) => {
   const classes = useStyles()
   const userId = useParams().userId || user.username
   const isOwnProfile = userId === user.username
-  const [profileTab, setProfileTab] = useState('your story')
-
+  const currentUser = user.username
   const loadUserPosts = getPostsForProfile.bind(null, userId)
 
   useEffect(() => {
@@ -54,18 +56,16 @@ const ProfilePage = ({
     loadUserPhotos(userId)
     getPostsForProfile(userId, FIRST_PAGE, POSTS_PAGE_SIZE, true)
     loadUserFriends(userId, FIRST_PAGE, FRIENDS_PAGE_SIZE, true)
-  }, [ loadUserPhotos, loadUserProfile, loadUserFriends, getPostsForProfile, userId ])
+    if (currentUser !== userId) resetTab()
+  }, [ loadUserPhotos, loadUserProfile, loadUserFriends, getPostsForProfile, userId, resetTab, currentUser ])
+
   useEffect(() => { // separate useEffect cause this request doesn't depend on profile change, it's for user
     getIncomingFriendRequests()
   }, [getIncomingFriendRequests, isOwnProfile])
 
-  const handleChangeTab = (event, newValue) => {
-    setProfileTab(newValue)
-  }
-
   return profileLoading ? <Preloader /> : (
     <InfiniteScroll
-      isDisable={profileTab === 'messages'}
+      isDisable={selectedTab === 'messages'}
       contentArrLength={posts.length}
       loadContentHandler={loadUserPosts}
       contentIsLoading={postsAreLoading}
@@ -85,11 +85,10 @@ const ProfilePage = ({
             <ProfileCover
               profileOwner={profileOwner}
               isOwnProfile={isOwnProfile}
-              profileTab={profileTab}
-              handleChangeTab={handleChangeTab} />
+              selectedTab={selectedTab} />
           </Paper>
         </Grid>
-        {profileTab === 'your story' &&
+        {selectedTab === 'timeline' &&
         <Fragment>
           <Grid item xs={9} sm={4}>
             <Paper className={classes.paper}>
@@ -108,28 +107,28 @@ const ProfilePage = ({
           </Grid>
         </Fragment>
         }
-        {profileTab === 'friend requests' &&
+        {selectedTab === 'friend requests' &&
         <Grid item sm={9}>
           <Paper className={classes.paper}>
             <FriendsList requests={incomingFriendRequests} />
           </Paper>
         </Grid>
         }
-        {profileTab === 'friends' &&
+        {selectedTab === 'friends' &&
         <Grid item sm={9}>
           <Paper className={classes.paper}>
             <FriendsList friends={friends} />
           </Paper>
         </Grid>
         }
-        {profileTab === 'photos' &&
+        {selectedTab === 'photos' &&
         <Grid item sm={9}>
           <Paper className={classes.paper}>
             <PhotosList userPhotos={userPhotos} />
           </Paper>
         </Grid>
         }
-        {profileTab === 'messages' &&
+        {selectedTab === 'messages' &&
         <Grid item sm={9}>
           <Paper className={classes.paper}>
             <MessagesList userId={userId} />
@@ -156,12 +155,14 @@ ProfilePage.propTypes = {
   friendsAreLoading: PropTypes.bool.isRequired,
   loadUserFriends: PropTypes.func.isRequired,
   incomingFriendRequests: PropTypes.array.isRequired,
-  getIncomingFriendRequests: PropTypes.func.isRequired
-
+  getIncomingFriendRequests: PropTypes.func.isRequired,
+  resetTab: PropTypes.func.isRequired,
+  selectedTab: PropTypes.string.isRequired
 }
 
 const mapStateToProps = state => ({
   user: state.auth.user,
+  selectedTab: state.profileTab.selectedTab,
   userPhotos: state.images.userPhotos,
   loadingPhotos: state.images.loading,
   postsAreLoading: state.posts.loading,
@@ -178,7 +179,8 @@ const mapDispatchToProps = dispatch => ({
   getPostsForProfile: (userId, page, size, isInitial) => dispatch(getPostsForProfile(userId, page, size, isInitial)),
   loadUserProfile: (userId) => dispatch(getUserProfile(userId)),
   loadUserFriends: (username, page, size, isInitial) => dispatch(loadUserFriends(username, page, size, isInitial)),
-  getIncomingFriendRequests: () => dispatch(getIncomingFriendRequests())
+  getIncomingFriendRequests: () => dispatch(getIncomingFriendRequests()),
+  resetTab: () => dispatch(resetTab())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage)
