@@ -93,6 +93,14 @@ public class ApplicationUser implements DbEntity<String> {
   @JsonBackReference
   private List<ChatMessage> writtenMessages;
 
+  @ManyToMany
+  @JoinTable(name = "unread_messages",
+      joinColumns = @JoinColumn(name = "fk_username"),
+      inverseJoinColumns = @JoinColumn(name = "fk_message_id"))
+  @JsonBackReference
+  private List<ChatMessage> unreadMessages;
+
+
   @Override
   public String getId() {
     return username;

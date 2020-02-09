@@ -18,6 +18,7 @@ import { getUserPhotosFromPosts } from '../../actions/image'
 import { getPostsForProfile } from '../../actions/post'
 import { getUserProfile } from '../../actions/search'
 import { getIncomingFriendRequests, loadUserFriends } from '../../actions/friends'
+import { clearCurrentChatMessages } from '../../actions/chat'
 
 import useStyles from './profilePageStyles'
 import { resetTab } from '../../actions/profileTab'
@@ -43,7 +44,8 @@ const ProfilePage = ({
      incomingFriendRequests,
      getIncomingFriendRequests,
      resetTab,
-     selectedTab
+     selectedTab,
+     clearCurrentChatMessages
    }) => {
   const classes = useStyles()
   const userId = useParams().userId || user.username
@@ -62,6 +64,12 @@ const ProfilePage = ({
   useEffect(() => { // separate useEffect cause this request doesn't depend on profile change, it's for user
     getIncomingFriendRequests()
   }, [getIncomingFriendRequests, isOwnProfile])
+
+  useEffect(() => {
+    if (selectedTab !== 'messages') {
+      clearCurrentChatMessages()
+    }
+  }, [ selectedTab, clearCurrentChatMessages ])
 
   return profileLoading ? <Preloader /> : (
     <InfiniteScroll
@@ -157,7 +165,8 @@ ProfilePage.propTypes = {
   incomingFriendRequests: PropTypes.array.isRequired,
   getIncomingFriendRequests: PropTypes.func.isRequired,
   resetTab: PropTypes.func.isRequired,
-  selectedTab: PropTypes.string.isRequired
+  selectedTab: PropTypes.string.isRequired,
+  clearCurrentChatMessages: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -180,6 +189,7 @@ const mapDispatchToProps = dispatch => ({
   loadUserProfile: (userId) => dispatch(getUserProfile(userId)),
   loadUserFriends: (username, page, size, isInitial) => dispatch(loadUserFriends(username, page, size, isInitial)),
   getIncomingFriendRequests: () => dispatch(getIncomingFriendRequests()),
+  clearCurrentChatMessages: () => dispatch(clearCurrentChatMessages()),
   resetTab: () => dispatch(resetTab())
 })
 

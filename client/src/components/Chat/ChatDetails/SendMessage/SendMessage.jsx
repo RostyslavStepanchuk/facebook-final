@@ -65,8 +65,7 @@ const SendMessage = ({ authUser, chatId }) => {
 
 SendMessage.propTypes = {
   authUser: PropTypes.object.isRequired,
-  chatId: PropTypes.number.isRequired,
-  sendMessage: PropTypes.func.isRequired
+  chatId: PropTypes.number.isRequired
 }
 
 const mapStateToProps = state => ({
