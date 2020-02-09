@@ -41,16 +41,16 @@ const Post = ({ post }) => {
 
   return (
     <Paper key={id} className={classes.post}>
-      <PostAuthor
-        postId={id}
-        author={author}
-        owner={owner}
-        date={date}
-        taggedFriends={taggedFriends}
-        updateRef={updateRef}
-        openUpdateWindow={openUpdateWindow}
-        handleToggleUpdate={handleToggleUpdate}
-      />
+        <PostAuthor
+          postId={id}
+          author={author}
+          owner={owner}
+          date={date}
+          taggedFriends={taggedFriends}
+          updateRef={updateRef}
+          openUpdateWindow={openUpdateWindow}
+          handleToggleUpdate={handleToggleUpdate}
+        />
       {image &&
         <Fragment>
           <img src={get(image, 'src')}  onClick={handleModal} className={classes.image} alt='Post' />
@@ -65,7 +65,7 @@ const Post = ({ post }) => {
             </Dialog>
         </Fragment>
       }
-      <p>{message}</p>
+      {message && <p>{message}</p>}
       <PostLikePanel postId={id} likes={likes} comments={comments} focusForCreatingComment={focusForCreatingComment} />
       <PostComments postId={id} postOwner={owner} comments={comments} inputRef={inputRef} />
       <UpdatePost

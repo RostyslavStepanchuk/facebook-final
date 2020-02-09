@@ -1,4 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles'
+import {
+  CONTAINER_TEXT_COLOR
+} from '../../../utils/constants/styleConstants'
 
 const useStyles = makeStyles(() => ({
   avatar: props => ({
@@ -12,9 +15,11 @@ const useStyles = makeStyles(() => ({
   }),
   gridItem: {
     display: 'flex',
-    border: '1px solid #e9ebee',
+    border: '1px solid',
+    borderColor: 'rgb(126,126,127)',
     margin: '8px auto',
-    minWidth: 370
+    minWidth: 370,
+    boxShadow: '0 1px rgba(255,255,255,.2) inset,  0 3px 5px rgba(0,1,6,.5),  0 0 1px 1px rgba(0,1,6,.2)'
   },
   friendInfo: {
     display: 'flex',
@@ -24,21 +29,21 @@ const useStyles = makeStyles(() => ({
     padding: '0 10px'
   },
   userName: {
-    color: '#000',
+    color: CONTAINER_TEXT_COLOR,
     fontWeight: 600,
     margin: 0,
     wordBreak: 'break-word'
   },
   link: {
     textDecoration: 'none',
-    color: 'black'
+    color: CONTAINER_TEXT_COLOR
   },
   requestDate: {
     margin: 0,
     wordBreak: 'break-word'
   },
   confirmBtn: {
-    color: '#8bc34a'
+    color: '#8bc34a',
   }
 
 }))

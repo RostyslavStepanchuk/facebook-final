@@ -16,7 +16,7 @@ public class TestConstants {
   public static final String USER_EMAIL_CONFIRMATION_ID = "1234563141324";
 
   public static final String USER2_USERNAME = "imaginaryUser";
-  public static final String USER3_USERNAME = "nonExistingUser";
+  public static final String USER3_USERNAME = "suggestFriend";
 
   public static final String URL_GET_CURRENT_USER = "/api/v1/users/current";
   public static final String URL_USERS_BASIC = "/api/v1/users";

@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core'
+import { BTN_PRIMARY_TEXT_COLOR } from '../../../../utils/constants/styleConstants'
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -7,11 +8,9 @@ const useStyles = makeStyles(theme => ({
     overflowY: 'scroll'
   },
   tagLink: {
-    color: '#4154B3',
+    fontWeight: 600,
+    color: BTN_PRIMARY_TEXT_COLOR,
     textDecoration: 'none',
-    '&:visited': {
-      color: '#4154B3'
-    }
   },
   menuLink: {
     color: 'inherit',

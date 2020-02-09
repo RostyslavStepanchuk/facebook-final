@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { Paper, Typography } from '@material-ui/core'
+import { Typography } from '@material-ui/core'
 import FriendSuggestionItem from './FriendSuggestionItem/FriendSuggestionItem'
 
 import useStyles from './friendSuggestionsStyles'
@@ -12,12 +12,12 @@ const FriendSuggestions = ({ suggestions }) => {
   const content = suggestions.map(s => <FriendSuggestionItem person={s.user} commonFriends={s.commonFriends} key={s.user.username} />)
 
   return (
-    <Paper className={classes.paper}>
+    <div className={classes.container}>
       <Typography variant='subtitle1' component='div' className={classes.header}>
         People you may know
       </Typography>
       {content}
-    </Paper>
+    </div>
   )
 }
 
