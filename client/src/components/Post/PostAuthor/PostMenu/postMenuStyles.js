@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core'
 
 const useStyles = makeStyles(() => ({
   btnMenu: {
-    margin: 5,
+    margin: 7,
     padding: 5
   },
   grow: {

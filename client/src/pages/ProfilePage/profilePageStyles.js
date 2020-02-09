@@ -1,6 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles'
+import { CONTAINER_BG_COLOR, CONTAINER_TEXT_COLOR } from '../../utils/constants/styleConstants'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   scrollContainer: {
     position: 'absolute',
     top: 0,
@@ -15,15 +16,12 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     boxSizing: 'border-box'
   },
-  feedColumn: {
-    paddingRight: 30
-  },
   paper: {
-    marginBottom: theme.spacing(2),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-    boxShadow: '0 2px 4px rgba(0, 0, 0, .25)',
-    marginRight: 30
+    textAlign: 'left',
+    color:  CONTAINER_TEXT_COLOR,
+    background: CONTAINER_BG_COLOR,
+    borderRadius: 4,
+    boxShadow: '0 1px rgba(255,255,255,.2) inset,  0 3px 5px rgba(0,1,6,.5),  0 0 1px 1px rgba(0,1,6,.2)',
   }
 }))
 

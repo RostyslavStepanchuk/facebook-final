@@ -1,15 +1,16 @@
 import { makeStyles } from '@material-ui/core/styles'
+import { CONTAINER_TEXT_COLOR } from '../../../../utils/constants/styleConstants'
 
 const useStyles = makeStyles(() => ({
   panel: {
     display: 'flex',
     justifyContent: 'space-between',
     padding: '5px 10px',
-    borderBottom: '1px solid #e6e6e6'
+    borderBottom: '1px solid rgb(188,188,189)',
   },
   link: {
     textDecoration: 'none',
-    color: 'black'
+    color: CONTAINER_TEXT_COLOR
   },
   comment: {
     textAlign: 'left',
