@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles'
+import { CONTAINER_TEXT_COLOR } from '../../../../utils/constants/styleConstants'
 
 const useStyles = makeStyles(() => ({
   panel: {
@@ -9,7 +10,7 @@ const useStyles = makeStyles(() => ({
   },
   link: {
     textDecoration: 'none',
-    color: 'black'
+    color: CONTAINER_TEXT_COLOR
   },
   comment: {
     textAlign: 'left',

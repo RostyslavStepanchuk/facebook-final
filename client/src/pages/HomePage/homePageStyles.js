@@ -21,14 +21,6 @@ const useStyles = makeStyles(() => ({
   container: {
     padding: '10px 0'
   },
-  mainSectionPlaceholder: {
-    height: '1000px',
-    backgroundColor: 'green'
-  },
-  rightSectionPlaceholder: {
-    height: '300px',
-    backgroundColor: 'blue'
-  }
 }))
 
 export default useStyles

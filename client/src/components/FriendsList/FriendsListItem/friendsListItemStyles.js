@@ -36,7 +36,7 @@ const useStyles = makeStyles(() => ({
   },
   link: {
     textDecoration: 'none',
-    color: 'black'
+    color: CONTAINER_TEXT_COLOR
   },
   requestDate: {
     margin: 0,

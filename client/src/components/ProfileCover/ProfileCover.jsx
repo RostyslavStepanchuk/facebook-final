@@ -11,6 +11,9 @@ import { getFullName } from '../../utils/helpers/formatters'
 import useStyles from './profileCoverStyles'
 import { changeTab } from '../../actions/profileTab'
 import { connect } from 'react-redux'
+import {
+  BTN_PRIMARY_TEXT_COLOR
+} from '../../utils/constants/styleConstants'
 
 const ProfileCover = ({ profileOwner, isOwnProfile, selectedTab, changeTab }) => {
   const classes = useStyles({profileCover: getProfileCoverLink(profileOwner)})
@@ -26,7 +29,7 @@ const ProfileCover = ({ profileOwner, isOwnProfile, selectedTab, changeTab }) =>
   }
 
   const getStyle = (isActive) => {
-    if (isActive) return {color:'rgb(48, 213, 200)'}
+    if (isActive) return {color: BTN_PRIMARY_TEXT_COLOR}
   }
 
   return (
@@ -58,7 +61,7 @@ const ProfileCover = ({ profileOwner, isOwnProfile, selectedTab, changeTab }) =>
       <div className={classes.tabContainer}>
       <Tabs
         value={selectedTab}
-        TabIndicatorProps={{style: {background:'rgb(48, 213, 200)'}}}
+        TabIndicatorProps={{style: {background: BTN_PRIMARY_TEXT_COLOR}}}
         onChange={handleChangeTab}
         aria-label='icon label tabs'
         className={classes.submenu}>
