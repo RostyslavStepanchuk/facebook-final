@@ -8,7 +8,7 @@ const METHOD_POST = 'post'
 const METHOD_PUT = 'put'
 const METHOD_DELETE = 'delete'
 const API_BASE_URL = '/api/v1'
-const SOCKET_URL ='/ws'
+const SOCKET_URL = '/ws'
 
 const setAuthToken = token => {
   if (token) {

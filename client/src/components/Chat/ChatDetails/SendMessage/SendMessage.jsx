@@ -1,13 +1,7 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import {
-  Avatar,
-  IconButton,
-  Input,
-  Paper,
-  Tooltip
-} from '@material-ui/core'
+import { Avatar, IconButton, Input, Paper, Tooltip } from '@material-ui/core'
 import SendIcon from '@material-ui/icons/Send'
 
 import { getAvatarLink } from '../../../../utils/helpers/imageLinkHelpers'
@@ -15,7 +9,7 @@ import { sendMessage } from '../../../../actions/chat'
 
 import useStyles from './sendMessageStyles'
 
-const SendMessage = ({ authUser, sendMessage, chatId }) => {
+const SendMessage = ({ authUser, chatId }) => {
   const classes = useStyles()
   const [value, setValue] = useState('')
 
@@ -71,11 +65,10 @@ const SendMessage = ({ authUser, sendMessage, chatId }) => {
 
 SendMessage.propTypes = {
   authUser: PropTypes.object.isRequired,
-  chatId: PropTypes.number.isRequired,
-  sendMessage: PropTypes.func.isRequired
+  chatId: PropTypes.number.isRequired
 }
 
 const mapStateToProps = state => ({
   authUser: state.auth.user
 })
-export default connect(mapStateToProps, {sendMessage})(SendMessage)
+export default connect(mapStateToProps, null)(SendMessage)
