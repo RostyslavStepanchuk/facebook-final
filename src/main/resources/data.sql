@@ -79,12 +79,10 @@ INSERT INTO friends (fk_username, fk_friend_username) values ('testUserDouble', 
 INSERT INTO friends (fk_username, fk_friend_username) values ('tagFriend', 'imaginaryUser');
 INSERT INTO friends (fk_username, fk_friend_username) values ('imaginaryUser', 'tagFriend');
 
-
 /* posts */
 INSERT INTO posts (message, date, fk_image_id, show_everyone, fk_author_username, fk_owner_username) values ('this is a first post in this application', 1575390051359 , 7, true, 'testUser', 'testUser');
 INSERT INTO posts (message, date, fk_image_id, show_everyone, fk_author_username, fk_owner_username) values ('Smart friends post', 1575390091359 , 9, true, 'imaginaryUser', 'imaginaryUser');
 INSERT INTO posts (message, date, fk_image_id, show_everyone, fk_author_username, fk_owner_username) values ('Gif', 1575390091359 , 10, true, 'nonExistingUser', 'testUser');
-
 
 INSERT INTO posts (message, date, fk_image_id, show_everyone, fk_author_username, fk_owner_username) values ('post for pagination test', 1575390051359 , null , true, 'testUser', 'testUser');
 INSERT INTO posts (message, date, fk_image_id, show_everyone, fk_author_username, fk_owner_username) values ('post for pagination test', 1575390051359 , null , true, 'testUser', 'testUser');
@@ -109,7 +107,6 @@ INSERT INTO posts (message, date, fk_image_id, show_everyone, fk_author_username
 INSERT INTO posts (message, date, fk_image_id, show_everyone, fk_author_username, fk_owner_username) values ('Happy BD to u!', 1575390057359 , 8, true, 'imaginaryUser', 'testUser');
 INSERT INTO posts (message, date, fk_image_id, show_everyone, fk_author_username, fk_owner_username) values ('post for pagination test', 1575390051359 , null , true, 'testUser', 'testUser');
 INSERT INTO posts (message, date, fk_image_id, show_everyone, fk_author_username, fk_owner_username) values ('post for pagination test', 1575390091359 , 9, true, 'nonExistingUser', 'nonExistingUser');
-
 
 /* comments */
 INSERT INTO comments (message, date, fk_author_username, fk_post_id) values ('this post sucks, actually', 1575390058432, 'imaginaryUser', 1);
