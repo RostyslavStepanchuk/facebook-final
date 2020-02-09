@@ -58,15 +58,17 @@ const useStyles = makeStyles(theme => ({
   },
   inputRoot: {
     color: 'inherit',
-
     '& .MuiOutlinedInput-root': {
+      border: '1px solid rgba(33,43,52,1)',
+      boxShadow: 'inset 0 1px rgba(101,114,126,1),  ' +
+        'inset 0 0 1px rgba(140,150,170,.8),  ' +
+        '0 1px rgb(83,94,104),  0 0 1px rgb(86,96,106)',
       '&:hover fieldset': {
-        borderColor: '#3f51b5'
+        border: '1px solid #2f363e',
       }
     }
   },
   inputInput: {
-
     padding: theme.spacing(1, 1, 1, 7),
     transition: theme.transitions.create('width'),
     width: '100%',

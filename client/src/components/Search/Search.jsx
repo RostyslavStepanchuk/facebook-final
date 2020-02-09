@@ -15,7 +15,7 @@ import useStyles from './searchStyle'
 const FIRST_PAGE = 0
 const SEARCH_PAGE_SIZE = 10
 
-const Search = ({loading, searchData, searchResults}) => {
+const Search = ({ loading, searchData, searchResults }) => {
   const classes = useStyles()
   const [open, setOpen] = useState(false)
   const [options, setOptions] = useState([])

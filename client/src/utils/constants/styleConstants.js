@@ -1,4 +1,5 @@
-export const BACKGROUND_COLOR = '#e9ebee'
+export const BACKGROUND_COLOR = '#ced7d8'
+export const PRIMARY_COLOR = 'linear-gradient(rgb(49,104,121), rgb(5,73,87)) rgb(49,104,121)'
 export const AVATAR_SIZE_MID = '40px'
 export const POST_IMAGE_HEIGHT = '80px'
 export const POST_IMAGE_WIDTH = '120px'

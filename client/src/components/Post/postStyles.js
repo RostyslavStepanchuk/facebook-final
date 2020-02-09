@@ -8,7 +8,7 @@ const useStyles = makeStyles(() => ({
     textAlign: 'center',
     marginBottom: 20
   },
-  postImg: {
+  image: {
     width: '100%'
   }
 }))

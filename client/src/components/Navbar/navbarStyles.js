@@ -1,18 +1,18 @@
-
 import { fade, makeStyles } from '@material-ui/core/styles'
+import { PRIMARY_COLOR } from '../../utils/constants/styleConstants'
 
 const useStyles = makeStyles(theme => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
   },
-  menuButton: {
-    marginRight: theme.spacing(2)
+  container: {
+    background: PRIMARY_COLOR,
   },
   title: {
     display: 'none',
     [theme.breakpoints.up('sm')]: {
-      display: 'block'
-    }
+      display: 'block',
+    },
   },
   link: {
     textDecoration: 'none',
@@ -48,7 +48,29 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up('md')]: {
       display: 'none'
     }
-  }
+  },
+  navbarButton: {
+    margin: theme.spacing(1),
+    position: 'relative',
+    display: 'inline-block',
+    color: 'rgb(48, 213, 200)',
+    textShadow: '0 -1px 2px rgba(0,0,0,.2)',
+    padding: 7,
+    height: 'min-content',
+    outline: 'none',
+    background: PRIMARY_COLOR,
+    boxShadow: '0 1px rgba(255,255,255,.2) inset,  0 3px 5px rgba(0,1,6,.5),  0 0 1px 1px rgba(0,1,6,.2)',
+    transition: '.2s ease-in-out',
+    '&:hover:not(:active)': {
+      background: 'linear-gradient(rgb(65,128,135), rgb(23,62,74)) rgb(65,128,135)'
+    },
+    '&:active': {
+      top: 1,
+      background: 'linear-gradient(rgb(39,83,96), rgb(19,41,48)) rgb(39,83,96)',
+      boxShadow: '0 0 1px rgba(0,0,0,.5) inset,  0 2px 3px rgba(0,0,0,.5) inset,  0 1px 1px rgba(255,255,255,.1)',
+    },
+  },
+
 }))
 
 export default useStyles
