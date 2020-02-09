@@ -14,7 +14,7 @@ const useStyles = makeStyles(() => ({
     margin: '5px 15px 5px 10px'
   },
   createInput: {
-
+    background: 'white'
   },
   footerText: {
     fontSize: 12,

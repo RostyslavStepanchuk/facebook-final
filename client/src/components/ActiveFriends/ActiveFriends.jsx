@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { get, isEmpty } from 'lodash'
-import { Avatar, IconButton, Paper, Tooltip, Typography } from '@material-ui/core'
+import { Avatar, IconButton, Tooltip, Typography } from '@material-ui/core'
 import MailOutlineIcon from '@material-ui/icons/MailOutline'
 
 import Preloader from '../Preloader/Preloader'
@@ -46,12 +46,12 @@ const ActiveFriends = ({ activeFriends, activeFriendsAreLoading }) => {
   const loadedContent = activeFriendsAreLoading ? <Preloader /> : friendsList()
 
   return (
-    <Paper className={classes.paper}>
+    <Fragment>
       <Typography className={classes.header} variant='subtitle1' component='div'>
         Active Friends <span className={classes.count}>{get(activeFriends, 'length', '—')}</span>
       </Typography>
       {loadedContent}
-    </Paper>
+    </Fragment>
   )
 }
 

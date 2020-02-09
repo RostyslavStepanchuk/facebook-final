@@ -7,11 +7,9 @@ const useStyles = makeStyles(theme => ({
     overflowY: 'scroll'
   },
   tagLink: {
-    color: '#4154B3',
+    fontWeight: 600,
+    color: 'rgba(48,213,200,0.78)',
     textDecoration: 'none',
-    '&:visited': {
-      color: '#4154B3'
-    }
   },
   menuLink: {
     color: 'inherit',

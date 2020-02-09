@@ -12,7 +12,6 @@ import {
   GridListTile,
   GridListTileBar,
   IconButton,
-  Paper,
   TextField,
   Typography
 } from '@material-ui/core'
@@ -112,8 +111,7 @@ const CreatePost = ({ profileOwner, currentUser, currentUserFriends, loadCurrent
   ))
 
   return (
-    <Paper elevation={1} className={classes.paper}>
-      <div >
+      <div className={classes.container} >
         <Typography variant='subtitle1' component='div' className={classes.header}>
           Create post
         </Typography>
@@ -144,7 +142,7 @@ const CreatePost = ({ profileOwner, currentUser, currentUserFriends, loadCurrent
           </Grid>
           <Grid container className={classes.toolsContainer}>
             <Grid item xs={10}>
-              <Button color='primary' className={classes.button}>
+              <Button className={classes.button}>
                 <label htmlFor='file_upload' className={classes.label}>
                   <CropOriginalOutlinedIcon className={classes.icon} />
                   <div className={classes.labelText}> Add image</div>
@@ -164,9 +162,9 @@ const CreatePost = ({ profileOwner, currentUser, currentUserFriends, loadCurrent
             </Grid>
             <Grid container item xs={2} justify='flex-end'>
               <Button
+                className={classes.button}
                 type='submit'
                 variant='contained'
-                color='primary'
                 onClick={handleSubmit}
               >
                 POST
@@ -175,7 +173,6 @@ const CreatePost = ({ profileOwner, currentUser, currentUserFriends, loadCurrent
           </Grid>
         </form>
       </div>
-    </Paper>
   )
 }
 

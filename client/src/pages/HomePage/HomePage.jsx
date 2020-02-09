@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { Container, Grid } from '@material-ui/core'
+import { Container, Grid, Paper } from '@material-ui/core'
 import useStyles from './homePageStyles'
 import CreatePost from '../../components/CreatePost/CreatePost'
 import PostFeed from '../../components/PostFeed/PostFeed'
@@ -56,17 +56,23 @@ const HomePage = ({
       <Container className={classes.container} maxWidth='lg'>
         <Grid container spacing={2}>
           <Grid item md={3}>
-            <FriendSuggestions suggestions={friendSuggestions} />
+            <Paper className={classes.paper}>
+              <FriendSuggestions suggestions={friendSuggestions} />
+            </Paper>
           </Grid>
           <Grid item md={6}>
-            <CreatePost profileOwner={user} />
+            <Paper className={classes.paper}>
+              <CreatePost profileOwner={user} />
+            </Paper>
             <PostFeed />
           </Grid>
           <Grid item md={3}>
-            <ActiveFriends
-              activeFriends={activeFriends}
-              activeFriendsAreLoading={activeFriendsAreLoading}
-            />
+            <Paper className={classes.paper}>
+              <ActiveFriends
+                activeFriends={activeFriends}
+                activeFriendsAreLoading={activeFriendsAreLoading}
+              />
+            </Paper>
           </Grid>
         </Grid>
       </Container>

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-import { Avatar, Grid, IconButton, Paper, Tooltip, Typography } from '@material-ui/core'
+import { Avatar, Grid, IconButton, Tooltip, Typography } from '@material-ui/core'
 import PanToolOutlinedIcon from '@material-ui/icons/PanToolOutlined'
 import CallMadeOutlinedIcon from '@material-ui/icons/CallMadeOutlined'
 
@@ -38,7 +38,7 @@ const FriendSuggestions = ({ person, commonFriends }) => {
   commonFriendAvatars.length = COMMON_F_AVATARS_TO_SHOW
 
   return (
-    <Paper elevation={0} className={classes.container}>
+    <div elevation={0} className={classes.container}>
       <Grid container justify='space-between' alignContent='center'>
         <Grid item container xs={10}>
           <Grid item >
@@ -69,7 +69,7 @@ const FriendSuggestions = ({ person, commonFriends }) => {
           </Box>
         </Grid>
       </Grid>
-    </Paper>
+    </div>
   )
 }
 
