@@ -1,15 +1,15 @@
 import {
-  START_LOADING_CHATS,
-  STOP_LOADING_CHATS,
+  CHAT_RECEIVED,
   CHATS_RECEIVED,
-  START_LOADING_MESSAGES,
+  CURRENT_CHAT_MESSAGE_RECEIVED,
   MESSAGES_RECEIVED,
-  STOP_LOADING_MESSAGES,
-  SEND_MESSAGE,
   RESET_RECEIVED_MESSAGES,
   START_LOADING_CHAT,
+  START_LOADING_CHATS,
+  START_LOADING_MESSAGES,
   STOP_LOADING_CHAT,
-  CHAT_RECEIVED
+  STOP_LOADING_CHATS,
+  STOP_LOADING_MESSAGES
 } from '../utils/constants/actionsName'
 import { addPagedPayload } from '../utils/helpers/payloadAdapter'
 
@@ -54,7 +54,7 @@ export default function (state = initialState, action) {
     case RESET_RECEIVED_MESSAGES:
       return {...state, chatMessages: []}
 
-    case SEND_MESSAGE:
+    case CURRENT_CHAT_MESSAGE_RECEIVED:
       return { ...state,
         chatMessages: [payload, ...state.chatMessages.reverse()],
         ownMessageSent: true,

@@ -1,16 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import classnames from 'classnames'
+import { connect } from 'react-redux'
 import SockJsClient from 'react-stomp'
 
 import { Divider } from '@material-ui/core'
-
 import ChatToolbar from './ChatToolbar/ChatToolbar'
 import ChatMessages from './ChatMessages/ChatMessages'
 import SendMessage from './SendMessage/SendMessage'
 
 import useStyles from './chatDetailsStyles'
+import classnames from 'classnames'
 
+import { receiveMessage } from '../../../actions/chat'
 import apiRequest from '../../../utils/helpers/apiRequest'
 
 const ChatDetails = ({
@@ -22,13 +23,13 @@ const ChatDetails = ({
   loadContentHandler,
   ownMessageSent,
   isLastPageInChat,
-  containerHeight
+  containerHeight,
+  receiveMessage
 }) => {
   const classes = useStyles()
 
-  const onMessageReceive = (msg) => {
-    console.log('message received from sockets')
-    console.log(msg)
+  const onMessageReceive = msg => {
+    receiveMessage(msg)
   }
 
   return (
@@ -67,4 +68,4 @@ ChatDetails.propTypes = {
   containerHeight: PropTypes.number
 }
 
-export default ChatDetails
+export default connect(null, { receiveMessage })(ChatDetails)
