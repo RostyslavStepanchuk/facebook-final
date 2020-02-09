@@ -24,8 +24,8 @@ INSERT INTO images (source_key, src) values ('1578253112874-bg', 'https://s3.us-
 /* posts images */
 INSERT INTO images (source_key, src) values ('1576923813421-avatar-bg', 'https://s3.us-west-2.amazonaws.com/fs-8/1576923813421-avatar-bg.jpg');
 INSERT INTO images (source_key, src) values ('1576923750814-avatar', 'https://s3.us-west-2.amazonaws.com/fs-8/1576923750814-avatar.jpg');
-INSERT INTO images (source_key, src) values ('1578253112874-bg', 'https://s3.us-west-2.amazonaws.com/fs-8/1578253112874-bg.jpg');
-INSERT INTO images (source_key, src) values ('1581277432105-20d8', 'https://fs-8-final.s3.us-east-2.amazonaws.com/1581277432105-20d8.png');
+INSERT INTO images (source_key, src) values ('1581283928868-77f7', 'https://s3.us-east-2.amazonaws.com/fs-8-final/1581283928868-77f7.png');
+INSERT INTO images (source_key, src) values ('1581277432105-20d8', 'https://s3.us-east-2.amazonaws.com/fs-8-final/1581277432105-20d8.png');
 
 /* users */
 INSERT INTO users (username, password, email, first_name, last_name, birth_date, gender, last_activity_time, fk_avatar_img_id, fk_cover_img_id, open_account, fk_tokens_data_id) values ('testUser', '$2a$10$SnXMYc5qb13dm8E2lza71.CtZcZQuh18vF3i6uZqeODN0eq/XjFX.', 'test@test.com', 'Tyler', 'Durden', 659998800000, 1, 1580365523140, 1, 4, true, 1); /* password passw1234 */
