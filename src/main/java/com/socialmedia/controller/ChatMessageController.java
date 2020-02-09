@@ -1,5 +1,6 @@
 package com.socialmedia.controller;
 
+import com.socialmedia.dto.chat.UnreadChatDtoOut;
 import com.socialmedia.dto.chat.message.ChatMessageDtoIn;
 import com.socialmedia.dto.chat.message.ChatMessageDtoOut;
 import com.socialmedia.mapper.ChatMessageMapper;
@@ -13,9 +14,12 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/messages")
@@ -37,11 +41,22 @@ public class ChatMessageController {
     return ResponseEntity.ok(chatMessageMapper.getAllMessagesForChat(chatId, pageable));
   }
 
-  @PostMapping("/add/{chatId}")
-  public ResponseEntity<ChatMessageDtoOut> sendMessage(@PathVariable Long chatId, @RequestBody ChatMessageDtoIn message) {
+  @PostMapping("/add")
+  public ResponseEntity<ChatMessageDtoOut> sendMessage(@RequestBody ChatMessageDtoIn message) {
     ChatMessageDtoOut chatMessage = chatMessageMapper.create(message);
-    messagingTemplate.convertAndSend(String.format("/topic/chats/%d", chatId), chatMessage);
-    return ResponseEntity.ok(chatMessageMapper.create(message));
+    chatMessage.getChat().getParticipants().forEach(participant ->
+        messagingTemplate.convertAndSend(String.format("/topic/messages/%s", participant.getUsername()), chatMessage));
+    return ResponseEntity.ok(chatMessage);
+  }
+
+  @GetMapping("/unread")
+  public ResponseEntity<List<UnreadChatDtoOut>> getUnreadMessages() {
+    return ResponseEntity.ok(chatMessageMapper.getUnreadChats());
+  }
+
+  @PutMapping("/unread/{chatId}")
+  public ResponseEntity<Long> removeReadMessages(@PathVariable Long chatId) {
+    return ResponseEntity.ok(chatMessageMapper.removeReadMessages(chatId));
   }
 
 }
