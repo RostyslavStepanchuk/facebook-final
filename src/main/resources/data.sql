@@ -25,7 +25,7 @@ INSERT INTO images (source_key, src) values ('1578253112874-bg', 'https://s3.us-
 INSERT INTO images (source_key, src) values ('1576923813421-avatar-bg', 'https://s3.us-west-2.amazonaws.com/fs-8/1576923813421-avatar-bg.jpg');
 INSERT INTO images (source_key, src) values ('1576923750814-avatar', 'https://s3.us-west-2.amazonaws.com/fs-8/1576923750814-avatar.jpg');
 INSERT INTO images (source_key, src) values ('1578253112874-bg', 'https://s3.us-west-2.amazonaws.com/fs-8/1578253112874-bg.jpg');
-INSERT INTO images (source_key, src) values ('1578253112874-bg', 'https://s3.us-west-2.amazonaws.com/fs-8/1578253112874-bg.jpg');
+INSERT INTO images (source_key, src) values ('1581277432105-20d8', 'https://fs-8-final.s3.us-east-2.amazonaws.com/1581277432105-20d8.png');
 
 /* users */
 INSERT INTO users (username, password, email, first_name, last_name, birth_date, gender, last_activity_time, fk_avatar_img_id, fk_cover_img_id, open_account, fk_tokens_data_id) values ('testUser', '$2a$10$SnXMYc5qb13dm8E2lza71.CtZcZQuh18vF3i6uZqeODN0eq/XjFX.', 'test@test.com', 'Tyler', 'Durden', 659998800000, 1, 1580365523140, 1, 4, true, 1); /* password passw1234 */
@@ -83,7 +83,7 @@ INSERT INTO friends (fk_username, fk_friend_username) values ('imaginaryUser', '
 /* posts */
 INSERT INTO posts (message, date, fk_image_id, show_everyone, fk_author_username, fk_owner_username) values ('this is a first post in this application', 1575390051359 , 7, true, 'testUser', 'testUser');
 INSERT INTO posts (message, date, fk_image_id, show_everyone, fk_author_username, fk_owner_username) values ('Smart friends post', 1575390091359 , 9, true, 'imaginaryUser', 'imaginaryUser');
-INSERT INTO posts (message, date, fk_image_id, show_everyone, fk_author_username, fk_owner_username) values ('Not Smart post from a stranger', 1575390091359 , 10, true, 'nonExistingUser', 'nonExistingUser');
+INSERT INTO posts (message, date, fk_image_id, show_everyone, fk_author_username, fk_owner_username) values ('Gif', 1575390091359 , 10, true, 'nonExistingUser', 'testUser');
 
 
 INSERT INTO posts (message, date, fk_image_id, show_everyone, fk_author_username, fk_owner_username) values ('post for pagination test', 1575390051359 , null , true, 'testUser', 'testUser');
@@ -108,7 +108,7 @@ INSERT INTO posts (message, date, fk_image_id, show_everyone, fk_author_username
 INSERT INTO posts (message, date, fk_image_id, show_everyone, fk_author_username, fk_owner_username) values ('post for pagination test', 1575390051359 , null , true, 'testUser', 'testUser');
 INSERT INTO posts (message, date, fk_image_id, show_everyone, fk_author_username, fk_owner_username) values ('Happy BD to u!', 1575390057359 , 8, true, 'imaginaryUser', 'testUser');
 INSERT INTO posts (message, date, fk_image_id, show_everyone, fk_author_username, fk_owner_username) values ('post for pagination test', 1575390051359 , null , true, 'testUser', 'testUser');
-INSERT INTO posts (message, date, fk_image_id, show_everyone, fk_author_username, fk_owner_username) values ('Post on friend profile with tagged user', 1575390091359 , 10, true, 'nonExistingUser', 'nonExistingUser');
+INSERT INTO posts (message, date, fk_image_id, show_everyone, fk_author_username, fk_owner_username) values ('post for pagination test', 1575390091359 , 9, true, 'nonExistingUser', 'nonExistingUser');
 
 
 /* comments */

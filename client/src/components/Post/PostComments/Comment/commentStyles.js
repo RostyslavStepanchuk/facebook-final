@@ -5,7 +5,7 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     justifyContent: 'space-between',
     padding: '5px 10px',
-    borderBottom: '1px solid #e6e6e6'
+    borderBottom: '1px solid rgb(188,188,189)',
   },
   link: {
     textDecoration: 'none',

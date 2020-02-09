@@ -1,14 +1,18 @@
 import { makeStyles } from '@material-ui/core/styles'
+import {
+  CONTAINER_HEADER_BG_COLOR,
+  CONTAINER_HEADER_TEXT_COLOR, CONTAINER_TEXT_COLOR
+} from '../../utils/constants/styleConstants'
 
 const useStyles = makeStyles(() => ({
   header: {
-    color: '#1c1e21',
+    color: CONTAINER_HEADER_TEXT_COLOR,
     padding: '8px 10px',
     fontWeight: 900,
-    borderBottom: '1px solid #dddfe2',
+    borderBottom: '1px solid rgb(188,188,189)',
     borderRadius: '4px 4px 0 0',
     paddingRight: 24,
-    backgroundColor: '#f5f6f7'
+    background: CONTAINER_HEADER_BG_COLOR
   },
   count: {
     color: '#90949c',
@@ -37,14 +41,15 @@ const useStyles = makeStyles(() => ({
     borderRadius: '50%',
     width: 48,
     height: 48,
-    marginRight: 15
+    marginRight: 15,
+    boxShadow: '0 1px rgba(255,255,255,.2) inset,  0 3px 5px rgba(0,1,6,.5),  0 0 1px 1px rgba(0,1,6,.2)'
   },
   userName: {
     margin: 'auto 0'
   },
   userLink: {
     textDecoration: 'none',
-    color: 'black'
+    color: CONTAINER_TEXT_COLOR
   },
   userFullName: {
     display: 'flex',

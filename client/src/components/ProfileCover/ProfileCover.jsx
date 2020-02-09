@@ -25,6 +25,10 @@ const ProfileCover = ({ profileOwner, isOwnProfile, selectedTab, changeTab }) =>
     changeTab(value)
   }
 
+  const getStyle = (isActive) => {
+    if (isActive) return {color:'rgb(48, 213, 200)'}
+  }
+
   return (
     <div className={classes.container}>
       <div className={classes.avatarBg}>
@@ -51,28 +55,40 @@ const ProfileCover = ({ profileOwner, isOwnProfile, selectedTab, changeTab }) =>
           </Container>
         </Modal>
       </div>
-      <Tabs value={selectedTab}
+      <div className={classes.tabContainer}>
+      <Tabs
+        value={selectedTab}
+        TabIndicatorProps={{style: {background:'rgb(48, 213, 200)'}}}
         onChange={handleChangeTab}
-        indicatorColor='primary'
-        textColor='primary'
         aria-label='icon label tabs'
         className={classes.submenu}>
-        <Tab className={classes.submenuItem}
+        <Tab
+          style={getStyle(selectedTab === 'timeline')}
+          className={classes.submenuItem}
           label='Timeline'
           value='timeline' />
-        <Tab className={classes.submenuItem}
+        <Tab
+          style={getStyle(selectedTab === 'friend requests')}
+          className={classes.submenuItem}
           label={'Friend requests'}
           value='friend requests' />
-        <Tab className={classes.submenuItem}
+        <Tab
+          style={getStyle(selectedTab === 'friends')}
+          className={classes.submenuItem}
           label={'Friends'}
           value='friends' />
-        <Tab className={classes.submenuItem}
+        <Tab
+          style={getStyle(selectedTab === 'photos')}
+          className={classes.submenuItem}
           label='Photos'
           value='photos' />
-        <Tab className={classes.submenuItem}
+        <Tab
+          style={getStyle(selectedTab === 'messages')}
+          className={classes.submenuItem}
           label='Messages'
           value='messages' />
       </Tabs>
+      </div>
     </div>
   )
 }

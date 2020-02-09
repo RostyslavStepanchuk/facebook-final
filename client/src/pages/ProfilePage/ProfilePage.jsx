@@ -79,7 +79,7 @@ const ProfilePage = ({
         overflowY: 'scroll'
       }}
     >
-      <Grid container className={classes.gridContainer}>
+      <Grid container className={classes.gridContainer} spacing={3}>
         <Grid item xs={9}>
           <Paper className={classes.paper}>
             <ProfileCover
@@ -102,7 +102,9 @@ const ProfilePage = ({
             </Paper>
           </Grid>
           <Grid item xs={9} sm={5} className={classes.feedColumn}>
-            <CreatePost profileOwner={profileOwner} />
+            <Paper className={classes.paper}>
+              <CreatePost profileOwner={profileOwner} />
+            </Paper>
             <PostFeed />
           </Grid>
         </Fragment>
