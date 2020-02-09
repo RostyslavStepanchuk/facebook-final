@@ -1,15 +1,19 @@
 import {
-  START_LOADING_CHATS,
-  STOP_LOADING_CHATS,
+  CHAT_HAS_BEEN_READ,
+  CHAT_PAGE_LEFT,
+  CHAT_RECEIVED,
   CHATS_RECEIVED,
-  START_LOADING_MESSAGES,
+  CURRENT_CHAT_MESSAGE_RECEIVED,
   MESSAGES_RECEIVED,
-  STOP_LOADING_MESSAGES,
-  SEND_MESSAGE,
+  NEW_UNREAD_MESSAGE,
   RESET_RECEIVED_MESSAGES,
   START_LOADING_CHAT,
+  START_LOADING_CHATS,
+  START_LOADING_MESSAGES,
   STOP_LOADING_CHAT,
-  CHAT_RECEIVED
+  STOP_LOADING_CHATS,
+  STOP_LOADING_MESSAGES,
+  UNREAD_CHATS_RECEIVED
 } from '../utils/constants/actionsName'
 import { addPagedPayload } from '../utils/helpers/payloadAdapter'
 
@@ -21,7 +25,8 @@ const initialState = {
   ownMessageSent: false,
   isLastPageInChat: false,
   chatLoading: false,
-  chat: {}
+  chat: {},
+  unreadChats: []
 }
 
 export default function (state = initialState, action) {
@@ -54,11 +59,14 @@ export default function (state = initialState, action) {
     case RESET_RECEIVED_MESSAGES:
       return {...state, chatMessages: []}
 
-    case SEND_MESSAGE:
+    case CURRENT_CHAT_MESSAGE_RECEIVED:
       return { ...state,
         chatMessages: [payload, ...state.chatMessages.reverse()],
-        ownMessageSent: true,
+        ownMessageSent: true
       }
+
+    case CHAT_PAGE_LEFT:
+      return { ...state, chatMessages: [] }
 
     case START_LOADING_CHAT:
       return { ...state, chatLoading: true }
@@ -68,6 +76,22 @@ export default function (state = initialState, action) {
 
     case CHAT_RECEIVED:
       return { ...state, chat: payload, chatLoading: false }
+
+    case CHAT_HAS_BEEN_READ:
+      return { ...state,
+        unreadChats: state.unreadChats.filter(unread => unread.chatId !== payload.chatId)
+      }
+
+    case UNREAD_CHATS_RECEIVED:
+      return {
+        ...state,
+        unreadChats: payload
+      }
+
+    case NEW_UNREAD_MESSAGE:
+      return { ...state,
+        unreadChats: state.unreadChats.map(unread => unread.chatId === payload.chatId ? payload : unread)
+      }
 
     default:
       return {...state}
