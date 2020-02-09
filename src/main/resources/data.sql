@@ -12,6 +12,7 @@ INSERT INTO tokens_storage (refresh_token, refresh_token_valid_till, forgot_pass
 INSERT INTO tokens_storage (refresh_token, refresh_token_valid_till, forgot_password_tkn, forgot_password__tkn_valid_till, email_confirmation_id, email_is_confirmed) values ('trqwREFRESHTOKENf31dfoe', 0, '22fdv2FORGOTPASSWORDTOKEN84gr', 0, 0831431173943, true);
 INSERT INTO tokens_storage (refresh_token, refresh_token_valid_till, forgot_password_tkn, forgot_password__tkn_valid_till, email_confirmation_id, email_is_confirmed) values ('trqwREFRESHTOKENf31dfoe', 0, '22fdv2FORGOTPASSWORDTOKEN84gr', 0, 0831431173943, true);
 
+
 /* images */
 /* avatars */
 INSERT INTO images (source_key, src) values ('1576923750814-avatar', 'https://s3.us-west-2.amazonaws.com/fs-8/1576923750814-avatar.jpg');
