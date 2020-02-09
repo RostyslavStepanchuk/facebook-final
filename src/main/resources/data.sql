@@ -163,6 +163,9 @@ INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('And 
 INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('Oh come on', 1575490206043, 'imaginaryUser', 3);
 INSERT INTO messages ( text, date, fk_author_username, fk_chat_id) values ('Stop this whining', 1575490206043, 'imaginaryUser', 3);
 
+/* unread_messages */
+INSERT INTO unread_messages (fk_username, fk_message_id) values ('testUser', 23);
+INSERT INTO unread_messages (fk_username, fk_message_id) values ('testUser', 24);
 
 /* tagged friends */
 INSERT INTO tagged_friends (fk_post_id, fk_tagged_username) values (1, 'imaginaryUser');

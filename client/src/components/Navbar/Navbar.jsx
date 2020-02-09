@@ -8,14 +8,15 @@ import { AppBar, Badge, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import MailIcon from '@material-ui/icons/Mail'
 import NotificationsIcon from '@material-ui/icons/Notifications'
-import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
+import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle'
 import MoreIcon from '@material-ui/icons/MoreVert'
 import HomeIcon from '@material-ui/icons/Home'
 import Search from '../Search/Search'
 import { selectFriendRequestTab } from '../../actions/profileTab'
 import { get } from 'lodash'
+import ChatUpdateCenter from './ChatUpdateCenter/ChatUpdateCenter'
 
-const Navbar = ({ auth: { isAuthenticated, user }, incomingFriendRequests, selectFriendRequestTab, logout }) => {
+const Navbar = ({ auth: { isAuthenticated, user }, incomingFriendRequests, selectFriendRequestTab, logout, unreadChats }) => {
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = useState(null)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null)
@@ -84,6 +85,8 @@ const Navbar = ({ auth: { isAuthenticated, user }, incomingFriendRequests, selec
     </Menu>
   )
 
+  const unreadMessagesCount = unreadChats.reduce((sum, chat) => sum + chat.unreadMessages.length, 0)
+
   const mobileMenuId = 'primary-search-account-menu-mobile'
   const renderMobileMenu = (
     <Menu
@@ -147,16 +150,17 @@ const Navbar = ({ auth: { isAuthenticated, user }, incomingFriendRequests, selec
             <Search />
           </div>
 
-          {isAuthenticated && (
+          {isAuthenticated && user && (
           <Fragment>
             <div className={classes.root} />
             <div className={classes.sectionDesktop}>
+              <ChatUpdateCenter/>
               <Tooltip title='Messages'>
                 <IconButton
                   className={classes.navbarButton}
                   onClick={openChat}
                   color='inherit'>
-                  <Badge badgeContent={4} color='secondary'>
+                  <Badge badgeContent={unreadMessagesCount} color='secondary'>
                     <MailIcon />
                   </Badge>
                 </IconButton>
@@ -208,12 +212,14 @@ Navbar.propTypes = {
   logout: PropTypes.func.isRequired,
   selectFriendRequestTab: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  incomingFriendRequests: PropTypes.array.isRequired
+  incomingFriendRequests: PropTypes.array.isRequired,
+  unreadChats: PropTypes.array.isRequired
 }
 
 const mapStateToProps = state => ({
   auth: state.auth,
-  incomingFriendRequests: state.friends.incomingFriendRequests
+  incomingFriendRequests: state.friends.incomingFriendRequests,
+  unreadChats: state.chat.unreadChats
 })
 
 const mapDispatchToProps = dispatch => ({

@@ -4,7 +4,6 @@ import com.socialmedia.dto.chat.ChatDtoIn;
 import com.socialmedia.dto.chat.ChatDtoOut;
 import com.socialmedia.dto.chat.ChatDtoOutWithLastMessage;
 import com.socialmedia.dto.chat.message.ChatMessageDtoOut;
-import com.socialmedia.model.ApplicationUser;
 import com.socialmedia.model.Chat;
 import com.socialmedia.model.ChatMessage;
 import com.socialmedia.service.ChatMessageService;
@@ -20,14 +19,12 @@ import java.util.stream.Collectors;
 public final class ChatMapper
     extends AbstractControllerToCrudServiceMapper<Chat, Long, ChatDtoIn, ChatDtoOut, ChatService> {
 
-  private UserMapper userMapper;
   private ChatMessageService chatMessageService;
 
   @Autowired
-  public ChatMapper(ModelMapper modelMapper, ChatService crudService, UserMapper userMapper,
+  public ChatMapper(ModelMapper modelMapper, ChatService crudService,
                     ChatMessageService chatMessageService) {
     super(modelMapper, crudService);
-    this.userMapper = userMapper;
     this.chatMessageService = chatMessageService;
   }
 
