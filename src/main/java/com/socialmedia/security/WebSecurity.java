@@ -20,6 +20,7 @@ import static com.socialmedia.security.SecurityConstants.RESET_PASSWORD_URL;
 import static com.socialmedia.security.SecurityConstants.SET_NEW_PASSWORD_URL;
 import static com.socialmedia.security.SecurityConstants.SIGN_UP_URL;
 import static com.socialmedia.security.SecurityConstants.USE_REFRESH_TOKEN_URL;
+import static com.socialmedia.security.SecurityConstants.WEB_SOCKET_URL;
 
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
@@ -52,6 +53,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         .antMatchers(HttpMethod.POST, RESET_PASSWORD_URL).permitAll()
         .antMatchers(HttpMethod.POST, SET_NEW_PASSWORD_URL).permitAll()
         .antMatchers(HttpMethod.GET, CONFIRM_EMAIL_URL).permitAll()
+        .antMatchers(HttpMethod.GET, WEB_SOCKET_URL).permitAll()
         .antMatchers(HttpMethod.GET, "/**/*swagger*/**", "/v2/api-docs").permitAll()
         .anyRequest().authenticated()
         .and()

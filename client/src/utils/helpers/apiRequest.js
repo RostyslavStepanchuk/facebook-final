@@ -8,6 +8,7 @@ const METHOD_POST = 'post'
 const METHOD_PUT = 'put'
 const METHOD_DELETE = 'delete'
 const API_BASE_URL = '/api/v1'
+const SOCKET_URL ='/ws'
 
 const setAuthToken = token => {
   if (token) {
@@ -77,6 +78,10 @@ class ApiRequest {
         localStorage.removeItem('accessToken')
         window.location.reload()
       })
+  }
+
+  getSocketUrl () {
+    return `http://localhost:8080${SOCKET_URL}`
   }
 
   makeRequest (url, method = METHOD_GET, body = null, config = {}, isAuthRequired = true) {
