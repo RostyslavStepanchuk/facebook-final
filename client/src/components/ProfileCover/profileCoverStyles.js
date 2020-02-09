@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(() => ({
   container: {
-    boxSizing: 'border-box'
+    boxSizing: 'border-box',
   },
   avatarBg: props => ({
     backgroundImage: `url(${props.profileCover})`,

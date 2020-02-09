@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { Fragment, useRef, useState } from 'react'
 import Paper from '@material-ui/core/Paper'
 import PropTypes from 'prop-types'
 import useStyles from './postStyles'
@@ -8,6 +8,11 @@ import PostLikePanel from './PostLikePanel/PostLikePanel'
 import PostComments from './PostComments/PostComments'
 import { get } from 'lodash'
 import UpdatePost from './UpdatePost/UpdatePost'
+import { Dialog, Slide } from '@material-ui/core'
+
+const Transition = React.forwardRef(function Transition (props, ref) {
+  return <Slide direction='up' ref={ref} {...props} />
+})
 
 const Post = ({ post }) => {
   const classes = useStyles()
@@ -17,6 +22,12 @@ const Post = ({ post }) => {
   const inputRef = useRef(null)
   const focusForCreatingComment = () => {
     inputRef.current.focus()
+  }
+
+  // Open Img
+  const [openDialog, setOpenDialog] = useState(false)
+  const handleModal = () => {
+    setOpenDialog(!openDialog)
   }
 
   // Update post dialog
@@ -40,7 +51,20 @@ const Post = ({ post }) => {
         openUpdateWindow={openUpdateWindow}
         handleToggleUpdate={handleToggleUpdate}
       />
-      {image && <img src={get(image, 'src')} className={classes.postImg} alt='Post' />}
+      {image &&
+        <Fragment>
+          <img src={get(image, 'src')}  onClick={handleModal} className={classes.image} alt='Post' />
+            <Dialog
+              maxWidth='md'
+              open={openDialog}
+              TransitionComponent={Transition}
+              keepMounted
+              onClose={handleModal}
+            >
+              <img className={classes.image} src={get(image, 'src')} onClick={handleModal} alt='UserPhoto' />
+            </Dialog>
+        </Fragment>
+      }
       <p>{message}</p>
       <PostLikePanel postId={id} likes={likes} comments={comments} focusForCreatingComment={focusForCreatingComment} />
       <PostComments postId={id} postOwner={owner} comments={comments} inputRef={inputRef} />
