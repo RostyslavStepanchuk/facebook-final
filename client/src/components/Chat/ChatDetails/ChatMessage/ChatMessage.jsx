@@ -11,7 +11,7 @@ import { getDateForChat } from '../../../../utils/date/getDate'
 
 import useStyles from './chatMessageStyles'
 
-const ChatMessage = ({ message, authUser }) => {
+const ChatMessage = ({ message, authUser, isChatGrouped }) => {
   const classes = useStyles()
   const messageAuthorUsername = get(message, 'author.username')
   const isOwnMessage = authUser === messageAuthorUsername
@@ -39,9 +39,9 @@ const ChatMessage = ({ message, authUser }) => {
                 color='inherit'
                 component={RouterLink}
                 to={`/profile/${messageAuthorUsername}`}
-                variant='h6'
+                variant='body2'
               >
-                {isOwnMessage ? 'Me' : getFullName(message.author)}
+                {isOwnMessage || !isChatGrouped ? '' : getFullName(message.author)}
               </Link>
             </div>
             <div className={classes.content}>
@@ -68,7 +68,8 @@ const ChatMessage = ({ message, authUser }) => {
 
 ChatMessage.propTypes = {
   authUser: PropTypes.string.isRequired,
-  message: PropTypes.object.isRequired
+  message: PropTypes.object.isRequired,
+  isChatGrouped: PropTypes.bool.isRequired
 }
 
 export default ChatMessage

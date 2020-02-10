@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core'
-import { BTN_PRIMARY_TEXT_COLOR } from '../../../../utils/constants/styleConstants'
+import styleConstants from '../../../../utils/constants/styleConstants'
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -9,8 +9,8 @@ const useStyles = makeStyles(theme => ({
   },
   tagLink: {
     fontWeight: 600,
-    color: BTN_PRIMARY_TEXT_COLOR,
-    textDecoration: 'none',
+    color: styleConstants.BTN_PRIMARY_TEXT_COLOR,
+    textDecoration: 'none'
   },
   menuLink: {
     color: 'inherit',

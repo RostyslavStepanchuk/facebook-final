@@ -1,19 +1,17 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import { Avatar, Button, Container, Modal, Tab, Tabs } from '@material-ui/core'
-import ManageFriendshipButton from '../ManageFriendshipButton/ManageFriendshipButton'
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined'
 
+import ManageFriendshipButton from '../ManageFriendshipButton/ManageFriendshipButton'
 import UpdateProfile from '../UpdateProfile/UpdateProfile'
+import { changeTab } from '../../actions/profileTab'
 import { getAvatarLink, getProfileCoverLink } from '../../utils/helpers/imageLinkHelpers'
 import { getFullName } from '../../utils/helpers/formatters'
+import styleConstants from '../../utils/constants/styleConstants'
 
 import useStyles from './profileCoverStyles'
-import { changeTab } from '../../actions/profileTab'
-import { connect } from 'react-redux'
-import {
-  BTN_PRIMARY_TEXT_COLOR
-} from '../../utils/constants/styleConstants'
 
 const ProfileCover = ({ profileOwner, isOwnProfile, selectedTab, changeTab }) => {
   const classes = useStyles({profileCover: getProfileCoverLink(profileOwner)})
@@ -29,7 +27,7 @@ const ProfileCover = ({ profileOwner, isOwnProfile, selectedTab, changeTab }) =>
   }
 
   const getStyle = (isActive) => {
-    if (isActive) return {color: BTN_PRIMARY_TEXT_COLOR}
+    if (isActive) return {color: styleConstants.BTN_PRIMARY_TEXT_COLOR}
   }
 
   return (
@@ -59,38 +57,38 @@ const ProfileCover = ({ profileOwner, isOwnProfile, selectedTab, changeTab }) =>
         </Modal>
       </div>
       <div className={classes.tabContainer}>
-      <Tabs
-        value={selectedTab}
-        TabIndicatorProps={{style: {background: BTN_PRIMARY_TEXT_COLOR}}}
-        onChange={handleChangeTab}
-        aria-label='icon label tabs'
-        className={classes.submenu}>
-        <Tab
-          style={getStyle(selectedTab === 'timeline')}
-          className={classes.submenuItem}
-          label='Timeline'
-          value='timeline' />
-        <Tab
-          style={getStyle(selectedTab === 'friend requests')}
-          className={classes.submenuItem}
-          label={'Friend requests'}
-          value='friend requests' />
-        <Tab
-          style={getStyle(selectedTab === 'friends')}
-          className={classes.submenuItem}
-          label={'Friends'}
-          value='friends' />
-        <Tab
-          style={getStyle(selectedTab === 'photos')}
-          className={classes.submenuItem}
-          label='Photos'
-          value='photos' />
-        <Tab
-          style={getStyle(selectedTab === 'messages')}
-          className={classes.submenuItem}
-          label='Messages'
-          value='messages' />
-      </Tabs>
+        <Tabs
+          value={selectedTab}
+          TabIndicatorProps={{style: {background: styleConstants.BTN_PRIMARY_TEXT_COLOR}}}
+          onChange={handleChangeTab}
+          aria-label='icon label tabs'
+          className={classes.submenu}>
+          <Tab
+            style={getStyle(selectedTab === 'timeline')}
+            className={classes.submenuItem}
+            label='Timeline'
+            value='timeline' />
+          <Tab
+            style={getStyle(selectedTab === 'friend requests')}
+            className={classes.submenuItem}
+            label={'Friend requests'}
+            value='friend requests' />
+          <Tab
+            style={getStyle(selectedTab === 'friends')}
+            className={classes.submenuItem}
+            label={'Friends'}
+            value='friends' />
+          <Tab
+            style={getStyle(selectedTab === 'photos')}
+            className={classes.submenuItem}
+            label='Photos'
+            value='photos' />
+          <Tab
+            style={getStyle(selectedTab === 'messages')}
+            className={classes.submenuItem}
+            label='Messages'
+            value='messages' />
+        </Tabs>
       </div>
     </div>
   )

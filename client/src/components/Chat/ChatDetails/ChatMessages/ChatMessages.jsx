@@ -17,7 +17,7 @@ const ChatMessages = ({
   loadContentHandler,
   ownMessageSent,
   isLastPageInChat,
-  containerHeight = 75
+  isChatGrouped
 }) => {
   const classes = useStyles()
   const scrollToBottom = () => {
@@ -40,7 +40,8 @@ const ChatMessages = ({
       isLastPage={isLastPageInChat}
       isContentUpdated={ownMessageSent}
       scrollContainerStyles={{
-        height: `${containerHeight}vh`,
+        flex: '1 1 auto',
+        minHeight: 0,
         overflowX: 'hidden',
         overflowY: 'scroll'
       }}
@@ -54,6 +55,7 @@ const ChatMessages = ({
                 key={message.id}
                 message={message}
                 authUser={authUser}
+                isChatGrouped={isChatGrouped}
                 />
             )}
         </div>
@@ -72,7 +74,7 @@ ChatMessages.propTypes = {
   loadContentHandler: PropTypes.func.isRequired,
   ownMessageSent: PropTypes.bool,
   isLastPageInChat: PropTypes.bool,
-  containerHeight: PropTypes.number
+  isChatGrouped: PropTypes.bool.isRequired
 }
 
 export default ChatMessages

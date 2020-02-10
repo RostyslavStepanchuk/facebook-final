@@ -1,9 +1,10 @@
 import { makeStyles } from '@material-ui/core/styles'
 import { colors } from '@material-ui/core'
+import styleConstants from '../../../utils/constants/styleConstants'
 
 const useStyles = makeStyles(theme => ({
   active: {
-    boxShadow: `inset 4px 0px 0px ${theme.palette.primary.main}`,
+    boxShadow: `inset 7px 0px 0px ${styleConstants.BTN_PRIMARY_TEXT_COLOR}`,
     backgroundColor: colors.grey[50]
   },
   avatar: {

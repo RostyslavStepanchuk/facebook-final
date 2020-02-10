@@ -7,15 +7,15 @@ import { getChat } from '../../actions/chat'
 import Chat from '../Chat/Chat'
 import Preloader from '../../components/Preloader/Preloader'
 
-const MessagesList = ({userId, getChat, chat}) => {
+const SingleChat = ({userId, getChat, chat}) => {
   useEffect(() => {
     getChat(userId)
   }, [userId, getChat])
 
-  return isEmpty(chat) ? <Preloader /> : <Chat chat={chat} withoutSidepanel containerHeight={42} />
+  return isEmpty(chat) ? <Preloader /> : <Chat chat={chat} withoutSidepanel containerHeight='HALF' />
 }
 
-MessagesList.propTypes = {
+SingleChat.propTypes = {
   userId: PropTypes.string,
   getChat: PropTypes.func.isRequired,
   chat: PropTypes.object
@@ -26,4 +26,4 @@ const mapStateToProps = state => ({
   chatLoading: state.chat.chatLoading
 })
 
-export default connect(mapStateToProps, { getChat })(MessagesList)
+export default connect(mapStateToProps, { getChat })(SingleChat)

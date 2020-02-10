@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles'
-import { AVATAR_SIZE_MID } from '../../../utils/constants/styleConstants'
+import styleConstants from '../../../utils/constants/styleConstants'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -18,8 +18,8 @@ const useStyles = makeStyles(theme => ({
     padding: '5px'
   },
   avatar: {
-    height: AVATAR_SIZE_MID,
-    width: AVATAR_SIZE_MID
+    height: styleConstants.AVATAR_SIZE_MID,
+    width: styleConstants.AVATAR_SIZE_MID
   },
   postInput: {
     borderStyle: 'none',
