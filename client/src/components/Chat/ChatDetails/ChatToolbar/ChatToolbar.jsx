@@ -17,9 +17,8 @@ import StatusIcon from '../../../StatusIcon/StatusIcon'
 
 import useStyles from './chatToolbarStyles'
 
-const ChatToolbar = ({ chat, className }) => {
+const ChatToolbar = ({ chat, className, withoutSidepanel, isChatGrouped }) => {
   const classes = useStyles()
-  const isChatGrouped = chat.participants.length > 2
   // TODO: get active status from BE
   const isActive = false
   // const lastActivityTime
@@ -28,7 +27,7 @@ const ChatToolbar = ({ chat, className }) => {
     <Toolbar
       className={classnames(classes.root, className)}
     >
-      <Tooltip title='Back'>
+      {withoutSidepanel && <Tooltip title='To chat'>
         <IconButton
           className={classes.backButton}
           component={Link}
@@ -37,7 +36,7 @@ const ChatToolbar = ({ chat, className }) => {
         >
           <KeyboardBackspaceIcon />
         </IconButton>
-      </Tooltip>
+      </Tooltip>}
       <div className={classes.user}>
         <Typography variant='h6'>{chat.name}</Typography>
         { !isChatGrouped && <div className={classes.activity}>
@@ -74,7 +73,9 @@ const ChatToolbar = ({ chat, className }) => {
 
 ChatToolbar.propTypes = {
   className: PropTypes.string,
-  chat: PropTypes.object.isRequired
+  chat: PropTypes.object.isRequired,
+  withoutSidepanel: PropTypes.bool,
+  isChatGrouped: PropTypes.bool.isRequired
 }
 
 export default ChatToolbar

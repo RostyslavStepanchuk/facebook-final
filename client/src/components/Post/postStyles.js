@@ -1,13 +1,10 @@
 import { makeStyles } from '@material-ui/core/styles'
-import {
-  CONTAINER_BG_COLOR,
-  CONTAINER_TEXT_COLOR
-} from '../../utils/constants/styleConstants'
+import styleConstants from '../../utils/constants/styleConstants'
 
 const useStyles = makeStyles(() => ({
   post: {
-    color: CONTAINER_TEXT_COLOR,
-    background: CONTAINER_BG_COLOR,
+    color: styleConstants.CONTAINER_TEXT_COLOR,
+    background: styleConstants.CONTAINER_BG_COLOR,
     borderRadius: 4,
     textAlign: 'center',
     marginBottom: 20,

@@ -1,26 +1,18 @@
 import { fade, makeStyles } from '@material-ui/core/styles'
-import {
-  NAVBAR_BG_COLOR,
-  BTN_BG_COLOR,
-  BTN_SHADOW,
-  BTN_SHADOW_ACTIVE,
-  BTN_BG_HOVER,
-  BTN_BG_ACTIVE,
-  BTN_PRIMARY_TEXT_COLOR
-} from '../../utils/constants/styleConstants'
+import styleConstants from '../../utils/constants/styleConstants'
 
 const useStyles = makeStyles(theme => ({
   root: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   container: {
-    background: NAVBAR_BG_COLOR,
+    background: styleConstants.NAVBAR_BG_COLOR
   },
   title: {
     display: 'none',
     [theme.breakpoints.up('sm')]: {
-      display: 'block',
-    },
+      display: 'block'
+    }
   },
   link: {
     textDecoration: 'none',
@@ -61,23 +53,23 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(1),
     position: 'relative',
     display: 'inline-block',
-    color: BTN_PRIMARY_TEXT_COLOR,
+    color: styleConstants.BTN_PRIMARY_TEXT_COLOR,
     textShadow: '0 -1px 2px rgba(0,0,0,.2)',
     padding: 7,
     height: 'min-content',
     outline: 'none',
-    background: BTN_BG_COLOR,
-    boxShadow: BTN_SHADOW,
+    background: styleConstants.BTN_BG_COLOR,
+    boxShadow: styleConstants.BTN_SHADOW,
     transition: '.2s ease-in-out',
     '&:hover:not(:active)': {
-      background: BTN_BG_HOVER,
+      background: styleConstants.BTN_BG_HOVER
     },
     '&:active': {
       top: 1,
-      background: BTN_BG_ACTIVE,
-      boxShadow: BTN_SHADOW_ACTIVE,
-    },
-  },
+      background: styleConstants.BTN_BG_ACTIVE,
+      boxShadow: styleConstants.BTN_SHADOW_ACTIVE
+    }
+  }
 
 }))
 
