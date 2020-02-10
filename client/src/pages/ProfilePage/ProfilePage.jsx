@@ -8,7 +8,7 @@ import ProfileCover from '../../components/ProfileCover/ProfileCover'
 import ShortUserData from '../../components/ShortUserData/ShortUserData'
 import ProfileField from '../../components/ProfileField/ProfileField'
 import FriendsList from '../../components/FriendsList/FriendsList'
-import MessagesList from '../../components/MessagesList/MessagesList'
+import SingleChat from '../../components/SingleChat/SingleChat'
 import PhotosList from '../../components/PhotosList/PhotosList'
 import CreatePost from '../../components/CreatePost/CreatePost'
 import PostFeed from '../../components/PostFeed/PostFeed'
@@ -141,7 +141,7 @@ const ProfilePage = ({
         {selectedTab === 'messages' &&
         <Grid item sm={9}>
           <Paper className={classes.paper}>
-            <MessagesList userId={userId} />
+            <SingleChat userId={userId} />
           </Paper>
         </Grid>
         }

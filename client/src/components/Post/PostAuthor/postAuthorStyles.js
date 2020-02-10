@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles'
-import { BTN_PRIMARY_TEXT_COLOR, CONTAINER_TEXT_COLOR } from '../../../utils/constants/styleConstants'
+import styleConstants from '../../../utils/constants/styleConstants'
 
 const useStyles = makeStyles(() => ({
   user: {
@@ -23,23 +23,23 @@ const useStyles = makeStyles(() => ({
   },
   lineBelowUsername: {
     display: 'flex',
-    margin: '0 0 3px',
+    margin: '0 0 3px'
   },
   userFullName: {
     display: 'flex',
     alignItems: 'center',
     margin: 0,
-    textAlign: 'left',
+    textAlign: 'left'
   },
   authorLink: {
     fontWeight: 600,
     textDecoration: 'none',
-    color: CONTAINER_TEXT_COLOR,
+    color: styleConstants.CONTAINER_TEXT_COLOR
   },
   tagLink: {
     fontWeight: 600,
-    color: BTN_PRIMARY_TEXT_COLOR,
-    textDecoration: 'none',
+    color: styleConstants.BTN_PRIMARY_TEXT_COLOR,
+    textDecoration: 'none'
   },
   postDate: {
     margin: '0 0 3px',
