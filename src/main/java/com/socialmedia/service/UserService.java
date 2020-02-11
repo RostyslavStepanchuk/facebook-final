@@ -23,14 +23,13 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static com.socialmedia.util.Constants.LAST_THRESHOLD_OF_ONLINE_ACTIVITY;
 import static java.util.stream.Collectors.counting;
 import static java.util.stream.Collectors.groupingBy;
-
 
 @Service
 public class UserService extends AbstractCrudService<ApplicationUser, String, UserRepository> {
 
+  public static final long LAST_THRESHOLD_OF_ONLINE_ACTIVITY = 300000; // 5 min(300000)
   private BCryptPasswordEncoder bcryptPasswordEncoder;
   private AuthenticationService authenticationService;
   private ChatService chatService;
