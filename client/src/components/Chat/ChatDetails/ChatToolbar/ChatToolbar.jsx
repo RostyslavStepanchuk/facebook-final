@@ -17,7 +17,7 @@ import StatusIcon from '../../../StatusIcon/StatusIcon'
 
 import useStyles from './chatToolbarStyles'
 
-const ChatToolbar = ({ chat, className, withoutSidepanel, isChatGrouped }) => {
+const ChatToolbar = ({ chat, className, isSingleChat, isChatGrouped }) => {
   const classes = useStyles()
   // TODO: get active status from BE
   const isActive = false
@@ -27,12 +27,12 @@ const ChatToolbar = ({ chat, className, withoutSidepanel, isChatGrouped }) => {
     <Toolbar
       className={classnames(classes.root, className)}
     >
-      {withoutSidepanel && <Tooltip title='To chat'>
+      {isSingleChat && <Tooltip title='To chat'>
         <IconButton
           className={classes.backButton}
           component={Link}
           edge='start'
-          to='/chat'
+          to={`/chat/${chat.id}`}
         >
           <KeyboardBackspaceIcon />
         </IconButton>
@@ -75,7 +75,8 @@ ChatToolbar.propTypes = {
   className: PropTypes.string,
   chat: PropTypes.object.isRequired,
   withoutSidepanel: PropTypes.bool,
-  isChatGrouped: PropTypes.bool.isRequired
+  isChatGrouped: PropTypes.bool.isRequired,
+  isSingleChat: PropTypes.bool
 }
 
 export default ChatToolbar

@@ -75,7 +75,7 @@ export default function (state = initialState, action) {
       return { ...state, chatLoading: false }
 
     case CHAT_RECEIVED:
-      return { ...state, chat: payload, chatLoading: false }
+      return { ...state, chat: payload, chats: state.chats.concat(payload), chatLoading: false }
 
     case CHAT_HAS_BEEN_READ:
       return { ...state,

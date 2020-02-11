@@ -2,12 +2,12 @@ import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { isEmpty, isFinite } from 'lodash'
+import { isEmpty } from 'lodash'
 
 import ChatList from './ChatList/ChatList'
 import ChatDetails from './ChatDetails/ChatDetails'
 import ChatPlaceholder from './ChatPlaceholder/ChatPlaceholder'
-import { getAllChats, getMessagesForChat } from '../../actions/chat'
+import { getAllChats, getChat, getMessagesForChat } from '../../actions/chat'
 
 import useStyles from './chatStyles'
 
@@ -16,11 +16,12 @@ const PAGE_SIZE = 12
 
 const Chat = ({
   chat,
-  withoutSidepanel,
+  isSingleChat,
   containerHeight,
   authUser,
   chats,
   getAllChats,
+  getChat,
   chatMessages,
   getMessagesForChat,
   messagesLoading,
@@ -29,20 +30,24 @@ const Chat = ({
   isLastPageInChat
 }) => {
   const classes = useStyles()
-  const chatIdParams = +useParams().chatId
+  const { chatId, userId } = useParams()
   let selectedChat, selectedChatId, loadContentHandler
 
   useEffect(() => {
-    getAllChats()
-  }, [getAllChats])
+    if (!isSingleChat) {
+      getAllChats()
+    } else {
+      getChat(userId)
+    }
+  }, [getAllChats, getChat, isSingleChat, userId])
 
-  if (!isEmpty(chat)) {
+  if (!isEmpty(chat) && isSingleChat) {
     selectedChat = chat
     selectedChatId = chat.id
     loadContentHandler = getMessagesForChat.bind(null, selectedChatId)
-  } else if (!isEmpty(chats)) {
-    selectedChat = isFinite(chatIdParams)
-      ? chats.find(chat => chat.id === chatIdParams)
+  } else if (!isEmpty(chats) && !isSingleChat) {
+    selectedChat = chatId
+      ? chats.find(chat => chat.id === +chatId)
       : chats[0]
     selectedChatId = selectedChat.id
     loadContentHandler = getMessagesForChat.bind(null, selectedChatId)
@@ -56,7 +61,7 @@ const Chat = ({
 
   return (
     <div className={classes.root}>
-      {!withoutSidepanel && <ChatList
+      {!isSingleChat && <ChatList
         className={classes.chatList}
         chats={chats}
         chatMessages={chatMessages}
@@ -74,7 +79,7 @@ const Chat = ({
           ownMessageSent={ownMessageSent}
           isLastPageInChat={isLastPageInChat}
           containerHeight={containerHeight}
-          withoutSidepanel={withoutSidepanel}
+          isSingleChat={isSingleChat}
         />
       ) : (
         <ChatPlaceholder className={classes.chatPlaceholder} />
@@ -85,22 +90,24 @@ const Chat = ({
 
 Chat.propTypes = {
   chat: PropTypes.object,
-  withoutSidepanel: PropTypes.bool,
+  isSingleChat: PropTypes.bool,
   containerHeight: PropTypes.string,
   authUser: PropTypes.string.isRequired,
   chats: PropTypes.array,
   getAllChats: PropTypes.func.isRequired,
+  getChat: PropTypes.func.isRequired,
   chatMessages: PropTypes.array,
   getMessagesForChat: PropTypes.func.isRequired,
   messagesLoading: PropTypes.bool,
   ownMessageSent: PropTypes.bool,
   chatsLoading: PropTypes.bool,
-  isLastPageInChat: PropTypes.bool,
+  isLastPageInChat: PropTypes.bool
 }
 
 const mapStateToProps = state => ({
   authUser: state.auth.user.username,
   chats: state.chat.chats,
+  chat: state.chat.chat,
   chatsLoading: state.chat.chatsLoading,
   chatMessages: state.chat.chatMessages,
   messagesLoading: state.chat.messagesLoading,
@@ -108,4 +115,4 @@ const mapStateToProps = state => ({
   isLastPageInChat: state.chat.isLastPageInChat
 })
 
-export default connect(mapStateToProps, { getAllChats, getMessagesForChat })(Chat)
+export default connect(mapStateToProps, { getAllChats, getMessagesForChat, getChat })(Chat)
