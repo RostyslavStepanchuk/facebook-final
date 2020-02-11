@@ -1,8 +1,5 @@
 import { makeStyles } from '@material-ui/core'
-import {
-  CONTAINER_HEADER_BG_COLOR,
-  CONTAINER_HEADER_TEXT_COLOR
-} from '../../utils/constants/styleConstants'
+import styleConstants from '../../utils/constants/styleConstants'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -12,11 +9,11 @@ const useStyles = makeStyles(theme => ({
   header: {
     padding: '8px 10px',
     paddingRight: '24px',
-    background: CONTAINER_HEADER_BG_COLOR,
+    background: styleConstants.CONTAINER_HEADER_BG_COLOR,
     borderBottom: '1px solid #dddfe2',
     borderRadius: '4px 4px 0 0',
     fontWeight: '900',
-    color: CONTAINER_HEADER_TEXT_COLOR
+    color: styleConstants.CONTAINER_HEADER_TEXT_COLOR
   }
 }))
 

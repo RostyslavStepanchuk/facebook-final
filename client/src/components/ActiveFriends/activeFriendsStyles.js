@@ -1,22 +1,18 @@
 import { makeStyles } from '@material-ui/core/styles'
-import {
-  CONTAINER_COUNT_COLOR,
-  CONTAINER_HEADER_BG_COLOR,
-  CONTAINER_HEADER_TEXT_COLOR, CONTAINER_TEXT_COLOR,
-} from '../../utils/constants/styleConstants'
+import styleConstants from '../../utils/constants/styleConstants'
 
 const useStyles = makeStyles(() => ({
   header: {
-    color: CONTAINER_HEADER_TEXT_COLOR,
+    color: styleConstants.CONTAINER_HEADER_TEXT_COLOR,
     padding: '8px 10px',
     fontWeight: 900,
     borderBottom: '1px solid rgb(188,188,189)',
     borderRadius: '4px 4px 0 0',
     paddingRight: 24,
-    background: CONTAINER_HEADER_BG_COLOR
+    background: styleConstants.CONTAINER_HEADER_BG_COLOR
   },
   count: {
-    color: CONTAINER_COUNT_COLOR,
+    color: styleConstants.CONTAINER_COUNT_COLOR,
     fontWeight: 500
   },
   scrollContainer: {
@@ -50,7 +46,7 @@ const useStyles = makeStyles(() => ({
   },
   userLink: {
     textDecoration: 'none',
-    color: CONTAINER_TEXT_COLOR
+    color: styleConstants.CONTAINER_TEXT_COLOR
   },
   userFullName: {
     display: 'flex',

@@ -74,6 +74,7 @@ const Chat = ({
           ownMessageSent={ownMessageSent}
           isLastPageInChat={isLastPageInChat}
           containerHeight={containerHeight}
+          withoutSidepanel={withoutSidepanel}
         />
       ) : (
         <ChatPlaceholder className={classes.chatPlaceholder} />
@@ -85,7 +86,7 @@ const Chat = ({
 Chat.propTypes = {
   chat: PropTypes.object,
   withoutSidepanel: PropTypes.bool,
-  containerHeight: PropTypes.number,
+  containerHeight: PropTypes.string,
   authUser: PropTypes.string.isRequired,
   chats: PropTypes.array,
   getAllChats: PropTypes.func.isRequired,
@@ -94,7 +95,7 @@ Chat.propTypes = {
   messagesLoading: PropTypes.bool,
   ownMessageSent: PropTypes.bool,
   chatsLoading: PropTypes.bool,
-  isLastPageInChat: PropTypes.bool
+  isLastPageInChat: PropTypes.bool,
 }
 
 const mapStateToProps = state => ({

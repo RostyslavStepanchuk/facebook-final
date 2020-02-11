@@ -5,6 +5,12 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     backgroundColor: theme.palette.white
+  },
+  fullHeight: {
+    height: 'calc(100vh - 64px)'
+  },
+  halfHeight: {
+    height: 'calc(100vh - 400px)'
   }
 }))
 

@@ -1,9 +1,7 @@
 import React from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import classNames from 'classnames'
-import {
-  BTN_PRIMARY_TEXT_COLOR
-} from '../../utils/constants/styleConstants'
+import styleConstants from '../../utils/constants/styleConstants'
 
 import useStyles from './preloaderStyles'
 import PropTypes from 'prop-types'
@@ -13,7 +11,7 @@ export default function Preloader ({ color = 'primary', fullScreen = false, size
 
   return (
     <div className={classNames(classes.root, { fullScreen })}>
-      <CircularProgress style={{ color: BTN_PRIMARY_TEXT_COLOR}} size={size} />
+      <CircularProgress style={{ color: styleConstants.BTN_PRIMARY_TEXT_COLOR}} size={size} />
     </div>
   )
 }

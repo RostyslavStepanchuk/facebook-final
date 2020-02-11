@@ -35,7 +35,7 @@ const ChatList = ({ className, chats, chatsLoading, selectedChatId }) => {
         </Tooltip>
       </Toolbar>
       <Divider />
-      <List disablePadding>
+      <List disablePadding className={classes.chatListContainer}>
         {chats.map((chat, i) => (
           <ChatListItem
             active={chat.id === selectedChatId}

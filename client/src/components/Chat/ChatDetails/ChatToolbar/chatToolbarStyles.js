@@ -2,13 +2,11 @@ import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({
   root: {
-    backgroundColor: theme.palette.white
+    backgroundColor: theme.palette.white,
+    flex: '0 0 auto'
   },
   backButton: {
-    marginRight: theme.spacing(2),
-    '@media (min-width: 864px)': {
-      display: 'none'
-    }
+    marginRight: theme.spacing(2)
   },
   user: {
     flexShrink: 0,

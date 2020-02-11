@@ -1,7 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles'
-import {
-  CONTAINER_TEXT_COLOR
-} from '../../../utils/constants/styleConstants'
+import styleConstants from '../../../utils/constants/styleConstants'
 
 const useStyles = makeStyles(() => ({
   avatar: props => ({
@@ -29,21 +27,21 @@ const useStyles = makeStyles(() => ({
     padding: '0 10px'
   },
   userName: {
-    color: CONTAINER_TEXT_COLOR,
+    color: styleConstants.CONTAINER_TEXT_COLOR,
     fontWeight: 600,
     margin: 0,
     wordBreak: 'break-word'
   },
   link: {
     textDecoration: 'none',
-    color: CONTAINER_TEXT_COLOR
+    color: styleConstants.CONTAINER_TEXT_COLOR
   },
   requestDate: {
     margin: 0,
     wordBreak: 'break-word'
   },
   confirmBtn: {
-    color: '#8bc34a',
+    color: '#8bc34a'
   }
 
 }))
