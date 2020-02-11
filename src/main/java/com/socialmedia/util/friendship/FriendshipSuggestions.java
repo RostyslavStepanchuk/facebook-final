@@ -8,4 +8,5 @@ public class FriendshipSuggestions {
   public FriendshipSuggestions(ApplicationUser user) {
     this.user = user;
   }
+
 }
