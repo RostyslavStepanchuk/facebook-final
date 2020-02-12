@@ -70,11 +70,10 @@ export const addMessageToCurrentChat = msg => dispatch => {
   })
 }
 
-export const clearCurrentChatMessages = () => dispatch => (
-  dispatch({
-    type: CHAT_PAGE_LEFT
-  })
-)
+export const clearCurrentChatMessages = () => dispatch =>
+   dispatch({
+     type: CHAT_PAGE_LEFT
+   })
 
 export const getChat = userId => async dispatch => {
   dispatch({

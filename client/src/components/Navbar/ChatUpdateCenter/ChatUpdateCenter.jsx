@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import SockJsClient from 'react-stomp'
 
-import { get } from 'lodash'
+import { get, isEmpty } from 'lodash'
 import apiRequest from '../../../utils/helpers/apiRequest'
 import {
   addMessageToCurrentChat,
@@ -13,17 +13,18 @@ import {
 } from '../../../actions/chat'
 
 const ChatUpdateCenter = ({
-                            currentUserName,
-                            currentChatMessages,
-                            unreadChats,
-                            getUnreadChats,
-                            sendChatBeenReadNotification,
-                            addMessageToCurrentChat,
-                            saveMessageNotification
-                          }) => {
+  currentUserName,
+  currentChatMessages,
+  unreadChats,
+  getUnreadChats,
+  sendChatBeenReadNotification,
+  addMessageToCurrentChat,
+  saveMessageNotification
+}) => {
   const onBrokerMessageReceive = msg => {
     const newMsgChatId = get(msg, 'chat.id')
-    if (currentChatMessages.some(message => get(message, 'chat.id') === newMsgChatId)) {
+
+    if (currentChatMessages.some(message => get(message, 'chat.id') === newMsgChatId) || isEmpty(currentChatMessages)) {
       sendChatBeenReadNotification(newMsgChatId)
       addMessageToCurrentChat(msg)
     } else {
@@ -31,7 +32,7 @@ const ChatUpdateCenter = ({
     }
   }
 
-  useEffect(() => { getUnreadChats() }, [ getUnreadChats ])
+  useEffect(() => { getUnreadChats() }, [getUnreadChats])
 
   return (
     <SockJsClient url={apiRequest.getSocketUrl()}

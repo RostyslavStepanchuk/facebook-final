@@ -4,11 +4,11 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Grid, Paper } from '@material-ui/core'
 
+import Chat from '../../components/Chat/Chat'
 import ProfileCover from '../../components/ProfileCover/ProfileCover'
 import ShortUserData from '../../components/ShortUserData/ShortUserData'
 import ProfileField from '../../components/ProfileField/ProfileField'
 import FriendsList from '../../components/FriendsList/FriendsList'
-import SingleChat from '../../components/SingleChat/SingleChat'
 import PhotosList from '../../components/PhotosList/PhotosList'
 import CreatePost from '../../components/CreatePost/CreatePost'
 import PostFeed from '../../components/PostFeed/PostFeed'
@@ -19,9 +19,9 @@ import { getPostsForProfile } from '../../actions/post'
 import { getUserProfile } from '../../actions/search'
 import { getIncomingFriendRequests, loadUserFriends } from '../../actions/friends'
 import { clearCurrentChatMessages } from '../../actions/chat'
+import { resetTab } from '../../actions/profileTab'
 
 import useStyles from './profilePageStyles'
-import { resetTab } from '../../actions/profileTab'
 
 const FRIENDS_PAGE_SIZE = 20
 const POSTS_PAGE_SIZE = 10
@@ -58,7 +58,9 @@ const ProfilePage = ({
     loadUserPhotos(userId)
     getPostsForProfile(userId, FIRST_PAGE, POSTS_PAGE_SIZE, true)
     loadUserFriends(userId, FIRST_PAGE, FRIENDS_PAGE_SIZE, true)
-    if (currentUser !== userId) resetTab()
+
+    // Reset Tab on Component unmount
+    return () => resetTab()
   }, [ loadUserPhotos, loadUserProfile, loadUserFriends, getPostsForProfile, userId, resetTab, currentUser ])
 
   useEffect(() => { // separate useEffect cause this request doesn't depend on profile change, it's for user
@@ -141,7 +143,7 @@ const ProfilePage = ({
         {selectedTab === 'messages' &&
         <Grid item sm={9}>
           <Paper className={classes.paper}>
-            <SingleChat userId={userId} />
+            <Chat userId={userId} isSingleChat containerHeight='HALF' />
           </Paper>
         </Grid>
         }
