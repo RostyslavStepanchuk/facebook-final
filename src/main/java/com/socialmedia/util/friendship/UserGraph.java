@@ -1,76 +1,80 @@
 package com.socialmedia.util.friendship;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.LinkedHashSet;
-import java.util.Set;
-import java.util.Stack;
-import java.util.Queue;
-import java.util.LinkedList;
+import com.socialmedia.model.ApplicationUser;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 class UserGraph {
-  private Map<String, Set<String>> adjVertices = new HashMap<>();
+  private Map<GraphVertex, Set<GraphVertex>> adjVertices = new HashMap<>();
 
-  public void addVertex(String username) {
-    adjVertices.putIfAbsent(username, new HashSet<>());
+  public void addVertex(ApplicationUser user) {
+    adjVertices.putIfAbsent(new GraphVertex(user), new HashSet<>());
   }
 
-  void removeVertex(String username) {
-    adjVertices.values().stream().forEach(item -> item.remove(username));
-    adjVertices.remove(username);
+  void removeVertex(ApplicationUser user) {
+    GraphVertex vertex = new GraphVertex(user);
+    adjVertices.values().stream().forEach(item -> item.remove(vertex));
+    adjVertices.remove(new GraphVertex(user));
   }
 
-  void addEdge(String firstUsername, String secondUsername) {
-    adjVertices.get(firstUsername).add(secondUsername);
-    adjVertices.get(secondUsername).add(firstUsername);
+  void addEdge(ApplicationUser firstUser, ApplicationUser secondUser) {
+    GraphVertex firstVertex = new GraphVertex(firstUser);
+    GraphVertex secondVertex = new GraphVertex(secondUser);
+    adjVertices.get(firstVertex).add(secondVertex);
+    adjVertices.get(secondVertex).add(firstVertex);
   }
 
-  void removeEdge(String firstUsername, String secondUsername) {
-    Set<String> firstVertex = adjVertices.get(firstUsername);
-    Set<String> secondVertex = adjVertices.get(secondUsername);
-    if (firstVertex != null) {
-      firstVertex.remove(secondUsername);
+  void removeEdge(ApplicationUser firstUser, ApplicationUser secondUser) {
+    GraphVertex firstVertex = new GraphVertex(firstUser);
+    GraphVertex secondVertex = new GraphVertex(secondUser);
+    Set<GraphVertex> verticesForFirst = adjVertices.get(firstVertex);
+    Set<GraphVertex> verticesForSecond = adjVertices.get(secondVertex);
+    if (verticesForFirst != null) {
+      verticesForFirst.remove(secondVertex);
     }
-    if (secondVertex != null) {
-      secondVertex.remove(firstUsername);
+    if (verticesForSecond != null) {
+      verticesForSecond.remove(firstVertex);
     }
   }
 
-  private Set<String> getAdjVertices(String username) {
-    return adjVertices.get(username);
+  private Set<GraphVertex> getAdjVertices(ApplicationUser user) {
+    return adjVertices.get(new GraphVertex(user));
   }
 
-  Set<String> depthFirstTraversal(String username) {
-    Set<String> visited = new LinkedHashSet<>();
-    Stack<String> stack = new Stack<>();
-    stack.push(username);
-    while (!stack.isEmpty()) {
-      String vertex = stack.pop();
-      if (!visited.contains(vertex)) {
-        visited.add(vertex);
-        for (String v : getAdjVertices(vertex)) {
-          stack.push(v);
-        }
-      }
-    }
-    return visited;
-  }
+//  Set<ApplicationUser> depthFirstTraversal(ApplicationUser currentUser) {
+//    Set<ApplicationUser> visited = new LinkedHashSet<>();
+//    Stack<ApplicationUser> stack = new Stack<>();
+//    stack.push(currentUser);
+//    while (!stack.isEmpty()) {
+//      ApplicationUser user = stack.pop();
+//      if (!visited.contains(user)) {
+//        visited.add(user);
+//        for (GraphVertex v : getAdjVertices(user)) {
+//          stack.push(v.user);
+//        }
+//      }
+//    }
+//    return visited;
+//  }
 
-  Set<String> breadthFirstTraversal(String username) {
-    Set<String> visited = new LinkedHashSet<>();
-    Queue<String> queue = new LinkedList<>();
-    queue.add(username);
-    visited.add(username);
+  Map<ApplicationUser, List<ApplicationUser>> breadthFirstTraversal(ApplicationUser currentUser) {
+    Set<ApplicationUser> visited = new LinkedHashSet<>();
+    Queue<ApplicationUser> queue = new LinkedList<>();
+    queue.add(currentUser);
+    visited.add(currentUser);
     while (!queue.isEmpty()) {
-      String vertex = queue.poll();
-      for (String v : getAdjVertices(vertex)) {
-        if (!visited.contains(v)) {
-          visited.add(v);
-          queue.add(v);
+      ApplicationUser user = queue.poll();
+      for (GraphVertex v : getAdjVertices(user)) {
+        if (!visited.contains(v.user)) {
+          visited.add(v.user);
+          queue.add(v.user);
         }
       }
     }
-    return visited;
+
+    return visited.stream().
+            collect(Collectors.toMap(user -> user,
+                    user -> getAdjVertices(user).stream().map(vertex -> vertex.user).collect(Collectors.toList())));
   }
 }
