@@ -26,6 +26,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import useStyles from './postMenuStyles'
 import { deletePost, deleteCurrentUserTagFromPost } from '../../../../actions/post'
 import { get } from 'lodash'
+import classNames from "classnames";
 
 const Transition = React.forwardRef(function Transition (props, ref) {
   return <Slide direction='up' ref={ref} {...props} />
@@ -115,20 +116,26 @@ const PostMenu = ({
     keepMounted
     onClose={handleModal}
   >
-    <DialogTitle id='alert'>Delete Post?</DialogTitle>
-    <DialogContent>
-      <DialogContentText>
-        Are you sure you want to permanently remove this post from DanBook?
-      </DialogContentText>
-    </DialogContent>
-    <DialogActions>
-      <Button variant='contained' color='primary' onClick={handleModal}>
-        Cancel
-      </Button>
-      <Button variant='contained' color='secondary' onClick={handleModalDelete}>
-        Delete
-      </Button>
-    </DialogActions>
+    <div className={classes.container}>
+      <DialogTitle id='alert'>Delete Post?</DialogTitle>
+      <DialogContent>
+        <DialogContentText>
+          Are you sure you want to permanently remove this post from DanBook?
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button className={classes.button} variant='contained' color='primary' onClick={handleModal}>
+          Cancel
+        </Button>
+        <Button
+          className={classes.button}
+          variant='contained'
+          color='secondary'
+          onClick={handleModalDelete}>
+            Delete
+        </Button>
+      </DialogActions>
+    </div>
   </Dialog>
 
   return (

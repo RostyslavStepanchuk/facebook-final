@@ -22,6 +22,9 @@ const useStyles = makeStyles(() => ({
     textDecoration: 'none',
     color: styleConstants.CONTAINER_TEXT_COLOR
   },
+  sendIcon: {
+    color: styleConstants.ICON_COLOR
+  },
   requestSentIcon: {
     padding: 10,
     color: '#8bc34a'

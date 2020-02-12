@@ -61,6 +61,7 @@ const ResetPassword = ({ isAuthenticated, resetPassword, resetEmailSend }) => {
             </Typography>
             <form className={classes.form} onSubmit={e => onSubmit(e)}>
               <TextField
+                className={classes.textField}
                 type='input'
                 variant='outlined'
                 margin='normal'
@@ -88,7 +89,7 @@ const ResetPassword = ({ isAuthenticated, resetPassword, resetEmailSend }) => {
             <Link to='/login' className={classes.linkBtn}>
               <Button fullWidth variant='contained' color='primary' className={classes.submit}>
                 Return to Log In
-            </Button>
+              </Button>
             </Link>
           </Fragment>
         )}

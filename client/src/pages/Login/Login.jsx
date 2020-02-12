@@ -9,6 +9,7 @@ import { login } from '../../actions/auth'
 import Preloader from '../../components/Preloader/Preloader'
 import usestyles from './loginStyles'
 import Paper from '@material-ui/core/Paper'
+import classNames from "classnames";
 
 const googleLogo = '/google-icon.svg'
 
@@ -115,14 +116,14 @@ const Login = ({ isAuthenticated, login, loading }) => {
             label='Password'
             autoComplete='current-password'
           />
-          <Button type='submit' fullWidth variant='contained' color='primary' className={classes.submit}>
+          <Button type='submit' fullWidth variant='contained' color='primary' className={classNames(classes.button, classes.submit)}>
             Sign In
           </Button>
           <Button
             fullWidth
             variant='contained'
             color='default'
-            className={classes.googleBtn}
+            className={classNames(classes.button, classes.googleBtn)}
             onClick={proceedToGoogleOauth}
           >
             <img src={googleLogo} alt='google logo' className={classes.googleIcon} /> Sign in with Google

@@ -36,7 +36,7 @@ const ActiveFriends = ({ activeFriends, activeFriendsAreLoading, changeTab }) =>
           </div>
           <Tooltip title='Send message'>
             <Link to={`/profile/${get(friend, 'username')}`} onClick={() => changeTab('messages')}>
-              <IconButton color='primary' aria-label='Send message'>
+              <IconButton className={classes.sendMessage} aria-label='Send message'>
                 <MailOutlineIcon />
               </IconButton>
             </Link>

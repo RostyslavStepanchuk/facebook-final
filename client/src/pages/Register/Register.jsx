@@ -15,6 +15,7 @@ import {
   validatePassword,
   validateUsername
 } from '../../utils/helpers/inputValidators'
+import Paper from "@material-ui/core/Paper";
 
 const Register = ({ isAuthenticated, loading, register, emailIsConfirmed }) => {
   const classes = useStyles()
@@ -79,9 +80,9 @@ const Register = ({ isAuthenticated, loading, register, emailIsConfirmed }) => {
   }
 
   return loading ? <Preloader /> : (
-    <Container component='main' maxWidth='xs'>
+    <Container component='main' maxWidth='xs' className={classes.container}>
       <CssBaseline />
-      <div className={classes.paper}>
+      <Paper className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
@@ -92,6 +93,7 @@ const Register = ({ isAuthenticated, loading, register, emailIsConfirmed }) => {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
+                className={classes.textField}
                 autoComplete='username'
                 name='username'
                 variant='outlined'
@@ -106,6 +108,7 @@ const Register = ({ isAuthenticated, loading, register, emailIsConfirmed }) => {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                className={classes.textField}
                 autoComplete='email'
                 name='email'
                 variant='outlined'
@@ -120,6 +123,7 @@ const Register = ({ isAuthenticated, loading, register, emailIsConfirmed }) => {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                className={classes.textField}
                 variant='outlined'
                 required
                 fullWidth
@@ -135,6 +139,7 @@ const Register = ({ isAuthenticated, loading, register, emailIsConfirmed }) => {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                className={classes.textField}
                 variant='outlined'
                 required
                 fullWidth
@@ -150,6 +155,7 @@ const Register = ({ isAuthenticated, loading, register, emailIsConfirmed }) => {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                className={classes.textField}
                 autoComplete='firstName'
                 name='firstName'
                 variant='outlined'
@@ -162,6 +168,7 @@ const Register = ({ isAuthenticated, loading, register, emailIsConfirmed }) => {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                className={classes.textField}
                 autoComplete='lastName'
                 name='lastName'
                 variant='outlined'
@@ -184,7 +191,7 @@ const Register = ({ isAuthenticated, loading, register, emailIsConfirmed }) => {
             </Grid>
           </Grid>
         </form>
-      </div>
+      </Paper>
     </Container>
   )
 }

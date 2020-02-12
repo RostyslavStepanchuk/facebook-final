@@ -55,7 +55,7 @@ const FriendSuggestions = ({ person, commonFriends }) => {
         </Grid>
         <Grid item xs={2}>
           { !requestSent ? (<Tooltip title='Send friend request'>
-            <IconButton color='primary' onClick={() => createFriendRequest(username)} aria-label='Send friend request'>
+            <IconButton className={classes.sendIcon} onClick={() => createFriendRequest(username)} aria-label='Send friend request'>
               <PanToolOutlinedIcon />
             </IconButton>
           </Tooltip>) : (<CallMadeOutlinedIcon className={classes.requestSentIcon} />)
