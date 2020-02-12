@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { Redirect, useParams } from 'react-router-dom'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Grid, Paper } from '@material-ui/core'
@@ -39,7 +39,6 @@ const ProfilePage = ({
      profileLoading,
      getPostsForProfile,
      friends,
-     friendsAreLoading,
      loadUserFriends,
      incomingFriendRequests,
      getIncomingFriendRequests,
@@ -140,13 +139,12 @@ const ProfilePage = ({
           </Paper>
         </Grid>
         }
-        {selectedTab === 'messages' &&
-        <Grid item sm={9}>
+        {selectedTab === 'messages' && !isOwnProfile && <Grid item sm={9}>
           <Paper className={classes.paper}>
             <Chat userId={userId} isSingleChat containerHeight='HALF' />
           </Paper>
-        </Grid>
-        }
+        </Grid>}
+        {selectedTab === 'messages' && isOwnProfile && <Redirect to='/chat' />}
       </Grid>
     </InfiniteScroll>
   )
@@ -164,7 +162,6 @@ ProfilePage.propTypes = {
   profileOwner: PropTypes.object.isRequired,
   profileLoading: PropTypes.bool.isRequired,
   friends: PropTypes.array.isRequired,
-  friendsAreLoading: PropTypes.bool.isRequired,
   loadUserFriends: PropTypes.func.isRequired,
   incomingFriendRequests: PropTypes.array.isRequired,
   getIncomingFriendRequests: PropTypes.func.isRequired,
@@ -183,7 +180,6 @@ const mapStateToProps = state => ({
   profileOwner: state.search.userProfile,
   profileLoading: state.search.profileLoading,
   friends: state.friends.userFriends,
-  friendsAreLoading: state.friends.loading,
   incomingFriendRequests: state.friends.incomingFriendRequests
 })
 

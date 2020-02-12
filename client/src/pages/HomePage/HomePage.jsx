@@ -26,7 +26,7 @@ const HomePage = ({
   activeFriends,
   activeFriendsAreLoading,
   loadActiveFriends,
-  getIncomingFriendRequests,
+  getIncomingFriendRequests
 }) => {
   const classes = useStyles()
 
@@ -100,7 +100,7 @@ const mapStateToProps = state => ({
   friendSuggestions: state.friends.friendSuggestions,
   activeFriends: state.friends.activeFriends,
   activeFriendsAreLoading: state.friends.loadingActiveFriends,
-  getIncomingFriendRequests: PropTypes.func.isRequired,
+  getIncomingFriendRequests: PropTypes.func.isRequired
 })
 
 const mapDispatchToProps = dispatch => {

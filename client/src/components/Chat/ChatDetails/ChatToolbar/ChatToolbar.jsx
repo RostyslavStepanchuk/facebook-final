@@ -14,14 +14,38 @@ import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace'
 import SearchIcon from '@material-ui/icons/Search'
 
 import StatusIcon from '../../../StatusIcon/StatusIcon'
+import { getActiveTime } from '../../../../utils/date/getDate'
 
 import useStyles from './chatToolbarStyles'
+import Preloader from '../../../Preloader/Preloader'
 
-const ChatToolbar = ({ chat, className, isSingleChat, isChatGrouped }) => {
+const ChatToolbar = ({
+  chat,
+  className,
+  isSingleChat,
+  isChatGrouped,
+  isActive,
+  lastActivityTime,
+  activeFriendsAreLoading
+}) => {
   const classes = useStyles()
-  // TODO: get active status from BE
-  const isActive = false
-  // const lastActivityTime
+  const ActiveStatus = isActive ? (
+    <Fragment>
+      <StatusIcon
+        className={classes.statusIcon}
+        color='active'
+      />
+      <Typography variant='body2'>{getActiveTime(lastActivityTime)}</Typography>
+    </Fragment>
+  ) : (
+    <Fragment>
+      <StatusIcon
+        className={classes.statusIcon}
+        color='inActive'
+      />
+      <Typography variant='body2'>Not Active</Typography>
+    </Fragment>
+  )
 
   return (
     <Toolbar
@@ -40,23 +64,7 @@ const ChatToolbar = ({ chat, className, isSingleChat, isChatGrouped }) => {
       <div className={classes.user}>
         <Typography variant='h6'>{chat.name}</Typography>
         { !isChatGrouped && <div className={classes.activity}>
-          { isActive ? (
-            <Fragment>
-              <StatusIcon
-                className={classes.statusIcon}
-                color='active'
-              />
-              <Typography variant='body2'>Active now</Typography>
-            </Fragment>
-          ) : (
-            <Fragment>
-              <StatusIcon
-                className={classes.statusIcon}
-                color='inActive'
-              />
-              <Typography variant='body2'>Active lastActivityTime ago</Typography>
-            </Fragment>
-          )}
+          {activeFriendsAreLoading ? <Preloader size={10} /> : ActiveStatus}
         </div>}
       </div>
       <Paper className={classes.search}>
@@ -76,7 +84,10 @@ ChatToolbar.propTypes = {
   chat: PropTypes.object.isRequired,
   withoutSidepanel: PropTypes.bool,
   isChatGrouped: PropTypes.bool.isRequired,
-  isSingleChat: PropTypes.bool
+  isSingleChat: PropTypes.bool,
+  isActive: PropTypes.bool.isRequired,
+  activeFriendsAreLoading: PropTypes.bool.isRequired,
+  lastActivityTime: PropTypes.number
 }
 
 export default ChatToolbar
