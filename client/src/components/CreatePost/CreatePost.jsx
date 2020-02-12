@@ -111,68 +111,68 @@ const CreatePost = ({ profileOwner, currentUser, currentUserFriends, loadCurrent
   ))
 
   return (
-      <div className={classes.container} >
-        <Typography variant='subtitle1' component='div' className={classes.header}>
+    <div className={classes.container} >
+      <Typography variant='subtitle1' component='div' className={classes.header}>
           Create post
         </Typography>
-        <form className={classes.form}>
-          <Grid container className={classes.textContainer}>
-            <Grid container item xs={2} lg={1} justify='center' alignItems='flex-start'>
-              <Link to={`/profile/${get(currentUser, 'username')}`}>
-                <Avatar className={classes.avatar} src={getAvatarLink(currentUser)} />
-              </Link>
-            </Grid>
-            <Grid item xs={10} lg={11} >
-              <TextField
-                className={classes.postInput}
-                autoComplete='lastName'
-                name='lastName'
-                variant='outlined'
-                placeholder={'\n What you\'d like to share, ' + firstName + '?'}
-                rows='3'
-                onChange={handleTextInputChange}
-                multiline
-                required
-                fullWidth
-              />
-              <GridList spacing={3} cellHeight={80} cols={5} className={classes.imgPreviewContainer}>
-                {images}
-              </GridList>
-            </Grid>
+      <form className={classes.form}>
+        <Grid container className={classes.textContainer}>
+          <Grid container item xs={2} lg={1} justify='center' alignItems='flex-start'>
+            <Link to={`/profile/${get(currentUser, 'username')}`}>
+              <Avatar className={classes.avatar} src={getAvatarLink(currentUser)} />
+            </Link>
           </Grid>
-          <Grid container className={classes.toolsContainer}>
-            <Grid item xs={10}>
-              <Button className={classes.button}>
-                <label htmlFor='file_upload' className={classes.label}>
-                  <CropOriginalOutlinedIcon className={classes.icon} />
-                  <div className={classes.labelText}> Add image</div>
-                </label>
-                <input id='file_upload'
-                  className={classes.fileInput}
-                  multiple
-                  type='file'
-                  onChange={handleFileInputChange}
-                />
-              </Button>
-              <TagFriendButton
-                friends={currentUserFriends}
-                selected={taggedFriends}
-                handleFriendTag={handleFriendTag}
+          <Grid item xs={10} lg={11} >
+            <TextField
+              className={classes.postInput}
+              autoComplete='lastName'
+              name='lastName'
+              variant='outlined'
+              placeholder={'\n What you\'d like to share, ' + firstName + '?'}
+              rows='3'
+              onChange={handleTextInputChange}
+              multiline
+              required
+              fullWidth
               />
-            </Grid>
-            <Grid container item xs={2} justify='flex-end'>
-              <Button
-                className={classes.button}
-                type='submit'
-                variant='contained'
-                onClick={handleSubmit}
+            <GridList spacing={3} cellHeight={80} cols={5} className={classes.imgPreviewContainer}>
+              {images}
+            </GridList>
+          </Grid>
+        </Grid>
+        <Grid container className={classes.toolsContainer}>
+          <Grid item xs={10}>
+            <Button className={classes.button}>
+              <label htmlFor='file_upload' className={classes.label}>
+                <CropOriginalOutlinedIcon className={classes.icon} />
+                <div className={classes.labelText}> Add image</div>
+              </label>
+              <input id='file_upload'
+                className={classes.fileInput}
+                multiple
+                type='file'
+                onChange={handleFileInputChange}
+                />
+            </Button>
+            <TagFriendButton
+              friends={currentUserFriends}
+              selected={taggedFriends}
+              handleFriendTag={handleFriendTag}
+              />
+          </Grid>
+          <Grid container item xs={2} justify='flex-end'>
+            <Button
+              className={classes.button}
+              type='submit'
+              variant='contained'
+              onClick={handleSubmit}
               >
                 POST
               </Button>
-            </Grid>
           </Grid>
-        </form>
-      </div>
+        </Grid>
+      </form>
+    </div>
   )
 }
 

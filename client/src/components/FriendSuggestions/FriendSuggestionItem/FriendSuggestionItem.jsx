@@ -28,10 +28,9 @@ const FriendSuggestions = ({ person, commonFriends }) => {
   }
 
   const commonFriendAvatars = commonFriends
-    .filter(cf => cf.avatar !== null)
     .map(cf => <Link to={'profile/' + cf.username} key={cf.username} >
       <Tooltip title={getFullName(cf)}>
-        <img src={cf.avatar.src} alt={cf.username} className={classes.commonFriendAvatar} />
+        <Avatar src={getAvatarLink(cf)} alt={cf.username} className={classes.commonFriendAvatar} />
       </Tooltip>
     </Link>
     )

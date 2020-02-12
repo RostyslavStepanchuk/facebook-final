@@ -129,7 +129,7 @@ const Navbar = ({ auth: { isAuthenticated, user }, incomingFriendRequests, selec
   )
 
   return (
-    <div className={classes.root}  >
+    <div className={classes.root} >
       <AppBar position='static' className={classes.container} >
         <Toolbar>
           <Link to='/' className={classes.link}>
@@ -154,7 +154,7 @@ const Navbar = ({ auth: { isAuthenticated, user }, incomingFriendRequests, selec
           <Fragment>
             <div className={classes.root} />
             <div className={classes.sectionDesktop}>
-              <ChatUpdateCenter/>
+              <ChatUpdateCenter />
               <Tooltip title='Messages'>
                 <IconButton
                   className={classes.navbarButton}

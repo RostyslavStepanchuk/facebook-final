@@ -1,7 +1,9 @@
 import {
   CURRENT_USER_FRIENDS_RECEIVED,
   FRIEND_DELETED,
+  FRIEND_SUGGESTIONS_STARTED_LOADING,
   FRIEND_SUGGESTIONS_RECEIVED,
+  FRIEND_SUGGESTIONS_STOPPED_LOADING,
   FRIENDS_RECEIVED,
   FRIENDS_STARTED_LOADING,
   FRIENDS_STOPPED_LOADING,
@@ -22,6 +24,7 @@ const initialState = {
   currentUserFriends: [],
   incomingFriendRequests: [],
   friendSuggestions: [],
+  friendSuggestionsAreLoading: false,
   activeFriends: [],
   loadingActiveFriends: false,
   loading: false
@@ -61,8 +64,14 @@ export default function (state = initialState, action) {
         currentUserFriends: addPagedPayload(state.userFriends, payload, 'username')
       }
 
+    case FRIEND_SUGGESTIONS_STARTED_LOADING:
+      return { ...state, friendSuggestionsAreLoading: true }
+
     case FRIEND_SUGGESTIONS_RECEIVED:
-      return { ...state, friendSuggestions: payload }
+      return { ...state, friendSuggestions: payload, friendSuggestionsAreLoading: false }
+
+    case FRIEND_SUGGESTIONS_STOPPED_LOADING:
+      return { ...state, friendSuggestionsAreLoading: false }
 
     case INCOMING_FRIEND_REQUESTS_RECEIVED:
       return { ...state, incomingFriendRequests: payload }

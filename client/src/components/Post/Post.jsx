@@ -41,28 +41,28 @@ const Post = ({ post }) => {
 
   return (
     <Paper key={id} className={classes.post}>
-        <PostAuthor
-          postId={id}
-          author={author}
-          owner={owner}
-          date={date}
-          taggedFriends={taggedFriends}
-          updateRef={updateRef}
-          openUpdateWindow={openUpdateWindow}
-          handleToggleUpdate={handleToggleUpdate}
+      <PostAuthor
+        postId={id}
+        author={author}
+        owner={owner}
+        date={date}
+        taggedFriends={taggedFriends}
+        updateRef={updateRef}
+        openUpdateWindow={openUpdateWindow}
+        handleToggleUpdate={handleToggleUpdate}
         />
       {image &&
         <Fragment>
-          <img src={get(image, 'src')}  onClick={handleModal} className={classes.image} alt='Post' />
-            <Dialog
-              maxWidth='md'
-              open={openDialog}
-              TransitionComponent={Transition}
-              keepMounted
-              onClose={handleModal}
+          <img src={get(image, 'src')} onClick={handleModal} className={classes.image} alt='Post' />
+          <Dialog
+            maxWidth='md'
+            open={openDialog}
+            TransitionComponent={Transition}
+            keepMounted
+            onClose={handleModal}
             >
-              <img className={classes.image} src={get(image, 'src')} onClick={handleModal} alt='UserPhoto' />
-            </Dialog>
+            <img className={classes.image} src={get(image, 'src')} onClick={handleModal} alt='UserPhoto' />
+          </Dialog>
         </Fragment>
       }
       {message && <p>{message}</p>}

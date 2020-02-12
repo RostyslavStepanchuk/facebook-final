@@ -12,10 +12,14 @@ public class GraphVertex {
   }
 
   @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    GraphVertex that = (GraphVertex) o;
+  public boolean equals(Object object) {
+    if (this == object) {
+      return true;
+    }
+    if (object == null || getClass() != object.getClass()) {
+      return false;
+    }
+    GraphVertex that = (GraphVertex) object;
     return Objects.equals(user, that.user);
   }
 

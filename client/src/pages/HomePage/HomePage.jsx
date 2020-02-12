@@ -22,11 +22,12 @@ const HomePage = ({
   postsAreLoading,
   posts,
   friendSuggestions,
+  friendSuggestionsAreLoading,
   getFriendSuggestions,
   activeFriends,
   activeFriendsAreLoading,
   loadActiveFriends,
-  getIncomingFriendRequests,
+  getIncomingFriendRequests
 }) => {
   const classes = useStyles()
 
@@ -57,7 +58,10 @@ const HomePage = ({
         <Grid container spacing={2}>
           <Grid item md={3}>
             <Paper className={classes.paper}>
-              <FriendSuggestions suggestions={friendSuggestions} />
+              <FriendSuggestions
+                suggestions={friendSuggestions}
+                suggestionsAreLoading={friendSuggestionsAreLoading}
+              />
             </Paper>
           </Grid>
           <Grid item md={6}>
@@ -87,6 +91,7 @@ HomePage.propTypes = {
   loadPostsHomePage: PropTypes.func.isRequired,
   getFriendSuggestions: PropTypes.func.isRequired,
   friendSuggestions: PropTypes.array.isRequired,
+  friendSuggestionsAreLoading: PropTypes.bool.isRequired,
   activeFriends: PropTypes.array.isRequired,
   activeFriendsAreLoading: PropTypes.bool.isRequired,
   loadActiveFriends: PropTypes.func.isRequired,
@@ -98,9 +103,10 @@ const mapStateToProps = state => ({
   postsAreLoading: state.posts.loading,
   posts: state.posts.posts,
   friendSuggestions: state.friends.friendSuggestions,
+  friendSuggestionsAreLoading: state.friends.friendSuggestionsAreLoading,
   activeFriends: state.friends.activeFriends,
   activeFriendsAreLoading: state.friends.loadingActiveFriends,
-  getIncomingFriendRequests: PropTypes.func.isRequired,
+  getIncomingFriendRequests: PropTypes.func.isRequired
 })
 
 const mapDispatchToProps = dispatch => {
@@ -108,7 +114,7 @@ const mapDispatchToProps = dispatch => {
     loadPostsHomePage: (page, size, isInitial) => dispatch(getPostsForHomePage(page, size, isInitial)),
     getFriendSuggestions: page => dispatch(getFriendSuggestions(page)),
     loadActiveFriends: (page, size, isInitial) => dispatch(loadActiveFriends(page, size, isInitial)),
-    getIncomingFriendRequests: () => dispatch(getIncomingFriendRequests()),
+    getIncomingFriendRequests: () => dispatch(getIncomingFriendRequests())
   }
 }
 

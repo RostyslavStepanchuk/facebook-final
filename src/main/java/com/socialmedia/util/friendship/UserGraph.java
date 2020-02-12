@@ -2,19 +2,26 @@ package com.socialmedia.util.friendship;
 
 import com.socialmedia.model.ApplicationUser;
 
-import java.util.*;
+import java.util.List;
+import java.util.Set;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Map;
+import java.util.HashSet;
 import java.util.stream.Collectors;
 
 class UserGraph {
   private Map<GraphVertex, Set<GraphVertex>> adjVertices = new HashMap<>();
 
-  public void addVertex(ApplicationUser user) {
+  void addVertex(ApplicationUser user) {
     adjVertices.putIfAbsent(new GraphVertex(user), new HashSet<>());
   }
 
   void removeVertex(ApplicationUser user) {
     GraphVertex vertex = new GraphVertex(user);
-    adjVertices.values().stream().forEach(item -> item.remove(vertex));
+    adjVertices.values().forEach(item -> item.remove(vertex));
     adjVertices.remove(new GraphVertex(user));
   }
 
@@ -42,22 +49,6 @@ class UserGraph {
     return adjVertices.get(new GraphVertex(user));
   }
 
-//  Set<ApplicationUser> depthFirstTraversal(ApplicationUser currentUser) {
-//    Set<ApplicationUser> visited = new LinkedHashSet<>();
-//    Stack<ApplicationUser> stack = new Stack<>();
-//    stack.push(currentUser);
-//    while (!stack.isEmpty()) {
-//      ApplicationUser user = stack.pop();
-//      if (!visited.contains(user)) {
-//        visited.add(user);
-//        for (GraphVertex v : getAdjVertices(user)) {
-//          stack.push(v.user);
-//        }
-//      }
-//    }
-//    return visited;
-//  }
-
   Map<ApplicationUser, List<ApplicationUser>> breadthFirstTraversal(ApplicationUser currentUser) {
     Set<ApplicationUser> visited = new LinkedHashSet<>();
     Queue<ApplicationUser> queue = new LinkedList<>();
@@ -73,8 +64,8 @@ class UserGraph {
       }
     }
 
-    return visited.stream().
-            collect(Collectors.toMap(user -> user,
-                    user -> getAdjVertices(user).stream().map(vertex -> vertex.user).collect(Collectors.toList())));
+    return visited.stream()
+            .collect(Collectors.toMap(user -> user, user -> getAdjVertices(user)
+                    .stream().map(vertex -> vertex.user).collect(Collectors.toList())));
   }
 }

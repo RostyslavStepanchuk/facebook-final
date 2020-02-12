@@ -11,7 +11,7 @@ export default function Preloader ({ color = 'primary', fullScreen = false, size
 
   return (
     <div className={classNames(classes.root, { fullScreen })}>
-      <CircularProgress style={{ color: styleConstants.BTN_PRIMARY_TEXT_COLOR}} size={size} />
+      <CircularProgress style={{ color: styleConstants.BTN_PRIMARY_TEXT_COLOR }} size={size} />
     </div>
   )
 }
