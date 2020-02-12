@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import { get } from 'lodash'
 import { Avatar, ListItem, ListItemAvatar, ListItemText, Typography } from '@material-ui/core'
 
 import Preloader from '../../Preloader/Preloader'
@@ -14,7 +15,6 @@ import useStyles from './ChatListItemStyles'
 const ChatListItem = ({ active, chat, className, chatsLoading }) => {
   const { participants, lastMessage, id } = chat
   const classes = useStyles()
-
   const chatCaption = participants.length > 2
   ? chat.name : getFullName(participants[1])
 
@@ -43,7 +43,7 @@ const ChatListItem = ({ active, chat, className, chatsLoading }) => {
           noWrap: true,
           variant: 'h6'
         }}
-        secondary={lastMessage.author ? `${getFullName(lastMessage.author)}: ${lastMessage.text}` : ''}
+        secondary={get(lastMessage, 'author', false) ? `${getFullName(lastMessage.author)}: ${lastMessage.text}` : ''}
         secondaryTypographyProps={{
           noWrap: true,
           variant: 'body1'
@@ -54,7 +54,7 @@ const ChatListItem = ({ active, chat, className, chatsLoading }) => {
           noWrap
           variant='body2'
         >
-          {lastMessage.date && getDateForChat(lastMessage.date)}
+          {get(lastMessage, 'date', false) && getDateForChat(lastMessage.date)}
         </Typography>
       </div>
     </ListItem>

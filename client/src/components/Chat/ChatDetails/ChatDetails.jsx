@@ -23,7 +23,7 @@ const ChatDetails = ({
   isLastPageInChat,
   clearCurrentChatMessages,
   sendChatBeenReadNotification,
-  withoutSidepanel,
+  isSingleChat,
   containerHeight = 'FULL'
 }) => {
   const classes = useStyles()
@@ -49,7 +49,7 @@ const ChatDetails = ({
     >
       <ChatToolbar
         chat={chat}
-        withoutSidepanel={withoutSidepanel}
+        isSingleChat={isSingleChat}
         isChatGrouped={isChatGrouped}
       />
       <Divider />
@@ -78,7 +78,7 @@ ChatDetails.propTypes = {
   ownMessageSent: PropTypes.bool,
   isLastPageInChat: PropTypes.bool,
   containerHeight: PropTypes.string,
-  withoutSidepanel: PropTypes.bool,
+  isSingleChat: PropTypes.bool,
   clearCurrentChatMessages: PropTypes.func.isRequired,
   sendChatBeenReadNotification: PropTypes.func.isRequired
 }

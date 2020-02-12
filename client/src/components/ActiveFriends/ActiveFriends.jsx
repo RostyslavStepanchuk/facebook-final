@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { get, isEmpty } from 'lodash'
 import { Avatar, IconButton, Tooltip, Typography } from '@material-ui/core'
@@ -9,10 +10,11 @@ import Preloader from '../Preloader/Preloader'
 import { getAvatarLink } from '../../utils/helpers/imageLinkHelpers'
 import { getActiveTime } from '../../utils/date/getDate'
 import { getFullName } from '../../utils/helpers/formatters'
+import { changeTab } from '../../actions/profileTab'
 
 import useStyles from './activeFriendsStyles'
 
-const ActiveFriends = ({ activeFriends, activeFriendsAreLoading }) => {
+const ActiveFriends = ({ activeFriends, activeFriendsAreLoading, changeTab }) => {
   const classes = useStyles()
 
   const friendsList = () => {
@@ -33,9 +35,12 @@ const ActiveFriends = ({ activeFriends, activeFriendsAreLoading }) => {
             </div>
           </div>
           <Tooltip title='Send message'>
-            <IconButton color='primary' aria-label='Send message'>
-              <MailOutlineIcon />
-            </IconButton>
+            <Link to={`/profile/${get(friend, 'username')}`} onClick={() => changeTab('messages')}>
+              <IconButton color='primary' aria-label='Send message'>
+                <MailOutlineIcon />
+              </IconButton>
+            </Link>
+
           </Tooltip>
         </div>
         )
@@ -57,7 +62,8 @@ const ActiveFriends = ({ activeFriends, activeFriendsAreLoading }) => {
 
 ActiveFriends.propTypes = {
   activeFriends: PropTypes.array.isRequired,
-  activeFriendsAreLoading: PropTypes.bool.isRequired
+  activeFriendsAreLoading: PropTypes.bool.isRequired,
+  changeTab: PropTypes.func.isRequired
 }
 
-export default ActiveFriends
+export default connect(null, {changeTab})(ActiveFriends)
