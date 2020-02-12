@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import classnames from 'classnames'
 import { Divider } from '@material-ui/core'
+import { get, find } from 'lodash'
 
 import ChatToolbar from './ChatToolbar/ChatToolbar'
 import ChatMessages from './ChatMessages/ChatMessages'
@@ -11,6 +12,7 @@ import SendMessage from './SendMessage/SendMessage'
 import { clearCurrentChatMessages, sendChatBeenReadNotification } from '../../../actions/chat'
 
 import useStyles from './chatDetailsStyles'
+import { loadActiveFriends } from '../../../actions/friends'
 
 const ChatDetails = ({
   authUser,
@@ -24,7 +26,10 @@ const ChatDetails = ({
   clearCurrentChatMessages,
   sendChatBeenReadNotification,
   isSingleChat,
-  containerHeight = 'FULL'
+  containerHeight = 'FULL',
+  activeFriends,
+  activeFriendsAreLoading,
+  loadActiveFriends
 }) => {
   const classes = useStyles()
 
@@ -37,7 +42,11 @@ const ChatDetails = ({
 
   useEffect(() => {
     sendChatBeenReadNotification(chat.id)
-  }, [chat.id, sendChatBeenReadNotification])
+    loadActiveFriends(0, 100, true)
+  }, [chat.id, sendChatBeenReadNotification, loadActiveFriends])
+
+  const activeParticipant = find(activeFriends, {username: chat.participants[1].username})
+  const lastActivityTime = get(activeParticipant, 'lastActivityTime')
 
   return (
     <div
@@ -51,6 +60,9 @@ const ChatDetails = ({
         chat={chat}
         isSingleChat={isSingleChat}
         isChatGrouped={isChatGrouped}
+        isActive={!!activeParticipant}
+        lastActivityTime={lastActivityTime}
+        activeFriendsAreLoading={activeFriendsAreLoading}
       />
       <Divider />
       <ChatMessages
@@ -80,11 +92,19 @@ ChatDetails.propTypes = {
   containerHeight: PropTypes.string,
   isSingleChat: PropTypes.bool,
   clearCurrentChatMessages: PropTypes.func.isRequired,
-  sendChatBeenReadNotification: PropTypes.func.isRequired
+  sendChatBeenReadNotification: PropTypes.func.isRequired,
+  activeFriends: PropTypes.array.isRequired,
+  activeFriendsAreLoading: PropTypes.bool.isRequired,
+  loadActiveFriends: PropTypes.func.isRequired
 }
+const mapStateToProps = state => ({
+  activeFriends: state.friends.activeFriends,
+  activeFriendsAreLoading: state.friends.loadingActiveFriends
+})
 
 const mapDispatchToProps = dispatch => ({
   clearCurrentChatMessages: () => dispatch(clearCurrentChatMessages()),
-  sendChatBeenReadNotification: chatId => dispatch(sendChatBeenReadNotification(chatId))
+  sendChatBeenReadNotification: chatId => dispatch(sendChatBeenReadNotification(chatId)),
+  loadActiveFriends: (page, size, isInitial) => dispatch(loadActiveFriends(page, size, isInitial))
 })
-export default connect(null, mapDispatchToProps)(ChatDetails)
+export default connect(mapStateToProps, mapDispatchToProps)(ChatDetails)

@@ -19,5 +19,5 @@ export default function Preloader ({ color = 'primary', fullScreen = false, size
 Preloader.propTypes = {
   color: PropTypes.string,
   fullScreen: PropTypes.bool,
-  size: PropTypes.string
+  size: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 }

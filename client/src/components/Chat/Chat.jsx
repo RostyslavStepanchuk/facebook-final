@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { isEmpty } from 'lodash'
+import { get, isEmpty } from 'lodash'
 
 import ChatList from './ChatList/ChatList'
 import ChatDetails from './ChatDetails/ChatDetails'
@@ -58,12 +58,13 @@ const Chat = ({
       getMessagesForChat(selectedChatId, FIRST_PAGE, PAGE_SIZE, true)
     }
   }, [getMessagesForChat, selectedChatId])
+  const sortedChats = chats.sort((chat1, chat2) => get(chat2, 'lastMessage.date') - get(chat1, 'lastMessage.date'))
 
   return (
     <div className={classes.root}>
       {!isSingleChat && <ChatList
         className={classes.chatList}
-        chats={chats}
+        chats={sortedChats}
         chatMessages={chatMessages}
         chatsLoading={chatsLoading}
         selectedChatId={selectedChatId}
