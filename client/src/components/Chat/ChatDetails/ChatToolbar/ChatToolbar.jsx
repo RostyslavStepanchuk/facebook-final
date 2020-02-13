@@ -13,11 +13,12 @@ import {
 import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace'
 import SearchIcon from '@material-ui/icons/Search'
 
+import Preloader from '../../../Preloader/Preloader'
 import StatusIcon from '../../../StatusIcon/StatusIcon'
 import { getActiveTime } from '../../../../utils/date/getDate'
+import { getFullName } from '../../../../utils/helpers/formatters'
 
 import useStyles from './chatToolbarStyles'
-import Preloader from '../../../Preloader/Preloader'
 
 const ChatToolbar = ({
   chat,
@@ -25,10 +26,13 @@ const ChatToolbar = ({
   isSingleChat,
   isChatGrouped,
   isActive,
+  otherParticipant,
   lastActivityTime,
   activeFriendsAreLoading
 }) => {
   const classes = useStyles()
+  const chatName = isChatGrouped ? chat.name : `Chat with ${getFullName(otherParticipant)}`
+
   const ActiveStatus = isActive ? (
     <Fragment>
       <StatusIcon
@@ -62,7 +66,7 @@ const ChatToolbar = ({
         </IconButton>
       </Tooltip>}
       <div className={classes.user}>
-        <Typography variant='h6'>{chat.name}</Typography>
+        <Typography variant='h6'>{chatName}</Typography>
         { !isChatGrouped && <div className={classes.activity}>
           {activeFriendsAreLoading ? <Preloader size={10} /> : ActiveStatus}
         </div>}
@@ -86,6 +90,7 @@ ChatToolbar.propTypes = {
   isChatGrouped: PropTypes.bool.isRequired,
   isSingleChat: PropTypes.bool,
   isActive: PropTypes.bool.isRequired,
+  otherParticipant: PropTypes.object.isRequired,
   activeFriendsAreLoading: PropTypes.bool.isRequired,
   lastActivityTime: PropTypes.number
 }

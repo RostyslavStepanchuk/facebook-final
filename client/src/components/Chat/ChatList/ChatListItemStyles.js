@@ -11,6 +11,15 @@ const useStyles = makeStyles(theme => ({
     height: 40,
     width: 40
   },
+  avatarSmall: {
+    marginTop: 8,
+    height: 30,
+    width: 30,
+    '&:last-child': {
+      transform: 'translate(15px, -15px)',
+      marginTop: 0
+    }
+  },
   details: {
     marginLeft: theme.spacing(2),
     marginTop: theme.spacing(3),

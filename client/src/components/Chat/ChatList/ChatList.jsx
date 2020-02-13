@@ -15,7 +15,7 @@ import ChatListItem from './ChatListItem'
 
 import useStyles from './ChatListStyles'
 
-const ChatList = ({ className, chats, chatsLoading, selectedChatId }) => {
+const ChatList = ({ className, chats, chatsLoading, selectedChatId, authUser }) => {
   const classes = useStyles()
 
   return (
@@ -43,6 +43,7 @@ const ChatList = ({ className, chats, chatsLoading, selectedChatId }) => {
             divider={i < chats.length - 1}
             key={chat.id}
             messagesLoading={chatsLoading}
+            authUser={authUser}
           />
         ))}
       </List>
@@ -54,7 +55,8 @@ ChatList.propTypes = {
   className: PropTypes.string,
   chats: PropTypes.array.isRequired,
   chatsLoading: PropTypes.bool,
-  selectedChatId: PropTypes.number
+  selectedChatId: PropTypes.number,
+  authUser: PropTypes.string.isRequired
 }
 
 export default ChatList
