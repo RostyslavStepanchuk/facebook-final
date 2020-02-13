@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import { Link, Redirect } from 'react-router-dom'
+import { Link, Redirect, useLocation } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { Avatar, Button, Container, CssBaseline, Grid, TextField, Typography } from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
@@ -9,6 +9,7 @@ import { login } from '../../actions/auth'
 import Preloader from '../../components/Preloader/Preloader'
 import usestyles from './loginStyles'
 import Paper from '@material-ui/core/Paper'
+import { Toastr } from '../../utils/toastr/Toastr'
 
 const googleLogo = '/google-icon.svg'
 
@@ -22,7 +23,15 @@ const Login = ({ isAuthenticated, login, loading }) => {
     passwordError: ''
   })
 
+  const location = useLocation();
+  const error = new URLSearchParams(location.search).get('error')
   const { username, password, usernameError, passwordError } = formData
+
+  useEffect(()=>{
+    if (error) {
+      Toastr.error(error)
+    }
+  }, [ error ])
 
   const onChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -50,7 +59,7 @@ const Login = ({ isAuthenticated, login, loading }) => {
   }
 
   const proceedToGoogleOauth = () => {
-    window.location.replace('http://localhost:8080/login/oauth2/code/google')
+    window.location.replace('http://localhost:8080/api/v1/auth/google')
   }
 
   const onSubmit = async e => {
