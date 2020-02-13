@@ -233,6 +233,6 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
 
   public ApplicationUser getUserByEmail(String email) {
     return jpaRepository.findByEmail(email)
-        .orElseThrow(() -> new BadCredentialsException("Provided google account has no registered users"));
+        .orElseThrow(() -> new BadCredentialsException(String.format("There are no registered users with email %s", email)));
   }
 }
