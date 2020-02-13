@@ -83,7 +83,7 @@ export default function (state = initialState, action) {
 
     case CHAT_HAS_BEEN_READ:
       return { ...state,
-        unreadChats: state.unreadChats.filter(unread => unread.chatId !== payload.chatId)
+        unreadChats: state.unreadChats.filter(unread => unread.chatId !== payload)
       }
 
     case UNREAD_CHATS_RECEIVED:
@@ -94,7 +94,7 @@ export default function (state = initialState, action) {
 
     case NEW_UNREAD_MESSAGE:
       return { ...state,
-        unreadChats: state.unreadChats.map(unread => unread.chatId === payload.chatId ? payload : unread)
+        unreadChats: state.unreadChats.filter(unread => unread.chatId !== payload.chatId).concat(payload)
       }
 
     default:

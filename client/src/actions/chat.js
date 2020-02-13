@@ -101,11 +101,11 @@ export const getUnreadChats = () => dispatch => {
 }
 
 export const saveMessageNotification = (msg, unreadChats) => dispatch => {
-  const alreadyInUnread = unreadChats.find(unread => unread.chatId === msg.chatId)
+  const alreadyInUnread = unreadChats.find(unread => unread.chatId === msg.chat.id)
   const unreadChat = {
-    chatId: msg.chatId,
+    chatId: msg.chat.id,
     lastUpdate: msg.date,
-    unreadMessages: alreadyInUnread ? alreadyInUnread.concat(msg) : [ msg ]
+    unreadMessages: alreadyInUnread ? alreadyInUnread.unreadMessages.concat(msg) : [ msg ]
   }
   dispatch({
     type: NEW_UNREAD_MESSAGE,
