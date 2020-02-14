@@ -67,12 +67,12 @@ class UserGraph {
       ApplicationUser user = friendsQueue.poll();
       for (GraphVertex vertex : getAdjacentVertexes(user)) {
         if (!visited.contains(vertex.user)) {
-          visited.add(vertex.user);
           friendshipSuggestions.put(vertex.user,
                   getAdjacentVertexes(vertex.user).stream()
                           .map(v -> v.user)
                           .filter(visited::contains)
                           .collect(Collectors.toList()));
+          visited.add(vertex.user);
         }
       }
     }

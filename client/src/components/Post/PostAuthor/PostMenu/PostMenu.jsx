@@ -26,7 +26,6 @@ import MenuItem from '@material-ui/core/MenuItem'
 import useStyles from './postMenuStyles'
 import { deletePost, deleteCurrentUserTagFromPost } from '../../../../actions/post'
 import { get } from 'lodash'
-import classNames from "classnames";
 
 const Transition = React.forwardRef(function Transition (props, ref) {
   return <Slide direction='up' ref={ref} {...props} />
