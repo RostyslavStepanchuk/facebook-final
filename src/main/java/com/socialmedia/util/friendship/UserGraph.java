@@ -57,10 +57,8 @@ class UserGraph {
     visited.add(currentUser);
 
     for (GraphVertex vertex : getAdjacentVertexes(currentUser)) {
-      if (!visited.contains(vertex.user)) {
-        visited.add(vertex.user);
-        friendsQueue.add(vertex.user);
-      }
+      visited.add(vertex.user);
+      friendsQueue.add(vertex.user);
     }
 
     while (!friendsQueue.isEmpty()) {
@@ -70,7 +68,7 @@ class UserGraph {
           friendshipSuggestions.put(vertex.user,
                   getAdjacentVertexes(vertex.user).stream()
                           .map(v -> v.user)
-                          .filter(visited::contains)
+                          .filter(currentUser.getFriends()::contains)
                           .collect(Collectors.toList()));
           visited.add(vertex.user);
         }
