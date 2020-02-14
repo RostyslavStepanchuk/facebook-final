@@ -27,8 +27,7 @@ const initialState = {
   isLastPageInChat: false,
   chatLoading: false,
   chat: {},
-  unreadChats: [],
-  shouldOpenChat: false
+  unreadChats: []
 }
 
 export default function (state = initialState, action) {

@@ -25,7 +25,11 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(3),
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'flex-end'
+    justifyContent: 'space-between',
+    '& .MuiBadge-anchorOriginTopRightRectangle': {
+      top: -12,
+      right: 9
+    }
   },
   unread: {
     marginTop: 2,

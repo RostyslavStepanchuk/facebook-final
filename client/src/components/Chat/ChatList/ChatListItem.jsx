@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { find, get } from 'lodash'
-import { Avatar, ListItem, ListItemAvatar, ListItemText, Typography } from '@material-ui/core'
+import { Avatar, ListItem, ListItemAvatar, ListItemText, Typography, Badge } from '@material-ui/core'
 
 import Preloader from '../../Preloader/Preloader'
 import { getAvatarLink } from '../../../utils/helpers/imageLinkHelpers'
@@ -53,6 +53,7 @@ const ChatListItem = ({ active, chat, className, chatsLoading, authUser }) => {
           src={getAvatarLink(secondParticipant)}
         />
       </ListItemAvatar>)}
+
       <ListItemText
         primary={chatName}
         primaryTypographyProps={{
@@ -65,13 +66,16 @@ const ChatListItem = ({ active, chat, className, chatsLoading, authUser }) => {
           variant: 'body1'
         }}
       />
+
       <div className={classes.details}>
+        <Badge invisible={false} color='secondary' badgeContent={3} />
         <Typography
           noWrap
           variant='body2'
         >
           {get(lastMessage, 'date', false) && getDateForChat(lastMessage.date)}
         </Typography>
+
       </div>
     </ListItem>
   )

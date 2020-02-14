@@ -27,8 +27,10 @@ const Chat = ({
   messagesLoading,
   ownMessageSent,
   chatsLoading,
-  isLastPageInChat
+  isLastPageInChat,
+  unreadChats
 }) => {
+  console.log(unreadChats)
   const classes = useStyles()
   const { chatId, userId } = useParams()
   let selectedChat, selectedChatId, loadContentHandler
@@ -113,7 +115,8 @@ const mapStateToProps = state => ({
   chatMessages: state.chat.chatMessages,
   messagesLoading: state.chat.messagesLoading,
   ownMessageSent: state.chat.ownMessageSent,
-  isLastPageInChat: state.chat.isLastPageInChat
+  isLastPageInChat: state.chat.isLastPageInChat,
+  unreadChats: state.chat.unreadChats
 })
 
 export default connect(mapStateToProps, { getAllChats, getMessagesForChat, getChat })(Chat)
