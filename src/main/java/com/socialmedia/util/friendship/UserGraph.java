@@ -68,7 +68,6 @@ class UserGraph {
           friendshipSuggestions.put(vertex.user,
                   getAdjacentVertexes(vertex.user).stream()
                           .map(v -> v.user)
-                          .filter(currentUser.getFriends()::contains)
                           .collect(Collectors.toList()));
           visited.add(vertex.user);
         }
