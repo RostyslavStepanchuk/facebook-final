@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { get, isEmpty } from 'lodash'
+import { isEmpty } from 'lodash'
 
 import ChatList from './ChatList/ChatList'
 import ChatDetails from './ChatDetails/ChatDetails'
@@ -27,7 +27,8 @@ const Chat = ({
   messagesLoading,
   ownMessageSent,
   chatsLoading,
-  isLastPageInChat
+  isLastPageInChat,
+  unreadChats
 }) => {
   const classes = useStyles()
   const { chatId, userId } = useParams()
@@ -58,16 +59,17 @@ const Chat = ({
       getMessagesForChat(selectedChatId, FIRST_PAGE, PAGE_SIZE, true)
     }
   }, [getMessagesForChat, selectedChatId])
-  const sortedChats = chats.sort((chat1, chat2) => get(chat2, 'lastMessage.date') - get(chat1, 'lastMessage.date'))
 
   return (
     <div className={classes.root}>
       {!isSingleChat && <ChatList
         className={classes.chatList}
-        chats={sortedChats}
+        chats={chats}
         chatMessages={chatMessages}
         chatsLoading={chatsLoading}
         selectedChatId={selectedChatId}
+        authUser={authUser}
+        unreadChats={unreadChats}
       />}
       {selectedChat ? (
         <ChatDetails
@@ -102,7 +104,8 @@ Chat.propTypes = {
   messagesLoading: PropTypes.bool,
   ownMessageSent: PropTypes.bool,
   chatsLoading: PropTypes.bool,
-  isLastPageInChat: PropTypes.bool
+  isLastPageInChat: PropTypes.bool,
+  unreadChats: PropTypes.array
 }
 
 const mapStateToProps = state => ({
@@ -113,7 +116,8 @@ const mapStateToProps = state => ({
   chatMessages: state.chat.chatMessages,
   messagesLoading: state.chat.messagesLoading,
   ownMessageSent: state.chat.ownMessageSent,
-  isLastPageInChat: state.chat.isLastPageInChat
+  isLastPageInChat: state.chat.isLastPageInChat,
+  unreadChats: state.chat.unreadChats
 })
 
 export default connect(mapStateToProps, { getAllChats, getMessagesForChat, getChat })(Chat)

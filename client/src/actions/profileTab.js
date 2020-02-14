@@ -22,4 +22,3 @@ export const changeTab = value => dispatch => {
     payload: value
   })
 }
-

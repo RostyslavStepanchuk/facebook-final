@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
+import { sortBy } from 'lodash'
 import classnames from 'classnames'
 
 import ChatMessage from '../ChatMessage/ChatMessage'
@@ -28,6 +29,7 @@ const ChatMessages = ({
       scrollToBottom()
     }
   })
+  const sortedMessages = sortBy(messages, ['date'])
 
   return (
     <InfiniteScroll
@@ -49,7 +51,7 @@ const ChatMessages = ({
       <div
         className={classnames(classes.root, className)}>
         <div className={classes.inner}>
-          {messages.reverse()
+          {sortedMessages
             .map(message =>
               <ChatMessage
                 key={message.id}
