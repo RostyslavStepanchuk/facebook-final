@@ -1,7 +1,6 @@
 package com.socialmedia.util.friendship;
 
 import com.socialmedia.model.ApplicationUser;
-
 import java.util.Objects;
 
 public class GraphVertex {
