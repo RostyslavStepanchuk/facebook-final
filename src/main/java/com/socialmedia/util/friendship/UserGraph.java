@@ -45,27 +45,38 @@ class UserGraph {
     }
   }
 
-  private Set<GraphVertex> getAdjVertices(ApplicationUser user) {
+  private Set<GraphVertex> getAdjacentVertexes(ApplicationUser user) {
     return adjVertices.get(new GraphVertex(user));
   }
 
   Map<ApplicationUser, List<ApplicationUser>> breadthFirstTraversal(ApplicationUser currentUser) {
+    Map<ApplicationUser, List<ApplicationUser>> friendshipSuggestions = new HashMap<>();
     Set<ApplicationUser> visited = new LinkedHashSet<>();
-    Queue<ApplicationUser> queue = new LinkedList<>();
-    queue.add(currentUser);
+    Queue<ApplicationUser> friendsQueue = new LinkedList<>();
+
     visited.add(currentUser);
-    while (!queue.isEmpty()) {
-      ApplicationUser user = queue.poll();
-      for (GraphVertex v : getAdjVertices(user)) {
-        if (!visited.contains(v.user)) {
-          visited.add(v.user);
-          queue.add(v.user);
+
+    for (GraphVertex vertex : getAdjacentVertexes(currentUser)) {
+      if (!visited.contains(vertex.user)) {
+        visited.add(vertex.user);
+        friendsQueue.add(vertex.user);
+      }
+    }
+
+    while (!friendsQueue.isEmpty()) {
+      ApplicationUser user = friendsQueue.poll();
+      for (GraphVertex vertex : getAdjacentVertexes(user)) {
+        if (!visited.contains(vertex.user)) {
+          visited.add(vertex.user);
+          friendshipSuggestions.put(vertex.user,
+                  getAdjacentVertexes(vertex.user).stream()
+                          .map(v -> v.user)
+                          .filter(visited::contains)
+                          .collect(Collectors.toList()));
         }
       }
     }
 
-    return visited.stream()
-            .collect(Collectors.toMap(user -> user, user -> getAdjVertices(user)
-                    .stream().map(vertex -> vertex.user).collect(Collectors.toList())));
+    return friendshipSuggestions;
   }
 }

@@ -25,21 +25,13 @@ public class FriendshipSuggestions {
 
     //Breadth-First Traversal
     return graph.breadthFirstTraversal(currentUser).entrySet().stream()
-            .filter(item -> !item.getKey().equals(currentUser)
-                    && !item.getValue().contains(currentUser)
-                    && !checkFriendRequests(item.getKey()))
-            .collect(Collectors.toMap(Map.Entry::getKey, entry -> getCommonFriends(currentUser, entry.getValue())));
+            .filter(user -> !checkFriendRequests(user.getKey()))
+            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
   }
 
   private boolean checkFriendRequests(ApplicationUser user) {
     return user.getIncomingFriendRequests().stream().anyMatch(req -> req.getRequester().equals(currentUser))
             || currentUser.getIncomingFriendRequests().stream().anyMatch(req -> req.getRequester().equals(user));
-  }
-
-  private List<ApplicationUser> getCommonFriends(ApplicationUser user, List<ApplicationUser> friends) {
-    return friends.stream()
-            .filter(friend -> friend.getFriends().contains(user))
-            .collect(Collectors.toList());
   }
 
   private void addVertexForGraph(ApplicationUser user) {

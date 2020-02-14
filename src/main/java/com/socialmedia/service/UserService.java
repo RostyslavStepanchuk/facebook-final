@@ -176,13 +176,13 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
       pageSize = 10;
     }
     ApplicationUser originalUser = getById(currentUsername());
-    ///////////
+    //-----Friendship suggestions using the graph-----
     return new FriendshipSuggestions(originalUser).getFriendshipSuggestions().entrySet().stream()
             .sorted(Map.Entry.comparingByValue((list1, list2) -> list2.size() - list1.size()))
             .limit(pageSize)
             .collect(Collectors
                     .toMap(Map.Entry::getKey, Map.Entry::getValue, (oldValue, newValue) -> oldValue, LinkedHashMap::new));
-    ////////////
+    //-----Friendship suggestions using the stream-----
     //return originalUser.getFriends().stream()
     //    .flatMap(friend -> friend.getFriends().stream())
     //    .collect(groupingBy(u -> u, counting()))
