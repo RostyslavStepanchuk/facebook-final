@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core'
 import styleConstants from '../../../utils/constants/styleConstants'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   container: {
     borderBottom: '1px solid rgb(188,188,189)',
     padding: '5px 10px'
@@ -21,6 +21,9 @@ const useStyles = makeStyles(theme => ({
   link: {
     textDecoration: 'none',
     color: styleConstants.CONTAINER_TEXT_COLOR
+  },
+  sendIcon: {
+    color: styleConstants.ICON_COLOR
   },
   requestSentIcon: {
     padding: 10,

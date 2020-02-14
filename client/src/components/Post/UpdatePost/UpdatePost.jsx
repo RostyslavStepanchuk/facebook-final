@@ -188,18 +188,17 @@ const UpdatePost = ({
                     selected={taggedFriendsToUpload}
                     handleFriendTag={handleFriendTag} />
                 </Grid>
-                <Grid container item xs={2} justify='flex-end'>
-                  <Button variant='contained' onClick={handleClose}>
+                <Grid container item xs={4} justify='flex-end'>
+                  <Button className={classes.button} variant='contained' onClick={handleClose}>
                     Cancel
                   </Button>
-                </Grid>
-                <Grid container item xs={2} justify='flex-end'>
                   <Button
-                    type='submit'
-                    variant='contained'
-                    color='primary'
-                    onClick={handleSubmit}>
-                      Save
+                      className={classes.button}
+                      type='submit'
+                      variant='contained'
+                      color='primary'
+                      onClick={handleSubmit}>
+                    Save
                   </Button>
                 </Grid>
               </Grid>

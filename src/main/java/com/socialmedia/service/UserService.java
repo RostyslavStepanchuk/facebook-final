@@ -7,6 +7,7 @@ import com.socialmedia.model.TokensData;
 import com.socialmedia.repository.UserRepository;
 import com.socialmedia.util.EmailHandler;
 import com.socialmedia.util.SmartCopyBeanUtilsBean;
+import com.socialmedia.util.friendship.FriendshipSuggestions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,14 +18,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
-import java.util.Collections;
+
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
+import java.util.Collections;
+import java.util.Map;
+import java.util.LinkedHashMap;
 import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.counting;
-import static java.util.stream.Collectors.groupingBy;
 
 @Service
 public class UserService extends AbstractCrudService<ApplicationUser, String, UserRepository> {
@@ -175,15 +176,21 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
       pageSize = 10;
     }
     ApplicationUser originalUser = getById(currentUsername());
-
-    return originalUser.getFriends().stream()
-        .flatMap(friend -> friend.getFriends().stream())
-        .collect(groupingBy(u -> u, counting()))
-        .entrySet().stream()
-        .sorted((o1, o2) -> (int) (o1.getValue() - o2.getValue()))
-        .filter(entry -> isRelevantFriendSuggestion(entry.getKey(), originalUser))
-        .limit(pageSize)
-        .collect(Collectors.toMap(Map.Entry::getKey, entry -> getCommonFriends(originalUser, entry.getKey())));
+    //-----Friendship suggestions using the graph-----
+    return new FriendshipSuggestions(originalUser).getFriendshipSuggestions().entrySet().stream()
+            .sorted(Map.Entry.comparingByValue((list1, list2) -> list2.size() - list1.size()))
+            .limit(pageSize)
+            .collect(Collectors
+                    .toMap(Map.Entry::getKey, Map.Entry::getValue, (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+    //-----Friendship suggestions using the stream-----
+    //return originalUser.getFriends().stream()
+    //    .flatMap(friend -> friend.getFriends().stream())
+    //    .collect(groupingBy(u -> u, counting()))
+    //    .entrySet().stream()
+    //    .sorted((o1, o2) -> (int) (o1.getValue() - o2.getValue()))
+    //    .filter(entry -> isRelevantFriendSuggestion(entry.getKey(), originalUser))
+    //    .limit(pageSize)
+    //    .collect(Collectors.toMap(Map.Entry::getKey, entry -> getCommonFriends(originalUser, entry.getKey())));
   }
 
   public List<ApplicationUser> getAllUsersFromList(List<String> users) {

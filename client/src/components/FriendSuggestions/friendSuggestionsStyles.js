@@ -14,6 +14,10 @@ const useStyles = makeStyles(theme => ({
     borderRadius: '4px 4px 0 0',
     fontWeight: '900',
     color: styleConstants.CONTAINER_HEADER_TEXT_COLOR
+  },
+  notification: {
+    textAlign: 'center',
+    paddingBottom: 16
   }
 }))
 

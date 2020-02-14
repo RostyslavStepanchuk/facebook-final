@@ -115,20 +115,26 @@ const PostMenu = ({
     keepMounted
     onClose={handleModal}
   >
-    <DialogTitle id='alert'>Delete Post?</DialogTitle>
-    <DialogContent>
-      <DialogContentText>
-        Are you sure you want to permanently remove this post from DanBook?
-      </DialogContentText>
-    </DialogContent>
-    <DialogActions>
-      <Button variant='contained' color='primary' onClick={handleModal}>
-        Cancel
-      </Button>
-      <Button variant='contained' color='secondary' onClick={handleModalDelete}>
-        Delete
-      </Button>
-    </DialogActions>
+    <div className={classes.container}>
+      <DialogTitle id='alert'>Delete Post?</DialogTitle>
+      <DialogContent>
+        <DialogContentText>
+          Are you sure you want to permanently remove this post from DanBook?
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button className={classes.button} variant='contained' color='primary' onClick={handleModal}>
+          Cancel
+        </Button>
+        <Button
+          className={classes.button}
+          variant='contained'
+          color='secondary'
+          onClick={handleModalDelete}>
+            Delete
+        </Button>
+      </DialogActions>
+    </div>
   </Dialog>
 
   return (

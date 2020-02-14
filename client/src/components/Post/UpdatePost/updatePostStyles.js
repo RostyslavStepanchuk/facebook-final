@@ -3,27 +3,31 @@ import styleConstants from '../../../utils/constants/styleConstants'
 
 const useStyles = makeStyles(theme => ({
   container: {
-    width: 500
+    color: styleConstants.CONTAINER_TEXT_COLOR,
+    background: styleConstants.CONTAINER_BG_COLOR,
+    minWidth: 500
   },
   header: {
     padding: '8px 10px',
     paddingRight: '24px',
-    backgroundColor: '#f5f6f7',
-    borderRadius: '4px 4px 0 0',
+    background: styleConstants.CONTAINER_HEADER_BG_COLOR,
     borderBottom: '1px solid #dddfe2',
-    fontWeight: '900',
-    color: '#1c1e21'
+    borderRadius: '4px 4px 0 0',
+    fontWeight: 900,
+    color: styleConstants.CONTAINER_HEADER_TEXT_COLOR
   },
   textContainer: {
     padding: '5px'
   },
   avatar: {
     height: styleConstants.AVATAR_SIZE_MID,
-    width: styleConstants.AVATAR_SIZE_MID
+    width: styleConstants.AVATAR_SIZE_MID,
+    boxShadow: '0 1px rgba(255,255,255,.2) inset,  0 3px 5px rgba(0,1,6,.5),  0 0 1px 1px rgba(0,1,6,.2)'
   },
   postInput: {
     borderStyle: 'none',
-    borderRadius: '0px'
+    borderRadius: '0px',
+    background: 'white'
   },
   imgPreviewContainer: {
     padding: '5px'
@@ -44,8 +48,22 @@ const useStyles = makeStyles(theme => ({
     border: '3px solid red'
   },
   button: {
+    position: 'relative',
+    color: styleConstants.BTN_PRIMARY_TEXT_COLOR,
+    textShadow: '0 -1px 2px rgba(0,0,0,.2)',
     padding: 0,
-    marginRight: '5px'
+    margin: 5,
+    background: styleConstants.BTN_BG_COLOR,
+    boxShadow: styleConstants.BTN_SHADOW,
+    transition: '.2s ease-in-out',
+    '&:hover:not(:active)': {
+      background: styleConstants.BTN_BG_HOVER
+    },
+    '&:active': {
+      top: 1,
+      background: styleConstants.BTN_BG_ACTIVE,
+      boxShadow: styleConstants.BTN_SHADOW_ACTIVE
+    }
   },
   label: {
     padding: '5px 10px'

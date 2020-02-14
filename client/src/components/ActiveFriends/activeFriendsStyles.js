@@ -58,6 +58,9 @@ const useStyles = makeStyles(() => ({
     margin: 0,
     textAlign: 'left',
     lineHeight: '16px'
+  },
+  sendMessage: {
+    color: styleConstants.ICON_COLOR
   }
 
 }))

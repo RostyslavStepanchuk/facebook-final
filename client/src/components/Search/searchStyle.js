@@ -64,7 +64,7 @@ const useStyles = makeStyles(theme => ({
         'inset 0 0 1px rgba(140,150,170,.8),  ' +
         '0 1px rgb(83,94,104),  0 0 1px rgb(86,96,106)',
       '&:hover fieldset': {
-        border: '1px solid #2f363e',
+        border: '1px solid #2f363e'
       }
     }
   },

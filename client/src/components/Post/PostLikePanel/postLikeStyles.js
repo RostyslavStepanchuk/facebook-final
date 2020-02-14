@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 const useStyles = makeStyles(() => ({
   panel: {
     borderTop: '1px solid rgb(188,188,189)',
-    borderBottom: '1px solid rgb(188,188,189)',
+    borderBottom: '1px solid rgb(188,188,189)'
   },
   container: {
     display: 'flex'

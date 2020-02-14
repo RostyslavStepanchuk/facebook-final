@@ -77,20 +77,22 @@ const FriendsListItem = ({
               keepMounted
               onClose={handleModal}
             >
-              <DialogTitle id='alert'>Delete friend</DialogTitle>
-              <DialogContent>
-                <DialogContentText>
-                  Are you sure you want to delete friend?
-                </DialogContentText>
-              </DialogContent>
-              <DialogActions>
-                <Button variant='contained' color='primary' onClick={handleModal}>
-                  Cancel
-                </Button>
-                <Button variant='contained' color='secondary' onClick={() => handleModalDeleteFriend(friend.username)}>
-                  Delete
-                </Button>
-              </DialogActions>
+              <div className={classes.modalContainer}>
+                <DialogTitle id='alert'>Delete friend</DialogTitle>
+                <DialogContent>
+                  <DialogContentText>
+                    Are you sure you want to delete friend?
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button className={classes.modalButton} variant='contained' color='primary' onClick={handleModal}>
+                    Cancel
+                  </Button>
+                  <Button className={classes.modalButton} variant='contained' color='secondary' onClick={() => handleModalDeleteFriend(friend.username)}>
+                    Delete
+                  </Button>
+                </DialogActions>
+              </div>
             </Dialog>
           </div>
         </div>
@@ -125,20 +127,22 @@ const FriendsListItem = ({
               keepMounted
               onClose={handleModal}
             >
-              <DialogTitle id='alert'>Delete friend request</DialogTitle>
-              <DialogContent>
-                <DialogContentText>
-                  Are you sure you want to delete friend request?
-                </DialogContentText>
-              </DialogContent>
-              <DialogActions>
-                <Button variant='contained' color='primary' onClick={handleModal}>
-                  Cancel
-                </Button>
-                <Button variant='contained' color='secondary' onClick={() => handleModalDeleteRequest(request.id)}>
-                  Delete
-                </Button>
-              </DialogActions>
+              <div className={classes.modalContainer}>
+                <DialogTitle id='alert'>Delete friend request</DialogTitle>
+                <DialogContent>
+                  <DialogContentText>
+                    Are you sure you want to delete friend request?
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button className={classes.modalButton} variant='contained' color='primary' onClick={handleModal}>
+                    Cancel
+                  </Button>
+                  <Button className={classes.modalButton} variant='contained' color='secondary' onClick={() => handleModalDeleteRequest(request.id)}>
+                    Delete
+                  </Button>
+                </DialogActions>
+              </div>
             </Dialog>
           </div>
         </div>

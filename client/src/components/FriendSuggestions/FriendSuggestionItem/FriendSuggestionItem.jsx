@@ -28,10 +28,9 @@ const FriendSuggestions = ({ person, commonFriends }) => {
   }
 
   const commonFriendAvatars = commonFriends
-    .filter(cf => cf.avatar !== null)
     .map(cf => <Link to={'profile/' + cf.username} key={cf.username} >
       <Tooltip title={getFullName(cf)}>
-        <img src={cf.avatar.src} alt={cf.username} className={classes.commonFriendAvatar} />
+        <Avatar src={getAvatarLink(cf)} alt={cf.username} className={classes.commonFriendAvatar} />
       </Tooltip>
     </Link>
     )
@@ -56,7 +55,7 @@ const FriendSuggestions = ({ person, commonFriends }) => {
         </Grid>
         <Grid item xs={2}>
           { !requestSent ? (<Tooltip title='Send friend request'>
-            <IconButton color='primary' onClick={() => createFriendRequest(username)} aria-label='Send friend request'>
+            <IconButton className={classes.sendIcon} onClick={() => createFriendRequest(username)} aria-label='Send friend request'>
               <PanToolOutlinedIcon />
             </IconButton>
           </Tooltip>) : (<CallMadeOutlinedIcon className={classes.requestSentIcon} />)

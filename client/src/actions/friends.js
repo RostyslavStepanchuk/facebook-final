@@ -1,7 +1,9 @@
 import {
   CURRENT_USER_FRIENDS_RECEIVED,
   FRIEND_DELETED,
+  FRIEND_SUGGESTIONS_STARTED_LOADING,
   FRIEND_SUGGESTIONS_RECEIVED,
+  FRIEND_SUGGESTIONS_STOPPED_LOADING,
   FRIENDS_RECEIVED,
   FRIENDS_STARTED_LOADING,
   FRIENDS_STOPPED_LOADING,
@@ -92,6 +94,10 @@ export const deleteRequest = (requestId) => async dispatch => {
 
 export const getFriendSuggestions = size => async dispatch => {
   dispatch({
+    type: FRIEND_SUGGESTIONS_STARTED_LOADING
+  })
+
+  dispatch({
     type: RESET_FRIEND_SUGGESTIONS
   })
 
@@ -102,6 +108,9 @@ export const getFriendSuggestions = size => async dispatch => {
       payload: suggestions
     })
   } catch (e) {
+    dispatch({
+      type: FRIEND_SUGGESTIONS_STOPPED_LOADING
+    })
     Toastr.error('Something goes wrong! Please try again later')
   }
 }

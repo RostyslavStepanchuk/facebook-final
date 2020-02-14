@@ -61,10 +61,10 @@ const useStyles = makeStyles(theme => ({
       top: 1,
       background: styleConstants.BTN_BG_ACTIVE,
       boxShadow: styleConstants.BTN_SHADOW_ACTIVE
-    },
+    }
   },
   label: {
-    padding: '5px 10px',
+    padding: '5px 10px'
   },
   icon: {
     verticalAlign: 'middle',
@@ -73,7 +73,7 @@ const useStyles = makeStyles(theme => ({
   labelText: {
     verticalAlign: 'middle',
     display: 'inline-block',
-    lineHeight: '18px',
+    lineHeight: '18px'
   },
   fileInput: {
     display: 'none'
