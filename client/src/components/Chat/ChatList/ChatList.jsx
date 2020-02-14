@@ -1,6 +1,7 @@
 import React from 'react'
 import classnames from 'classnames'
 import PropTypes from 'prop-types'
+import { find, get } from 'lodash'
 import {
   Toolbar,
   Input,
@@ -15,8 +16,16 @@ import ChatListItem from './ChatListItem'
 
 import useStyles from './ChatListStyles'
 
-const ChatList = ({ className, chats, chatsLoading, selectedChatId, authUser }) => {
+const ChatList = ({
+  className,
+  chats,
+  chatsLoading,
+  selectedChatId,
+  authUser,
+  unreadChats
+}) => {
   const classes = useStyles()
+  const getUnreadMessagesCount = chatId => get(find(unreadChats, {chatId}), 'unreadMessages.length')
 
   return (
     <div
@@ -44,6 +53,7 @@ const ChatList = ({ className, chats, chatsLoading, selectedChatId, authUser }) 
             key={chat.id}
             messagesLoading={chatsLoading}
             authUser={authUser}
+            unreadMessagesCount={getUnreadMessagesCount(chat.id)}
           />
         ))}
       </List>
@@ -56,7 +66,8 @@ ChatList.propTypes = {
   chats: PropTypes.array.isRequired,
   chatsLoading: PropTypes.bool,
   selectedChatId: PropTypes.number,
-  authUser: PropTypes.string.isRequired
+  authUser: PropTypes.string.isRequired,
+  unreadChats: PropTypes.array
 }
 
 export default ChatList

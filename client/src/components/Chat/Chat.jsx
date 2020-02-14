@@ -30,7 +30,6 @@ const Chat = ({
   isLastPageInChat,
   unreadChats
 }) => {
-  console.log(unreadChats)
   const classes = useStyles()
   const { chatId, userId } = useParams()
   let selectedChat, selectedChatId, loadContentHandler
@@ -70,6 +69,7 @@ const Chat = ({
         chatsLoading={chatsLoading}
         selectedChatId={selectedChatId}
         authUser={authUser}
+        unreadChats={unreadChats}
       />}
       {selectedChat ? (
         <ChatDetails
@@ -104,7 +104,8 @@ Chat.propTypes = {
   messagesLoading: PropTypes.bool,
   ownMessageSent: PropTypes.bool,
   chatsLoading: PropTypes.bool,
-  isLastPageInChat: PropTypes.bool
+  isLastPageInChat: PropTypes.bool,
+  unreadChats: PropTypes.array
 }
 
 const mapStateToProps = state => ({

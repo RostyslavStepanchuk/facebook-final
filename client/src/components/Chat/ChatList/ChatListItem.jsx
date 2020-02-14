@@ -12,7 +12,7 @@ import { getFullName } from '../../../utils/helpers/formatters'
 
 import useStyles from './ChatListItemStyles'
 
-const ChatListItem = ({ active, chat, className, chatsLoading, authUser }) => {
+const ChatListItem = ({ active, chat, className, chatsLoading, authUser, unreadMessagesCount }) => {
   const { participants, lastMessage, id } = chat
   const classes = useStyles()
   const isChatGrouped = participants.length > 2
@@ -60,7 +60,9 @@ const ChatListItem = ({ active, chat, className, chatsLoading, authUser }) => {
           noWrap: true,
           variant: 'h6'
         }}
-        secondary={get(lastMessage, 'author', false) ? `${getFullName(lastMessage.author)}: ${lastMessage.text}` : ''}
+        secondary={get(lastMessage, 'author', false)
+          ? `${getFullName(lastMessage.author)}: ${lastMessage.text}`
+          : ''}
         secondaryTypographyProps={{
           noWrap: true,
           variant: 'body1'
@@ -68,7 +70,7 @@ const ChatListItem = ({ active, chat, className, chatsLoading, authUser }) => {
       />
 
       <div className={classes.details}>
-        <Badge invisible={false} color='secondary' badgeContent={3} />
+        <Badge invisible={!unreadMessagesCount} color='secondary' badgeContent={unreadMessagesCount} />
         <Typography
           noWrap
           variant='body2'
@@ -86,7 +88,8 @@ ChatListItem.propTypes = {
   className: PropTypes.string,
   chat: PropTypes.object.isRequired,
   chatsLoading: PropTypes.bool,
-  authUser: PropTypes.string.isRequired
+  authUser: PropTypes.string.isRequired,
+  unreadMessagesCount: PropTypes.number
 }
 
 export default ChatListItem
