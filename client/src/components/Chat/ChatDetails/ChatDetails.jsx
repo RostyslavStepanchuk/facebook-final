@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { useLocation } from 'react-router-dom'
 import classnames from 'classnames'
 import { Divider } from '@material-ui/core'
 import { get, find } from 'lodash'
@@ -32,20 +31,16 @@ const ChatDetails = ({
   loadActiveFriends
 }) => {
   const classes = useStyles()
-
-  const currentPath = useLocation().pathname
   const isChatGrouped = chat.participants.length > 2
-
-  useEffect(() => {
-    clearCurrentChatMessages()
-  }, [ currentPath, clearCurrentChatMessages ])
 
   useEffect(() => {
     sendChatBeenReadNotification(chat.id)
     loadActiveFriends(0, 100, true)
-  }, [chat.id, sendChatBeenReadNotification, loadActiveFriends])
+    return () => clearCurrentChatMessages()
+  }, [chat.id, sendChatBeenReadNotification, loadActiveFriends, clearCurrentChatMessages])
 
-  const activeParticipant = find(activeFriends, {username: chat.participants[1].username})
+  const otherParticipant = find(chat.participants, (participant) => participant.username !== authUser)
+  const activeParticipant = find(activeFriends, {username: otherParticipant.username})
   const lastActivityTime = get(activeParticipant, 'lastActivityTime')
 
   return (
@@ -58,10 +53,12 @@ const ChatDetails = ({
     >
       <ChatToolbar
         chat={chat}
+        authUser={authUser}
         isSingleChat={isSingleChat}
         isChatGrouped={isChatGrouped}
         isActive={!!activeParticipant}
         lastActivityTime={lastActivityTime}
+        otherParticipant={otherParticipant}
         activeFriendsAreLoading={activeFriendsAreLoading}
       />
       <Divider />

@@ -12,11 +12,18 @@ import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle'
 import MoreIcon from '@material-ui/icons/MoreVert'
 import HomeIcon from '@material-ui/icons/Home'
 import Search from '../Search/Search'
-import { selectFriendRequestTab } from '../../actions/profileTab'
+import { resetTab, selectFriendRequestTab } from '../../actions/profileTab'
 import { get } from 'lodash'
 import ChatUpdateCenter from './ChatUpdateCenter/ChatUpdateCenter'
 
-const Navbar = ({ auth: { isAuthenticated, user }, incomingFriendRequests, selectFriendRequestTab, logout, unreadChats }) => {
+const Navbar = ({
+  auth: { isAuthenticated, user },
+  incomingFriendRequests,
+  selectFriendRequestTab,
+  logout,
+  unreadChats,
+  resetTab
+}) => {
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = useState(null)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null)
@@ -50,6 +57,7 @@ const Navbar = ({ auth: { isAuthenticated, user }, incomingFriendRequests, selec
 
   const openProfile = () => {
     handleMenuClose()
+    resetTab()
     history.push('/me')
   }
 
@@ -213,7 +221,8 @@ Navbar.propTypes = {
   selectFriendRequestTab: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   incomingFriendRequests: PropTypes.array.isRequired,
-  unreadChats: PropTypes.array.isRequired
+  unreadChats: PropTypes.array.isRequired,
+  resetTab: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -224,7 +233,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   selectFriendRequestTab: () => dispatch(selectFriendRequestTab()),
-  logout: () => dispatch(logout())
+  logout: () => dispatch(logout()),
+  resetTab: () => dispatch(resetTab())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar)

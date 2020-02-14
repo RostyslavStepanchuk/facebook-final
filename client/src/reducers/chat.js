@@ -15,7 +15,8 @@ import {
   STOP_LOADING_MESSAGES,
   UNREAD_CHATS_RECEIVED
 } from '../utils/constants/actionsName'
-import { addPagedPayload } from '../utils/helpers/payloadAdapter'
+import { addPagedPayload, addPayloadIfNotInStore } from '../utils/helpers/payloadAdapter'
+import { orderBy } from 'lodash'
 
 const initialState = {
   chats: [],
@@ -46,11 +47,13 @@ export default function (state = initialState, action) {
       return { ...state, messagesLoading: false }
 
     case CHATS_RECEIVED:
-      return { ...state, chats: payload, chatsLoading: false }
+      return { ...state,
+        chats: orderBy(payload, ['lastMessage.date'], ['desc']),
+        chatsLoading: false }
 
     case MESSAGES_RECEIVED:
       return { ...state,
-        chatMessages: addPagedPayload(state.chatMessages, payload.content, 'id'),
+        chatMessages: addPagedPayload(state.chatMessages, payload.content.reverse(), 'id'),
         messagesLoading: false,
         ownMessageSent: false,
         isLastPageInChat: payload.last
@@ -75,11 +78,11 @@ export default function (state = initialState, action) {
       return { ...state, chatLoading: false }
 
     case CHAT_RECEIVED:
-      return { ...state, chat: payload, chats: state.chats.concat(payload), chatLoading: false }
+      return { ...state, chat: payload, chats: addPayloadIfNotInStore(state.chats, payload, 'id'), chatLoading: false }
 
     case CHAT_HAS_BEEN_READ:
       return { ...state,
-        unreadChats: state.unreadChats.filter(unread => unread.chatId !== payload.chatId)
+        unreadChats: state.unreadChats.filter(unread => unread.chatId !== payload)
       }
 
     case UNREAD_CHATS_RECEIVED:
@@ -90,7 +93,7 @@ export default function (state = initialState, action) {
 
     case NEW_UNREAD_MESSAGE:
       return { ...state,
-        unreadChats: state.unreadChats.map(unread => unread.chatId === payload.chatId ? payload : unread)
+        unreadChats: state.unreadChats.filter(unread => unread.chatId !== payload.chatId).concat(payload)
       }
 
     default:

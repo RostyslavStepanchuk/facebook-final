@@ -16,7 +16,6 @@ import {
   Tooltip
 } from '@material-ui/core'
 import HighlightOffIcon from '@material-ui/icons/HighlightOff'
-import MailOutlineIcon from '@material-ui/icons/MailOutline'
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline'
 
 import { confirmRequest, deleteFriend, deleteRequest } from '../../../actions/friends'
@@ -30,7 +29,13 @@ const Transition = React.forwardRef(function Transition (props, ref) {
   return <Slide direction='up' ref={ref} {...props} />
 })
 
-const FriendsListItem = ({ friend, deleteFriend, request, confirmRequest, deleteRequest }) => {
+const FriendsListItem = ({
+  friend,
+  deleteFriend,
+  request,
+  confirmRequest,
+  deleteRequest
+}) => {
   let avatarSrc = friend ? getAvatarLink(friend) : getAvatarLink(request.requester)
   const classes = useStyles({avatar: avatarSrc})
   const [openDialog, setOpenDialog] = useState(false)
@@ -61,11 +66,6 @@ const FriendsListItem = ({ friend, deleteFriend, request, confirmRequest, delete
             <p className={classes.userName}>{getFullName(friend)}</p>
           </Link>
           <div>
-            <Tooltip title='Send message'>
-              <IconButton className={classes.sendMessage} color='primary' aria-label='Send message'>
-                <MailOutlineIcon />
-              </IconButton>
-            </Tooltip>
             <Tooltip title='Remove friend'>
               <IconButton color='secondary' onClick={handleModal} aria-label='Remove friend'>
                 <HighlightOffIcon />
@@ -111,11 +111,6 @@ const FriendsListItem = ({ friend, deleteFriend, request, confirmRequest, delete
             <p className={classes.requestDate}>{getDateWithoutTime(request.date)}</p>
           </div>
           <div>
-            <Tooltip title='Send message'>
-              <IconButton className={classes.sendMessage} color='primary' aria-label='Send message'>
-                <MailOutlineIcon />
-              </IconButton>
-            </Tooltip>
             <Tooltip title='Confirm request'>
               <IconButton className={classes.confirmBtn} onClick={() => confirmRequest(request.id)} aria-label='Confirm'>
                 <CheckCircleOutlineIcon />

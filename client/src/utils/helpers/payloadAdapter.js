@@ -1,15 +1,18 @@
+import { some, unionBy } from 'lodash'
+
 export const addPagedPayload = (currentArray, incomingArray, comparingKey) => {
-  let overlapIndex
-  if (incomingArray.length > 0) {
-    overlapIndex = currentArray.map(item => {
-      return item[comparingKey]
-    })
-      .indexOf(incomingArray[0][comparingKey])
-  }
-  if (overlapIndex > -1) {
-    return currentArray.slice(0, overlapIndex)
-      .concat(incomingArray)
+
+  return unionBy(currentArray, incomingArray, comparingKey)
+}
+
+export const addPayloadIfNotInStore = (currentArray, incomingItem, comparingKey) => {
+  let result = []
+
+  if (some(currentArray, { [comparingKey]: incomingItem[comparingKey] })) {
+    result = [...currentArray]
   } else {
-    return currentArray.concat(incomingArray)
+    result = [...currentArray, incomingItem]
   }
+
+  return result
 }
