@@ -81,7 +81,7 @@ class ApiRequest {
   }
 
   getSocketUrl () {
-    return `http://localhost:8080${SOCKET_URL}`
+    return SOCKET_URL
   }
 
   makeRequest (url, method = METHOD_GET, body = null, config = {}, isAuthRequired = true) {

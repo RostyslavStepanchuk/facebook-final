@@ -17,7 +17,7 @@ import java.util.Map;
 @Component
 public class OauthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-  private static final String BASE_URL = "http://localhost:3000";
+  private static final String BASE_URL = "http://localhost:8080";
 
   @Autowired
   private AuthenticationService authenticationService;
