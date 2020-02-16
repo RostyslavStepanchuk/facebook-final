@@ -71,7 +71,7 @@ public final class ChatService extends AbstractCrudService<Chat, Long, ChatRepos
     ApplicationUser participant = userService.getById(participantUsername);
 
     Chat chat = new Chat();
-    chat.setName(participantUsername);
+    chat.setName(participant.getFirstName() + ' ' + participant.getLastName());
     chat.setParticipants(Arrays.asList(user, participant));
 
     return jpaRepository.save(chat);

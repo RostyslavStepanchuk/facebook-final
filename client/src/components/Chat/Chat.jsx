@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
@@ -32,6 +32,10 @@ const Chat = ({
 }) => {
   const classes = useStyles()
   const { chatId, userId } = useParams()
+  const [sortedChats, setSortedChats] = useState([])
+  const [sortedMessages, setSortedMessages] = useState([])
+  const [isSearchChatsApply, setIsSearchChatsApply] = useState(false)
+  const [isSearchMessagesApply, setIsSearchMessagesApply] = useState(false)
   let selectedChat, selectedChatId, loadContentHandler
 
   useEffect(() => {
@@ -40,7 +44,9 @@ const Chat = ({
     } else {
       getChat(userId)
     }
-  }, [getAllChats, getChat, isSingleChat, userId])
+    setIsSearchMessagesApply(false)
+    setIsSearchChatsApply(false)
+  }, [getAllChats, getChat, isSingleChat, userId, ownMessageSent])
 
   if (!isEmpty(chat) && isSingleChat) {
     selectedChat = chat
@@ -57,32 +63,56 @@ const Chat = ({
   useEffect(() => {
     if (selectedChatId) {
       getMessagesForChat(selectedChatId, FIRST_PAGE, PAGE_SIZE, true)
+      setIsSearchMessagesApply(false)
+      setIsSearchChatsApply(false)
     }
   }, [getMessagesForChat, selectedChatId])
+
+  const handleChatsSearch = query => {
+    if (!query) {
+      return setIsSearchChatsApply(false)
+    }
+    const sortedChats = chats.filter(chat => chat.name.toLowerCase().includes(query.toLowerCase()))
+
+    setSortedChats(sortedChats)
+    setIsSearchChatsApply(true)
+  }
+  const handleMessagesSearch = query => {
+    if (!query) {
+      return setIsSearchMessagesApply(false)
+    }
+    const sortedMessages = chatMessages.filter(msg => msg.text.toLowerCase().includes(query.toLowerCase()))
+
+    setIsSearchMessagesApply(true)
+    setSortedMessages(sortedMessages)
+  }
 
   return (
     <div className={classes.root}>
       {!isSingleChat && <ChatList
         className={classes.chatList}
-        chats={chats}
+        chats={isSearchChatsApply ? sortedChats : chats}
         chatMessages={chatMessages}
         chatsLoading={chatsLoading}
         selectedChatId={selectedChatId}
         authUser={authUser}
         unreadChats={unreadChats}
+        handleSearch={handleChatsSearch}
       />}
       {selectedChat ? (
         <ChatDetails
           authUser={authUser}
           className={classes.chatDetails}
           chat={selectedChat}
-          messages={chatMessages}
+          messages={isSearchMessagesApply ? sortedMessages : chatMessages}
           messagesLoading={messagesLoading}
           loadContentHandler={loadContentHandler}
           ownMessageSent={ownMessageSent}
           isLastPageInChat={isLastPageInChat}
           containerHeight={containerHeight}
           isSingleChat={isSingleChat}
+          handleSearch={handleMessagesSearch}
+          selectedChatId={selectedChatId}
         />
       ) : (
         <ChatPlaceholder className={classes.chatPlaceholder} />
