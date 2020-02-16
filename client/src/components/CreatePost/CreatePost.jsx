@@ -1,5 +1,5 @@
 /* global URL */
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -40,11 +40,11 @@ const CreatePost = ({ profileOwner, currentUser, currentUserFriends, loadCurrent
     taggedFriends: []
   })
 
-  useEffect(() => {
-    if (currentUserFriends.length === 0) {
+  const getCurrentUserFriends = () => {
+    if (currentUserFriends.length === 0 ) {
       loadCurrentUserFriends(username, STARTING_PAGE, FRIENDS_INITIAL_SIZE)
     }
-  }, [ loadCurrentUserFriends, username, currentUserFriends ])
+  }
 
   const {
     imagesToUpload,
@@ -157,6 +157,7 @@ const CreatePost = ({ profileOwner, currentUser, currentUserFriends, loadCurrent
             <TagFriendButton
               friends={currentUserFriends}
               selected={taggedFriends}
+              getFriendsToTag={getCurrentUserFriends}
               handleFriendTag={handleFriendTag}
               />
           </Grid>

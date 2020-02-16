@@ -18,13 +18,14 @@ const sortSelectedFirst = (a, b) => {
   return 0
 }
 
-const TagFriendButton = ({ friends, selected, handleFriendTag }) => {
+const TagFriendButton = ({ friends, selected, handleFriendTag, getFriendsToTag }) => {
   const classes = useStyles()
   const [open, setOpen] = React.useState(false)
   const anchorRef = React.useRef(null)
 
   const handleToggle = (e) => {
     e.preventDefault()
+    getFriendsToTag()
     setOpen(prevOpen => !prevOpen)
   }
 
@@ -96,7 +97,8 @@ const TagFriendButton = ({ friends, selected, handleFriendTag }) => {
 TagFriendButton.propTypes = {
   friends: PropTypes.arrayOf(PropTypes.object).isRequired,
   selected: PropTypes.arrayOf(PropTypes.object).isRequired,
-  handleFriendTag: PropTypes.func.isRequired
+  handleFriendTag: PropTypes.func.isRequired,
+  getFriendsToTag: PropTypes.func.isRequired
 }
 
 export default TagFriendButton

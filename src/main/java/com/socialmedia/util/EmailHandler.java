@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class EmailHandler {
 
-  private static final String DOMAIN_NAME = "ec2-13-58-66-1.us-east-2.compute.amazonaws.com";
+  private static final String DOMAIN_NAME = "http://ec2-13-58-66-1.us-east-2.compute.amazonaws.com:8080";
   private static final String SIGN_UP_LETTER_SUBJECT = "New account registered on DANBook";
   private static final String SIGN_UP_LETTER_BODY = "Please follow this link to finish your registration %s";
   private static final String SIGN_UP_CONFIRMATION_URL = DOMAIN_NAME + "/email/confirm/";
