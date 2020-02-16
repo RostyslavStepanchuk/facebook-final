@@ -9,15 +9,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class EmailHandler {
 
+  private static final String DOMAIN_NAME = "ec2-13-58-66-1.us-east-2.compute.amazonaws.com";
   private static final String SIGN_UP_LETTER_SUBJECT = "New account registered on DANBook";
   private static final String SIGN_UP_LETTER_BODY = "Please follow this link to finish your registration %s";
-  private static final String SIGN_UP_CONFIRMATION_URL = "http://localhost:3000/email/confirm/";
+  private static final String SIGN_UP_CONFIRMATION_URL = DOMAIN_NAME + "/email/confirm/";
   private static final String CHANGE_PASSWORD_LETTER_SUBJECT = "Password reset on DANBook";
   private static final String CHANGE_PASSWORD_LETTER_BODY = "To reset your password, please follow this link:"
       + " \n%s \n\n "
       + "This link is valid for half an hour\n\n"
       + " If you didn't request password change just ignore this letter";
-  private static final String CHANGE_PASSWORD_URL = "http://localhost:3000/change_password/";
+  private static final String CHANGE_PASSWORD_URL = DOMAIN_NAME + "/change_password/";
 
 
   private JavaMailSender emailSender;

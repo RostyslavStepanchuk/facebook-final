@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    url: jdbc:mysql://database-1.csriiekhqy3f.us-east-2.rds.amazonaws.com:3306/
+    username: admin
+    password: passw1234
+  jpa:
+    hibernate:
+      ddl-auto: update
