@@ -2,6 +2,9 @@ import { makeStyles } from '@material-ui/core/styles'
 import styleConstants from '../../../utils/constants/styleConstants'
 
 const useStyles = makeStyles(() => ({
+  container: {
+    padding: '5px 15px'
+  },
   user: {
     display: 'flex',
     margin: 'auto 0'
@@ -38,13 +41,14 @@ const useStyles = makeStyles(() => ({
   },
   tagLink: {
     fontWeight: 600,
-    color: styleConstants.BTN_PRIMARY_TEXT_COLOR,
+    color: styleConstants.PRIMARY_COLOR,
     textDecoration: 'none'
   },
   postDate: {
-    margin: '0 0 3px',
+    margin: '3px 0',
     textAlign: 'left',
-    lineHeight: '16px'
+    lineHeight: '16px',
+    fontSize: 14
   }
 }))
 

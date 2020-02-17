@@ -1,4 +1,5 @@
 const styleConstants = {
+  PRIMARY_COLOR: 'rgb(49,104,121)',
   BACKGROUND_COLOR: 'rgb(195,195,197)',
   NAVBAR_BG_COLOR: 'linear-gradient(rgb(49,104,121), rgb(5,73,87)) rgb(49,104,121)',
 

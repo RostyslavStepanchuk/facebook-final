@@ -12,6 +12,9 @@ const useStyles = makeStyles(() => ({
   },
   image: {
     width: '100%'
+  },
+  postText: {
+    color: styleConstants.PRIMARY_COLOR
   }
 }))
 

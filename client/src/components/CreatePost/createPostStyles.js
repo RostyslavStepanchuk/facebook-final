@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
     color: styleConstants.CONTAINER_HEADER_TEXT_COLOR
   },
   textContainer: {
-    padding: 5
+    padding: '10px 15px'
   },
   avatar: {
     height: styleConstants.AVATAR_SIZE_MID,
@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
   },
   postInput: {
     borderStyle: 'none',
-    borderRadius: 0,
+    borderRadius: 4,
     background: 'white'
   },
   imgPreviewContainer: {
@@ -40,7 +40,7 @@ const useStyles = makeStyles(theme => ({
     color: 'white'
   },
   toolsContainer: {
-    padding: 5
+    padding: '5px 15px'
   },
   errorImg: {
     border: '3px solid red'
@@ -77,6 +77,17 @@ const useStyles = makeStyles(theme => ({
   },
   fileInput: {
     display: 'none'
+  },
+  cssOutlinedInput: {
+    '&$cssFocused $notchedOutline': {
+      borderColor: `${styleConstants.ICON_COLOR} !important`
+    }
+  },
+  cssFocused: {},
+
+  notchedOutline: {
+    borderWidth: '1px',
+    borderColor: `${styleConstants.CONTAINER_BG_COLOR} !important`
   }
 }))
 

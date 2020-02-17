@@ -1,19 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import { Typography } from '@material-ui/core'
+import { isEmpty } from 'lodash'
+
 import FriendSuggestionItem from './FriendSuggestionItem/FriendSuggestionItem'
+import Preloader from '../Preloader/Preloader'
 
 import useStyles from './friendSuggestionsStyles'
-import Preloader from '../Preloader/Preloader'
-import { isEmpty } from 'lodash'
 
 const FriendSuggestions = ({ suggestions, suggestionsAreLoading }) => {
   const classes = useStyles()
 
   const suggestionsList = () => {
     if (isEmpty(suggestions)) {
-      return <p className={classes.notification}>You have no friendship suggestions.</p>
+      return <p className={classes.notification}>You have no friendship suggestions</p>
     } else {
       return suggestions.map(s => <FriendSuggestionItem person={s.user}
         commonFriends={s.commonFriends}

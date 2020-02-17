@@ -1,4 +1,5 @@
 import { fade, makeStyles } from '@material-ui/core/styles'
+import styleConstants from '../../utils/constants/styleConstants'
 
 const useStyles = makeStyles(theme => ({
   link: {
@@ -56,25 +57,16 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  inputRoot: {
-    color: 'inherit',
-    '& .MuiOutlinedInput-root': {
-      border: '1px solid rgba(33,43,52,1)',
-      boxShadow: 'inset 0 1px rgba(101,114,126,1),  ' +
-        'inset 0 0 1px rgba(140,150,170,.8),  ' +
-        '0 1px rgb(83,94,104),  0 0 1px rgb(86,96,106)',
-      '&:hover fieldset': {
-        border: '1px solid #2f363e'
-      }
+  cssOutlinedInput: {
+    '&$cssFocused $notchedOutline': {
+      borderColor: `${styleConstants.ICON_COLOR} !important`
     }
   },
-  inputInput: {
-    padding: theme.spacing(1, 1, 1, 7),
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: 200
-    }
+  cssFocused: {},
+
+  notchedOutline: {
+    borderWidth: '1px',
+    borderColor: `${styleConstants.PRIMARY_COLOR} !important`
   }
 }))
 
