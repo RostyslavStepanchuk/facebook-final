@@ -28,7 +28,9 @@ const ChatDetails = ({
   containerHeight = 'FULL',
   activeFriends,
   activeFriendsAreLoading,
-  loadActiveFriends
+  loadActiveFriends,
+  handleSearch,
+  selectedChatId
 }) => {
   const classes = useStyles()
   const isChatGrouped = chat.participants.length > 2
@@ -36,6 +38,7 @@ const ChatDetails = ({
   useEffect(() => {
     sendChatBeenReadNotification(chat.id)
     loadActiveFriends(0, 100, true)
+
     return () => clearCurrentChatMessages()
   }, [chat.id, sendChatBeenReadNotification, loadActiveFriends, clearCurrentChatMessages])
 
@@ -58,8 +61,10 @@ const ChatDetails = ({
         isChatGrouped={isChatGrouped}
         isActive={!!activeParticipant}
         lastActivityTime={lastActivityTime}
-        otherParticipant={otherParticipant}
         activeFriendsAreLoading={activeFriendsAreLoading}
+        handleSearch={handleSearch}
+        ownMessageSent={ownMessageSent}
+        selectedChatId={selectedChatId}
       />
       <Divider />
       <ChatMessages
@@ -92,7 +97,9 @@ ChatDetails.propTypes = {
   sendChatBeenReadNotification: PropTypes.func.isRequired,
   activeFriends: PropTypes.array.isRequired,
   activeFriendsAreLoading: PropTypes.bool.isRequired,
-  loadActiveFriends: PropTypes.func.isRequired
+  loadActiveFriends: PropTypes.func.isRequired,
+  handleSearch: PropTypes.func.isRequired,
+  selectedChatId: PropTypes.number
 }
 const mapStateToProps = state => ({
   activeFriends: state.friends.activeFriends,

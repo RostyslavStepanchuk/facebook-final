@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import SockJsClient from 'react-stomp'
+import { useLocation } from 'react-router-dom'
 
 import { get, isEmpty } from 'lodash'
 import apiRequest from '../../../utils/helpers/apiRequest'
@@ -19,12 +20,17 @@ const ChatUpdateCenter = ({
   getUnreadChats,
   sendChatBeenReadNotification,
   addMessageToCurrentChat,
-  saveMessageNotification
+  saveMessageNotification,
+  selectedTab
 }) => {
+  const location = useLocation()
+  const isChatOpen = /chat/.test(location.pathname) || selectedTab === 'messages'
+
   const onBrokerMessageReceive = msg => {
     const newMsgChatId = get(msg, 'chat.id')
 
-    if (currentChatMessages.some(message => get(message, 'chat.id') === newMsgChatId) || isEmpty(currentChatMessages)) {
+    if (currentChatMessages.some(message => get(message, 'chat.id') === newMsgChatId) ||
+      (isEmpty(currentChatMessages) && isChatOpen)) {
       sendChatBeenReadNotification(newMsgChatId)
       addMessageToCurrentChat(msg)
     } else {
@@ -49,13 +55,15 @@ ChatUpdateCenter.propTypes = {
   getUnreadChats: PropTypes.func.isRequired,
   addMessageToCurrentChat: PropTypes.func.isRequired,
   sendChatBeenReadNotification: PropTypes.func.isRequired,
-  saveMessageNotification: PropTypes.func.isRequired
+  saveMessageNotification: PropTypes.func.isRequired,
+  selectedTab: PropTypes.string.isRequired
 }
 
 const mapStateToProps = state => ({
   currentUserName: state.auth.user.username,
   currentChatMessages: state.chat.chatMessages,
-  unreadChats: state.chat.unreadChats
+  unreadChats: state.chat.unreadChats,
+  selectedTab: state.profileTab.selectedTab
 })
 
 const mapDispatchToProps = dispatch => ({

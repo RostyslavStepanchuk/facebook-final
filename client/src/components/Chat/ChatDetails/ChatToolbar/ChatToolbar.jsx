@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
@@ -16,7 +16,6 @@ import SearchIcon from '@material-ui/icons/Search'
 import Preloader from '../../../Preloader/Preloader'
 import StatusIcon from '../../../StatusIcon/StatusIcon'
 import { getActiveTime } from '../../../../utils/date/getDate'
-import { getFullName } from '../../../../utils/helpers/formatters'
 
 import useStyles from './chatToolbarStyles'
 
@@ -26,12 +25,24 @@ const ChatToolbar = ({
   isSingleChat,
   isChatGrouped,
   isActive,
-  otherParticipant,
   lastActivityTime,
-  activeFriendsAreLoading
+  activeFriendsAreLoading,
+  handleSearch,
+  ownMessageSent,
+  selectedChatId
 }) => {
+  useEffect(() => {
+    setInputValue('')
+  }, [ownMessageSent, selectedChatId])
+
   const classes = useStyles()
-  const chatName = isChatGrouped ? chat.name : `Chat with ${getFullName(otherParticipant)}`
+  const [inputValue, setInputValue] = useState('')
+  const chatName = isChatGrouped ? chat.name : `Chat with ${chat.name}`
+
+  const handleInputChange = evt => {
+    setInputValue(evt.target.value)
+    handleSearch(evt.target.value)
+  }
 
   const ActiveStatus = isActive ? (
     <Fragment>
@@ -77,6 +88,8 @@ const ChatToolbar = ({
           className={classes.searchInput}
           disableUnderline
           placeholder='Search message'
+          value={inputValue}
+          onChange={handleInputChange}
         />
       </Paper>
     </Toolbar>
@@ -90,9 +103,11 @@ ChatToolbar.propTypes = {
   isChatGrouped: PropTypes.bool.isRequired,
   isSingleChat: PropTypes.bool,
   isActive: PropTypes.bool.isRequired,
-  otherParticipant: PropTypes.object.isRequired,
   activeFriendsAreLoading: PropTypes.bool.isRequired,
-  lastActivityTime: PropTypes.number
+  lastActivityTime: PropTypes.number,
+  handleSearch: PropTypes.func.isRequired,
+  ownMessageSent: PropTypes.bool,
+  selectedChatId: PropTypes.number
 }
 
 export default ChatToolbar

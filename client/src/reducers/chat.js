@@ -49,7 +49,9 @@ export default function (state = initialState, action) {
     case CHATS_RECEIVED:
       return { ...state,
         chats: orderBy(payload, ['lastMessage.date'], ['desc']),
-        chatsLoading: false }
+        chatsLoading: false,
+        ownMessageSent: false
+      }
 
     case MESSAGES_RECEIVED:
       return { ...state,
