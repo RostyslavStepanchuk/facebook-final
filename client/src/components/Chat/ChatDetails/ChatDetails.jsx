@@ -9,9 +9,9 @@ import ChatToolbar from './ChatToolbar/ChatToolbar'
 import ChatMessages from './ChatMessages/ChatMessages'
 import SendMessage from './SendMessage/SendMessage'
 import { clearCurrentChatMessages, sendChatBeenReadNotification } from '../../../actions/chat'
+import { loadActiveFriends } from '../../../actions/friends'
 
 import useStyles from './chatDetailsStyles'
-import { loadActiveFriends } from '../../../actions/friends'
 
 const ChatDetails = ({
   authUser,

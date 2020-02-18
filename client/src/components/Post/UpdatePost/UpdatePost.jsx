@@ -1,5 +1,5 @@
 /* global URL */
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -10,8 +10,11 @@ import {
   Grid,
   GridList,
   GridListTile,
-  GridListTileBar, Grow,
-  IconButton, Paper, Popper,
+  GridListTileBar,
+  Grow,
+  IconButton,
+  Paper,
+  Popper,
   TextField,
   Typography
 } from '@material-ui/core'
@@ -49,11 +52,11 @@ const UpdatePost = ({
     taggedFriendsToUpload: taggedFriends
   })
 
-  useEffect(() => {
-    if (currentUserFriends.length === 0) {
+  const getCurrentUserFriends = () => {
+    if (currentUserFriends.length === 0 ) {
       loadCurrentUserFriends(username, STARTING_PAGE, FRIENDS_INITIAL_SIZE)
     }
-  }, [ loadCurrentUserFriends, username, currentUserFriends ])
+  }
 
   const {
     imagesToUpload,
@@ -184,6 +187,7 @@ const UpdatePost = ({
                       onChange={handleFileInputChange} />
                   </Button>
                   <TagFriendButton
+                    getFriendsToTag={getCurrentUserFriends}
                     friends={currentUserFriends}
                     selected={taggedFriendsToUpload}
                     handleFriendTag={handleFriendTag} />

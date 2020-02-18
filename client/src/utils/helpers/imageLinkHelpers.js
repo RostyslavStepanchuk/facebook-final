@@ -1,5 +1,5 @@
-const DEFAULT_AVATAR_LINK = '/images/no-avatar.png'
-const DEFAULT_PROFILE_COVER_LINK = '/images/profile-cover-placeholder.jpg'
+const DEFAULT_AVATAR_LINK = 'static/images/no-avatar.png'
+const DEFAULT_PROFILE_COVER_LINK = 'static/images/profile-cover-placeholder.jpg'
 
 export const getAvatarLink = user => {
   if (!user.avatar) {

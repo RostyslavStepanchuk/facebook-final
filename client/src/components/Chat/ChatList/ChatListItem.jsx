@@ -61,7 +61,7 @@ const ChatListItem = ({ active, chat, className, chatsLoading, authUser, unreadM
         }}
         secondary={get(lastMessage, 'author', false)
           ? `${getFullName(lastMessage.author)}: ${lastMessage.text}`
-          : ''}
+          : 'No messages yet'}
         secondaryTypographyProps={{
           noWrap: true,
           variant: 'body1'

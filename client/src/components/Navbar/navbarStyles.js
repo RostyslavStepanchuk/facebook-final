@@ -8,6 +8,9 @@ const useStyles = makeStyles(theme => ({
   container: {
     background: styleConstants.NAVBAR_BG_COLOR
   },
+  toolbar: {
+    minHeight: 63
+  },
   title: {
     display: 'none',
     [theme.breakpoints.up('sm')]: {

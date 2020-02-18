@@ -48,6 +48,7 @@ const NewPassword = ({ loading, match, setNewPassword }) => {
   const onSubmit = e => {
     e.preventDefault()
     const inputIsValid = validate()
+
     if (inputIsValid) {
       const token = match.params.token
       setNewPassword(formData.password, token)

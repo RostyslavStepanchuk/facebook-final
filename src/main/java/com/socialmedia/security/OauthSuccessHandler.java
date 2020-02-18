@@ -17,7 +17,8 @@ import java.util.Map;
 @Component
 public class OauthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-  private static final String BASE_URL = "http://localhost:3000";
+  private static final String BASE_URL = "/";
+  private static final String CLIENT_LOGIN_URL = "/login";
 
   @Autowired
   private AuthenticationService authenticationService;
@@ -37,7 +38,7 @@ public class OauthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
           .build().toUriString();
 
     } catch (BadCredentialsException exception) {
-      redirectionUrl = UriComponentsBuilder.fromUriString(BASE_URL + "/login")
+      redirectionUrl = UriComponentsBuilder.fromUriString(CLIENT_LOGIN_URL)
           .queryParam("error", exception.getMessage())
           .build().toUriString();
     }

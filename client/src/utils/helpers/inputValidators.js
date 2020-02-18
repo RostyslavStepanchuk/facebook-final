@@ -2,7 +2,7 @@ export const areNoErrors = errorsObj => {
   return Object.values(errorsObj).every(err => err === '')
 }
 
-export const validatePassword = (password) => {
+export const validatePassword = password => {
   if (password.length < 6) {
     return 'Password needs to be at least 6 characters long'
   }
@@ -18,7 +18,7 @@ export const checkPasswordsMatch = (password1, password2) => {
 
 export const validateEmail = email => {
   if (!email.match(/^(\D)+(\w)*((\.(\w)+)?)+@(\D)+(\w)*((\.(\D)+(\w)*)+)?(\.)[a-z]{2,}$/)) {
-    return 'email address is required'
+    return 'Email address is required'
   }
 
   return ''
@@ -26,7 +26,7 @@ export const validateEmail = email => {
 
 export const validateUsername = username => {
   if (username.length < 6) {
-    return 'username needs to be at least 6 characters long'
+    return 'Username needs to be at least 6 characters long'
   }
 
   return ''

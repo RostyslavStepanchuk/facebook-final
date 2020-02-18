@@ -20,7 +20,7 @@ const EmailConfirmedPage = (props) => {
     ? 'Your email was confirmed. Welcome to the club!'
     : 'Something went wrong, your email wasn\'t confirmed'
 
-  const link = <Link to='/profile' variant='body2' className={classes.link}>Go to your profile</Link>
+  const link = <Link to='/me' variant='body2' className={classes.link}>Go to your profile</Link>
   return loading ? <Preloader /> : (
     <Fragment>
       <CssBaseline />

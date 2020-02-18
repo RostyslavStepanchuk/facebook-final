@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles'
-import styleConstants from "../../utils/constants/styleConstants";
+import styleConstants from '../../utils/constants/styleConstants'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -16,15 +16,16 @@ const useStyles = makeStyles(theme => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-    boxShadow: styleConstants.BTN_SHADOW,
+    backgroundColor: styleConstants.PRIMARY_COLOR,
+    boxShadow: styleConstants.BTN_SHADOW
   },
   form: {
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(3)
   },
   textField: {
-    background: 'rgb(232, 240, 254)'
+    background: 'white',
+    borderRadius: 4
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
@@ -49,6 +50,21 @@ const useStyles = makeStyles(theme => ({
     '&:hover': {
       textDecoration: 'underline'
     }
+  },
+  cssLabel: {
+    color: styleConstants.PRIMARY_COLOR
+  },
+  cssOutlinedInput: {
+    '&$cssFocused $notchedOutline': {
+      borderColor: `${styleConstants.ICON_COLOR} !important`
+    }
+  },
+  cssFocused: {
+    color: `${styleConstants.PRIMARY_COLOR} !important`
+  },
+  notchedOutline: {
+    borderWidth: '1px',
+    borderColor: `${styleConstants.PRIMARY_COLOR} !important`
   }
 }))
 

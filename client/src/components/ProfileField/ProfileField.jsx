@@ -13,29 +13,35 @@ import { getFullName } from '../../utils/helpers/formatters'
 
 import useStyles from './profileFieldStyles'
 
-const ProfileField = ({ friends, userPhotos, loadingPhotos }) => {
+const ProfileField = ({ friends, userPhotos, loadingPhotos, friendsAreLoading }) => {
   const classes = useStyles()
 
   const fieldComponents = components => {
-    if (isEmpty(components)) return
     const listForRender = components.slice(0, 9)
 
     if (friends) {
-      return listForRender.map(friend =>
-        <Tile
-          imageSrc={getAvatarLink(friend)}
-          title={getFullName(friend)}
-          username={get(friend, 'username')}
-          key={get(friend, 'username')} />
-      )
+      if (isEmpty(friends)) {
+        return <p className={classes.notification}>You have no friends</p>
+      } else {
+        return listForRender.map(friend =>
+          <Tile
+            imageSrc={getAvatarLink(friend)}
+            title={getFullName(friend)}
+            username={get(friend, 'username')}
+            key={get(friend, 'username')} />)
+      }
     } else {
-      return listForRender.map(photo => <Tile imageSrc={get(photo, 'src')}
-        key={get(photo, 'id', '')} />)
+      if (isEmpty(userPhotos)) {
+        return <p className={classes.notification}>You have no photos</p>
+      } else {
+        return listForRender.map(photo => <Tile imageSrc={get(photo, 'src')}
+                                                key={get(photo, 'id', '')}/>)
+      }
     }
   }
 
   const content = (friends)
-    ? fieldComponents(friends)
+    ? (friendsAreLoading ? <Preloader /> : fieldComponents(friends))
     : (loadingPhotos ? <Preloader /> : fieldComponents(userPhotos))
 
   return (!friends && !userPhotos)
@@ -58,7 +64,8 @@ const ProfileField = ({ friends, userPhotos, loadingPhotos }) => {
 ProfileField.propTypes = {
   friends: PropTypes.array,
   userPhotos: PropTypes.array,
-  loadingPhotos: PropTypes.bool
+  loadingPhotos: PropTypes.bool,
+  friendsAreLoading: PropTypes.bool
 }
 
 export default ProfileField

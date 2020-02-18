@@ -62,10 +62,13 @@ const useStyles = makeStyles(() => ({
   submenu: {
     maxWidth: 635,
     margin: '0 0 0 auto',
-    paddingLeft: 200
+    paddingRight: 35,
+    display: 'flex',
+    justifyContent: 'space-between'
   },
   submenuItem: {
     color: styleConstants.CONTAINER_HEADER_TEXT_COLOR,
+    fontSize: 14,
     minWidth: 120
   }
 }))
