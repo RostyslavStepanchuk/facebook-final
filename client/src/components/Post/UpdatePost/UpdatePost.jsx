@@ -106,7 +106,7 @@ const UpdatePost = ({
     if (imagesToUpload.length === 0) {
       updatePost(id, textToUpload, imagesToUpload, taggedFriendsToUpload, true)
     } else if (image && imagesToUpload[0].url === image.src) {
-      updatePost(id, textToUpload, image, taggedFriendsToUpload, true)
+      updatePost(id, textToUpload, [image], taggedFriendsToUpload, true)
     } else {
       uploadImages(imagesToUpload).then(
         imgLinks => updatePost(id, textToUpload, imgLinks, taggedFriendsToUpload, true),
