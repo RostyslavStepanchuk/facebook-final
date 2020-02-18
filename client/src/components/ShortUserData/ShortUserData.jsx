@@ -9,6 +9,7 @@ import useStyles from './shortUserDataStyles'
 const ShortUserData = ({ profileOwner }) => {
   const classes = useStyles()
   const { email, birthDate, gender } = profileOwner
+  const formattedBirthDate = birthDate ? getDateWithoutTime(birthDate) : ''
 
   return (
     <div className={classes.container}>
@@ -18,7 +19,7 @@ const ShortUserData = ({ profileOwner }) => {
       <div className={classes.textContainer}>
         <p><span className={classes.textSpan}>Gender:</span> {gender && gender.toLowerCase()}</p>
         <p><span className={classes.textSpan}>Email:</span> {email}</p>
-        <p><span className={classes.textSpan}>Birthday:</span> {getDateWithoutTime(birthDate)}</p>
+        <p><span className={classes.textSpan}>Birthday:</span> {formattedBirthDate}</p>
       </div>
     </div>
   )
