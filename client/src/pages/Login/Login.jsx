@@ -26,7 +26,7 @@ import {
 
 import usestyles from './loginStyles'
 
-const googleLogo = 'static/google-icon.svg'
+const googleLogo = 'google-icon.svg'
 
 const Login = ({ isAuthenticated, login, loading }) => {
   const classes = usestyles()
