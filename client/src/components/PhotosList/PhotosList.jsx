@@ -3,13 +3,19 @@ import { Grid, Typography } from '@material-ui/core'
 import useStyles from './photosListStyles'
 import PropTypes from 'prop-types'
 import Tile from '../Tile/Tile'
-import { get } from 'lodash'
+import { get, isEmpty } from 'lodash'
 
 const PhotosList = ({ userPhotos }) => {
   const classes = useStyles()
 
-  const photoComponents = userPhotos => userPhotos.map(photo => <Tile imageSrc={get(photo, 'src')}
-    key={get(photo, 'id', '')} />)
+  const photoComponents = userPhotos => {
+    if (isEmpty(userPhotos)) {
+      return <p className={classes.notification}>You have no photos</p>
+    } else {
+      return userPhotos.map(photo => <Tile imageSrc={get(photo, 'src')}
+                                               key={get(photo, 'id', '')} />)
+    }
+  }
 
   return (
     <div className={classes.container}>
