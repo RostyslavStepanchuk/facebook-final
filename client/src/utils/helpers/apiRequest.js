@@ -9,6 +9,8 @@ const METHOD_PUT = 'put'
 const METHOD_DELETE = 'delete'
 const API_BASE_URL = '/api/v1'
 const SOCKET_URL = '/ws'
+const DOMAIN = 'http://ec2-13-58-66-1.us-east-2.compute.amazonaws.com:8080'
+// const DOMAIN = 'http://localhost:8080'
 
 const setAuthToken = token => {
   if (token) {
@@ -81,7 +83,7 @@ class ApiRequest {
   }
 
   getSocketUrl () {
-    return `http://localhost:8080${SOCKET_URL}`
+    return DOMAIN + SOCKET_URL
   }
 
   makeRequest (url, method = METHOD_GET, body = null, config = {}, isAuthRequired = true) {

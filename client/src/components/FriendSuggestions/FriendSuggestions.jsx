@@ -34,12 +34,7 @@ const FriendSuggestions = ({ suggestions, suggestionsAreLoading }) => {
 }
 
 FriendSuggestions.propTypes = {
-  suggestions: PropTypes.arrayOf(PropTypes.shape({
-    user: PropTypes.shape({
-      username: PropTypes.string.isRequired
-    }).isRequired,
-    commonFriends: PropTypes.array.isRequired
-  })).isRequired,
+  suggestions: PropTypes.array.isRequired,
   suggestionsAreLoading: PropTypes.bool.isRequired
 }
 

@@ -18,12 +18,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
-
-import java.util.List;
-import java.util.UUID;
 import java.util.Collections;
-import java.util.Map;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 
@@ -194,7 +193,10 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
   }
 
   public List<ApplicationUser> getAllUsersFromList(List<String> users) {
-    return jpaRepository.getAllUsersFromList(users);
+    if (users.size() > 0) {
+      return jpaRepository.getAllUsersFromList(users);
+    }
+    return Collections.emptyList();
   }
 
   private List<ApplicationUser> getCommonFriends(ApplicationUser user1, ApplicationUser user2) {

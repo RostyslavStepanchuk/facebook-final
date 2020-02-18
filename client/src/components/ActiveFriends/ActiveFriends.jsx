@@ -19,7 +19,7 @@ const ActiveFriends = ({ activeFriends, activeFriendsAreLoading, changeTab }) =>
 
   const friendsList = () => {
     if (isEmpty(activeFriends)) {
-      return <p className={classes.notification}>You have no active friends.</p>
+      return <p className={classes.notification}>You have no active friends</p>
     } else {
       return activeFriends.map(friend => (
         <div className={classes.container} key={get(friend, 'username')}>

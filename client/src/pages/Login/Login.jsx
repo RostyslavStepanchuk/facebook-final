@@ -26,7 +26,7 @@ import {
 
 import usestyles from './loginStyles'
 
-const googleLogo = '/google-icon.svg'
+const googleLogo = 'google-icon.svg'
 
 const Login = ({ isAuthenticated, login, loading }) => {
   const classes = usestyles()
@@ -76,7 +76,7 @@ const Login = ({ isAuthenticated, login, loading }) => {
   }
 
   const proceedToGoogleOauth = () => {
-    window.location.replace('http://localhost:8080/api/v1/auth/google')
+    window.location.replace('/api/v1/auth/google')
   }
 
   const onSubmit = async e => {
