@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import classnames from 'classnames'
 import { Divider } from '@material-ui/core'
 import { get, find } from 'lodash'
 
+import Preloader from '../../Preloader/Preloader'
 import ChatToolbar from './ChatToolbar/ChatToolbar'
 import ChatMessages from './ChatMessages/ChatMessages'
 import SendMessage from './SendMessage/SendMessage'
@@ -54,30 +55,35 @@ const ChatDetails = ({
           [classes.halfHeight]: containerHeight === 'HALF'
         })}
     >
-      <ChatToolbar
-        chat={chat}
-        authUser={authUser}
-        isSingleChat={isSingleChat}
-        isChatGrouped={isChatGrouped}
-        isActive={!!activeParticipant}
-        lastActivityTime={lastActivityTime}
-        activeFriendsAreLoading={activeFriendsAreLoading}
-        handleSearch={handleSearch}
-        ownMessageSent={ownMessageSent}
-        selectedChatId={selectedChatId}
+      {messagesLoading
+        ? <Preloader fullScreen />
+        : <Fragment>
+          <ChatToolbar
+            chat={chat}
+            authUser={authUser}
+            isSingleChat={isSingleChat}
+            isChatGrouped={isChatGrouped}
+            isActive={!!activeParticipant}
+            lastActivityTime={lastActivityTime}
+            activeFriendsAreLoading={activeFriendsAreLoading}
+            handleSearch={handleSearch}
+            ownMessageSent={ownMessageSent}
+            selectedChatId={selectedChatId}
+            otherParticipant={otherParticipant}
       />
-      <Divider />
-      <ChatMessages
-        messages={messages}
-        authUser={authUser}
-        messagesLoading={messagesLoading}
-        loadContentHandler={loadContentHandler}
-        ownMessageSent={ownMessageSent}
-        isLastPageInChat={isLastPageInChat}
-        isChatGrouped={isChatGrouped}
+          <Divider />
+          <ChatMessages
+            messages={messages}
+            authUser={authUser}
+            messagesLoading={messagesLoading}
+            loadContentHandler={loadContentHandler}
+            ownMessageSent={ownMessageSent}
+            isLastPageInChat={isLastPageInChat}
+            isChatGrouped={isChatGrouped}
       />
-      <Divider />
-      <SendMessage chatId={chat.id} />
+          <Divider />
+          <SendMessage chatId={chat.id} />
+        </Fragment>}
     </div>
   )
 }

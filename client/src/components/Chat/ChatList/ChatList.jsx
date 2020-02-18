@@ -10,6 +10,7 @@ import {
 } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 
+import Preloader from '../../Preloader/Preloader'
 import ChatListItem from './ChatListItem'
 
 import useStyles from './ChatListStyles'
@@ -52,7 +53,7 @@ const ChatList = ({
         </Paper>
       </Toolbar>
       <Divider />
-      <List disablePadding className={classes.chatListContainer}>
+      {chatsLoading ? <Preloader /> : <List disablePadding className={classes.chatListContainer}>
         {chats.map((chat, i) => (
           <ChatListItem
             active={chat.id === selectedChatId}
@@ -64,7 +65,7 @@ const ChatList = ({
             unreadMessagesCount={getUnreadMessagesCount(chat.id)}
           />
         ))}
-      </List>
+      </List>}
     </div>
   )
 }
