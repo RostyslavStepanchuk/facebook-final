@@ -1,17 +1,17 @@
 import React from 'react'
-import CircularProgress from '@material-ui/core/CircularProgress'
+import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import styleConstants from '../../utils/constants/styleConstants'
 
 import useStyles from './preloaderStyles'
-import PropTypes from 'prop-types'
 
-export default function Preloader ({ color = 'primary', fullScreen = false, size = 40 }) {
+export default function Preloader ({ color = styleConstants.PRIMARY_COLOR, fullScreen = false, size = 40 }) {
   const classes = useStyles({ fullScreen })
 
   return (
     <div className={classNames(classes.root, { fullScreen })}>
-      <CircularProgress style={{ color: styleConstants.BTN_PRIMARY_TEXT_COLOR }} size={size} />
+      <CircularProgress style={{ color }} size={size} />
     </div>
   )
 }

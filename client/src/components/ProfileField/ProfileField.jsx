@@ -13,7 +13,7 @@ import { getFullName } from '../../utils/helpers/formatters'
 
 import useStyles from './profileFieldStyles'
 
-const ProfileField = ({ friends, userPhotos, loadingPhotos }) => {
+const ProfileField = ({ friends, userPhotos, loadingPhotos, friendsAreLoading }) => {
   const classes = useStyles()
 
   const fieldComponents = components => {
@@ -35,7 +35,7 @@ const ProfileField = ({ friends, userPhotos, loadingPhotos }) => {
   }
 
   const content = (friends)
-    ? fieldComponents(friends)
+    ? (friendsAreLoading ? <Preloader /> : fieldComponents(friends))
     : (loadingPhotos ? <Preloader /> : fieldComponents(userPhotos))
 
   return (!friends && !userPhotos)
@@ -58,7 +58,8 @@ const ProfileField = ({ friends, userPhotos, loadingPhotos }) => {
 ProfileField.propTypes = {
   friends: PropTypes.array,
   userPhotos: PropTypes.array,
-  loadingPhotos: PropTypes.bool
+  loadingPhotos: PropTypes.bool,
+  friendsAreLoading: PropTypes.bool
 }
 
 export default ProfileField

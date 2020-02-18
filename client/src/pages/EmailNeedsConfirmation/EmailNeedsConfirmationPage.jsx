@@ -1,11 +1,11 @@
 import React, { Fragment } from 'react'
 import { Link, useHistory } from 'react-router-dom'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { CssBaseline, Grid, Paper, Typography } from '@material-ui/core'
-import HighlightOffOutlinedIcon from '@material-ui/icons/HighlightOffOutlined'
+import EmailIcon from '@material-ui/icons/Email';
 
 import useStyles from './EmailNeedsConfirmationPageStyles'
-import PropTypes from 'prop-types'
 
 const EmailNeedsConfirmationPage = ({ emailIsConfirmed }) => {
   const classes = useStyles()
@@ -23,11 +23,11 @@ const EmailNeedsConfirmationPage = ({ emailIsConfirmed }) => {
   return (
     <Fragment>
       <CssBaseline />
-      <Grid container spacing={3} justify='center' alignItems='center' style={{ height: '80vh' }}>
+      <Grid container justify='center' alignItems='center' style={{ height: '80vh' }}>
         <Grid item xs={10}>
           <Paper className={classes.paper}>
             <Typography variant='h5' color='textPrimary' gutterBottom>
-              <HighlightOffOutlinedIcon color='error' className={classes.icon} />
+              <EmailIcon className={classes.icon} />
               <p>Please, confirm your email address to continue</p>
               <p>Follow the link that was sent to your mailbox and <span><Link
                 to='/'

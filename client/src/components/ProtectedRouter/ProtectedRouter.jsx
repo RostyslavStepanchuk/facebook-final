@@ -21,7 +21,7 @@ const ProtectedRouter = ({ authFailed, emailIsConfirmed, user, loadUser }) => {
   if (authFailed) {
     return <Redirect to='/login' />
   } else if (user === null) {
-    return <Preloader />
+    return <Preloader fullScreen />
   } else if (!emailIsConfirmed) {
     return <Redirect to='/access_denied' />
   } else {
