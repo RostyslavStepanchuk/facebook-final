@@ -54,6 +54,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         .antMatchers(HttpMethod.POST, SET_NEW_PASSWORD_URL).permitAll()
         .antMatchers(HttpMethod.GET, CONFIRM_EMAIL_URL).permitAll()
         .antMatchers(HttpMethod.GET, WEB_SOCKET_URL).permitAll()
+        .antMatchers(HttpMethod.POST, WEB_SOCKET_URL).permitAll()
         .antMatchers(HttpMethod.GET, "/**/*swagger*/**", "/v2/api-docs").permitAll()
         .antMatchers("/api/v1/**").authenticated()
         .and()

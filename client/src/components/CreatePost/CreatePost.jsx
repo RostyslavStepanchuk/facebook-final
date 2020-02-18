@@ -41,7 +41,7 @@ const CreatePost = ({ profileOwner, currentUser, currentUserFriends, loadCurrent
   })
 
   const getCurrentUserFriends = () => {
-    if (currentUserFriends.length === 0 ) {
+    if (currentUserFriends.length === 0) {
       loadCurrentUserFriends(username, STARTING_PAGE, FRIENDS_INITIAL_SIZE)
     }
   }
