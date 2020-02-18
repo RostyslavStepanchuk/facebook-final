@@ -3,7 +3,7 @@ import { Grid, Typography } from '@material-ui/core'
 import useStyles from './photosListStyles'
 import PropTypes from 'prop-types'
 import Tile from '../Tile/Tile'
-import {get, isEmpty} from 'lodash'
+import { get, isEmpty } from 'lodash'
 
 const PhotosList = ({ userPhotos }) => {
   const classes = useStyles()
