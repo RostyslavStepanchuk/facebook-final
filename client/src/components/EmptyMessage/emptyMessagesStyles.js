@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles'
 import styleConstants from '../../utils/constants/styleConstants'
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((props) => ({
   root: props => ({
     height: props.height,
     display: 'flex',
