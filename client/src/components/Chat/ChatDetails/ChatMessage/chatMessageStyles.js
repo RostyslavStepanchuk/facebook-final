@@ -10,8 +10,8 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'flex-end',
     '& $body': {
-      backgroundColor: styleConstants.BTN_PRIMARY_TEXT_COLOR,
-      color: styleConstants.CONTAINER_TEXT_COLOR
+      backgroundColor: styleConstants.PRIMARY_COLOR,
+      color: styleConstants.CONTAINER_HEADER_TEXT_COLOR
     }
   },
   inner: {

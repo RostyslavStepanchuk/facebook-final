@@ -19,6 +19,7 @@ const ChatListItem = ({ active, chat, className, chatsLoading, authUser, unreadM
   const secondParticipant = find(participants, participant => participant.username !== authUser)
   const thirdParticipant = find(participants, participant =>
     participant.username !== authUser && participant.username !== secondParticipant.username)
+  const chatName = isChatGrouped ? name : getFullName(secondParticipant)
 
   return chatsLoading ? <Preloader /> : (
     <ListItem
@@ -54,14 +55,14 @@ const ChatListItem = ({ active, chat, className, chatsLoading, authUser, unreadM
       </ListItemAvatar>)}
 
       <ListItemText
-        primary={name}
+        primary={chatName}
         primaryTypographyProps={{
           noWrap: true,
           variant: 'h6'
         }}
         secondary={get(lastMessage, 'author', false)
           ? `${getFullName(lastMessage.author)}: ${lastMessage.text}`
-          : ''}
+          : 'No messages yet'}
         secondaryTypographyProps={{
           noWrap: true,
           variant: 'body1'

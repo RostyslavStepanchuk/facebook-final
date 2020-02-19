@@ -3,6 +3,7 @@ package com.socialmedia.service;
 import com.socialmedia.exception.NoDataFoundException;
 import com.socialmedia.model.ApplicationUser;
 import com.socialmedia.model.FriendshipStatus;
+import com.socialmedia.model.Image;
 import com.socialmedia.model.TokensData;
 import com.socialmedia.repository.UserRepository;
 import com.socialmedia.util.EmailHandler;
@@ -18,12 +19,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
-
-import java.util.List;
-import java.util.UUID;
 import java.util.Collections;
-import java.util.Map;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 
@@ -36,6 +36,7 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
   private ChatService chatService;
   private FriendRequestService friendRequestService;
   private PostService postService;
+  private AmazonService imageService;
   private EmailHandler emailHandler;
 
 
@@ -47,7 +48,8 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
                      ChatService chatService,
                      FriendRequestService friendRequestService,
                      PostService postService,
-                     EmailHandler emailHandler) {
+                     EmailHandler emailHandler,
+                     AmazonService imageService) {
     super(jpaRepository, beanUtilBean);
     this.bcryptPasswordEncoder = bcryptPasswordEncoder;
     this.authenticationService = authenticationService;
@@ -55,11 +57,20 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
     this.friendRequestService = friendRequestService;
     this.postService = postService;
     this.emailHandler = emailHandler;
+    this.imageService = imageService;
   }
 
   @Override
   public ApplicationUser update(ApplicationUser user, ApplicationUser incomingEntity) {
     try {
+      if (incomingEntity.getAvatar() != null) {
+        Image avatar = imageService.getById(incomingEntity.getAvatar().getId());
+        incomingEntity.setAvatar(avatar);
+      }
+      if (incomingEntity.getProfileCover() != null) {
+        Image profileCover = imageService.getById(incomingEntity.getProfileCover().getId());
+        incomingEntity.setProfileCover(profileCover);
+      }
       beanUtilsBean.copyProperties(user, incomingEntity);
       return jpaRepository.save(user);
     } catch (ReflectiveOperationException reflectionException) {
@@ -194,7 +205,10 @@ public class UserService extends AbstractCrudService<ApplicationUser, String, Us
   }
 
   public List<ApplicationUser> getAllUsersFromList(List<String> users) {
-    return jpaRepository.getAllUsersFromList(users);
+    if (users.size() > 0) {
+      return jpaRepository.getAllUsersFromList(users);
+    }
+    return Collections.emptyList();
   }
 
   private List<ApplicationUser> getCommonFriends(ApplicationUser user1, ApplicationUser user2) {

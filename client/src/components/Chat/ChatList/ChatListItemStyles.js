@@ -4,7 +4,7 @@ import styleConstants from '../../../utils/constants/styleConstants'
 
 const useStyles = makeStyles(theme => ({
   active: {
-    boxShadow: `inset 7px 0px 0px ${styleConstants.BTN_PRIMARY_TEXT_COLOR}`,
+    boxShadow: `inset 7px 0px 0px ${styleConstants.PRIMARY_COLOR}`,
     backgroundColor: colors.grey[50]
   },
   avatar: {

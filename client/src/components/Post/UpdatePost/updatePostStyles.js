@@ -5,11 +5,11 @@ const useStyles = makeStyles(theme => ({
   container: {
     color: styleConstants.CONTAINER_TEXT_COLOR,
     background: styleConstants.CONTAINER_BG_COLOR,
-    minWidth: 500
+    width: 550
   },
   header: {
     padding: '8px 10px',
-    paddingRight: '24px',
+    paddingRight: 24,
     background: styleConstants.CONTAINER_HEADER_BG_COLOR,
     borderBottom: '1px solid #dddfe2',
     borderRadius: '4px 4px 0 0',
@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
     color: styleConstants.CONTAINER_HEADER_TEXT_COLOR
   },
   textContainer: {
-    padding: '5px'
+    padding: '10px 15px 10px 10px'
   },
   avatar: {
     height: styleConstants.AVATAR_SIZE_MID,
@@ -26,14 +26,15 @@ const useStyles = makeStyles(theme => ({
   },
   postInput: {
     borderStyle: 'none',
-    borderRadius: '0px',
-    background: 'white'
+    borderRadius: 4,
+    background: 'white',
+    marginLeft: 5
   },
   imgPreviewContainer: {
-    padding: '5px'
+    padding: 5
   },
   titleBar: {
-    height: '30px',
+    height: 30,
     background:
       'linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, ' +
       'rgba(0,0,0,0.1) 70%, rgba(0,0,0,0) 100%)'
@@ -42,7 +43,7 @@ const useStyles = makeStyles(theme => ({
     color: 'white'
   },
   toolsContainer: {
-    padding: '5px'
+    padding: '5px 10px'
   },
   errorImg: {
     border: '3px solid red'
@@ -79,6 +80,17 @@ const useStyles = makeStyles(theme => ({
   },
   fileInput: {
     display: 'none'
+  },
+  cssOutlinedInput: {
+    '&$cssFocused $notchedOutline': {
+      borderColor: `${styleConstants.ICON_COLOR} !important`
+    }
+  },
+  cssFocused: {},
+
+  notchedOutline: {
+    borderWidth: '1px',
+    borderColor: `${styleConstants.CONTAINER_BG_COLOR} !important`
   }
 }))
 

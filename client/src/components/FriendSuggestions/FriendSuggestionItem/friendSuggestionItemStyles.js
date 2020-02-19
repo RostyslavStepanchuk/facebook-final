@@ -27,13 +27,16 @@ const useStyles = makeStyles(() => ({
   },
   requestSentIcon: {
     padding: 10,
-    color: '#8bc34a'
+    color: styleConstants.BTN_PRIMARY_TEXT_COLOR
+  },
+  commonFriendsWrapper: {
+    margin: '10px 0 5px'
   },
   commonFriendAvatar: {
     borderRadius: '50%',
     width: 25,
     height: 25,
-    margin: '0 2px',
+    marginLeft: 5,
     boxShadow: '0 1px rgba(255,255,255,.2) inset,  0 3px 5px rgba(0,1,6,.5),  0 0 1px 1px rgba(0,1,6,.2)'
   }
 }))

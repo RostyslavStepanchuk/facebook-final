@@ -1,14 +1,15 @@
 import React, { Fragment, useRef, useState } from 'react'
 import Paper from '@material-ui/core/Paper'
+import { Dialog, Slide } from '@material-ui/core'
 import PropTypes from 'prop-types'
-import useStyles from './postStyles'
+import { get } from 'lodash'
 
 import PostAuthor from './PostAuthor/PostAuthor'
 import PostLikePanel from './PostLikePanel/PostLikePanel'
 import PostComments from './PostComments/PostComments'
-import { get } from 'lodash'
 import UpdatePost from './UpdatePost/UpdatePost'
-import { Dialog, Slide } from '@material-ui/core'
+
+import useStyles from './postStyles'
 
 const Transition = React.forwardRef(function Transition (props, ref) {
   return <Slide direction='up' ref={ref} {...props} />
@@ -65,7 +66,7 @@ const Post = ({ post }) => {
           </Dialog>
         </Fragment>
       }
-      {message && <p>{message}</p>}
+      {message && <p className={classes.postText}>{message}</p>}
       <PostLikePanel postId={id} likes={likes} comments={comments} focusForCreatingComment={focusForCreatingComment} />
       <PostComments postId={id} postOwner={owner} comments={comments} inputRef={inputRef} />
       <UpdatePost

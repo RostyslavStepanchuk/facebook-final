@@ -10,6 +10,7 @@ import SearchIcon from '@material-ui/icons/Search'
 import { getAvatarLink } from '../../utils/helpers/imageLinkHelpers'
 import { searchData } from '../../actions/search'
 import { throttlingWrapper } from '../../utils/helpers/throttle'
+
 import useStyles from './searchStyle'
 
 const FIRST_PAGE = 0
@@ -81,9 +82,6 @@ const Search = ({ loading, searchData, searchResults }) => {
             placeholder='Search'
             fullWidth
             variant='outlined'
-            classes={{
-              root: classes.inputRoot
-            }}
             InputProps={{
               ...params.InputProps,
               'aria-label': 'search',
@@ -92,7 +90,12 @@ const Search = ({ loading, searchData, searchResults }) => {
                   {loading ? <CircularProgress color='inherit' size={20} /> : null}
                   {params.InputProps.endAdornment}
                 </Fragment>
-            )
+            ),
+              classes: {
+                root: classes.cssOutlinedInput,
+                focused: classes.cssFocused,
+                notchedOutline: classes.notchedOutline
+              }
             }}
         />
         </div>

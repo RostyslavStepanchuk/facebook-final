@@ -24,17 +24,6 @@ export const loadUser = () => dispatch => {
 
   apiRequest.get('/users/current')
     .then(data => {
-      // todo: resolve reflecting users without avatars issue
-      // temporary step to avoid crushing script without images for new user
-      // next task I am going to do is to fix this for all occasions
-      if (!data.avatar) {
-        data.avatar = { src: '/images/no-avatar.png' }
-      }
-
-      if (!data.profileCover) {
-        data.profileCover = { src: '/images/profile-cover-placeholder.jpg' }
-      }
-
       dispatch({
         type: USER_LOADED,
         payload: data
@@ -151,4 +140,5 @@ export const updateProfile = dataForm => dispatch => {
       payload: data
     })
     )
+    .then(() => window.location.reload())
 }

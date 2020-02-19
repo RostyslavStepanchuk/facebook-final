@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Container, Grid, Paper } from '@material-ui/core'
-import useStyles from './homePageStyles'
+
 import CreatePost from '../../components/CreatePost/CreatePost'
 import PostFeed from '../../components/PostFeed/PostFeed'
 import InfiniteScroll from '../../components/InfiniteScroll/InfiniteScroll'
@@ -10,6 +10,8 @@ import ActiveFriends from '../../components/ActiveFriends/ActiveFriends'
 import FriendSuggestions from '../../components/FriendSuggestions/FriendSuggestions'
 import { getPostsForHomePage } from '../../actions/post'
 import { getFriendSuggestions, getIncomingFriendRequests, loadActiveFriends } from '../../actions/friends'
+
+import useStyles from './homePageStyles'
 
 const POSTS_PAGE_SIZE = 10
 const FIRST_PAGE = 0

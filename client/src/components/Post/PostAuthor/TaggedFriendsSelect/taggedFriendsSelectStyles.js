@@ -9,7 +9,7 @@ const useStyles = makeStyles(theme => ({
   },
   tagLink: {
     fontWeight: 600,
-    color: styleConstants.BTN_PRIMARY_TEXT_COLOR,
+    color: styleConstants.PRIMARY_COLOR,
     textDecoration: 'none'
   },
   menuLink: {

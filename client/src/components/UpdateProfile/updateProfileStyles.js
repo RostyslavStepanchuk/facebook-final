@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core'
+import styleConstants from '../../utils/constants/styleConstants'
 
 const useStyles = makeStyles(() => ({
   header: {
@@ -25,7 +26,8 @@ const useStyles = makeStyles(() => ({
     position: 'absolute',
     width: 20,
     height: 20,
-    backgroundColor: '#EAEAEA'
+    backgroundColor: '#EAEAEA',
+    color: styleConstants.PRIMARY_COLOR
   },
   uploadAvatarBtn: {
     bottom: 0,
@@ -59,6 +61,7 @@ const useStyles = makeStyles(() => ({
   },
   ageRadioBtn: {
     height: 30
+
   },
   btnSection: {
     padding: '10px 20px'
@@ -66,6 +69,29 @@ const useStyles = makeStyles(() => ({
   summaryBtn: {
     padding: '5px 15px',
     marginRight: 5
+  },
+  summaryBtnPrimary: {
+    padding: '5px 15px',
+    marginRight: 5,
+    backgroundColor: styleConstants.PRIMARY_COLOR
+  },
+  cssLabel: {
+    color: styleConstants.PRIMARY_COLOR
+  },
+  cssOutlinedInput: {
+    '&$cssFocused $notchedOutline': {
+      borderColor: `${styleConstants.ICON_COLOR} !important`
+    }
+  },
+  cssFocused: {
+    color: `${styleConstants.PRIMARY_COLOR} !important`
+  },
+  notchedOutline: {
+    borderWidth: '1px',
+    borderColor: `${styleConstants.PRIMARY_COLOR} !important`
+  },
+  radioBtn: {
+    color: `${styleConstants.PRIMARY_COLOR} !important`
   }
 }))
 

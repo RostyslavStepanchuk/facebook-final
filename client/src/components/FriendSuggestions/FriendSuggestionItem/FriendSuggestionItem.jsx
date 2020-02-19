@@ -1,25 +1,23 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
-
+import { get } from 'lodash'
+import Box from '@material-ui/core/Box'
 import { Avatar, Grid, IconButton, Tooltip, Typography } from '@material-ui/core'
 import PanToolOutlinedIcon from '@material-ui/icons/PanToolOutlined'
 import CallMadeOutlinedIcon from '@material-ui/icons/CallMadeOutlined'
 
-import useStyles from './friendSuggestionItemStyles'
-
 import { sendFriendRequest } from '../../../actions/friends'
 import { getAvatarLink } from '../../../utils/helpers/imageLinkHelpers'
-import { get } from 'lodash'
 import { getFullName } from '../../../utils/helpers/formatters'
-import Box from '@material-ui/core/Box'
+
+import useStyles from './friendSuggestionItemStyles'
 
 const COMMON_F_AVATARS_TO_SHOW = 4
 
 const FriendSuggestions = ({ person, commonFriends }) => {
-  const { username } = person
-
   const classes = useStyles()
+  const { username } = person
   const [ requestSent, setRequestSent ] = useState(false)
 
   const createFriendRequest = responderId => {
@@ -39,12 +37,14 @@ const FriendSuggestions = ({ person, commonFriends }) => {
   return (
     <div elevation={0} className={classes.container}>
       <Grid container justify='space-between' alignContent='center'>
+
         <Grid item container xs={10}>
           <Grid item >
             <Link to={`/profile/${get(person, 'username')}`} >
               <Avatar className={classes.image} src={getAvatarLink(person)} alt='User' />
             </Link>
           </Grid>
+
           <Grid item >
             <Typography variant='subtitle1' component='div' className={classes.name}>
               <Link to={`/profile/${get(person, 'username')}`} className={classes.link}>
@@ -53,6 +53,7 @@ const FriendSuggestions = ({ person, commonFriends }) => {
             </Typography>
           </Grid>
         </Grid>
+
         <Grid item xs={2}>
           { !requestSent ? (<Tooltip title='Send friend request'>
             <IconButton className={classes.sendIcon} onClick={() => createFriendRequest(username)} aria-label='Send friend request'>
@@ -61,12 +62,14 @@ const FriendSuggestions = ({ person, commonFriends }) => {
           </Tooltip>) : (<CallMadeOutlinedIcon className={classes.requestSentIcon} />)
           }
         </Grid>
-        <Grid item xs={12} >
-          <Box display='flex'>
-            <span>{commonFriends.length}</span> <span>common friend{commonFriends.length > 1 && 's'}: </span>
+
+        <Grid item xs={12} className={classes.commonFriendsWrapper}>
+          <Box display='flex' >
+            <span>{commonFriends.length} common friend{commonFriends.length > 1 && 's'}: </span>
             {commonFriendAvatars} {commonFriendAvatars.length < commonFriends.length && '...'}
           </Box>
         </Grid>
+
       </Grid>
     </div>
   )

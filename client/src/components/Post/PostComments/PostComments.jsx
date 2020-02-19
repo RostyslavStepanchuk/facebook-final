@@ -1,12 +1,13 @@
 import React, { Fragment, useState } from 'react'
-import useStyles from './postCommentsStyles'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { get } from 'lodash'
+import { Avatar, Grid, TextField } from '@material-ui/core'
 
 import Comment from './Comment/Comment'
-import { connect } from 'react-redux'
 import { createComment } from '../../../actions/post'
-import { Avatar, Grid, TextField } from '@material-ui/core'
-import { get } from 'lodash'
+
+import useStyles from './postCommentsStyles'
 
 const PostComments = ({ postId, comments, postOwner, user, createComment, inputRef }) => {
   const classes = useStyles()
@@ -40,15 +41,22 @@ const PostComments = ({ postId, comments, postOwner, user, createComment, inputR
           <TextField
             className={classes.createInput}
             variant='outlined'
-            placeholder={'Write a comment...'}
+            placeholder='Write a comment...'
             multiline
             fullWidth
             value={value}
             onChange={handleTextFieldChange}
             onKeyPress={handleKeyPress}
             inputRef={inputRef}
+            InputProps={{
+              classes: {
+                root: classes.cssOutlinedInput,
+                focused: classes.cssFocused,
+                notchedOutline: classes.notchedOutline
+              }
+            }}
           />
-          <p className={classes.footerText}>Press Enter to post.</p>
+          <p className={classes.footerText}>Press Enter to post</p>
         </Grid>
       </Grid>
     </Fragment>

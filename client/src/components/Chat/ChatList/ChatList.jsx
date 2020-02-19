@@ -5,13 +5,12 @@ import { find, get } from 'lodash'
 import {
   Toolbar,
   Input,
-  IconButton,
-  Tooltip,
   Divider,
-  List
+  List, Paper
 } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 
+import Preloader from '../../Preloader/Preloader'
 import ChatListItem from './ChatListItem'
 
 import useStyles from './ChatListStyles'
@@ -42,21 +41,19 @@ const ChatList = ({
       className={classnames(classes.root, className)}
     >
       <Toolbar>
-        <Input
-          className={classes.searchInput}
-          disableUnderline
-          placeholder='Search'
-          value={inputValue}
-          onChange={handleInputChange}
-        />
-        <Tooltip title='Search'>
-          <IconButton edge='end'>
-            <SearchIcon />
-          </IconButton>
-        </Tooltip>
+        <Paper className={classes.search}>
+          <SearchIcon className={classes.searchIcon} />
+          <Input
+            className={classes.searchInput}
+            disableUnderline
+            placeholder='Search chat'
+            value={inputValue}
+            onChange={handleInputChange}
+          />
+        </Paper>
       </Toolbar>
       <Divider />
-      <List disablePadding className={classes.chatListContainer}>
+      {chatsLoading ? <Preloader /> : <List disablePadding className={classes.chatListContainer}>
         {chats.map((chat, i) => (
           <ChatListItem
             active={chat.id === selectedChatId}
@@ -68,7 +65,7 @@ const ChatList = ({
             unreadMessagesCount={getUnreadMessagesCount(chat.id)}
           />
         ))}
-      </List>
+      </List>}
     </div>
   )
 }

@@ -17,7 +17,7 @@ const useStyles = makeStyles(() => ({
     textAlign: 'center'
   },
   title: {
-    margin: 0,
+    margin: '10px 0 0',
     wordBreak: 'break-word'
   },
   imageModal: {

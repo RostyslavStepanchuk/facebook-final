@@ -1,21 +1,31 @@
 import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import { get } from 'lodash'
 import { Link } from 'react-router-dom'
-
 import { Avatar } from '@material-ui/core'
-import ArrowRightIcon from '@material-ui/icons/ArrowRight'
-import TaggedFriendsSelect from './TaggedFriendsSelect/TaggedFriendsSelect'
-import PostMenu from './PostMenu/PostMenu'
 import Grid from '@material-ui/core/Grid'
+import ArrowRightIcon from '@material-ui/icons/ArrowRight'
 
-import useStyles from './postAuthorStyles'
+import PostMenu from './PostMenu/PostMenu'
+import TaggedFriendsSelect from './TaggedFriendsSelect/TaggedFriendsSelect'
 import { getAvatarLink } from '../../../utils/helpers/imageLinkHelpers'
 import { getFullName } from '../../../utils/helpers/formatters'
 import { getDate } from '../../../utils/date/getDate'
-import { get } from 'lodash'
 
-const PostAuthor = ({ postId, author, owner, date, user, taggedFriends, updateRef, openUpdateWindow, handleToggleUpdate }) => {
+import useStyles from './postAuthorStyles'
+
+const PostAuthor = ({
+  postId,
+  author,
+  owner,
+  date,
+  user,
+  taggedFriends,
+  updateRef,
+  openUpdateWindow,
+  handleToggleUpdate
+}) => {
   const classes = useStyles()
 
   let nextToUsernameLine = null
@@ -33,9 +43,23 @@ const PostAuthor = ({ postId, author, owner, date, user, taggedFriends, updateRe
   }
 
   if (taggedFriends.length > 0) {
-    const firstTagged = <Link to={'/profile/' + taggedFriends[0].username} className={classes.tagLink}>{`${taggedFriends[0].firstName} ${taggedFriends[0].lastName}`}</Link>
-    const otherTaggedLine = taggedFriends.length > 1 ? <span>{'and '}<TaggedFriendsSelect taggedFriends={taggedFriends.slice(1)} /></span> : null
-    const taggedFriendsLine = <Fragment><span>&nbsp;{'with '}{firstTagged} </span>&nbsp;<span>{otherTaggedLine}</span></Fragment>
+    const firstTagged = <Link
+      to={'/profile/' + taggedFriends[0].username}
+      className={classes.tagLink}>
+      {getFullName(taggedFriends[0])}
+    </Link>
+
+    const otherTaggedLine = taggedFriends.length > 1
+      ? <span>{'and '}
+        <TaggedFriendsSelect taggedFriends={taggedFriends.slice(1)} />
+      </span>
+      : null
+
+    const taggedFriendsLine = <Fragment>
+      <span>&nbsp;{'with '}{firstTagged} </span>&nbsp;
+      <span>{otherTaggedLine}</span>
+    </Fragment>
+
     if (nextToUsernameLine === null) {
       nextToUsernameLine = taggedFriendsLine
     } else {
@@ -44,7 +68,7 @@ const PostAuthor = ({ postId, author, owner, date, user, taggedFriends, updateRe
   }
 
   return (
-    <Grid container justify='space-between' >
+    <Grid container justify='space-between' className={classes.container}>
       <Grid item className={classes.user}>
         <Link to={`/profile/${get(author, 'username')}`}>
           <Avatar className={classes.userPhoto} src={getAvatarLink(author)} alt='User' />
