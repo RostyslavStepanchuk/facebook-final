@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import classnames from 'classnames'
 import PropTypes from 'prop-types'
 import { find, get } from 'lodash'
@@ -22,10 +22,20 @@ const ChatList = ({
   chatsLoading,
   selectedChatId,
   authUser,
-  unreadChats
+  unreadChats,
+  handleSearch
 }) => {
+  useEffect(() => {
+    setInputValue('')
+  }, [selectedChatId])
+
   const classes = useStyles()
+  const [inputValue, setInputValue] = useState('')
   const getUnreadMessagesCount = chatId => get(find(unreadChats, {chatId}), 'unreadMessages.length')
+  const handleInputChange = evt => {
+    setInputValue(evt.target.value)
+    handleSearch(evt.target.value)
+  }
 
   return (
     <div
@@ -36,6 +46,8 @@ const ChatList = ({
           className={classes.searchInput}
           disableUnderline
           placeholder='Search'
+          value={inputValue}
+          onChange={handleInputChange}
         />
         <Tooltip title='Search'>
           <IconButton edge='end'>
@@ -67,7 +79,8 @@ ChatList.propTypes = {
   chatsLoading: PropTypes.bool,
   selectedChatId: PropTypes.number,
   authUser: PropTypes.string.isRequired,
-  unreadChats: PropTypes.array
+  unreadChats: PropTypes.array,
+  handleSearch: PropTypes.func.isRequired
 }
 
 export default ChatList

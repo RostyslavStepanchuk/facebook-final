@@ -13,13 +13,12 @@ import { getFullName } from '../../../utils/helpers/formatters'
 import useStyles from './ChatListItemStyles'
 
 const ChatListItem = ({ active, chat, className, chatsLoading, authUser, unreadMessagesCount }) => {
-  const { participants, lastMessage, id } = chat
+  const { participants, lastMessage, name, id } = chat
   const classes = useStyles()
   const isChatGrouped = participants.length > 2
   const secondParticipant = find(participants, participant => participant.username !== authUser)
   const thirdParticipant = find(participants, participant =>
     participant.username !== authUser && participant.username !== secondParticipant.username)
-  const chatName = isChatGrouped ? chat.name : getFullName(secondParticipant)
 
   return chatsLoading ? <Preloader /> : (
     <ListItem
@@ -55,7 +54,7 @@ const ChatListItem = ({ active, chat, className, chatsLoading, authUser, unreadM
       </ListItemAvatar>)}
 
       <ListItemText
-        primary={chatName}
+        primary={name}
         primaryTypographyProps={{
           noWrap: true,
           variant: 'h6'
