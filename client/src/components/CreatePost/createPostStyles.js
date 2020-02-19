@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
     color: styleConstants.CONTAINER_HEADER_TEXT_COLOR
   },
   textContainer: {
-    padding: '10px 15px'
+    padding: '10px 15px 10px 10px'
   },
   avatar: {
     height: styleConstants.AVATAR_SIZE_MID,
@@ -25,7 +25,8 @@ const useStyles = makeStyles(theme => ({
   postInput: {
     borderStyle: 'none',
     borderRadius: 4,
-    background: 'white'
+    background: 'white',
+    marginLeft: 5
   },
   imgPreviewContainer: {
     padding: 5
@@ -40,7 +41,7 @@ const useStyles = makeStyles(theme => ({
     color: 'white'
   },
   toolsContainer: {
-    padding: '5px 15px'
+    padding: '5px 10px'
   },
   errorImg: {
     border: '3px solid red'

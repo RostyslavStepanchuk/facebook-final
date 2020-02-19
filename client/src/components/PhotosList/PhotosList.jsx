@@ -13,7 +13,7 @@ const PhotosList = ({ userPhotos }) => {
       return <p className={classes.notification}>You have no photos</p>
     } else {
       return userPhotos.map(photo => <Tile imageSrc={get(photo, 'src')}
-                                               key={get(photo, 'id', '')} />)
+        key={get(photo, 'id', '')} />)
     }
   }
 

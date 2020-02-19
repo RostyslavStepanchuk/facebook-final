@@ -91,7 +91,7 @@ const useStyles = makeStyles(() => ({
     borderColor: `${styleConstants.PRIMARY_COLOR} !important`
   },
   radioBtn: {
-    color: `${styleConstants.PRIMARY_COLOR} !important`,
+    color: `${styleConstants.PRIMARY_COLOR} !important`
   }
 }))
 
