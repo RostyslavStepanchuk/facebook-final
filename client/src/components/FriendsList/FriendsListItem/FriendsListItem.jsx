@@ -34,7 +34,8 @@ const FriendsListItem = ({
   deleteFriend,
   request,
   confirmRequest,
-  deleteRequest
+  deleteRequest,
+  isOwnProfile
 }) => {
   let avatarSrc = friend ? getAvatarLink(friend) : getAvatarLink(request.requester)
   const classes = useStyles({avatar: avatarSrc})
@@ -57,7 +58,7 @@ const FriendsListItem = ({
   return (
     <Fragment>
       { friend &&
-      <Grid item sm={5} className={classes.gridItem}>
+      <Grid item sm={3} className={classes.gridItem}>
         <Link to={`/profile/${get(friend, 'username')}`}>
           <div className={classes.avatar} />
         </Link>
@@ -66,11 +67,11 @@ const FriendsListItem = ({
             <p className={classes.userName}>{getFullName(friend)}</p>
           </Link>
           <div>
-            <Tooltip title='Remove friend'>
+            { isOwnProfile && <Tooltip title='Remove friend'>
               <IconButton color='secondary' onClick={handleModal} aria-label='Remove friend'>
                 <HighlightOffIcon />
               </IconButton>
-            </Tooltip>
+            </Tooltip>}
             <Dialog
               open={openDialog}
               TransitionComponent={Transition}
@@ -157,7 +158,8 @@ FriendsListItem.propTypes = {
   request: PropTypes.object,
   deleteFriend: PropTypes.func.isRequired,
   confirmRequest: PropTypes.func.isRequired,
-  deleteRequest: PropTypes.func.isRequired
+  deleteRequest: PropTypes.func.isRequired,
+  isOwnProfile: PropTypes.bool
 }
 
 export default connect(null, { deleteFriend, confirmRequest, deleteRequest })(FriendsListItem)

@@ -8,7 +8,7 @@ const useStyles = makeStyles(() => ({
     alignItems: 'center',
     justifyContent: 'center',
     '&.fullScreen': {
-      paddingTop: '30%'
+      paddingTop: '20%'
     }
   }
 }))

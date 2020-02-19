@@ -25,7 +25,7 @@ const ChatList = ({
 
   const classes = useStyles()
   const [inputValue, setInputValue] = useState('')
-  const getUnreadMessagesCount = chatId => get(find(unreadChats, {chatId}), 'unreadMessages.length')
+  const getUnreadMessagesCount = chatId => get(find(unreadChats, { chatId }), 'unreadMessages.length')
   const handleInputChange = evt => {
     setInputValue(evt.target.value)
     handleSearch(evt.target.value)

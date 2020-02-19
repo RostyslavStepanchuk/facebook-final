@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-// need to change clsx to classnames
-import clsx from 'clsx'
+import classnames from 'classnames'
 import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 import ErrorIcon from '@material-ui/icons/Error'
 import InfoIcon from '@material-ui/icons/Info'
@@ -10,7 +9,8 @@ import IconButton from '@material-ui/core/IconButton'
 import Snackbar from '@material-ui/core/Snackbar'
 import SnackbarContent from '@material-ui/core/SnackbarContent'
 import WarningIcon from '@material-ui/icons/Warning'
-import { useStyles1 } from './toastrStyles'
+
+import { useStyles } from './toastrStyles'
 
 const variantIcon = {
   success: CheckCircleIcon,
@@ -20,17 +20,17 @@ const variantIcon = {
 }
 
 function MySnackbarContentWrapper (props) {
-  const classes = useStyles1()
+  const classes = useStyles()
   const { className, message, onClose, variant, ...other } = props
   const Icon = variantIcon[variant]
 
   return (
     <SnackbarContent
-      className={clsx(classes[variant], className)}
+      className={classnames(classes[variant], className)}
       aria-describedby='client-snackbar'
       message={
         <span id='client-snackbar' className={classes.message}>
-          <Icon className={clsx(classes.icon, classes.iconVariant)} />
+          <Icon className={classnames(classes.icon, classes.iconVariant)} />
           {message}
         </span>
       }
@@ -53,7 +53,7 @@ MySnackbarContentWrapper.propTypes = {
 
 export default function ToastrContent (props) {
   const { message, variant = 'info' } = props
-  const classes = useStyles1()
+  const classes = useStyles()
   const [open, setOpen] = useState(true)
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {

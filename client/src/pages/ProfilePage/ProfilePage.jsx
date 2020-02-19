@@ -129,7 +129,7 @@ const ProfilePage = ({
         {selectedTab === 'friends' &&
         <Grid item sm={9}>
           <Paper className={classes.paper}>
-            <FriendsList friends={friends} />
+            <FriendsList friends={friends} isOwnProfile={isOwnProfile} />
           </Paper>
         </Grid>
         }

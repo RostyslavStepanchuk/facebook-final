@@ -1,9 +1,10 @@
 import { makeStyles } from '@material-ui/core/styles'
-import { amber, green } from '@material-ui/core/colors'
+import { amber } from '@material-ui/core/colors'
+import styleConstants from '../../utils/constants/styleConstants'
 
-export const useStyles1 = makeStyles(theme => ({
+export const useStyles = makeStyles(theme => ({
   success: {
-    backgroundColor: green[600]
+    backgroundColor: styleConstants.ICON_COLOR
   },
   error: {
     backgroundColor: theme.palette.error.dark

@@ -68,11 +68,11 @@ const ProfileCover = ({ profileOwner, isOwnProfile, selectedTab, changeTab }) =>
             className={classes.submenuItem}
             label='Timeline'
             value='timeline' />
-          <Tab
+          {isOwnProfile && <Tab
             style={getStyle(selectedTab === 'friend requests')}
             className={classes.submenuItem}
             label={'Friend requests'}
-            value='friend requests' />
+            value='friend requests' />}
           <Tab
             style={getStyle(selectedTab === 'friends')}
             className={classes.submenuItem}

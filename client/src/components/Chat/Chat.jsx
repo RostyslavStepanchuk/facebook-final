@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { isEmpty } from 'lodash'
+import { find, isEmpty } from 'lodash'
 
 import ChatList from './ChatList/ChatList'
 import ChatDetails from './ChatDetails/ChatDetails'
@@ -46,7 +46,7 @@ const Chat = ({
     }
     setIsSearchMessagesApply(false)
     setIsSearchChatsApply(false)
-  }, [getAllChats, getChat, isSingleChat, userId, ownMessageSent])
+  }, [getAllChats, getChat, isSingleChat, userId])
 
   if (!isEmpty(chat) && isSingleChat) {
     selectedChat = chat
@@ -72,7 +72,12 @@ const Chat = ({
     if (!query) {
       return setIsSearchChatsApply(false)
     }
-    const sortedChats = chats.filter(chat => chat.name.toLowerCase().includes(query.toLowerCase()))
+    const sortedChats = chats.filter(chat => {
+      const secondParticipant = find(chat.participants, participant => participant.username !== authUser)
+
+      return secondParticipant.firstName.toLowerCase().includes(query.toLowerCase()) ||
+        secondParticipant.lastName.toLowerCase().includes(query.toLowerCase())
+    })
 
     setSortedChats(sortedChats)
     setIsSearchChatsApply(true)
