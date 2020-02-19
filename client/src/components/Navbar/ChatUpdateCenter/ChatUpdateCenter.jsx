@@ -2,8 +2,8 @@ import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import SockJsClient from 'react-stomp'
-
 import { get } from 'lodash'
+
 import apiRequest from '../../../utils/helpers/apiRequest'
 import {
   addMessageToCurrentChat,
@@ -19,10 +19,8 @@ const ChatUpdateCenter = ({
   sendChatBeenReadNotification,
   addMessageToCurrentChat,
   saveMessageNotification,
-  selectedTab,
   openChatId
 }) => {
-
   const onBrokerMessageReceive = msg => {
     const newMsgChatId = get(msg, 'chat.id')
 
