@@ -3,7 +3,7 @@ import { Link, useHistory } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { CssBaseline, Grid, Paper, Typography } from '@material-ui/core'
-import EmailIcon from '@material-ui/icons/Email';
+import EmailIcon from '@material-ui/icons/Email'
 
 import useStyles from './EmailNeedsConfirmationPageStyles'
 
