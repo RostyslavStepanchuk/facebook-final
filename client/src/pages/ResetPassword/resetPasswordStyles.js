@@ -9,13 +9,14 @@ const useStyles = makeStyles(theme => ({
     marginBottom: theme.spacing(5)
   },
   paper: {
+    width: 440,
     color: styleConstants.CONTAINER_TEXT_COLOR,
     background: styleConstants.CONTAINER_BG_COLOR,
     boxShadow: '0 1px rgba(255,255,255,.2) inset,  0 3px 5px rgba(0,1,6,.5),  0 0 1px 1px rgba(0,1,6,.2)',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: theme.spacing(5)
+    padding: 40
   },
   avatar: {
     margin: theme.spacing(1),
@@ -58,6 +59,11 @@ const useStyles = makeStyles(theme => ({
     color: styleConstants.PRIMARY_COLOR
   },
   cssOutlinedInput: {
+    background: 'none',
+    borderRadius: 4,
+    '&$cssFocused': {
+      background: 'white'
+    },
     '&$cssFocused $notchedOutline': {
       borderColor: `${styleConstants.ICON_COLOR} !important`
     }

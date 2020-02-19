@@ -6,10 +6,11 @@ const useStyles = makeStyles(theme => ({
     paddingTop: theme.spacing(8)
   },
   paper: {
+    width: 440,
     color: styleConstants.CONTAINER_TEXT_COLOR,
     background: styleConstants.CONTAINER_BG_COLOR,
     boxShadow: '0 1px rgba(255,255,255,.2) inset,  0 3px 5px rgba(0,1,6,.5),  0 0 1px 1px rgba(0,1,6,.2)',
-    padding: 20,
+    padding: '20px 40px',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center'
@@ -55,14 +56,15 @@ const useStyles = makeStyles(theme => ({
       textDecoration: 'underline'
     }
   },
-  textField: {
-    background: 'white',
-    borderRadius: 4
-  },
   cssLabel: {
     color: styleConstants.PRIMARY_COLOR
   },
   cssOutlinedInput: {
+    background: 'none',
+    borderRadius: 4,
+    '&$cssFocused': {
+      background: 'white'
+    },
     '&$cssFocused $notchedOutline': {
       borderColor: `${styleConstants.ICON_COLOR} !important`
     }

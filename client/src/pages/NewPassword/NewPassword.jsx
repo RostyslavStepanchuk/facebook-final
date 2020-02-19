@@ -14,6 +14,20 @@ import useStyles from './newPasswordStyles'
 
 const NewPassword = ({ loading, match, setNewPassword }) => {
   const classes = useStyles()
+  const inputStyleProps = {
+    InputProps: {
+      classes: {
+        root: classes.cssOutlinedInput,
+        focused: classes.cssFocused,
+        notchedOutline: classes.notchedOutline
+      }
+    },
+    InputLabelProps: {
+      classes: {
+        root: classes.cssLabel,
+        focused: classes.cssFocused
+      }
+    }}
 
   const [formData, setFormData] = useState({
     password: '',
@@ -69,53 +83,56 @@ const NewPassword = ({ loading, match, setNewPassword }) => {
   if (loading) {
     return <Preloader />
   } else {
-    return (<Container component='main' maxWidth='xs'>
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        {!responseReceived ? (
-          <Fragment>
-            <Typography component='h1' variant='h5'>
+    return (
+      <Container component='main' maxWidth='xs' className={classes.container}>
+        <CssBaseline />
+        <div className={classes.paper}>
+          <Avatar className={classes.avatar}>
+            <LockOutlinedIcon />
+          </Avatar>
+          {!responseReceived ? (
+            <Fragment>
+              <Typography component='h1' variant='h5'>
               Put your new strong password
             </Typography>
-            <form className={classes.form} onSubmit={e => onSubmit(e)}>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <TextField
-                    variant='outlined'
-                    required
-                    fullWidth
-                    name='password'
-                    label='Password'
-                    type='password'
-                    value={password}
-                    onChange={onChange}
-                    error={!(passwordError === '')}
-                    helperText={passwordError === '' ? '' : passwordError}
+              <form className={classes.form} onSubmit={e => onSubmit(e)}>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <TextField
+                      variant='outlined'
+                      required
+                      fullWidth
+                      name='password'
+                      label='Password'
+                      type='password'
+                      value={password}
+                      onChange={onChange}
+                      error={!(passwordError === '')}
+                      helperText={passwordError === '' ? '' : passwordError}
+                      {...inputStyleProps}
                   />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    variant='outlined'
-                    required
-                    fullWidth
-                    name='password2'
-                    label='Repeat password'
-                    type='password'
-                    value={password2}
-                    onChange={onChange}
-                    error={!(repeatPasswordError === '')}
-                    helperText={repeatPasswordError === '' ? '' : repeatPasswordError}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      variant='outlined'
+                      required
+                      fullWidth
+                      name='password2'
+                      label='Repeat password'
+                      type='password'
+                      value={password2}
+                      onChange={onChange}
+                      error={!(repeatPasswordError === '')}
+                      helperText={repeatPasswordError === '' ? '' : repeatPasswordError}
+                      {...inputStyleProps}
                   />
+                  </Grid>
                 </Grid>
-              </Grid>
-              <Button type='submit' fullWidth variant='contained' color='primary' className={classes.submit}>
+                <Button type='submit' fullWidth variant='contained' color='primary' className={classes.submit}>
                 Update password
               </Button>
-            </form>
-          </Fragment>
+              </form>
+            </Fragment>
         ) : (
           <Fragment>
             <Typography component='h1' variant='h5' className={classes.center}>
@@ -131,8 +148,8 @@ const NewPassword = ({ loading, match, setNewPassword }) => {
             </Link>
           </Fragment>
         )}
-      </div>
-    </Container>)
+        </div>
+      </Container>)
   }
 }
 

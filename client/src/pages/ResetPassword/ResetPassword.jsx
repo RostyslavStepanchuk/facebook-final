@@ -60,7 +60,6 @@ const ResetPassword = ({ isAuthenticated, resetPassword, resetEmailSend }) => {
             </Typography>
             <form className={classes.form} onSubmit={e => onSubmit(e)}>
               <TextField
-                className={classes.textField}
                 type='input'
                 variant='outlined'
                 margin='normal'

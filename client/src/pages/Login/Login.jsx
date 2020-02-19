@@ -26,7 +26,7 @@ import {
 
 import usestyles from './loginStyles'
 
-const googleLogo = 'google-icon.svg'
+const googleLogo = 'static/google-icon.svg'
 
 const Login = ({ isAuthenticated, login, loading }) => {
   const classes = usestyles()
@@ -104,7 +104,6 @@ const Login = ({ isAuthenticated, login, loading }) => {
         </Typography>
         <form className={classes.form} onSubmit={e => onSubmit(e)}>
           <TextField
-            className={classes.textField}
             type='input'
             variant='outlined'
             margin='normal'
@@ -128,7 +127,6 @@ const Login = ({ isAuthenticated, login, loading }) => {
             </Grid>
           </Grid>
           <TextField
-            className={classes.textField}
             name='password'
             onChange={e => onChange(e)}
             error={!(passwordError === '')}

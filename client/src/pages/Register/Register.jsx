@@ -106,7 +106,6 @@ const Register = ({ isAuthenticated, loading, register, emailIsConfirmed }) => {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
-                className={classes.textField}
                 autoComplete='username'
                 name='username'
                 variant='outlined'
@@ -122,7 +121,6 @@ const Register = ({ isAuthenticated, loading, register, emailIsConfirmed }) => {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                className={classes.textField}
                 autoComplete='email'
                 name='email'
                 variant='outlined'
@@ -138,7 +136,6 @@ const Register = ({ isAuthenticated, loading, register, emailIsConfirmed }) => {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                className={classes.textField}
                 variant='outlined'
                 required
                 fullWidth
@@ -155,7 +152,6 @@ const Register = ({ isAuthenticated, loading, register, emailIsConfirmed }) => {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                className={classes.textField}
                 variant='outlined'
                 required
                 fullWidth
@@ -172,7 +168,6 @@ const Register = ({ isAuthenticated, loading, register, emailIsConfirmed }) => {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                className={classes.textField}
                 autoComplete='firstName'
                 name='firstName'
                 variant='outlined'
@@ -186,7 +181,6 @@ const Register = ({ isAuthenticated, loading, register, emailIsConfirmed }) => {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                className={classes.textField}
                 autoComplete='lastName'
                 name='lastName'
                 variant='outlined'
