@@ -3,7 +3,7 @@ import styleConstants from '../../../utils/constants/styleConstants'
 
 const useStyles = makeStyles(() => ({
   container: {
-    padding: '5px 15px'
+    padding: '5px 5px'
   },
   user: {
     display: 'flex',

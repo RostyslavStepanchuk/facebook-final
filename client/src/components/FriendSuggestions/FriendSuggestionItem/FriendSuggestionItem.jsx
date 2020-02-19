@@ -65,7 +65,7 @@ const FriendSuggestions = ({ person, commonFriends }) => {
 
         <Grid item xs={12} className={classes.commonFriendsWrapper}>
           <Box display='flex' >
-            <span>{commonFriends.length}{' '}</span><span>common friend{commonFriends.length > 1 && 's'}: </span>
+            <span>{commonFriends.length} common friend{commonFriends.length > 1 && 's'}: </span>
             {commonFriendAvatars} {commonFriendAvatars.length < commonFriends.length && '...'}
           </Box>
         </Grid>

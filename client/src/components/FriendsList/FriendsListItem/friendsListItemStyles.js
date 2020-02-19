@@ -65,7 +65,7 @@ const useStyles = makeStyles(() => ({
       background: styleConstants.BTN_BG_ACTIVE,
       boxShadow: styleConstants.BTN_SHADOW_ACTIVE
     }
-  },
+  }
 
 }))
 

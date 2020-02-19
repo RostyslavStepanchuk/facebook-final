@@ -1,7 +1,6 @@
 import { some, unionBy } from 'lodash'
 
 export const addPagedPayload = (currentArray, incomingArray, comparingKey) => {
-
   return unionBy(currentArray, incomingArray, comparingKey)
 }
 

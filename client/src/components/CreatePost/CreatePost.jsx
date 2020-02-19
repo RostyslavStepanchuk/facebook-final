@@ -117,7 +117,7 @@ const CreatePost = ({ profileOwner, currentUser, currentUserFriends, loadCurrent
         </Typography>
       <form className={classes.form}>
         <Grid container className={classes.textContainer}>
-          <Grid container item xs={2} lg={1} justify='center' alignItems='center'>
+          <Grid container item xs={2} lg={1} justify='center' >
             <Link to={`/profile/${get(currentUser, 'username')}`}>
               <Avatar className={classes.avatar} src={getAvatarLink(currentUser)} />
             </Link>
