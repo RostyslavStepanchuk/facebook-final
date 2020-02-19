@@ -8,7 +8,7 @@ import { Typography } from '@material-ui/core'
 const PostFeed = ({ loading, posts }) => {
   const content = posts.length > 0
     ? posts.map(post => <Post post={post} key={post.id} />)
-    : <Typography>Your posts and posts of your friends will be displayed here</Typography>
+    : <Typography align='center'>Your posts and posts of your friends will be displayed here</Typography>
 
   return (
     <div>

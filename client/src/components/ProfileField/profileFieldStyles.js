@@ -23,7 +23,7 @@ const useStyles = makeStyles(() => ({
   },
   notification: {
     margin: '10px auto'
-  },
+  }
 
 }))
 

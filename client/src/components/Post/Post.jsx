@@ -9,7 +9,6 @@ import PostLikePanel from './PostLikePanel/PostLikePanel'
 import PostComments from './PostComments/PostComments'
 import UpdatePost from './UpdatePost/UpdatePost'
 
-
 import useStyles from './postStyles'
 
 const Transition = React.forwardRef(function Transition (props, ref) {
