@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles'
+import styleConstants from '../../utils/constants/styleConstants'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -10,6 +11,7 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.text.secondary
   },
   icon: {
+    color: styleConstants.PRIMARY_COLOR,
     fontSize: '100px',
     margin: '20px auto',
     display: 'block'

@@ -32,9 +32,19 @@ const TaggedFriendsSelect = ({ taggedFriends }) => {
     }
   }
 
-  const links = taggedFriends.map(friend => <Link to={'/profile/' + friend.username} className={classes.menuLink} key={friend.username}>
-    <MenuItem><img src={getAvatarLink(friend)} alt={friend.username} className={classes.userPic} /><p className={classes.selectFullName}>{getFullName(friend)}</p></MenuItem>
-  </Link>)
+  const links = taggedFriends.map(friend =>
+    <Link to={'/profile/' + friend.username}
+      className={classes.menuLink}
+      key={friend.username}>
+      <MenuItem>
+        <img src={getAvatarLink(friend)}
+          alt={friend.username}
+          className={classes.userPic} />
+        <p className={classes.selectFullName}>
+          {getFullName(friend)}
+        </p>
+      </MenuItem>
+    </Link>)
 
   return (
     <Fragment>

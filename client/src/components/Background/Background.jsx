@@ -6,7 +6,7 @@ const Background = ({ children }) => {
   return (
     <div style={{
       backgroundColor: styleConstants.BACKGROUND_COLOR,
-      minHeight: 'calc(100vh - 65px)',
+      minHeight: 'calc(100vh - 63px)',
       position: 'relative'
     }}>
       {children}

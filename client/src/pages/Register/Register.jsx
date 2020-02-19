@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
-import { Avatar, Button, Container, CssBaseline, Grid, TextField, Typography } from '@material-ui/core'
 import { connect } from 'react-redux'
 import { Link, Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import { Avatar, Button, Container, CssBaseline, Grid, Paper, TextField, Typography } from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
-import useStyles from './registerStyles'
 
 import { register } from '../../actions/auth'
 import Preloader from '../../components/Preloader/Preloader'
@@ -15,10 +14,25 @@ import {
   validatePassword,
   validateUsername
 } from '../../utils/helpers/inputValidators'
-import Paper from "@material-ui/core/Paper";
+
+import useStyles from './registerStyles'
 
 const Register = ({ isAuthenticated, loading, register, emailIsConfirmed }) => {
   const classes = useStyles()
+  const inputStyleProps = {
+    InputProps: {
+      classes: {
+        root: classes.cssOutlinedInput,
+        focused: classes.cssFocused,
+        notchedOutline: classes.notchedOutline
+      }
+    },
+    InputLabelProps: {
+      classes: {
+        root: classes.cssLabel,
+        focused: classes.cssFocused
+      }
+    }}
 
   const [formData, setFormData] = useState({
     username: '',
@@ -48,7 +62,6 @@ const Register = ({ isAuthenticated, loading, register, emailIsConfirmed }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
-  // todo: refractor needed
   const validate = () => {
     const errors = {}
 
@@ -87,13 +100,12 @@ const Register = ({ isAuthenticated, loading, register, emailIsConfirmed }) => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component='h1' variant='h5'>
-          Sign up
+          Register
         </Typography>
         <form className={classes.form} onSubmit={e => onSubmit(e)}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
-                className={classes.textField}
                 autoComplete='username'
                 name='username'
                 variant='outlined'
@@ -104,11 +116,11 @@ const Register = ({ isAuthenticated, loading, register, emailIsConfirmed }) => {
                 onChange={e => onChange(e)}
                 error={!(usernameError === '')}
                 helperText={usernameError === '' ? '' : usernameError}
+                {...inputStyleProps}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
-                className={classes.textField}
                 autoComplete='email'
                 name='email'
                 variant='outlined'
@@ -119,11 +131,11 @@ const Register = ({ isAuthenticated, loading, register, emailIsConfirmed }) => {
                 onChange={e => onChange(e)}
                 error={!(emailError === '')}
                 helperText={emailError === '' ? '' : emailError}
+                {...inputStyleProps}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
-                className={classes.textField}
                 variant='outlined'
                 required
                 fullWidth
@@ -135,11 +147,11 @@ const Register = ({ isAuthenticated, loading, register, emailIsConfirmed }) => {
                 onChange={e => onChange(e)}
                 error={!(passwordError === '')}
                 helperText={passwordError === '' ? '' : passwordError}
+                {...inputStyleProps}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
-                className={classes.textField}
                 variant='outlined'
                 required
                 fullWidth
@@ -151,11 +163,11 @@ const Register = ({ isAuthenticated, loading, register, emailIsConfirmed }) => {
                 onChange={e => onChange(e)}
                 error={!(repeatPasswordError === '')}
                 helperText={repeatPasswordError === '' ? '' : repeatPasswordError}
+                {...inputStyleProps}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
-                className={classes.textField}
                 autoComplete='firstName'
                 name='firstName'
                 variant='outlined'
@@ -164,11 +176,11 @@ const Register = ({ isAuthenticated, loading, register, emailIsConfirmed }) => {
                 label='First name'
                 value={firstName}
                 onChange={e => onChange(e)}
+                {...inputStyleProps}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
-                className={classes.textField}
                 autoComplete='lastName'
                 name='lastName'
                 variant='outlined'
@@ -177,6 +189,7 @@ const Register = ({ isAuthenticated, loading, register, emailIsConfirmed }) => {
                 label='Last name'
                 value={lastName}
                 onChange={e => onChange(e)}
+                {...inputStyleProps}
               />
             </Grid>
           </Grid>

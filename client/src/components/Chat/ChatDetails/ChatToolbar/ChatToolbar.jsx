@@ -2,20 +2,14 @@ import React, { Fragment, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import {
-  IconButton,
-  Input,
-  Paper,
-  Toolbar,
-  Tooltip,
-  Typography
-} from '@material-ui/core'
+import { IconButton, Input, Paper, Toolbar, Tooltip, Typography } from '@material-ui/core'
 import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace'
 import SearchIcon from '@material-ui/icons/Search'
 
 import Preloader from '../../../Preloader/Preloader'
 import StatusIcon from '../../../StatusIcon/StatusIcon'
 import { getActiveTime } from '../../../../utils/date/getDate'
+import { getFullName } from '../../../../utils/helpers/formatters'
 
 import useStyles from './chatToolbarStyles'
 
@@ -29,7 +23,8 @@ const ChatToolbar = ({
   activeFriendsAreLoading,
   handleSearch,
   ownMessageSent,
-  selectedChatId
+  selectedChatId,
+  otherParticipant
 }) => {
   useEffect(() => {
     setInputValue('')
@@ -37,7 +32,7 @@ const ChatToolbar = ({
 
   const classes = useStyles()
   const [inputValue, setInputValue] = useState('')
-  const chatName = isChatGrouped ? chat.name : `Chat with ${chat.name}`
+  const chatName = isChatGrouped ? chat.name : `Chat with ${getFullName(otherParticipant)}`
 
   const handleInputChange = evt => {
     setInputValue(evt.target.value)
@@ -107,7 +102,8 @@ ChatToolbar.propTypes = {
   lastActivityTime: PropTypes.number,
   handleSearch: PropTypes.func.isRequired,
   ownMessageSent: PropTypes.bool,
-  selectedChatId: PropTypes.number
+  selectedChatId: PropTypes.number,
+  otherParticipant: PropTypes.object.isRequired
 }
 
 export default ChatToolbar

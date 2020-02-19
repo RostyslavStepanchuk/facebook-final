@@ -53,7 +53,7 @@ const UpdatePost = ({
   })
 
   const getCurrentUserFriends = () => {
-    if (currentUserFriends.length === 0 ) {
+    if (currentUserFriends.length === 0) {
       loadCurrentUserFriends(username, STARTING_PAGE, FRIENDS_INITIAL_SIZE)
     }
   }
@@ -106,7 +106,7 @@ const UpdatePost = ({
     if (imagesToUpload.length === 0) {
       updatePost(id, textToUpload, imagesToUpload, taggedFriendsToUpload, true)
     } else if (image && imagesToUpload[0].url === image.src) {
-      updatePost(id, textToUpload, image, taggedFriendsToUpload, true)
+      updatePost(id, textToUpload, [image], taggedFriendsToUpload, true)
     } else {
       uploadImages(imagesToUpload).then(
         imgLinks => updatePost(id, textToUpload, imgLinks, taggedFriendsToUpload, true),
@@ -167,6 +167,13 @@ const UpdatePost = ({
                     multiline
                     required
                     fullWidth
+                    InputProps={{
+                      classes: {
+                        root: classes.cssOutlinedInput,
+                        focused: classes.cssFocused,
+                        notchedOutline: classes.notchedOutline
+                      }
+                    }}
                   />
                   <GridList spacing={3} cellHeight={80} cols={5} className={classes.imgPreviewContainer}>
                     {images}
@@ -197,11 +204,11 @@ const UpdatePost = ({
                     Cancel
                   </Button>
                   <Button
-                      className={classes.button}
-                      type='submit'
-                      variant='contained'
-                      color='primary'
-                      onClick={handleSubmit}>
+                    className={classes.button}
+                    type='submit'
+                    variant='contained'
+                    color='primary'
+                    onClick={handleSubmit}>
                     Save
                   </Button>
                 </Grid>

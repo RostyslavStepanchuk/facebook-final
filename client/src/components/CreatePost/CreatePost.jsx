@@ -41,7 +41,7 @@ const CreatePost = ({ profileOwner, currentUser, currentUserFriends, loadCurrent
   })
 
   const getCurrentUserFriends = () => {
-    if (currentUserFriends.length === 0 ) {
+    if (currentUserFriends.length === 0) {
       loadCurrentUserFriends(username, STARTING_PAGE, FRIENDS_INITIAL_SIZE)
     }
   }
@@ -117,7 +117,7 @@ const CreatePost = ({ profileOwner, currentUser, currentUserFriends, loadCurrent
         </Typography>
       <form className={classes.form}>
         <Grid container className={classes.textContainer}>
-          <Grid container item xs={2} lg={1} justify='center' alignItems='flex-start'>
+          <Grid container item xs={2} lg={1} justify='center' >
             <Link to={`/profile/${get(currentUser, 'username')}`}>
               <Avatar className={classes.avatar} src={getAvatarLink(currentUser)} />
             </Link>
@@ -134,6 +134,13 @@ const CreatePost = ({ profileOwner, currentUser, currentUserFriends, loadCurrent
               multiline
               required
               fullWidth
+              InputProps={{
+                classes: {
+                  root: classes.cssOutlinedInput,
+                  focused: classes.cssFocused,
+                  notchedOutline: classes.notchedOutline
+                }
+              }}
               />
             <GridList spacing={3} cellHeight={80} cols={5} className={classes.imgPreviewContainer}>
               {images}

@@ -1,9 +1,10 @@
 import React, { Fragment, useState } from 'react'
-import { Grid, Dialog, Slide } from '@material-ui/core'
-import useStyles from './tileStyles'
+import { Dialog, Grid, Slide } from '@material-ui/core'
 
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+
+import useStyles from './tileStyles'
 
 const Transition = React.forwardRef(function Transition (props, ref) {
   return <Slide direction='up' ref={ref} {...props} />

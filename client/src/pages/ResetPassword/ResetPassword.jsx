@@ -2,13 +2,13 @@ import React, { Fragment, useState } from 'react'
 import { connect } from 'react-redux'
 import { Link, Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { resetPassword } from '../../actions/auth'
-
 import { Avatar, Button, Container, CssBaseline, Paper, TextField, Typography } from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 
-import usestyles from './resetPasswordStyles'
+import { resetPassword } from '../../actions/auth'
 import { validateEmail } from '../../utils/helpers/inputValidators'
+
+import usestyles from './resetPasswordStyles'
 
 const ResetPassword = ({ isAuthenticated, resetPassword, resetEmailSend }) => {
   const classes = usestyles()
@@ -39,7 +39,6 @@ const ResetPassword = ({ isAuthenticated, resetPassword, resetEmailSend }) => {
     }
   }
 
-//   Redirect if logged in
   if (isAuthenticated) {
     return <Redirect to='/' />
   }
@@ -61,7 +60,6 @@ const ResetPassword = ({ isAuthenticated, resetPassword, resetEmailSend }) => {
             </Typography>
             <form className={classes.form} onSubmit={e => onSubmit(e)}>
               <TextField
-                className={classes.textField}
                 type='input'
                 variant='outlined'
                 margin='normal'
@@ -75,6 +73,19 @@ const ResetPassword = ({ isAuthenticated, resetPassword, resetEmailSend }) => {
                 onChange={e => onChange(e)}
                 error={!(emailError === '')}
                 helperText={emailError === '' ? '' : emailError}
+                InputProps={{
+                  classes: {
+                    root: classes.cssOutlinedInput,
+                    focused: classes.cssFocused,
+                    notchedOutline: classes.notchedOutline
+                  }
+                }}
+                InputLabelProps={{
+                  classes: {
+                    root: classes.cssLabel,
+                    focused: classes.cssFocused
+                  }
+                }}
               />
               <Button type='submit' fullWidth variant='contained' color='primary' className={classes.submit}>
                 Send password reset email

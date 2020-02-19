@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { find, get } from 'lodash'
-import { Avatar, ListItem, ListItemAvatar, ListItemText, Typography, Badge } from '@material-ui/core'
+import { Avatar, Badge, ListItem, ListItemAvatar, ListItemText, Typography } from '@material-ui/core'
 
 import Preloader from '../../Preloader/Preloader'
 import { getAvatarLink } from '../../../utils/helpers/imageLinkHelpers'
@@ -19,6 +19,7 @@ const ChatListItem = ({ active, chat, className, chatsLoading, authUser, unreadM
   const secondParticipant = find(participants, participant => participant.username !== authUser)
   const thirdParticipant = find(participants, participant =>
     participant.username !== authUser && participant.username !== secondParticipant.username)
+  const chatName = isChatGrouped ? name : getFullName(secondParticipant)
 
   return chatsLoading ? <Preloader /> : (
     <ListItem
@@ -54,14 +55,14 @@ const ChatListItem = ({ active, chat, className, chatsLoading, authUser, unreadM
       </ListItemAvatar>)}
 
       <ListItemText
-        primary={name}
+        primary={chatName}
         primaryTypographyProps={{
           noWrap: true,
           variant: 'h6'
         }}
         secondary={get(lastMessage, 'author', false)
           ? `${getFullName(lastMessage.author)}: ${lastMessage.text}`
-          : ''}
+          : 'No messages yet'}
         secondaryTypographyProps={{
           noWrap: true,
           variant: 'body1'

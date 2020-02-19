@@ -39,6 +39,7 @@ const ProfilePage = ({
      profileLoading,
      getPostsForProfile,
      friends,
+     friendsAreLoading,
      loadUserFriends,
      incomingFriendRequests,
      getIncomingFriendRequests,
@@ -72,7 +73,7 @@ const ProfilePage = ({
     }
   }, [ selectedTab, clearCurrentChatMessages ])
 
-  return profileLoading ? <Preloader /> : (
+  return profileLoading ? <Preloader fullScreen /> : (
     <InfiniteScroll
       isDisable={selectedTab === 'messages'}
       contentArrLength={posts.length}
@@ -107,7 +108,7 @@ const ProfilePage = ({
               <ProfileField userPhotos={userPhotos} loadingPhotos={loadingPhotos} />
             </Paper>
             <Paper className={classes.paper}>
-              <ProfileField friends={friends} />
+              <ProfileField friends={friends} friendsAreLoading={friendsAreLoading} />
             </Paper>
           </Grid>
           <Grid item xs={9} sm={5} className={classes.feedColumn}>
@@ -167,7 +168,8 @@ ProfilePage.propTypes = {
   getIncomingFriendRequests: PropTypes.func.isRequired,
   resetTab: PropTypes.func.isRequired,
   selectedTab: PropTypes.string.isRequired,
-  clearCurrentChatMessages: PropTypes.func.isRequired
+  clearCurrentChatMessages: PropTypes.func.isRequired,
+  friendsAreLoading: PropTypes.bool
 }
 
 const mapStateToProps = state => ({
@@ -180,6 +182,7 @@ const mapStateToProps = state => ({
   profileOwner: state.search.userProfile,
   profileLoading: state.search.profileLoading,
   friends: state.friends.userFriends,
+  friendsAreLoading: state.friends.loading,
   incomingFriendRequests: state.friends.incomingFriendRequests
 })
 

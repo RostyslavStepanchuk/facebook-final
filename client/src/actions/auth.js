@@ -140,4 +140,5 @@ export const updateProfile = dataForm => dispatch => {
       payload: data
     })
     )
+    .then(() => window.location.reload())
 }

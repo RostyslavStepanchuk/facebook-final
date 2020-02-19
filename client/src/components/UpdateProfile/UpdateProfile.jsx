@@ -2,7 +2,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-
 import {
   Avatar,
   Button,
@@ -16,13 +15,15 @@ import {
   TextField,
   Typography
 } from '@material-ui/core'
+import classNames from 'classnames'
 
-import useStyles from './updateProfileStyles'
 import { PhotoCamera } from '@material-ui/icons'
 import { areNoErrors, validateEmail } from '../../utils/helpers/inputValidators'
 import { uploadSingleImage } from '../../actions/post'
 import { updateProfile } from '../../actions/auth'
 import { getAvatarLink, getProfileCoverLink } from '../../utils/helpers/imageLinkHelpers'
+
+import useStyles from './updateProfileStyles'
 
 const UpdateProfile = ({ user, handleClose, updateProfile }) => {
   const { avatar, firstName, lastName, birthDate, email, profileCover, gender } = user
@@ -45,6 +46,21 @@ const UpdateProfile = ({ user, handleClose, updateProfile }) => {
   })
 
   const classes = useStyles({ profileCover: formData.profileCover.url })
+  const inputStyleProps = {
+    InputProps: {
+      classes: {
+        root: classes.cssOutlinedInput,
+        focused: classes.cssFocused,
+        notchedOutline: classes.notchedOutline
+      }
+    },
+    InputLabelProps: {
+      shrink: true,
+      classes: {
+        root: classes.cssLabel,
+        focused: classes.cssFocused
+      }
+    }}
 
   const onChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -140,7 +156,7 @@ const UpdateProfile = ({ user, handleClose, updateProfile }) => {
         <label htmlFor='bg-img-file'>
           <IconButton
             color='primary'
-            className={`${classes.uploadImgBtn} ${classes.uploadBgBtn}`}
+            className={classNames(classes.uploadImgBtn, classes.uploadBgBtn)}
             aria-label='upload picture'
             component='span'>
             <PhotoCamera />
@@ -157,7 +173,7 @@ const UpdateProfile = ({ user, handleClose, updateProfile }) => {
           <label htmlFor='avatar-img-file'>
             <IconButton
               color='primary'
-              className={`${classes.uploadImgBtn} ${classes.uploadAvatarBtn}`}
+              className={classNames(classes.uploadImgBtn, classes.uploadAvatarBtn)}
               aria-label='upload picture'
               component='span'>
               <PhotoCamera />
@@ -180,6 +196,7 @@ const UpdateProfile = ({ user, handleClose, updateProfile }) => {
             label='First name'
             value={formData.firstName}
             onChange={onChange}
+            {...inputStyleProps}
           />
           <TextField
             className={classes.textInput}
@@ -190,6 +207,7 @@ const UpdateProfile = ({ user, handleClose, updateProfile }) => {
             label='Last name'
             value={formData.lastName}
             onChange={onChange}
+            {...inputStyleProps}
           />
         </Grid>
         <Grid item alignContent='center' justify='center' container xs={6} sm={3} md={2} >
@@ -198,19 +216,19 @@ const UpdateProfile = ({ user, handleClose, updateProfile }) => {
             <RadioGroup aria-label='gender' name='gender' value={formData.gender} onChange={onChange}>
               <FormControlLabel
                 value='FEMALE'
-                control={<Radio color='primary' size='small' />}
+                control={<Radio size='small' className={classes.radioBtn} />}
                 label='Female'
                 className={classes.ageRadioBtn}
               />
               <FormControlLabel
                 value='MALE'
-                control={<Radio color='primary' size='small' />}
+                control={<Radio size='small' className={classes.radioBtn} />}
                 label='Male'
                 className={classes.ageRadioBtn}
               />
               <FormControlLabel
                 value='OTHER'
-                control={<Radio color='primary' size='small' />}
+                control={<Radio size='small' className={classes.radioBtn} />}
                 label='Other'
                 className={classes.ageRadioBtn}
               />
@@ -222,11 +240,10 @@ const UpdateProfile = ({ user, handleClose, updateProfile }) => {
             name='birthDate'
             label='Birth date'
             type='date'
+            variant='outlined'
             value={parseMillisToStringDate(formData.birthDate)}
-            InputLabelProps={{
-              shrink: true
-            }}
             onChange={onBirthDateChange}
+            {...inputStyleProps}
           />
         </Grid>
         <Grid item container alignContent='center' xs={12} md>
@@ -240,6 +257,7 @@ const UpdateProfile = ({ user, handleClose, updateProfile }) => {
             onChange={onChange}
             error={formData.emailError !== ''}
             helperText={formData.emailError}
+            {...inputStyleProps}
           />
         </Grid>
       </Grid>
@@ -255,9 +273,8 @@ const UpdateProfile = ({ user, handleClose, updateProfile }) => {
         <Button
           type='submit'
           variant='contained'
-          color='primary'
           size='large'
-          className={classes.summaryBtn}
+          className={classes.summaryBtnPrimary}
         >
           save changes
         </Button>

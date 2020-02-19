@@ -7,7 +7,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.white
   },
   fullHeight: {
-    height: 'calc(100vh - 64px)'
+    height: 'calc(100vh - 63px)'
   },
   halfHeight: {
     height: 'calc(100vh - 400px)'

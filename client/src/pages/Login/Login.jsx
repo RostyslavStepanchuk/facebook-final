@@ -2,20 +2,35 @@ import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { Link, Redirect, useLocation } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { Avatar, Button, Container, CssBaseline, Grid, TextField, Typography } from '@material-ui/core'
+import { Avatar, Button, Container, CssBaseline, Grid, Paper, TextField, Typography } from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
+import classNames from 'classnames'
 
 import { login } from '../../actions/auth'
 import Preloader from '../../components/Preloader/Preloader'
-import usestyles from './loginStyles'
-import Paper from '@material-ui/core/Paper'
 import { Toastr } from '../../utils/toastr/Toastr'
-import classNames from 'classnames'
+import { areNoErrors, validatePassword, validateUsername } from '../../utils/helpers/inputValidators'
+
+import usestyles from './loginStyles'
 
 const googleLogo = 'static/google-icon.svg'
 
 const Login = ({ isAuthenticated, login, loading }) => {
   const classes = usestyles()
+  const inputStyleProps = {
+    InputProps: {
+      classes: {
+        root: classes.cssOutlinedInput,
+        focused: classes.cssFocused,
+        notchedOutline: classes.notchedOutline
+      }
+    },
+    InputLabelProps: {
+      classes: {
+        root: classes.cssLabel,
+        focused: classes.cssFocused
+      }
+    }}
 
   const [formData, setFormData] = useState({
     username: '',
@@ -24,11 +39,11 @@ const Login = ({ isAuthenticated, login, loading }) => {
     passwordError: ''
   })
 
-  const location = useLocation();
+  const location = useLocation()
   const error = new URLSearchParams(location.search).get('error')
   const { username, password, usernameError, passwordError } = formData
 
-  useEffect(()=>{
+  useEffect(() => {
     if (error) {
       Toastr.error(error)
     }
@@ -37,26 +52,14 @@ const Login = ({ isAuthenticated, login, loading }) => {
   const onChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
-  // todo: refractor needed
+
   const validate = () => {
-    let isError = false
-    const errors = {
-      usernameError: '',
-      passwordError: ''
-    }
-
-    if (password.length < 6) {
-      isError = true
-      errors.passwordError = 'Password needs to be at least 6 characters long'
-    }
-
-    if (username.length < 6) {
-      isError = true
-      errors.usernameError = 'Username needs to be at least 6 characters long'
-    }
+    const errors = {}
+    errors.passwordError = validatePassword(password)
+    errors.usernameError = validateUsername(username)
     setFormData({ ...formData, ...errors })
 
-    return isError
+    return areNoErrors(errors)
   }
 
   const proceedToGoogleOauth = () => {
@@ -65,14 +68,12 @@ const Login = ({ isAuthenticated, login, loading }) => {
 
   const onSubmit = async e => {
     e.preventDefault()
-    const err = validate()
+    const inputIsValid = validate()
 
-    if (!err) {
+    if (inputIsValid) {
       login({ username, password })
     }
   }
-
-  // Redirect if logged in
 
   if (isAuthenticated) {
     return <Redirect to='/' />
@@ -86,7 +87,7 @@ const Login = ({ isAuthenticated, login, loading }) => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component='h1' variant='h5'>
-          Sign in
+          Log In
         </Typography>
         <form className={classes.form} onSubmit={e => onSubmit(e)}>
           <TextField
@@ -103,6 +104,7 @@ const Login = ({ isAuthenticated, login, loading }) => {
             onChange={e => onChange(e)}
             error={!(usernameError === '')}
             helperText={usernameError === '' ? '' : usernameError}
+            {...inputStyleProps}
           />
           <Grid container >
             <Grid item xs align='right'>
@@ -124,9 +126,10 @@ const Login = ({ isAuthenticated, login, loading }) => {
             fullWidth
             label='Password'
             autoComplete='current-password'
+            {...inputStyleProps}
           />
           <Button type='submit' fullWidth variant='contained' color='primary' className={classNames(classes.button, classes.submit)}>
-            Sign In
+            Log In
           </Button>
           <Button
             fullWidth

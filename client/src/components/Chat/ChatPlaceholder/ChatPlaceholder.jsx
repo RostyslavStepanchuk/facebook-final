@@ -1,14 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import classnames from 'classnames'
+
+import { EmptyMessages } from '../../EmptyMessage/EmptyMessage'
 
 import useStyles from './chatPlaceholderStyles'
 
-const ChatPlaceholder = ({ className }) => {
+const ChatPlaceholder = () => {
   const classes = useStyles()
 
   return (
-    <div className={classnames(className, classes.root)}> Please, select Chat </div>
+    <EmptyMessages className={classes.container}> Please, select Chat </EmptyMessages>
   )
 }
 

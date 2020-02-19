@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core'
-import styleConstants from "../../../../utils/constants/styleConstants";
+import styleConstants from '../../../../utils/constants/styleConstants'
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -8,7 +8,8 @@ const useStyles = makeStyles(() => ({
   },
   btnMenu: {
     margin: 7,
-    padding: 5
+    padding: 5,
+    color: styleConstants.PRIMARY_COLOR
   },
   button: {
     position: 'relative',
