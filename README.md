@@ -41,7 +41,7 @@ The purpose of this app is to use on practice Spring, React, SQL and other techn
 http://ec2-13-58-66-1.us-east-2.compute.amazonaws.com:8080
 
 #### To enter application you can register or use account:
-Login: userbot2
+Login: userbot2  
 Password: userbot2
 
 #### Technologies used in the development:
@@ -56,8 +56,8 @@ Password: userbot2
 http://ec2-13-58-66-1.us-east-2.compute.amazonaws.com:8080/swagger-ui.html
 
 #### Development team
-Maksim Simonov
-Rostyslav Stepanchuk
-Taras Bashuk
+Maksim Simonov  
+Rostyslav Stepanchuk  
+Taras Bashuk  
 
 Mentor: Stanislav Kosinsky
