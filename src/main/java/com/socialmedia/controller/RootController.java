@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class RootController {
-  @GetMapping("/{path:^(?:(?!static|.html).)*$}/**")
+  @GetMapping("/{path:^(?:(?!static|.html|ws|webjars).)*$}/**")
   public String redirectToHtml(@PathVariable String path) {
     return "forward:/index.html";
   }

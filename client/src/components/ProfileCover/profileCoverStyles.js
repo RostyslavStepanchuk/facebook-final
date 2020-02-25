@@ -57,12 +57,13 @@ const useStyles = makeStyles(() => ({
     left: 240
   },
   tabContainer: {
+    display: 'flex',
+    justifyContent: 'flex-end',
     background: styleConstants.CONTAINER_HEADER_BG_COLOR
   },
   submenu: {
     maxWidth: 635,
-    margin: '0 0 0 auto',
-    paddingRight: 35,
+    paddingRight: '5%',
     display: 'flex',
     justifyContent: 'space-between'
   },

@@ -1,8 +1,5 @@
 import React, { Fragment } from 'react'
-import {
-  Grid,
-  Typography
-} from '@material-ui/core'
+import { Grid, Typography } from '@material-ui/core'
 import PropTypes from 'prop-types'
 import { get, isEmpty } from 'lodash'
 

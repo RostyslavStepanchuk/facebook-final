@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react'
-import { Grid, Dialog, Slide } from '@material-ui/core'
+import { Dialog, Grid, Slide } from '@material-ui/core'
 
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'

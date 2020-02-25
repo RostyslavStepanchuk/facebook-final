@@ -2,27 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { Link, Redirect, useLocation } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {
-  Paper,
-  Avatar,
-  Button,
-  Container,
-  CssBaseline,
-  Grid,
-  TextField,
-  Typography
-} from '@material-ui/core'
+import { Avatar, Button, Container, CssBaseline, Grid, Paper, TextField, Typography } from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import classNames from 'classnames'
 
 import { login } from '../../actions/auth'
 import Preloader from '../../components/Preloader/Preloader'
 import { Toastr } from '../../utils/toastr/Toastr'
-import {
-  areNoErrors,
-  validatePassword,
-  validateUsername
-} from '../../utils/helpers/inputValidators'
+import { areNoErrors, validatePassword, validateUsername } from '../../utils/helpers/inputValidators'
 
 import usestyles from './loginStyles'
 

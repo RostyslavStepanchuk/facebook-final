@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { find, get } from 'lodash'
-import { Avatar, ListItem, ListItemAvatar, ListItemText, Typography, Badge } from '@material-ui/core'
+import { Avatar, Badge, ListItem, ListItemAvatar, ListItemText, Typography } from '@material-ui/core'
 
 import Preloader from '../../Preloader/Preloader'
 import { getAvatarLink } from '../../../utils/helpers/imageLinkHelpers'

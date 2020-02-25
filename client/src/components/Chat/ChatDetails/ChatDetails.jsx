@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import classnames from 'classnames'
 import { Divider } from '@material-ui/core'
-import { get, find } from 'lodash'
+import { find, get } from 'lodash'
 
 import Preloader from '../../Preloader/Preloader'
 import ChatToolbar from './ChatToolbar/ChatToolbar'

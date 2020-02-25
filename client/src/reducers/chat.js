@@ -27,7 +27,8 @@ const initialState = {
   isLastPageInChat: false,
   chatLoading: false,
   chat: {},
-  unreadChats: []
+  unreadChats: [],
+  openChatId: null
 }
 
 export default function (state = initialState, action) {
@@ -71,7 +72,10 @@ export default function (state = initialState, action) {
       }
 
     case CHAT_PAGE_LEFT:
-      return { ...state, chatMessages: [] }
+      return { ...state,
+        chatMessages: [],
+        openChatId: null
+      }
 
     case START_LOADING_CHAT:
       return { ...state, chatLoading: true }
@@ -84,7 +88,8 @@ export default function (state = initialState, action) {
 
     case CHAT_HAS_BEEN_READ:
       return { ...state,
-        unreadChats: state.unreadChats.filter(unread => unread.chatId !== payload)
+        unreadChats: state.unreadChats.filter(unread => unread.chatId !== payload),
+        openChatId: payload
       }
 
     case UNREAD_CHATS_RECEIVED:

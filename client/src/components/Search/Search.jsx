@@ -1,9 +1,9 @@
 import React, { Fragment, useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { isEmpty, get } from 'lodash'
+import { get, isEmpty } from 'lodash'
 import { Link } from 'react-router-dom'
-import { TextField, CircularProgress, Avatar } from '@material-ui/core'
+import { Avatar, CircularProgress, TextField } from '@material-ui/core'
 import Autocomplete from '@material-ui/lab/Autocomplete'
 import SearchIcon from '@material-ui/icons/Search'
 
